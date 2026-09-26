@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme {
+  --font-sans: "Be Vietnam Pro", ui-sans-serif, system-ui, sans-serif;
+  --font-thai: "Noto Serif Thai", "Noto Sans Thai", "Leelawadee UI", "Thonburi", serif;
+  --font-ipa: "Charis SIL", "Doulos SIL", "Gentium Plus", "Noto Serif", serif;
+  --font-khmer: "Noto Sans Khmer", "Khmer OS", sans-serif;
+  --font-lao: "Noto Sans Lao", "Phetsarath OT", sans-serif;
+  --font-taitham: "Noto Sans Tai Tham", sans-serif;
+  --font-brahmi: "Noto Sans Brahmi", sans-serif;
+
+  /* Sáng: nền men gốm celadon Sukhothai */
+  --color-paper: #eef1ec;
+  --color-paper-deep: #e1e8e1;
+  --color-ink: #1e2833;
+  --color-ink-soft: #5a6672;
+  --color-on-accent: #ffffff;
+
+  --color-mid: #2f7d6d;
+  --color-high: #b8452e;
+  --color-low: #3558a8;
+
+  --color-tone-mid: #6f7f75;
+  --color-tone-low: #4b3f8f;
+  --color-tone-falling: #b03a78;
+  --color-tone-high: #b87908;
+  --color-tone-rising: #15849a;
+}
+
+/* Tối: men celadon nung khử, xanh đen như gốm sứ Sawankhalok về đêm */
+@layer base {
+  [data-theme="dark"] {
+    --color-paper: #121a1d;
+    --color-paper-deep: #1b262a;
+    --color-ink: #e3ebe6;
+    --color-ink-soft: #9aaaa2;
+    --color-on-accent: #0f1518;
+
+    --color-mid: #5fc0a8;
+    --color-high: #ef8a70;
+    --color-low: #8aa8f0;
+
+    --color-tone-mid: #a5b5ab;
+    --color-tone-low: #aa9ff0;
+    --color-tone-falling: #ec7fb9;
+    --color-tone-high: #f0bb55;
+    --color-tone-rising: #5ccbde;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --color-paper: #121a1d;
+      --color-paper-deep: #1b262a;
+      --color-ink: #e3ebe6;
+      --color-ink-soft: #9aaaa2;
+      --color-on-accent: #0f1518;
+      --color-mid: #5fc0a8;
+      --color-high: #ef8a70;
+      --color-low: #8aa8f0;
+      --color-tone-mid: #a5b5ab;
+      --color-tone-low: #aa9ff0;
+      --color-tone-falling: #ec7fb9;
+      --color-tone-high: #f0bb55;
+      --color-tone-rising: #5ccbde;
+    }
+  }
+
+  html {
+    color-scheme: light dark;
+    background: var(--color-paper);
+    color: var(--color-ink);
+  }
+  [data-theme="light"] { color-scheme: light; }
+  [data-theme="dark"] { color-scheme: dark; }
+
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 200ms, color 200ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
+}
+
+/* ---------- Ô ghép khi đang kéo một mảnh ---------- */
+[data-slot] {
+  --accent: var(--color-ink);
+  transition: scale 200ms, opacity 200ms, filter 200ms, box-shadow 200ms;
+}
+[data-dragging] [data-slot]:not([data-target]) {
+  opacity: 0.3;
+  filter: grayscale(0.7);
+}
+/* Ô đích: viền đứt nhấp nháy theo màu của mảnh */
+[data-slot][data-target] {
+  outline: 3px dashed var(--accent);
+  outline-offset: 4px;
+  animation: slot-pulse 1s ease-in-out infinite;
+}
+/* Mảnh đã ở trên ô: phóng to, phát sáng, xem trước chữ sẽ vào */
+[data-slot][data-near] {
+  scale: 1.15;
+  outline-style: solid;
+  animation: none;
+  box-shadow: 0 0 0 6px color-mix(in oklab, var(--accent) 35%, transparent), 0 16px 40px -8px var(--accent);
+}
+[data-slot][data-near]::after {
+  content: attr(data-preview);
+  position: absolute;
+  inset: -2px;
+  display: grid;
+  place-items: center;
+  border-radius: inherit;
+  font-family: var(--font-thai);
+  background: color-mix(in oklab, var(--accent) 20%, var(--color-paper));
+  color: var(--accent);
+}
+@keyframes pop-in {
+  from { margin-top: 1.1rem; opacity: 0; }
+}
+@keyframes dock-in {
+  from { translate: 0 -16px; scale: 0.94; opacity: 0; }
+}
+@keyframes slot-pulse {
+  50% { outline-offset: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-slot][data-target] { animation: none; }
+}

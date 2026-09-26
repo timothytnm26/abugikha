@@ -9,12 +9,16 @@ npm install
 npm run dev   # http://localhost:3000
 ```
 
+## Deploy to GitHub Pages
+
+Push to `main` to build and publish the static site with `.github/workflows/deploy-pages.yml`. In the repository's **Settings → Pages**, set the source to **GitHub Actions**. Project Pages uses `https://<owner>.github.io/<repository>/`; a `<owner>.github.io` repository uses the domain root.
+
 ## Web Features
 
 1. **/ipa - Phonetics:** Explore consonants by place and manner of articulation, vowel positions, and the contours of all five tones. IPA transcriptions are accompanied by RTGS romanization.
 2. **/history - Script history:** Follow the script's lineage from Brahmi through Pallava, Old Khmer and Mon, and Sukhothai to modern Thai.
 3. **/abugida - Thai abugida:** Browse the 44 consonants in traditional order, vowel spellings, and all 10 digits. Less common consonants are muted and obsolete ones are struck through. Select a consonant to see its details and open the syllable builder with it.
-4. **/lab - Syllable builder:** Combine consonants, vowels, tone marks, and final consonants to explore how Thai syllables are formed. `/tones` redirects here.
+4. **/lab - Syllable builder:** Combine consonants, vowels, tone marks, and final consonants to explore how Thai syllables are formed. `/tones` is a static-compatible alias.
    - Each of the four composition slots represents a step in the process. Hover over or touch a slot to inspect the syllable and its explanation. For example, step 2 of หน้า is หนา /nǎː/.
    - A formula panel displays tone-rule notation, an explanation, and highlights the rule currently in use.
    - The component picker has three columns: initial consonant | vowel and tone mark | final consonant. Initials are grouped as single, cluster, or leading consonants. Finals are grouped by stop (dead syllable) and sonorant (live syllable) sounds.
@@ -54,13 +58,15 @@ Audio uses the Web Speech API with the `th-TH` voice. If a Thai voice is unavail
 
 ## Localization, Themes, and Romanization
 
-- `src/shared/i18n` contains the `vi` and `en` interface dictionaries. Entity text uses the `L10n = { vi, en }` type. The selected locale is stored in the `locale` cookie and read by the server to avoid a language flash on load. As a result, routes are dynamically rendered.
-- Light and dark theme tokens are CSS variables, with dark values defined under `[data-theme=dark]`. The default follows `prefers-color-scheme`; the selected theme is stored in the `theme` cookie. Consonant-class and tone colors use CSS variables, so SVGs and inline styles follow the active theme.
+- `src/shared/i18n` contains the `vi` and `en` interface dictionaries. Entity text uses the `L10n = { vi, en }` type. The selected locale is stored in the `locale` cookie and restored in the browser after hydration so the site can be statically exported.
+- Light and dark theme tokens are CSS variables, with dark values defined under `[data-theme=dark]`. The default follows `prefers-color-scheme`; the selected theme is stored in the `theme` cookie and applied by a small head script before paint. Consonant-class and tone colors use CSS variables, so SVGs and inline styles follow the active theme.
 - RTGS romanization (Royal Thai General System, Thailand's official romanization system) is generated from IPA by `src/shared/lib/romanize.ts`. It omits tones and vowel length. Final ย becomes `-i`, final ว becomes `-o`, and both จ and ช are romanized as `ch`. Examples: หน้า → `na`, ควาย → `khwai`, แม่น้ำ → `maenam`.
 - Appearance preferences are stored in localStorage under `kaa-prefs` using Zustand persist. A small script in `<head>` applies the color palette before the page is painted to prevent a color flash.
 
 ## Stroke Data
 
 `src/entities/writing/model/strokes.json` contains centerline paths generated from the **Noto Sans Thai Looped** font by `scripts/extract-strokes.py`. These paths are approximations, not verified handwriting stroke sequences, so the alphabet page currently shows static glyphs instead of animating them. The writing animation can return when reliable stroke-order references are available.
+
 # abugikha
+
 # abugikha
