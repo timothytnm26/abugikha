@@ -1,3 +1,4 @@
+import path from "node:path";
 import type { NextConfig } from "next";
 
 const [owner, repository] = (process.env.GITHUB_REPOSITORY ?? "").split("/");
@@ -14,6 +15,8 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   basePath,
   images: { unoptimized: true },
+  // Gốc monorepo (tránh Next.js đoán nhầm root khi thư mục cha có lockfile khác)
+  outputFileTracingRoot: path.join(import.meta.dirname, "../.."),
   // Package nội bộ xuất thẳng mã TypeScript
   transpilePackages: ["@abugikha/core", "@abugikha/i18n"],
   env: {
