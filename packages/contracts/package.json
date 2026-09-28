@@ -1,0 +1,26 @@
+{
+  "name": "@abugikha/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Hợp đồng API (zod schema + client fetch) dùng chung cho API, web và mobile.",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts",
+    "./client": "./src/client.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@abugikha/core": "workspace:*",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@abugikha/eslint-config": "workspace:*",
+    "@abugikha/tsconfig": "workspace:*",
+    "eslint": "^9.39.5",
+    "typescript": "^5.9.3"
+  }
+}
