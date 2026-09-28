@@ -52,6 +52,11 @@ describe("analyzeSyllable – quy tắc thanh", () => {
     expect(accents).toContain("tone-falling");
   });
 
+  it("เ-อ gặp ย cuối viết là เ-ย: เลย", () => {
+    expect(build("ล", "ooe", { final: "ย" }).spelling).toBe("เลย");
+    expect(build("ด", "ooe", { final: "น" }).spelling).toBe("เดิน");
+  });
+
   it("trả lời theo locale", () => {
     const unit = INITIAL_BY_ID.get("ก")!;
     const v = VOWEL_BY_ID.get("aa")!;

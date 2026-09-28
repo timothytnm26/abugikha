@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import {
   forwardRef,
   useEffect,
@@ -25,12 +26,14 @@ import {
 } from "@/entities/syllable";
 import type { Word, WordMatches } from "@/entities/lexicon";
 import { useBuilderStore, type PartKind } from "@/features/build-syllable";
-import { useLocale, useT } from "@/shared/i18n";
+import { MORPH_BY_VOWEL, MORPH_RULES } from "@abugikha/core/syllable";
+import { useLocale, useLocalePath, useT } from "@/shared/i18n";
 import { cn } from "@/shared/lib";
 import { paletteVar } from "@/shared/config/palette";
 import { gsap, useGSAP, prefersReducedMotion } from "@/shared/lib/gsap";
 import { speakThai } from "@/shared/lib/speech";
 import { Phonetic, SpeakButton } from "@/shared/ui";
+import { FLY_FROM, Notebook, type Cell } from "./notebook";
 
 interface Props {
   analysis: SyllableAnalysis;
@@ -105,69 +108,36 @@ function StepPopover({
   );
 }
 
-function Slot({
+/** Ô nhỏ của thanh ghép nổi (vẫn là đích thả khi kéo) */
+function DockSlot({
   kind,
   label,
   glyph,
   color,
   empty,
   onSelect,
-  onClear,
-  clearLabel,
-  small,
-  popover,
-  hint,
 }: {
   kind: PartKind;
   label: string;
   glyph: string;
   color?: string;
   empty?: boolean;
-  small?: boolean;
-  hint?: string;
   onSelect: () => void;
-  onClear?: () => void;
-  clearLabel?: string;
-  popover?: ReactNode;
 }) {
   return (
-    <div
+    <button
+      type="button"
+      data-slot={kind}
+      onClick={onSelect}
+      aria-label={`${label}: ${empty ? "—" : glyph}`}
       className={cn(
-        "group/step relative flex flex-col items-center gap-1.5",
-        kind === "mark" && !small && "ml-2",
+        "relative grid h-11 min-w-11 place-items-center rounded-lg border-2 px-1.5 font-thai text-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
+        empty ? "border-dashed border-ink/25 text-ink-soft" : "border-transparent bg-paper",
       )}
+      style={!empty && color ? { borderColor: color, color } : undefined}
     >
-      <button
-        type="button"
-        data-slot={kind}
-        onClick={onSelect}
-        title={small ? undefined : hint}
-        aria-label={`${label}: ${empty ? "—" : glyph}`}
-        className={cn(
-          "relative grid place-items-center rounded-lg border-2 font-thai focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
-          small
-            ? "h-11 min-w-11 px-1.5 text-2xl"
-            : "h-14 min-w-14 px-2 text-3xl md:h-16 md:min-w-16",
-          empty
-            ? "border-dashed border-ink/25 text-ink-soft"
-            : "border-transparent bg-paper",
-        )}
-        style={!empty && color ? { borderColor: color, color } : undefined}
-      >
-        {glyph}
-      </button>
-      {onClear && !empty && !small && (
-        <button
-          type="button"
-          onClick={onClear}
-          aria-label={clearLabel}
-          className="absolute -right-2 -top-2 z-10 grid size-5 place-items-center rounded-full bg-ink text-xs leading-none text-paper hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
-        >
-          ×
-        </button>
-      )}
-      {popover}
-    </div>
+      {glyph}
+    </button>
   );
 }
 
@@ -228,6 +198,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
 ) {
   const t = useT();
   const { locale } = useLocale();
+  const href = useLocalePath();
   const { setTab, setPart, pulse, lastKind } = useBuilderStore();
   const inner = useRef<HTMLDivElement>(null);
   const tone = TONE_META[a.tone];
@@ -290,13 +261,22 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
     () => {
       if (!pulse || prefersReducedMotion()) return;
       const tl = gsap.timeline();
-      if (lastKind)
+      if (lastKind) {
+        const pieces = gsap.utils.toArray<HTMLElement>(`[data-part="${lastKind}"] [data-piece]`, inner.current);
+        const em = (el: HTMLElement) => parseFloat(getComputedStyle(el.closest("[data-cell]")!).fontSize) || 60;
+        const fly = (el: HTMLElement) => FLY_FROM[(el.closest("[data-cell]") as HTMLElement).dataset.cell as Cell];
         tl.fromTo(
-          `[data-slot="${lastKind}"]`,
-          { scale: 1.25 },
-          { scale: 1, duration: 0.5, ease: "elastic.out(1, 0.5)" },
+          pieces,
+          {
+            x: (_: number, el: HTMLElement) => fly(el)[0] * em(el),
+            y: (_: number, el: HTMLElement) => fly(el)[1] * em(el),
+            scale: lastKind === "initial" ? 0.4 : 0.75,
+            opacity: 0,
+          },
+          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.55, ease: "back.out(1.6)", stagger: 0.05 },
           0,
         );
+      }
       tl.fromTo(
         ".sum-result",
         { scale: 0.75, rotate: -5 },
@@ -325,96 +305,75 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
     { scope: inner, dependencies: [pulse] },
   );
 
-  const slots = (small: boolean) => (
+  const popovers: Record<PartKind, (align: Align) => ReactNode> = {
+    initial: (align) => (
+      <StepPopover align={align} title={t.builder.parts.initial} glyph={initial.chars} ipa={initial.ipa} steps={stepsOf("class")} />
+    ),
+    vowel: (align) => (
+      <StepPopover
+        align={align}
+        title={t.builder.parts.vowel}
+        glyph={stages.withVowel.spelling}
+        ipa={stages.withVowel.ipa}
+        tone={TONE_META[stages.withVowel.tone].color}
+        steps={vowelSteps}
+      />
+    ),
+    final: (align) => (
+      <StepPopover
+        align={align}
+        title={hasFinal ? t.builder.parts.final : t.builder.noFinalStep}
+        glyph={stages.withFinal.spelling}
+        ipa={stages.withFinal.ipa}
+        tone={TONE_META[stages.withFinal.tone].color}
+        steps={stepsOf("final", "liveness")}
+      />
+    ),
+    mark: (align) => (
+      <StepPopover
+        align={align}
+        title={markChar ? t.builder.parts.mark : t.builder.noMarkStep}
+        glyph={a.spelling}
+        ipa={a.ipa}
+        tone={tone.color}
+        steps={stepsOf("mark", "result")}
+      />
+    ),
+  };
+
+  // Liên kết sang minh hoạ "nguyên âm biến hình" ở trang Abugida
+  const morphId =
+    a.form === "closed"
+      ? vowel.id === "ooe" && final?.char === "ย"
+        ? "ooe-y"
+        : MORPH_BY_VOWEL.get(vowel.id)?.id
+      : undefined;
+  const taikhu = Boolean(a.mark) && (a.form === "closed" ? vowel.closed : vowel.open)?.includes("็");
+  const notes: { id: string; text: string }[] = [];
+  if (morphId && MORPH_RULES.find((r) => r.id === morphId)?.group !== "compound")
+    notes.push({ id: morphId, text: t.notebook.morphed(vowelGlyph(vowel, "open"), a.spelling) });
+  if (taikhu) notes.push({ id: "taikhu", text: t.notebook.taikhu });
+
+  const dockSlots = (
     <>
-      <Slot
-        hint={t.builder.hoverHint}
-        small={small}
-        kind="initial"
-        label={t.builder.parts.initial}
-        glyph={initial.chars}
-        color={clsColor}
-        onSelect={() => setTab("initial")}
-        popover={
-          !small && (
-            <StepPopover
-              align="start"
-              title={t.builder.parts.initial}
-              glyph={initial.chars}
-              ipa={initial.ipa}
-              steps={stepsOf("class")}
-            />
-          )
-        }
-      />
+      <DockSlot kind="initial" label={t.builder.parts.initial} glyph={initial.chars} color={clsColor} onSelect={() => setTab("initial")} />
       <Plus />
-      <Slot
-        hint={t.builder.hoverHint}
-        small={small}
-        kind="vowel"
-        label={t.builder.parts.vowel}
-        glyph={vowelGlyph(vowel, a.form)}
-        onSelect={() => setTab("vowel")}
-        popover={
-          !small && (
-            <StepPopover
-              align="center"
-              title={t.builder.parts.vowel}
-              glyph={stages.withVowel.spelling}
-              ipa={stages.withVowel.ipa}
-              tone={TONE_META[stages.withVowel.tone].color}
-              steps={vowelSteps}
-            />
-          )
-        }
-      />
+      <DockSlot kind="vowel" label={t.builder.parts.vowel} glyph={vowelGlyph(vowel, a.form)} onSelect={() => setTab("vowel")} />
       <Plus />
-      <Slot
-        hint={t.builder.hoverHint}
-        small={small}
+      <DockSlot
         kind="final"
         label={t.builder.parts.final}
         glyph={hasFinal ? final!.char : "—"}
         empty={!hasFinal}
         onSelect={() => setTab("final")}
-        onClear={() => setPart("final", null)}
-        clearLabel={t.builder.clearPart(t.builder.parts.final)}
-        popover={
-          !small && (
-            <StepPopover
-              align="center"
-              title={hasFinal ? t.builder.parts.final : t.builder.noFinalStep}
-              glyph={stages.withFinal.spelling}
-              ipa={stages.withFinal.ipa}
-              tone={TONE_META[stages.withFinal.tone].color}
-              steps={stepsOf("final", "liveness")}
-            />
-          )
-        }
       />
       <Plus />
-      <Slot
-        hint={t.builder.hoverHint}
-        small={small}
+      <DockSlot
         kind="mark"
         label={t.builder.parts.mark}
         glyph={markChar ? `◌${markChar}` : "—"}
         empty={!markChar}
         onSelect={() => setTab("mark")}
-        onClear={() => setPart("mark", null)}
-        clearLabel={t.builder.clearPart(t.builder.parts.mark)}
-        popover={
-          !small && (
-            <StepPopover
-              align="end"
-              title={markChar ? t.builder.parts.mark : t.builder.noMarkStep}
-              glyph={a.spelling}
-              ipa={a.ipa}
-              tone={tone.color}
-              steps={stepsOf("mark", "result")}
-            />
-          )
-        }
       />
     </>
   );
@@ -427,10 +386,27 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
         className="rounded-xl bg-paper-deep px-3 pb-2 pt-4 md:px-4"
       >
         <div ref={inner}>
-          <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3">
-            {slots(false)}
+          <div className="flex flex-col items-stretch gap-3 md:flex-row md:items-center">
+            <div className="min-w-0 flex-1">
+              <p className="mb-2 flex flex-wrap items-baseline justify-between gap-x-3 px-1 text-[11px] text-ink-soft">
+                <span className="font-semibold uppercase tracking-wider">{t.notebook.title}</span>
+                <span className="max-md:hidden">{t.builder.hoverHint}</span>
+              </p>
+              <Notebook
+                analysis={a}
+                classColor={clsColor}
+                toneColor={tone.color}
+                liveLabel={a.liveness === "live" ? t.syllable.live : t.syllable.dead}
+                multiInitial={initial.chars.length > 1}
+                onSelect={setTab}
+                onClear={(k) => setPart(k, null)}
+                clearLabel={(k) => t.builder.clearPart(t.builder.parts[k])}
+                labels={t.builder.parts}
+                popovers={popovers}
+              />
+            </div>
             <Plus c="=" />
-            <div className="group/step relative grid place-items-center">
+            <div className="group/step relative grid place-items-center self-center">
               <span
                 className="sum-ring pointer-events-none absolute size-28 rounded-full border-2 opacity-0"
                 style={{ borderColor: tone.color }}
@@ -495,6 +471,19 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
             </div>
           </div>
 
+          {notes.length > 0 && (
+            <ul className="mt-3 space-y-1.5">
+              {notes.map((n) => (
+                <li key={n.id} className="flex flex-wrap items-baseline gap-x-2 rounded-lg bg-paper px-3 py-2 text-sm">
+                  <span>{n.text}</span>
+                  <Link href={`${href("/abugida")}#morph-${n.id}`} className="font-medium underline underline-offset-4 hover:no-underline">
+                    {t.notebook.seeMorph} →
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+
           {/* Từ vựng */}
           <div
             className="vocab mt-3 space-y-1 border-t-2 border-dashed border-ink/15 pt-1.5"
@@ -544,7 +533,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
               borderColor: `color-mix(in oklab, ${clsColor} 55%, transparent)`,
             }}
           >
-            {slots(true)}
+            {dockSlots}
             <Plus c="=" />
             <button
               type="button"

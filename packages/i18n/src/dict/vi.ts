@@ -243,6 +243,47 @@ export const vi = {
     rare: "Không dùng trong chính tả chuẩn",
     current: "Đang áp dụng",
   },
+  groups: {
+    classCount: (n: number) => `${n} chữ`,
+    cluster: "Phụ âm ghép",
+    clusterHint: "đọc liền hai phụ âm",
+    falseCluster: "Ghép không thật",
+    falseClusterHint: "ร câm, ทร đọc /s/",
+    leading: "Chữ nhấn",
+    leadingHint: "ห / อ câm, đổi nhóm",
+    vowels: { short: "Ngắn", long: "Dài", diph: "Ghép", special: "Đặc biệt" },
+    vowelHints: {
+      short: "dễ thành âm chết",
+      long: "thường là âm sống",
+      diph: "hai âm lướt vào nhau",
+      special: "luôn là âm sống",
+    },
+    finals: { none: "Không", live: "Sống", dead: "Chết" },
+    finalHints: { none: "âm tiết mở", live: "âm vang", dead: "âm tắc" },
+    diphIntro:
+      "Nguyên âm ghép (nguyên âm đôi) lướt từ âm này sang âm kia và được viết bằng hai đến ba mảnh quanh phụ âm, vd. เ◌ีย = เ + ◌ี + ย đọc /ia/.",
+  },
+  notebook: {
+    title: "Vở tập viết · 4 tầng",
+    tiers: { tone: "Dấu thanh", above: "Nguyên âm trên", main: "Dòng chính", below: "Nguyên âm dưới" },
+    cells: { before: "trước", cons: "phụ âm", after: "sau", final: "cuối" },
+    morphed: (from: string, to: string) => `Nguyên âm đổi dạng khi có âm cuối: ${from} → ${to}.`,
+    taikhu: "Dấu thanh chiếm chỗ của ◌็ nên ◌็ bị bỏ, nguyên âm vẫn ngắn.",
+    seeMorph: "Xem minh hoạ",
+  },
+  morph: {
+    title: "Nguyên âm biến hình",
+    intro:
+      "Khi có phụ âm cuối, nhiều nguyên âm đổi cách viết: có mảnh bị bỏ, có mảnh được thay, có nguyên âm biến mất hẳn. Gạch ngang là mảnh bị loại, nền đậm là mảnh mới.",
+    groups: { short: "Nguyên âm ngắn", long: "Nguyên âm dài", compound: "Nguyên âm ghép", tone: "Dấu thanh" },
+    from: "Dạng mở",
+    to: "Có phụ âm cuối",
+    toMark: "Có dấu thanh",
+    sample: "dạng mẫu",
+    replay: "Phát lại",
+    unchanged: "Không mảnh nào bị bỏ",
+    listAria: "Quy tắc biến hình",
+  },
   syllable: {
     stepLabels: {
       class: "Phụ âm đầu",

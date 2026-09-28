@@ -18,6 +18,8 @@ export interface Vowel {
   approx: L10n;
   /** Nguyên âm đổi dạng khi có phụ âm cuối */
   closedNote?: L10n;
+  /** Mẫu đóng riêng cho một số âm cuối (vd. เ-อ + ย → เ-ย), ưu tiên hơn `closed` */
+  closedBy?: Record<string, string>;
   /** Âm cuối không kết hợp được theo chính tả (vd. ◌ั + ว viết thành เ-า) */
   excludeFinals?: string[];
   /** /ua/ không đi sau cụm có ว (กว ขว คว): /kw/ + /ua/ không tồn tại */

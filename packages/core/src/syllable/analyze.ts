@@ -1,5 +1,5 @@
 import { CLASS_META, type FinalSound } from "../consonant";
-import { vowelFitsInitial, vowelPlacements } from "../vowel";
+import { closedPattern, vowelFitsInitial, vowelPlacements } from "../vowel";
 import type { Locale } from "../i18n";
 import { TONE_MARK_BY_ID, TONE_META } from "./tone";
 import type { RuleStep, Segment, SyllableAnalysis, SyllableInput } from "./types";
@@ -82,7 +82,7 @@ export function analyzeSyllable(input: SyllableInput, locale: Locale = "vi"): Sy
     finalDropped = true;
   }
   const form = final ? "closed" : "open";
-  const pattern = form === "closed" ? vowel.closed! : vowel.open;
+  const pattern = form === "closed" ? closedPattern(vowel, final!.char)! : vowel.open;
   const placements = vowelPlacements(pattern);
   if (form === "closed" && vowel.closedNote) steps.push({ kind: "vowel", title: m.vowelShape, detail: vowel.closedNote[locale] });
 

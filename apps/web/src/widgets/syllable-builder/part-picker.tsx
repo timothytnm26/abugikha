@@ -1,22 +1,19 @@
 "use client";
-import {
-  useMemo,
-  useRef,
-  useState,
-  type ReactNode,
-  type RefObject,
-} from "react";
+import { useMemo, useRef, type ReactNode, type RefObject } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
   CLASS_META,
+  CONSONANTS,
   INITIAL_BY_ID,
   InitialFace,
   consonantQueries,
   type Consonant,
   type ConsonantClass,
   type FinalSound,
+  type InitialKind,
   type InitialUnit,
 } from "@/entities/consonant";
+import { VOWEL_GROUPS, vowelGroup, type VowelGroup } from "@abugikha/core/vowel";
 import {
   VowelFace,
   vowelFitsInitial,
@@ -38,12 +35,17 @@ import {
 import { useLocale, useT } from "@/shared/i18n";
 import { usePreferences } from "@/shared/lib/preferences";
 import { cn } from "@/shared/lib";
+import { vowelCell } from "./notebook";
 
 const STOPS: FinalSound[] = ["k", "t", "p"];
 const SONORANTS: FinalSound[] = ["m", "n", "ŋ", "j", "w"];
 const TABS: PartKind[] = ["initial", "vowel", "final", "mark"];
-/** Chỗ giữ vị trí phụ âm trên ô chọn: khoảng trắng không ngắt thay cho vòng chấm ◌ */
-const HOLDER = "\u00A0";
+const CLASSES: ConsonantClass[] = ["mid", "high", "low"];
+/** Ký hiệu hình cho từng nhóm để không chỉ dựa vào màu */
+const CLASS_SYMBOL: Record<ConsonantClass, string> = { mid: "●", high: "▲", low: "▼" };
+const CLASS_COUNT = Object.fromEntries(CLASSES.map((c) => [c, CONSONANTS.filter((x) => x.cls === c).length])) as Record<ConsonantClass, number>;
+/** Chỗ giữ vị trí phụ âm trên ô chọn (có trong font chữ Thái, khác với khoảng trắng) */
+const HOLDER = "◌";
 
 /** Màu đánh dấu ô đích khi kéo (vowel/final không có ngữ nghĩa màu riêng) */
 const ACCENT = {
@@ -107,6 +109,36 @@ function Group({
   );
 }
 
+/** Một hàng trong nhóm: nhãn bên trái (tên + gợi ý), các ô bên phải. */
+function Row({
+  label,
+  hint,
+  color,
+  children,
+}: {
+  label: ReactNode;
+  hint?: string;
+  color?: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="flex items-start gap-2.5">
+      <div
+        className="w-[4.75rem] shrink-0 pt-1.5 text-xs font-semibold leading-tight"
+        style={color ? { color } : undefined}
+      >
+        {label}
+        {hint && (
+          <small className="mt-0.5 block text-[10.5px] font-normal leading-tight text-ink-soft">
+            {hint}
+          </small>
+        )}
+      </div>
+      <div className="flex min-w-0 flex-1 flex-wrap gap-1">{children}</div>
+    </div>
+  );
+}
+
 interface Props {
   vowel: Vowel;
   analysis: SyllableAnalysis;
@@ -122,23 +154,21 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
   const { data: initials = [] } = useQuery(consonantQueries.initials());
   const { data: consonants = [] } = useQuery(consonantQueries.all());
   const { data: vowels = [] } = useQuery(vowelQueries.all());
-  const [cls, setCls] = useState<"all" | ConsonantClass>("all");
   const showPhonetic = usePreferences((p) => p.showPhonetic);
   const initialChars = INITIAL_BY_ID.get(initialId)!.chars;
 
-  const byClass = useMemo(
-    () => initials.filter((u) => cls === "all" || u.cls === cls),
-    [initials, cls],
-  );
-  const rows = useMemo(
-    () => ({
-      single: byClass.filter((u) => u.kind === "single"),
-      cluster: byClass.filter(
-        (u) => u.kind === "cluster" || u.kind === "false-cluster",
-      ),
-      leading: byClass.filter((u) => u.kind === "leading"),
-    }),
-    [byClass],
+  const rows = useMemo(() => {
+    const of = (kinds: InitialKind[]) => initials.filter((u) => kinds.includes(u.kind));
+    return {
+      single: Object.fromEntries(CLASSES.map((c) => [c, initials.filter((u) => u.kind === "single" && u.cls === c)])) as Record<ConsonantClass, InitialUnit[]>,
+      cluster: of(["cluster"]),
+      falseCluster: of(["false-cluster"]),
+      leading: of(["leading"]),
+    };
+  }, [initials]);
+  const vowelRows = useMemo(
+    () => VOWEL_GROUPS.map((g) => [g, vowels.filter((v) => vowelGroup(v) === g)] as [VowelGroup, Vowel[]]),
+    [vowels],
   );
   const finals = consonants.filter((c) => c.final && !c.obsolete);
   const finalDisabled = (ch: string) =>
@@ -147,8 +177,7 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
   useSlotDrag(ref, stageRef, onPick, [
     vowel.id,
     initialId,
-    cls,
-    byClass.length,
+    initials.length,
     finals.length,
     analysis.cls,
     analysis.liveness,
@@ -242,73 +271,65 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
           tab={tab}
           title={t.builder.parts.initial}
           className="lg:row-span-2 xl:row-span-1"
-          extra={(["all", "mid", "high", "low"] as const).map((c) => (
-            <button
-              key={c}
-              type="button"
-              onClick={() => setCls(c)}
-              aria-pressed={cls === c}
-              className={cn(
-                pill(cls === c),
-                cls === c &&
-                  c !== "all" &&
-                  `${CLASS_META[c].bg} text-on-accent`,
-              )}
-            >
-              {c === "all"
-                ? t.builder.filters.all
-                : CLASS_META[c].label[locale]}
-            </button>
-          ))}
         >
-          <div>
-            {(["single", "cluster", "leading"] as const).map((r) =>
-              rows[r].length ? (
-                <div key={r}>
-                  {r !== "single" && (
-                    <p className="relative mb-1.5 mt-2.5 border-t border-dashed border-ink/15">
-                      <span className="absolute -top-2 left-0 bg-paper pr-2 text-[10px] font-medium leading-none text-ink-soft">
-                        {t.builder.rows[r]}
-                      </span>
-                    </p>
-                  )}
-                  <div className="flex flex-wrap gap-1">
-                    {rows[r].map(initialTile)}
-                  </div>
-                </div>
-              ) : null,
-            )}
+          <div className="space-y-2">
+            {CLASSES.map((c) => (
+              <Row
+                key={c}
+                color={CLASS_META[c].color}
+                label={`${CLASS_SYMBOL[c]} ${CLASS_META[c].label[locale]}`}
+                hint={t.groups.classCount(CLASS_COUNT[c])}
+              >
+                {rows.single[c].map(initialTile)}
+              </Row>
+            ))}
+            <div className="space-y-2 border-t border-dashed border-ink/15 pt-2">
+              <Row label={t.groups.cluster} hint={t.groups.clusterHint}>
+                {rows.cluster.map(initialTile)}
+              </Row>
+              <Row label={t.groups.falseCluster} hint={t.groups.falseClusterHint}>
+                {rows.falseCluster.map(initialTile)}
+              </Row>
+              <Row label={t.groups.leading} hint={t.groups.leadingHint}>
+                {rows.leading.map(initialTile)}
+              </Row>
+            </div>
           </div>
         </Group>
 
         {/* Nguyên âm, dấu thanh xếp ngay bên dưới */}
         <div className="contents lg:block lg:space-y-3">
           <Group k="vowel" tab={tab} title={t.builder.parts.vowel}>
-            <div className="flex flex-wrap gap-1">
-              {vowels.map((v) => (
-                <button
-                  key={v.id}
-                  type="button"
-                  data-tile
-                  data-kind="vowel"
-                  data-id={v.id}
-                  data-glyph={vowelGlyph(v)}
-                  data-accent={ACCENT.vowel}
-                  disabled={!vowelFitsInitial(v, initialChars)}
-                  onClick={() => onPick("vowel", v.id)}
-                  aria-pressed={v.id === vowelId}
-                  aria-label={`${v.open.replace("C", "")}, /${v.ipa}/, ${v.length === "long" ? t.ipa.long : t.ipa.short}`}
-                  title={v.approx[locale]}
-                  className={tileCls}
-                >
-                  <VowelFace
-                    vowel={v}
-                    size="sm"
-                    selected={v.id === vowelId}
-                    phonetic={showPhonetic}
-                    holder={HOLDER}
-                  />
-                </button>
+            <div className="space-y-2">
+              {vowelRows.map(([g, list]) => (
+                <Row key={g} label={t.groups.vowels[g]} hint={t.groups.vowelHints[g]}>
+                  {list.map((v) => (
+                    <button
+                      key={v.id}
+                      type="button"
+                      data-tile
+                      data-kind="vowel"
+                      data-target-slot={`vowel-${vowelCell(v.open)}`}
+                      data-id={v.id}
+                      data-glyph={vowelGlyph(v)}
+                      data-accent={ACCENT.vowel}
+                      disabled={!vowelFitsInitial(v, initialChars)}
+                      onClick={() => onPick("vowel", v.id)}
+                      aria-pressed={v.id === vowelId}
+                      aria-label={`${v.open.replace("C", "")}, /${v.ipa}/, ${v.length === "long" ? t.ipa.long : t.ipa.short}`}
+                      title={v.approx[locale]}
+                      className={tileCls}
+                    >
+                      <VowelFace
+                        vowel={v}
+                        size="sm"
+                        selected={v.id === vowelId}
+                        phonetic={showPhonetic}
+                        holder={HOLDER}
+                      />
+                    </button>
+                  ))}
+                </Row>
               ))}
             </div>
           </Group>
@@ -385,7 +406,7 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
               aria-pressed={!finalId}
               className={pill(!finalId)}
             >
-              {t.builder.noFinal}
+              {t.groups.finals.none} · {t.groups.finalHints.none}
             </button>
           }
         >
@@ -393,48 +414,13 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
             <p className="mb-1.5 text-xs text-high">{t.builder.vowelNoFinal}</p>
           )}
           <div className="space-y-2">
-            <div>
-              <p className="mb-1 text-[11px] font-medium text-ink-soft">
-                {t.builder.stopGroup}
-              </p>
-              <div className="space-y-1">{STOPS.map(finalRow)}</div>
-            </div>
-            <div className="border-t border-dashed border-ink/15 pt-1.5">
-              <p className="mb-1 text-[11px] font-medium text-ink-soft">
-                {t.builder.sonorantGroup}
-              </p>
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                {SONORANTS.map((snd) => (
-                  <div key={snd} className="flex items-center gap-1">
-                    <span className="font-ipa text-sm text-ink-soft">
-                      /{snd}/
-                    </span>
-                    {finals
-                      .filter((c) => c.final === snd)
-                      .map((c) => (
-                        <button
-                          key={c.id}
-                          type="button"
-                          data-tile
-                          data-kind="final"
-                          data-id={c.id}
-                          data-glyph={c.char}
-                          data-accent={ACCENT.final}
-                          disabled={finalDisabled(c.char)}
-                          onClick={() => onPick("final", c.id)}
-                          aria-pressed={c.id === finalId}
-                          title={`${c.char}: /${c.initial}/ → /${snd}/`}
-                          className={cn(
-                            boxCls(c.id === finalId, !c.common),
-                            "grid size-9 text-xl",
-                          )}
-                        >
-                          {c.char}
-                        </button>
-                      ))}
-                  </div>
-                ))}
-              </div>
+            <Row label={t.groups.finals.live} hint={t.groups.finalHints.live}>
+              <div className="w-full space-y-1">{SONORANTS.map(finalRow)}</div>
+            </Row>
+            <div className="border-t border-dashed border-ink/15 pt-2">
+              <Row label={t.groups.finals.dead} hint={t.groups.finalHints.dead}>
+                <div className="w-full space-y-1">{STOPS.map(finalRow)}</div>
+              </Row>
             </div>
           </div>
         </Group>

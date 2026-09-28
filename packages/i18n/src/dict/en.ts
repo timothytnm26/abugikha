@@ -250,6 +250,47 @@ export const en: Dict = {
     rare: "Not used in standard spelling",
     current: "In use",
   },
+  groups: {
+    classCount: (n: number) => `${n} letters`,
+    cluster: "Clusters",
+    clusterHint: "two consonants said together",
+    falseCluster: "False clusters",
+    falseClusterHint: "silent ร, ทร read /s/",
+    leading: "Leading letters",
+    leadingHint: "silent ห / อ change the class",
+    vowels: { short: "Short", long: "Long", diph: "Compound", special: "Special" },
+    vowelHints: {
+      short: "tend to make dead syllables",
+      long: "usually live syllables",
+      diph: "two sounds gliding together",
+      special: "always live",
+    },
+    finals: { none: "None", live: "Live", dead: "Dead" },
+    finalHints: { none: "open syllable", live: "sonorants", dead: "stops" },
+    diphIntro:
+      "Compound vowels (diphthongs) glide from one sound to another and are written with two or three pieces around the consonant, e.g. เ◌ีย = เ + ◌ี + ย, read /ia/.",
+  },
+  notebook: {
+    title: "Writing notebook · 4 tiers",
+    tiers: { tone: "Tone mark", above: "Upper vowel", main: "Main line", below: "Lower vowel" },
+    cells: { before: "before", cons: "consonant", after: "after", final: "final" },
+    morphed: (from: string, to: string) => `The vowel changes shape with a final: ${from} → ${to}.`,
+    taikhu: "The tone mark takes the place of ◌็, so ◌็ is dropped and the vowel stays short.",
+    seeMorph: "See how",
+  },
+  morph: {
+    title: "Vowels that change shape",
+    intro:
+      "With a final consonant, many vowels are written differently: pieces are dropped, replaced, or the vowel vanishes entirely. Struck-through pieces are removed, filled ones are new.",
+    groups: { short: "Short vowels", long: "Long vowels", compound: "Compound vowels", tone: "Tone marks" },
+    from: "Open form",
+    to: "With a final",
+    toMark: "With a tone mark",
+    sample: "pattern only",
+    replay: "Replay",
+    unchanged: "No piece is removed",
+    listAria: "Shape-change rules",
+  },
   syllable: {
     stepLabels: {
       class: "Initial",

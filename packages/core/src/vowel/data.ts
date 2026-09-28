@@ -32,7 +32,7 @@ export const VOWELS: Vowel[] = [
       noteVi: "เ-าะ đổi thành ◌็อ: ล็อก (hiếm, chủ yếu từ mượn)", noteEn: "เ-าะ becomes ◌็อ: ล็อก (rare, mostly loanwords)" }),
   v({ id: "oor", open: "Cอ", closed: "CอF", ipa: "ɔː", length: "long", kind: "mono", vi: "o (dài)", en: "aw in “law”" }),
   v({ id: "oe", open: "เCอะ", closed: null, ipa: "ɤ", length: "short", kind: "mono", vi: "ơ (ngắn)", en: "u in “hurt”, short" }),
-  v({ id: "ooe", open: "เCอ", closed: "เCิF", ipa: "ɤː", length: "long", kind: "mono", vi: "ơ", en: "ir in British “bird”",
+  v({ id: "ooe", open: "เCอ", closed: "เCิF", closedBy: { ย: "เCF" }, ipa: "ɤː", length: "long", kind: "mono", vi: "ơ", en: "ir in British “bird”",
       noteVi: "อ đổi thành ◌ิ: เ + ด + อ + น → เดิน. Riêng cuối ย viết เ-ย: เลย", noteEn: "อ becomes ◌ิ: เ + ด + อ + น → เดิน. Before ย it is written เ-ย: เลย" }),
   v({ id: "ia", open: "เCียะ", closed: null, ipa: "ia", length: "short", kind: "diph", vi: "iê (ngắn)", en: "ia in “Maria”, short" }),
   v({ id: "iia", open: "เCีย", closed: "เCียF", ipa: "ia", length: "long", kind: "diph", vi: "iê / ia", en: "ea in “idea”" }),
@@ -48,6 +48,15 @@ export const VOWELS: Vowel[] = [
 ];
 
 export const VOWEL_BY_ID = new Map(VOWELS.map((x) => [x.id, x]));
+
+/** Mẫu viết khi có âm cuối `final` (null nếu nguyên âm không nhận âm cuối) */
+export const closedPattern = (x: Vowel, final?: string | null) => (final && x.closedBy?.[final]) || x.closed;
+
+export type VowelGroup = "short" | "long" | "diph" | "special";
+export const VOWEL_GROUPS: VowelGroup[] = ["short", "long", "diph", "special"];
+/** Nhóm hiển thị: nguyên âm đơn ngắn / dài, nguyên âm ghép (đôi), nguyên âm đặc biệt (tự mang âm cuối) */
+export const vowelGroup = (x: Vowel): VowelGroup =>
+  x.kind === "special" ? "special" : x.kind === "diph" ? "diph" : x.length === "long" ? "long" : "short";
 
 /** Hình hiển thị với vòng tròn giữ chỗ ◌ */
 export const vowelGlyph = (x: Vowel, form: "open" | "closed" = "open", holder = "◌") =>

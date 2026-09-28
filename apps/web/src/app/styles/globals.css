@@ -3,7 +3,8 @@
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme {
-  --font-sans: "Be Vietnam Pro", ui-sans-serif, system-ui, sans-serif;
+  /* Chữ Thái lẫn trong câu (gợi ý, tên dấu) dùng font Thái thay vì font dự phòng của hệ thống */
+  --font-sans: "Be Vietnam Pro", "Noto Serif Thai", "Leelawadee UI", "Thonburi", ui-sans-serif, system-ui, sans-serif;
   --font-thai: "Noto Serif Thai", "Noto Sans Thai", "Leelawadee UI", "Thonburi", serif;
   --font-ipa: "Charis SIL", "Doulos SIL", "Gentium Plus", "Noto Serif", serif;
   --font-khmer: "Noto Sans Khmer", "Khmer OS", sans-serif;
@@ -27,6 +28,11 @@
   --color-tone-falling: #b03a78;
   --color-tone-high: #b87908;
   --color-tone-rising: #15849a;
+
+  /* Màu vai trò của mảnh chữ (phần nguyên âm biến hình): nguyên âm, âm cuối, mảnh bị loại */
+  --color-part-vowel: #5b45c4;
+  --color-part-final: #1d7f4e;
+  --color-removed: #c2361c;
 }
 
 /* Tối: men celadon nung khử, xanh đen như gốm sứ Sawankhalok về đêm */
@@ -47,6 +53,10 @@
     --color-tone-falling: #ec7fb9;
     --color-tone-high: #f0bb55;
     --color-tone-rising: #5ccbde;
+
+    --color-part-vowel: #a996ff;
+    --color-part-final: #4fd39a;
+    --color-removed: #ff8466;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -64,6 +74,9 @@
       --color-tone-falling: #ec7fb9;
       --color-tone-high: #f0bb55;
       --color-tone-rising: #5ccbde;
+      --color-part-vowel: #a996ff;
+      --color-part-final: #4fd39a;
+      --color-removed: #ff8466;
     }
   }
 
@@ -118,6 +131,56 @@
   font-family: var(--font-thai);
   background: color-mix(in oklab, var(--accent) 20%, var(--color-paper));
   color: var(--accent);
+}
+/* ---------- Nguyên âm biến hình ---------- */
+/* Mảnh sắp bị loại: phóng to, đỏ, rung rồi gạch ngang */
+.morph-doomed {
+  color: var(--color-removed) !important;
+  scale: 1.18;
+  text-shadow: 0 0 0.25em color-mix(in oklab, var(--color-removed) 45%, transparent);
+  transition: scale 0.3s cubic-bezier(0.2, 1.4, 0.4, 1), color 0.2s;
+  animation: morph-wobble 0.5s 0.15s ease-in-out;
+}
+.morph-doomed::after {
+  content: "";
+  position: absolute;
+  left: -0.05em;
+  right: -0.05em;
+  top: var(--strike-top, 55%);
+  height: 0.06em;
+  border-radius: 4px;
+  background: var(--color-removed);
+  transform-origin: left;
+  animation: morph-strike 0.35s 0.45s ease-out both;
+}
+/* Bóng của mảnh bị loại khi rơi ra ngoài */
+.morph-ghost {
+  color: var(--color-removed);
+  text-shadow: 0 0 0.25em color-mix(in oklab, var(--color-removed) 45%, transparent);
+}
+/* Vạch gạch trên một dấu bị loại (◌ั, ◌็…) */
+.morph-doomed-mark {
+  transform-origin: left;
+  animation: morph-strike 0.35s 0.45s ease-out both;
+}
+/* Mảnh mới đến: loé sáng theo màu của nó */
+.morph-born {
+  animation: morph-born 1.3s 0.3s ease-out both;
+}
+@keyframes morph-wobble {
+  25% { rotate: -7deg; }
+  75% { rotate: 7deg; }
+}
+@keyframes morph-strike {
+  from { scale: 0 1; }
+}
+@keyframes morph-born {
+  0% { text-shadow: 0 0 0 transparent; }
+  30% { text-shadow: 0 0 0.22em currentColor; }
+  100% { text-shadow: 0 0 0 transparent; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .morph-doomed, .morph-doomed::after, .morph-born, .morph-doomed-mark { animation: none; transition: none; }
 }
 @keyframes pop-in {
   from { margin-top: 1.1rem; opacity: 0; }

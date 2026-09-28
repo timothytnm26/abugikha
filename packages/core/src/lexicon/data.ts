@@ -174,6 +174,17 @@ export const WORDS: Word[] = [
   w("ขวด", "kʰùat", "cái chai", "bottle"),
   w("ทา", "tʰaː", "bôi, quét", "to apply, paint"),
 
+  // Ví dụ cho phần nguyên âm biến hình
+  w("เตะ", "tèʔ", "đá (bằng chân)", "to kick"),
+  w("เต็ม", "tem", "đầy", "full"),
+  w("มือ", "mɯː", "bàn tay", "hand"),
+  w("มืด", "mɯ̂ːt", "tối", "dark"),
+  w("เลาะ", "lɔ́ʔ", "men theo", "to go along (an edge)"),
+  w("ล็อก", "lɔ́k", "khoá (từ mượn “lock”)", "to lock (loanword)"),
+  w("เลย", "lɤːj", "luôn, hẳn; vì vậy", "at all; so, then"),
+  w("เรือน", "rɯan", "ngôi nhà", "house, dwelling"),
+  w("สวน", "sǔan", "khu vườn", "garden"),
+  w("เล่น", "lên", "chơi", "to play"),
   // Từ ghép
   w("ภาษา", "pʰaː.sǎː", "ngôn ngữ", "language", ["ภา", "ษา"]),
   w("แม่น้ำ", "mɛ̂ː.náːm", "dòng sông", "river", ["แม่", "น้ำ"]),

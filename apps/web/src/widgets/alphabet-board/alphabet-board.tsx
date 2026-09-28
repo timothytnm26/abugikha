@@ -17,6 +17,8 @@ import {
   vowelGlyph,
   type Vowel,
 } from "@/entities/vowel";
+import { VowelMorph } from "@/entities/syllable";
+import { VOWEL_GROUPS, vowelGroup } from "@abugikha/core/vowel";
 import { useBuilderStore } from "@/features/build-syllable";
 import { useLocale, useLocalePath, useT } from "@/shared/i18n";
 import { cn, tint } from "@/shared/lib";
@@ -286,38 +288,47 @@ export function AlphabetBoard() {
           <h2 id="vowel-title" className="mb-4 text-xl font-semibold">
             {t.alphabet.vowels}
           </h2>
-          <ul className="grid grid-cols-[repeat(auto-fill,minmax(6rem,1fr))] gap-2">
-            {VOWELS.map((vowel) => {
-              const active = sel.kind === "vowel" && sel.item.id === vowel.id;
-              return (
-                <li key={vowel.id}>
-                  <button
-                    type="button"
-                    onClick={() => choose({ kind: "vowel", item: vowel })}
-                    aria-pressed={active}
-                    aria-label={`${vowelGlyph(vowel)}, /${vowel.ipa}/, ${vowel.length === "long" ? t.ipa.long : t.ipa.short}`}
-                    className={cn(
-                      "flex min-h-24 w-full flex-col items-center rounded-lg border border-ink/10 bg-paper-deep px-2 py-3 text-center hover:bg-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
-                      active &&
-                        "ring-3 ring-ink ring-offset-2 ring-offset-paper",
-                    )}
-                  >
-                    <span className="block whitespace-nowrap font-thai text-2xl leading-tight">
-                      {vowelGlyph(vowel)}
-                    </span>
-                    <Phonetic
-                      ipa={vowel.ipa}
-                      className="mt-1 justify-center text-xs"
-                    />
-                    <span className="mt-1 block text-xs text-ink-soft">
-                      {vowel.approx[locale]}
-                    </span>
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
+          <div className="space-y-5">
+            {VOWEL_GROUPS.map((g) => (
+              <div key={g}>
+                <h3 className="mb-2 flex flex-wrap items-baseline gap-x-2 text-sm font-semibold">
+                  {t.groups.vowels[g]}
+                  <span className="text-xs font-normal text-ink-soft">{t.groups.vowelHints[g]}</span>
+                </h3>
+                {g === "diph" && <p className="mb-2 max-w-2xl text-sm text-ink/80">{t.groups.diphIntro}</p>}
+                <ul className="grid grid-cols-[repeat(auto-fill,minmax(6rem,1fr))] gap-2">
+                  {VOWELS.filter((v) => vowelGroup(v) === g).map((vowel) => {
+                    const active = sel.kind === "vowel" && sel.item.id === vowel.id;
+                    return (
+                      <li key={vowel.id}>
+                        <button
+                          type="button"
+                          onClick={() => choose({ kind: "vowel", item: vowel })}
+                          aria-pressed={active}
+                          aria-label={`${vowelGlyph(vowel)}, /${vowel.ipa}/, ${vowel.length === "long" ? t.ipa.long : t.ipa.short}`}
+                          className={cn(
+                            "flex min-h-24 w-full flex-col items-center rounded-lg border border-ink/10 bg-paper-deep px-2 py-3 text-center hover:bg-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
+                            // Viền nét đứt = nguyên âm ngắn (cùng quy ước với trang IPA và Ghép chữ)
+                            vowel.length === "short" && "border-dashed border-ink/30",
+                            active && "ring-3 ring-ink ring-offset-2 ring-offset-paper",
+                          )}
+                        >
+                          <span className="block whitespace-nowrap font-thai text-2xl leading-tight">
+                            {vowelGlyph(vowel)}
+                          </span>
+                          <Phonetic ipa={vowel.ipa} className="mt-1 justify-center text-xs" />
+                          <span className="mt-1 block text-xs text-ink-soft">{vowel.approx[locale]}</span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))}
+          </div>
         </section>
+
+        <VowelMorph focusVowel={sel.kind === "vowel" ? sel.item.id : undefined} />
 
         <section aria-labelledby="digit-title">
           <h2 id="digit-title" className="mb-4 text-xl font-semibold">

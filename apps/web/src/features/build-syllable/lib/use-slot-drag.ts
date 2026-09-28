@@ -5,7 +5,7 @@ import type { PartKind } from "../model/builder-store";
 
 /**
  * Mọi [data-tile] trong `picker` kéo được. Thả vào vùng `stage` (hoặc thanh ghép nổi [data-dropzone=dock]) → mảnh bay vào đúng ô
- * [data-slot=<kind>] rồi gọi onDrop. Thả ra ngoài → bật về chỗ cũ.
+ * [data-slot=<data-target-slot của mảnh>] (hoặc [data-slot=<kind>]) rồi gọi onDrop. Thả ra ngoài → bật về chỗ cũ.
  */
 export function useSlotDrag(
   picker: RefObject<HTMLElement | null>,
@@ -22,7 +22,10 @@ export function useSlotDrag(
       const pickZone = () => document.querySelector<HTMLElement>('[data-dropzone="dock"]') ?? stage.current!;
       const reduce = prefersReducedMotion();
       const tiles = gsap.utils.toArray<HTMLElement>("[data-tile]:not([disabled])", root);
-      const slotOf = (t: HTMLElement) => zone.querySelector<HTMLElement>(`[data-slot="${t.dataset.kind}"]`);
+      // Ô riêng của mảnh (vd. vowel-above) nếu vùng thả có, không thì ô chung theo loại (thanh ghép nổi)
+      const slotOf = (t: HTMLElement) =>
+        (t.dataset.targetSlot && zone.querySelector<HTMLElement>(`[data-slot="${t.dataset.targetSlot}"]`)) ||
+        zone.querySelector<HTMLElement>(`[data-slot="${t.dataset.kind}"]`);
 
       const instances = tiles.map(
         (tile) =>
