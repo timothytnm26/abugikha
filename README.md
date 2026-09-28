@@ -2,18 +2,54 @@
 
 Abugikha is an interactive guide to Thai script. Explore its sounds and history, then build syllables to see how consonants, vowels, and tones work together. Its name is a playful nod to both “abugida” and the Thai greeting “sawasdee kha” (สวัสดีค่ะ).
 
-**Stack:** Next.js 15 (App Router) · React 19 · Tailwind CSS 4 · GSAP (Draggable, useGSAP) · TanStack Query · Zustand · Feature-Sliced Design
+The repository is a Bun + Turborepo monorepo with a web app, a mobile app, and an API that share the same Thai-script engine.
+
+| Workspace | Stack | Hosting |
+| --- | --- | --- |
+| `apps/web` | Next.js 15 (App Router, static export) · React 19 · Tailwind CSS 4 · GSAP · TanStack Query · Zustand · Feature-Sliced Design | GitHub Pages |
+| `apps/mobile` | Expo SDK 57 · Expo Router · Zustand + AsyncStorage (offline-first) · expo-secure-store · expo-speech | EAS Build / Expo Go |
+| `apps/api` | Hono · Cloudflare Workers · D1 (SQLite) · Drizzle ORM · zod | Cloudflare Workers |
+| `packages/core` | Pure TypeScript: consonants, vowels, tone rules, syllable analysis, lexicon, romanization, palette | — |
+| `packages/i18n` | `vi` / `en` interface dictionaries shared by web and mobile | — |
+| `packages/contracts` | zod schemas for the API plus a `fetch`-based client used by web, mobile, and tests | — |
+| `packages/eslint-config`, `packages/tsconfig` | Shared tooling config | — |
+
+## Getting Started
+
+Requires [Bun](https://bun.sh) 1.3+.
 
 ```bash
-npm install
-npm run dev   # http://localhost:3000
+bun install
+bun run dev:web      # http://localhost:3000
+bun run dev:api      # http://localhost:8787 (local D1, see below)
+bun run dev:mobile   # Expo dev server; open in Expo Go or a simulator
+bun run check        # typecheck + lint + test for every workspace
 ```
 
-## Deploy to GitHub Pages
+Before the first `dev:api`, create the local database once:
 
-Push to `main` to build and publish the static site with `.github/workflows/deploy-pages.yml`. In the repository's **Settings → Pages**, set the source to **GitHub Actions**. Project Pages uses `https://<owner>.github.io/<repository>/`; a `<owner>.github.io` repository uses the domain root.
+```bash
+cd apps/api && bun run db:migrate:local
+```
+
+For the mobile app, copy `apps/mobile/.env.example` to `apps/mobile/.env` and point `EXPO_PUBLIC_API_URL` at the API. The Android emulator reaches the host as `http://10.0.2.2:8787`; a physical device needs the host machine's LAN IP.
+
+### Dependency Layout
+
+`bunfig.toml` uses Bun's **isolated** linker, so each workspace only sees the dependencies it declares. This lets the web app run React 19.3 while the mobile app uses the React version pinned by Expo. Add mobile dependencies with `bunx expo install <package>` from `apps/mobile` so versions match the SDK.
+
+`expo-doctor` currently reports "duplicate native modules" because Bun gives packages with circular peer dependencies (`expo` ↔ `expo-router`) separate directory names. The JS bundle and native autolinking each resolve a single copy, so the warning can be ignored. Re-check with `bunx expo-modules-autolinking resolve --platform android` after dependency upgrades.
+
+## Deployment
+
+- **Web:** pushing to `main` builds and publishes the static site with `.github/workflows/deploy-pages.yml`. In the repository's **Settings → Pages**, set the source to **GitHub Actions**. Project Pages uses `https://<owner>.github.io/<repository>/`; a `<owner>.github.io` repository uses the domain root.
+- **API:** create the database with `bunx wrangler d1 create abugikha`, put its id in `apps/api/wrangler.jsonc`, and add the production web origin to `CORS_ORIGINS`. Then add the `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` secrets and set the repository variable `API_DEPLOY_ENABLED=true`. After that, `.github/workflows/deploy-api.yml` applies D1 migrations and deploys on every change to the API or its packages.
+- **Mobile:** build and submit with EAS (`bunx eas-cli build`). Set `EXPO_PUBLIC_API_URL` to the deployed Worker URL for production builds.
+- **CI:** `.github/workflows/ci.yml` runs `bun run check` on every push and pull request.
 
 ## Web Features
+
+Every page is prerendered for each locale under `/vi/...` and `/en/...`, with localized `<html lang>`, titles, canonical URLs, and `hreflang` alternates. The root `/` sends visitors to their saved locale (the `locale` cookie) or to their browser language.
 
 1. **/ipa - Phonetics:** Explore consonants by place and manner of articulation, vowel positions, and the contours of all five tones. IPA transcriptions are accompanied by RTGS romanization.
 2. **/history - Script history:** Follow the script's lineage from Brahmi through Pallava, Old Khmer and Mon, and Sukhothai to modern Thai.
@@ -26,47 +62,80 @@ Push to `main` to build and publish the static site with `.github/workflows/depl
    - At 1440×900, the full page fits in one viewport. During drag and drop, the target slot flashes in the dragged component's color. If the composition panel scrolls out of view, a floating builder appears below the navigation and remains a drop target.
 5. **Appearance controls:** Toggle IPA and RTGS labels in component pickers, and customize the colors for the three consonant classes and five tones. Light and dark themes have separate color settings.
 
+## Mobile Features
+
+- **Letters:** the consonant grid colored by class. Open a letter to hear its name, see its keyword and sounds, and mark it as learned.
+- **Build:** pick an initial, vowel, final, and tone mark to see the spelling, IPA, tone, and step-by-step rules from the shared engine, then listen with the device's `th-TH` voice.
+- **Profile:** display name, language, IPA/RTGS toggle, progress, and sync status.
+
+Progress is stored on the device first and synced when the API is reachable. On first launch the app creates an anonymous account and keeps its session token in the secure store.
+
+## API
+
+All endpoints are versioned under `/v1` and validated with the schemas in `packages/contracts`. Errors always use the shape `{ "error": { "code", "message", "details?" } }`.
+
+| Method | Path | Purpose |
+| --- | --- | --- |
+| `POST` | `/v1/auth/anonymous` | Create an anonymous user and session; returns a bearer token |
+| `POST` | `/v1/auth/logout` | Revoke the current session |
+| `GET` / `PATCH` / `DELETE` | `/v1/me` | Read, update (`displayName`, `locale`), or delete the account and all its data |
+| `GET` / `PUT` | `/v1/me/preferences` | Appearance and learning preferences (stored as validated JSON) |
+| `GET` / `PUT` | `/v1/me/progress` | Per-item learning progress; `PUT` accepts up to 200 items, `GET ?since=` returns changes for incremental sync |
+
+Design notes for extending it:
+
+- **Modules:** each feature lives in `src/modules/<name>/` with its own `routes.ts` (HTTP) and `service.ts` (database logic), mounted in `src/app.ts`.
+- **Sessions:** tokens are random 256-bit values. Only their SHA-256 hash is stored, so a session can be revoked by deleting its row. Sessions slide forward at most once a day. To add email or OAuth sign-in, create an `auth_identities (user_id, provider, subject)` table that links to the existing anonymous user, so progress is kept.
+- **Sync:** progress uses last-write-wins on the client's `updatedAt`, which is clamped to 5 minutes in the future to guard against clock skew, and a server-side `synced_at` for `?since=` queries. Large batches are split to respect D1's 100-parameter limit per statement.
+- **Schema changes:** edit `src/db/schema.ts`, run `bun run db:generate`, and commit the SQL in `drizzle/`. New preference fields need a `.default()` in `PreferencesSchema` so older rows stay valid.
+- **Tests:** `apps/api/test` runs inside the real Workers runtime (Miniflare) against a migrated local D1.
+
 ## Project Structure
 
-The project uses Feature-Sliced Design (FSD). Next.js routes live in the root `app/` directory and re-export page implementations from `src/pages/`.
-
 ```text
-app/                   Next.js App Router routes (metadata and TanStack Query prefetching)
-pages/                 Intentionally empty; prevents Next.js from treating src/pages as Pages Router
-src/
-  app/                 Locale and Query providers, root shell, global styles
-  pages/               Page compositions: home, IPA, history, and builder
-  widgets/             Site navigation, hero merge, IPA explorer, history graph, syllable builder
-  features/            Syllable building, locale and theme toggles, appearance customization
-  entities/            Consonants, vowels, syllables, lexicon, phonemes, script history, writing
-  shared/              Internationalization, utilities, UI, and configuration
-scripts/               Utility scripts, including stroke extraction
+apps/
+  web/                 Next.js site (Feature-Sliced Design)
+    app/[locale]/      Localized routes: metadata + re-export pages from src/pages
+    app/(root)/        "/" redirect to the preferred locale
+    app/global-not-found.tsx
+    pages/             Intentionally empty; prevents Next.js from treating src/pages as Pages Router
+    src/
+      app/             Locale and Query providers, root shell, global styles
+      pages/           Page compositions: home, IPA, history, and builder
+      widgets/         Site navigation, hero merge, IPA explorer, history graph, syllable builder
+      features/        Syllable building, locale and theme toggles, appearance customization
+      entities/        UI and queries on top of @abugikha/core (adds web colors to class/tone metadata)
+      shared/          i18n provider, routing and metadata helpers, utilities, UI
+  mobile/              Expo app: src/app (routes), src/lib (API session, sync, theme), src/store
+  api/                 Cloudflare Worker: src/modules, src/db, drizzle/ (migrations), test/
+packages/
+  core/                Thai script data and engine (no React, no DOM); scripts/extract-strokes.py
+  i18n/                vi/en dictionaries
+  contracts/           API schemas and client
+  eslint-config/       Shared ESLint flat configs (base, react, next)
+  tsconfig/            Shared TypeScript base config
 ```
 
 ## Syllable Analysis and Lexicon
 
-The `entities/syllable/lib/analyze.ts` engine accepts `{ initial, vowel, final, mark }` and returns:
+The `packages/core/src/syllable/analyze.ts` engine accepts `{ initial, vowel, final, mark }` and returns:
 
 - Correctly ordered Thai spelling in Unicode, including tone marks placed on the final letter of a cluster (for example, ใกล้ and หน้า).
 - IPA transcription.
 - The tone and whether the syllable is live or dead.
-- Step-by-step explanations in the selected language.
+- Step-by-step explanations in the selected language. Each step carries an `accent` palette key (a consonant class or a tone) instead of a CSS color, so every platform can map it to its own colors.
 
-The `entities/lexicon` sample dictionary contains around 150 simple and compound words. It is accessed through TanStack Query and can be replaced with an API. A result described as "not a Thai word" means only that it is not present in this dictionary. The irregular readings น้ำ /náːm/ and เงิน /ŋɤn/ are documented separately.
+The `@abugikha/core/lexicon` sample dictionary contains around 150 simple and compound words. On the web it is exposed through TanStack Query with the bundled data as `initialData`, so pages render immediately without embedding a second copy in the HTML. Switching to an API only requires changing `queryFn`. A result described as "not a Thai word" means only that it is not present in this dictionary. The irregular readings น้ำ /náːm/ and เงิน /ŋɤn/ are documented separately.
 
-Audio uses the Web Speech API with the `th-TH` voice. If a Thai voice is unavailable on the device, the site displays instructions for installing one.
+Audio uses the Web Speech API on the web and `expo-speech` on mobile, both with the `th-TH` voice. If a Thai voice is unavailable on the device, the site displays instructions for installing one.
 
 ## Localization, Themes, and Romanization
 
-- `src/shared/i18n` contains the `vi` and `en` interface dictionaries. Entity text uses the `L10n = { vi, en }` type. The selected locale is stored in the `locale` cookie and restored in the browser after hydration so the site can be statically exported.
-- Light and dark theme tokens are CSS variables, with dark values defined under `[data-theme=dark]`. The default follows `prefers-color-scheme`; the selected theme is stored in the `theme` cookie and applied by a small head script before paint. Consonant-class and tone colors use CSS variables, so SVGs and inline styles follow the active theme.
-- RTGS romanization (Royal Thai General System, Thailand's official romanization system) is generated from IPA by `src/shared/lib/romanize.ts`. It omits tones and vowel length. Final ย becomes `-i`, final ว becomes `-o`, and both จ and ช are romanized as `ch`. Examples: หน้า → `na`, ควาย → `khwai`, แม่น้ำ → `maenam`.
+- `packages/i18n` contains the `vi` and `en` interface dictionaries. Entity text uses the `L10n = { vi, en }` type from `@abugikha/core`. On the web the locale comes from the URL segment. The `locale` cookie only remembers the choice for the root redirect.
+- Light and dark theme tokens are CSS variables, with dark values defined under `[data-theme=dark]`. The default follows `prefers-color-scheme`; the selected theme is stored in the `theme` cookie and applied by a small head script before paint. Consonant-class and tone colors use CSS variables, so SVGs and inline styles follow the active theme. The default palette values also live in `@abugikha/core` (`DEFAULT_PALETTE`, `SURFACE_COLORS`) for the mobile app.
+- RTGS romanization (Royal Thai General System, Thailand's official romanization system) is generated from IPA by `packages/core/src/romanize.ts`. It omits tones and vowel length. Final ย becomes `-i`, final ว becomes `-o`, and both จ and ช are romanized as `ch`. Examples: หน้า → `na`, ควาย → `khwai`, แม่น้ำ → `maenam`.
 - Appearance preferences are stored in localStorage under `kaa-prefs` using Zustand persist. A small script in `<head>` applies the color palette before the page is painted to prevent a color flash.
 
 ## Stroke Data
 
-`src/entities/writing/model/strokes.json` contains centerline paths generated from the **Noto Sans Thai Looped** font by `scripts/extract-strokes.py`. These paths are approximations, not verified handwriting stroke sequences, so the alphabet page currently shows static glyphs instead of animating them. The writing animation can return when reliable stroke-order references are available.
-
-# abugikha
-
-# abugikha
+`packages/core/src/writing/strokes.json` contains centerline paths generated from the **Noto Sans Thai Looped** font by `packages/core/scripts/extract-strokes.py`. It is exported from the separate `@abugikha/core/writing/glyphs` entry point so the ~60 KB file is only bundled where it is imported. These paths are approximations, not verified handwriting stroke sequences, so the alphabet page currently shows static glyphs instead of animating them. The writing animation can return when reliable stroke-order references are available.
