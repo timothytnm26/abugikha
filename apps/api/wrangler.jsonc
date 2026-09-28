@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "abugikha-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-15",
+  "observability": { "enabled": true },
+  "vars": {
+    // Danh sách origin được gọi API từ trình duyệt, cách nhau bằng dấu phẩy
+    "CORS_ORIGINS": "http://localhost:3000,http://localhost:8081,https://timothytnm26.github.io",
+    "SESSION_TTL_DAYS": "180"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "abugikha",
+      // Thay bằng id thật sau khi chạy: bunx wrangler d1 create abugikha
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "drizzle"
+    }
+  ]
+}
