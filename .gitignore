@@ -1,4 +1,29 @@
 node_modules
+.turbo
+
+# Next.js
 .next
+out
 next-env.d.ts
 *.tsbuildinfo
+
+# Cloudflare / wrangler
+.wrangler
+.dev.vars*
+!.dev.vars.example
+
+# Expo
+.expo
+dist
+apps/mobile/web-build
+apps/mobile/ios
+apps/mobile/android
+*.jks
+*.p8
+*.p12
+apps/mobile/*.key
+*.mobileprovision
+expo-env.d.ts
+
+.env*.local
+.DS_Store
