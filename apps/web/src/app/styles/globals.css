@@ -33,6 +33,9 @@
   --color-part-vowel: #5b45c4;
   --color-part-final: #1d7f4e;
   --color-removed: #c2361c;
+
+  /* Đường lề đỏ của giấy tập viết */
+  --color-margin: #d98a86;
 }
 
 /* Tối: men celadon nung khử, xanh đen như gốm sứ Sawankhalok về đêm */
@@ -57,6 +60,7 @@
     --color-part-vowel: #a996ff;
     --color-part-final: #4fd39a;
     --color-removed: #ff8466;
+    --color-margin: #8e4f4c;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -77,6 +81,7 @@
       --color-part-vowel: #a996ff;
       --color-part-final: #4fd39a;
       --color-removed: #ff8466;
+      --color-margin: #8e4f4c;
     }
   }
 

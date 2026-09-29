@@ -6,7 +6,7 @@ export { SyllableCard, SyllableGlyph } from "./ui/syllable-card";
 export { ToneContour } from "./ui/tone-contour";
 export { RuleBreakdown } from "./ui/rule-breakdown";
 export { PlacementNote } from "./ui/placement-note";
-export { VowelMorph } from "./ui/vowel-morph";
+export { MorphPanel } from "./ui/vowel-morph";
 export {
   ToneRuleTable,
   toneColumnOf,

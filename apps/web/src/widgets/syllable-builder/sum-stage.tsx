@@ -26,6 +26,7 @@ import {
 } from "@/entities/syllable";
 import type { Word, WordMatches } from "@/entities/lexicon";
 import { useBuilderStore, type PartKind } from "@/features/build-syllable";
+import { AutoSpeakSwitch } from "@/features/customize-appearance";
 import { MORPH_BY_VOWEL, MORPH_RULES } from "@abugikha/core/syllable";
 import { fmt, useLocale, useLocalePath, useT } from "@/shared/i18n";
 import { cn } from "@/shared/lib";
@@ -338,7 +339,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
     ),
   };
 
-  // Liên kết sang minh hoạ "nguyên âm biến hình" ở trang Abugida
+  // Liên kết sang minh hoạ "nguyên âm biến hình" ở trang Aksorn Thai
   const morphId =
     a.form === "closed"
       ? vowel.id === "ooe" && final?.char === "ย"
@@ -385,10 +386,13 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
         <div ref={inner}>
           <div className="flex flex-col items-stretch gap-3 md:flex-row md:items-center">
             <div className="min-w-0 flex-1">
-              <p className="mb-2 flex flex-wrap items-baseline justify-between gap-x-3 px-1 text-[11px] text-ink-soft">
+              <div className="mb-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 px-1 text-[11px] text-ink-soft">
                 <span className="font-semibold uppercase tracking-wider">{t.notebook.title}</span>
-                <span className="max-md:hidden">{t.builder.hoverHint}</span>
-              </p>
+                <span className="flex items-center gap-3">
+                  <span className="max-md:hidden">{t.builder.hoverHint}</span>
+                  <AutoSpeakSwitch label={t.builder.autoSpeak} className="text-ink" />
+                </span>
+              </div>
               <Notebook
                 analysis={a}
                 classColor={clsColor}
@@ -473,7 +477,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
               {notes.map((n) => (
                 <li key={n.id} className="flex flex-wrap items-baseline gap-x-2 rounded-lg bg-paper px-3 py-2 text-sm">
                   <span>{n.text}</span>
-                  <Link href={`${href("/abugida")}#morph-${n.id}`} className="font-medium underline underline-offset-4 hover:no-underline">
+                  <Link href={`${href("/aksornthai")}#morph-${n.id}`} className="font-medium underline underline-offset-4 hover:no-underline">
                     {t.notebook.seeMorph} →
                   </Link>
                 </li>

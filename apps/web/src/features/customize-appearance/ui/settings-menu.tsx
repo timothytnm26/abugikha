@@ -1,5 +1,7 @@
 "use client";
 import { useCallback, useRef, useState } from "react";
+import { CLASS_META, type ConsonantClass } from "@abugikha/core/consonant";
+import { TONE_META, type Tone } from "@abugikha/core/syllable";
 import { CLASS_KEYS, DEFAULT_PALETTE, TONE_KEYS, type PaletteKey } from "@/shared/config/palette";
 import { usePreferences } from "@/shared/lib/preferences";
 import { useEffectiveTheme } from "@/shared/lib/theme";
@@ -8,15 +10,11 @@ import { fmt, useLocale, useT, type L10n } from "@/shared/i18n";
 import { gsap, useGSAP, prefersReducedMotion } from "@/shared/lib/gsap";
 import { cn } from "@/shared/lib";
 
-const LABELS: Record<PaletteKey, L10n> = {
-  mid: { vi: "Trung", en: "Mid" }, high: { vi: "Cao", en: "High" }, low: { vi: "Thấp", en: "Low" },
-  "tone-mid": { vi: "Ngang", en: "Mid" }, "tone-low": { vi: "Trầm", en: "Low" }, "tone-falling": { vi: "Rơi", en: "Falling" },
-  "tone-high": { vi: "Cao", en: "High" }, "tone-rising": { vi: "Vút", en: "Rising" },
-};
+/** Nhãn của khoá palette: tên nhóm phụ âm hoặc tên thanh điệu */
+const labelOf = (k: PaletteKey): L10n =>
+  k.startsWith("tone-") ? TONE_META[k.slice("tone-".length) as Tone].label : CLASS_META[k as ConsonantClass].label;
 
-export function PhoneticSwitch({ className, label }: { className?: string; label: string }) {
-  const on = usePreferences((s) => s.showPhonetic);
-  const set = usePreferences((s) => s.setShowPhonetic);
+function Switch({ on, set, className, label }: { on: boolean; set: (v: boolean) => void; className?: string; label: string }) {
   return (
     <button type="button" role="switch" aria-checked={on} onClick={() => set(!on)} className={cn("flex items-center gap-2 text-xs font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink", className)}>
       <span className={cn("relative h-5 w-9 shrink-0 rounded-full transition-colors", on ? "bg-ink" : "bg-ink/20")}>
@@ -25,6 +23,19 @@ export function PhoneticSwitch({ className, label }: { className?: string; label
       {label}
     </button>
   );
+}
+
+export function PhoneticSwitch(props: { className?: string; label: string }) {
+  const on = usePreferences((s) => s.showPhonetic);
+  const set = usePreferences((s) => s.setShowPhonetic);
+  return <Switch on={on} set={set} {...props} />;
+}
+
+/** Bật/tắt tự đọc âm tiết khi ghép chữ */
+export function AutoSpeakSwitch(props: { className?: string; label: string }) {
+  const on = usePreferences((s) => s.autoSpeak);
+  const set = usePreferences((s) => s.setAutoSpeak);
+  return <Switch on={on} set={set} {...props} />;
 }
 
 export function SettingsMenu() {
@@ -54,9 +65,9 @@ export function SettingsMenu() {
         return (
           <label key={k} className="flex flex-col items-center gap-1 text-[11px] text-ink-soft">
             <span className="relative size-9 overflow-hidden rounded-full ring-2 ring-ink/10 focus-within:ring-ink" style={{ backgroundColor: `var(--color-${k})` }}>
-              <input type="color" value={value} onChange={(e) => setColor(theme, k, e.target.value)} className="absolute inset-0 size-full cursor-pointer opacity-0" aria-label={LABELS[k][locale]} />
+              <input type="color" value={value} onChange={(e) => setColor(theme, k, e.target.value)} className="absolute inset-0 size-full cursor-pointer opacity-0" aria-label={labelOf(k)[locale]} />
             </span>
-            {LABELS[k][locale]}
+            {labelOf(k)[locale]}
           </label>
         );
       })}
@@ -85,6 +96,10 @@ export function SettingsMenu() {
           <div>
             <PhoneticSwitch label={t.settings.phonetic} className="text-sm" />
             <p className="mt-1 pl-11 text-xs text-ink-soft">{t.settings.phoneticHint}</p>
+          </div>
+          <div>
+            <AutoSpeakSwitch label={t.settings.autoSpeak} className="text-sm" />
+            <p className="mt-1 pl-11 text-xs text-ink-soft">{t.settings.autoSpeakHint}</p>
           </div>
           <div className="space-y-2">
             <p className="text-sm font-semibold">{t.settings.classColors}</p>

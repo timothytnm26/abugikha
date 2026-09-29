@@ -150,7 +150,6 @@
     "normal": "Bình thường",
     "startHere": "Bắt đầu từ đầu tròn (vòng sáng)",
     "noHead": "Chữ này không có đầu tròn: bắt đầu từ nét bên trái.",
-    "traceNote": "Đã tạm ẩn hoạt ảnh viết cho đến khi có dữ liệu thứ tự nét chữ Thái đáng tin cậy.",
     "practiceHint": "Cùng một chữ ở 4 font. Khi viết tay, theo font có đầu (มีหัว); font không đầu (ไม่มีหัว) hay gặp trên biển hiệu.",
     "initial": "Âm đầu",
     "final": "Âm cuối",
@@ -308,13 +307,6 @@
   },
   "morph": {
     "title": "Nguyên âm biến hình",
-    "intro": "Khi có phụ âm cuối, nhiều nguyên âm đổi cách viết: có mảnh bị bỏ, có mảnh được thay, có nguyên âm biến mất hẳn. Gạch ngang là mảnh bị loại, nền đậm là mảnh mới.",
-    "groups": {
-      "short": "Nguyên âm ngắn",
-      "long": "Nguyên âm dài",
-      "compound": "Nguyên âm ghép",
-      "tone": "Dấu thanh"
-    },
     "from": "Dạng mở",
     "to": "Có phụ âm cuối",
     "toMark": "Có dấu thanh",

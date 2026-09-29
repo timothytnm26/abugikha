@@ -150,7 +150,6 @@
     "normal": "Normal",
     "startHere": "Start from the head loop (glowing ring)",
     "noHead": "This letter has no head loop: start from the left stroke.",
-    "traceNote": "Writing animation is paused until verified Thai handwriting stroke sequences are available.",
     "practiceHint": "The same letter in 4 fonts. When writing by hand, follow the looped font (มีหัว); loopless fonts (ไม่มีหัว) are common on signs.",
     "initial": "Initial",
     "final": "Final",
@@ -308,13 +307,6 @@
   },
   "morph": {
     "title": "Vowels that change shape",
-    "intro": "With a final consonant, many vowels are written differently: pieces are dropped, replaced, or the vowel vanishes entirely. Struck-through pieces are removed, filled ones are new.",
-    "groups": {
-      "short": "Short vowels",
-      "long": "Long vowels",
-      "compound": "Compound vowels",
-      "tone": "Tone marks"
-    },
     "from": "Open form",
     "to": "With a final",
     "toMark": "With a tone mark",

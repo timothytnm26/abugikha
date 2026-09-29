@@ -53,7 +53,7 @@ Every page is prerendered for each locale under `/vi/...` and `/en/...`, with lo
 
 1. **/ipa - Phonetics:** Explore consonants by place and manner of articulation, vowel positions, and the contours of all five tones. IPA transcriptions are accompanied by RTGS romanization.
 2. **/history - Script history:** Follow the script's lineage from Brahmi through Pallava, Old Khmer and Mon, and Sukhothai to modern Thai.
-3. **/abugida - Thai abugida:** Browse the 44 consonants in traditional order, vowel spellings, and all 10 digits. Less common consonants are muted and obsolete ones are struck through. Select a consonant to see its details and open the syllable builder with it.
+3. **/aksornthai - Aksorn Thai (อักษรไทย, the Thai script):** Browse the 44 consonants in traditional order, vowel spellings, and all 10 digits. Less common consonants are muted and obsolete ones are struck through. Select a consonant to see its details and open the syllable builder with it.
 4. **/lab - Syllable builder:** Combine consonants, vowels, tone marks, and final consonants to explore how Thai syllables are formed.
    - Each of the four composition slots represents a step in the process. Hover over or touch a slot to inspect the syllable and its explanation. For example, step 2 of หน้า is หนา /nǎː/.
    - A formula panel displays tone-rule notation, an explanation, and highlights the rule currently in use.

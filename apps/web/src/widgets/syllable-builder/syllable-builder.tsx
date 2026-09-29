@@ -7,6 +7,7 @@ import { ToneRuleTable, analyzeSyllable } from "@/entities/syllable";
 import { findWords, lexiconQueries } from "@/entities/lexicon";
 import { useBuilderStore, type PartKind } from "@/features/build-syllable";
 import { useLocale, useT } from "@/shared/i18n";
+import { usePreferences } from "@/shared/lib/preferences";
 import { speakThai } from "@/shared/lib/speech";
 import { SumStage } from "./sum-stage";
 import { PartPicker } from "./part-picker";
@@ -40,6 +41,8 @@ export function SyllableBuilder() {
       // Chọn cụm có ว khi nguyên âm là /ua/ → chuyển sang /aː/
       if (kind === "initial" && id && !vowelFitsInitial(VOWEL_BY_ID.get(s.vowelId)!, INITIAL_BY_ID.get(id)!.chars)) s.setPart("vowel", "aa");
       setPart(kind, id);
+      // Người dùng tắt âm thanh: chỉ hiện âm tiết, không đọc
+      if (!usePreferences.getState().autoSpeak) return;
       const next = useBuilderStore.getState();
       const a = analyzeSyllable({
         initial: INITIAL_BY_ID.get(next.initialId)!,

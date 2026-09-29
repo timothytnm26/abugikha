@@ -2,8 +2,6 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import {
   TONE_MARK_BY_ID,
-  MORPH_GROUPS,
-  MORPH_RULES,
   buildMorph,
   type MorphExample,
   type MorphRule,
@@ -19,9 +17,10 @@ import { useLocale, useT } from "@/shared/i18n";
 import { cn } from "@/shared/lib";
 import { gsap, prefersReducedMotion } from "@/shared/lib/gsap";
 import { speakThai } from "@/shared/lib/speech";
-import { Phonetic, SpeakButton } from "@/shared/ui";
+import { Phonetic } from "@/shared/ui";
 
-type Phase = "from" | "doomed" | "to";
+/** from → (final: phụ âm cuối xuất hiện) → doomed: đánh dấu mảnh bị bỏ → to: dạng mới */
+type Phase = "from" | "final" | "doomed" | "to";
 
 const holder = (p: string) => p.replace("C", "◌").replace("F", "◌");
 
@@ -141,61 +140,46 @@ function patternLabel(rule: MorphRule): string {
 
 const wordOf = (thai: string) => WORDS.find((w) => w.thai === thai);
 
-function Form({
-  label,
-  spelling,
-  tokens,
-  ipa,
-  toneColor,
-  active,
-}: {
-  label: string;
-  spelling: string;
-  tokens: MorphToken[];
-  ipa: string;
-  toneColor: string;
-  active: boolean;
-}) {
+/** Một dạng chữ gọn trên một dòng: chữ tô màu theo vai trò, IPA, nghĩa (nếu là từ có trong từ điển) */
+function FormInline({ label, spelling, tokens, ipa, toneColor, active }: { label: string; spelling: string; tokens: MorphToken[]; ipa: string; toneColor: string; active: boolean }) {
   const { locale } = useLocale();
   const t = useT();
   const word = wordOf(spelling);
   return (
-    <div className={cn("rounded-xl border px-3 py-2 transition-[opacity,border-color]", active ? "border-ink bg-paper" : "border-ink/10 opacity-60")}>
-      <p className="text-[11px] font-semibold uppercase tracking-wider text-ink-soft">{label}</p>
-      <p className="flex flex-wrap items-baseline gap-x-2">
-        <span className="text-2xl" aria-label={spelling}>
-          <ColoredWord tokens={tokens} toneColor={toneColor} />
-        </span>
-        <Phonetic ipa={ipa} className="text-sm" style={{ color: toneColor }} />
-        <span className="text-sm text-ink-soft">{word ? word.meaning[locale] : t.morph.sample}</span>
-      </p>
-    </div>
+    <span title={label} className={cn("inline-flex flex-wrap items-baseline gap-x-1.5 transition-opacity", !active && "opacity-50")}>
+      <span className="text-xl" aria-label={`${label}: ${spelling}`}>
+        <ColoredWord tokens={tokens} toneColor={toneColor} />
+      </span>
+      <Phonetic ipa={ipa} className="text-xs" style={{ color: toneColor }} />
+      <span className="text-xs text-ink-soft">{word ? word.meaning[locale] : t.morph.sample}</span>
+    </span>
   );
 }
 
 /**
- * "Nguyên âm biến hình": chọn một quy tắc, xem dạng mở đổi thành dạng có âm cuối.
- * Tự chạy lần lượt các quy tắc khi đang hiển thị; chọn tay (hoặc qua #morph-<id>) thì dừng tự chạy.
+ * Minh hoạ nguyên âm biến hình cho một chữ: dạng mở → mảnh bị bỏ → dạng mới.
+ * `rules` là các quy tắc của chữ đang chọn (vd. เ-อ có hai: thêm ◌ิ, hoặc gặp ย thì อ biến mất).
  */
-export function VowelMorph({ focusVowel }: { focusVowel?: string }) {
+export function MorphPanel({ rules, initialId }: { rules: MorphRule[]; initialId?: string }) {
   const t = useT();
   const { locale } = useLocale();
-  const [idx, setIdx] = useState(0);
-  const [auto, setAuto] = useState(true);
+  const [idx, setIdx] = useState(() => Math.max(0, rules.findIndex((r) => r.id === initialId)));
   const [run, setRun] = useState(0);
   const [phase, setPhase] = useState<Phase>("from");
   const [visible, setVisible] = useState(false);
   const root = useRef<HTMLElement>(null);
   const stage = useRef<HTMLDivElement>(null);
   const ghosts = useRef<HTMLDivElement>(null);
-  const list = useRef<HTMLDivElement>(null);
   const els = useRef(new Map<string, HTMLSpanElement>());
   const rects = useRef(new Map<string, DOMRect>());
 
-  const examples = useMemo(() => MORPH_RULES.map((r) => buildMorph(r, locale)), [locale]);
+  const examples = useMemo(() => rules.map((r) => buildMorph(r, locale)), [rules, locale]);
   const m: MorphExample = examples[idx]!;
   const removedKeys = useMemo(() => new Set(m.fromTokens.filter((a) => !m.toTokens.some((b) => b.key === a.key)).map((a) => a.key)), [m]);
-  const tokens = phase === "to" ? m.toTokens : m.fromTokens;
+  // Phụ âm cuối mới (quy tắc dấu thanh thì dạng mở đã có âm cuối nên không có)
+  const finalTok = useMemo(() => m.toTokens.find((b) => b.role === "final" && !m.fromTokens.some((a) => a.key === b.key)), [m]);
+  const tokens =
+    phase === "to" ? m.toTokens : finalTok && (phase === "final" || phase === "doomed") ? [...m.fromTokens, finalTok] : m.fromTokens;
   // Dấu bị bỏ / được thêm bên trong một mảnh giữ lại (vd. ว → วั, สั → ส, ล็ → ล่)
   const markDiff = useMemo(() => {
     const removed = new Set<string>();
@@ -210,41 +194,10 @@ export function VowelMorph({ focusVowel }: { focusVowel?: string }) {
   }, [m]);
   const addedKeys = useMemo(() => new Set(m.toTokens.filter((b) => !m.fromTokens.some((a) => a.key === b.key)).map((b) => b.key)), [m]);
 
-  const select = (i: number, user: boolean) => {
-    if (user) setAuto(false);
+  const select = (i: number) => {
     setIdx(i);
     setRun((n) => n + 1);
   };
-
-  // Mở trang với #morph-<id> (vd. từ trang Ghép chữ) → chọn quy tắc đó và cuộn tới
-  useEffect(() => {
-    const fromHash = () => {
-      const id = /^#morph-(.+)$/.exec(decodeURIComponent(location.hash))?.[1];
-      const i = MORPH_RULES.findIndex((r) => r.id === id);
-      if (i < 0) return;
-      select(i, true);
-      root.current?.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth", block: "start" });
-    };
-    fromHash();
-    window.addEventListener("hashchange", fromHash);
-    return () => window.removeEventListener("hashchange", fromHash);
-  }, []);
-
-  // Danh sách cuộn ngang (màn hình hẹp): kéo quy tắc đang chọn vào tầm nhìn, không cuộn cả trang
-  useEffect(() => {
-    const box = list.current;
-    const btn = box?.querySelector<HTMLElement>('[aria-pressed="true"]');
-    if (!box || !btn || box.scrollWidth <= box.clientWidth) return;
-    const left = btn.getBoundingClientRect().left - box.getBoundingClientRect().left + box.scrollLeft;
-    box.scrollTo({ left: Math.max(0, left - 16), behavior: prefersReducedMotion() ? "auto" : "smooth" });
-  }, [idx]);
-
-  // Chọn một nguyên âm ở bảng phía trên → nhảy tới quy tắc của nó (nếu có)
-  useEffect(() => {
-    if (!focusVowel) return;
-    const i = MORPH_RULES.findIndex((r) => r.id === focusVowel);
-    if (i >= 0) select(i, true);
-  }, [focusVowel]);
 
   useEffect(() => {
     const el = root.current;
@@ -254,24 +207,26 @@ export function VowelMorph({ focusVowel }: { focusVowel?: string }) {
     return () => io.disconnect();
   }, []);
 
-  // Dòng thời gian: dạng mở → đánh dấu mảnh bị bỏ → chuyển sang dạng mới → (tự chạy) quy tắc kế
+  // Dòng thời gian: dạng mở → đánh dấu mảnh bị bỏ → chuyển sang dạng mới
   useEffect(() => {
     setPhase("from");
     if (!visible) return;
     const reduce = prefersReducedMotion();
+    // Có âm cuối mới: cho nó xuất hiện trước, rồi mới đánh dấu và đổi nguyên âm
+    const at = finalTok ? (reduce ? [200, 500, 900] : [700, 1700, 2900]) : reduce ? [0, 300, 700] : [0, 900, 2100];
     const timers = [
-      setTimeout(() => setPhase("doomed"), reduce ? 300 : 900),
+      ...(finalTok ? [setTimeout(() => setPhase("final"), at[0])] : []),
+      setTimeout(() => setPhase("doomed"), at[1]),
       setTimeout(
         () => {
           rects.current = new Map([...els.current].map(([k, el]) => [k, el.getBoundingClientRect()]));
           setPhase("to");
         },
-        reduce ? 700 : 2100,
+        at[2],
       ),
     ];
-    if (auto) timers.push(setTimeout(() => setIdx((i) => (i + 1) % MORPH_RULES.length), 6000));
     return () => timers.forEach(clearTimeout);
-  }, [idx, run, visible, auto]);
+  }, [idx, run, visible, finalTok]);
 
   // Chuyển cảnh kiểu FLIP: mảnh giữ lại trượt về chỗ mới, mảnh bị bỏ rơi xuống, mảnh mới bay vào
   useLayoutEffect(() => {
@@ -317,132 +272,119 @@ export function VowelMorph({ focusVowel }: { focusVowel?: string }) {
   const shown = phase === "to" ? m.to : m.from;
   const shownTone = TONE_META[shown.tone].color;
 
-  return (
-    <section ref={root} id="bien-hinh" aria-labelledby="morph-title" className="scroll-mt-20">
-      <h2 id="morph-title" className="text-xl font-semibold">
-        {t.morph.title}
-      </h2>
-      <p className="mb-4 mt-1 max-w-3xl text-sm text-ink-soft">{t.morph.intro}</p>
+  const iconBtn =
+    "grid size-8 shrink-0 place-items-center rounded-full border border-ink/15 hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
+  const chip = "rounded-md px-1.5 py-0.5 text-xs font-semibold transition-opacity";
 
-      <div className="grid gap-4 md:grid-cols-[15rem_minmax(0,1fr)]">
-        <div ref={list} role="group" aria-label={t.morph.listAria} className="flex gap-3 overflow-x-auto pb-1 md:flex-col md:overflow-visible md:pb-0">
-          {MORPH_GROUPS.map((g) => (
-            <div key={g} className="shrink-0 md:shrink">
-              <p className="mb-1 text-[11px] font-semibold uppercase tracking-wider text-ink-soft">{t.morph.groups[g]}</p>
-              <div className="flex gap-1.5 md:flex-col">
-                {MORPH_RULES.map((r, i) =>
-                  r.group !== g ? null : (
-                    <button
-                      key={r.id}
-                      type="button"
-                      aria-pressed={i === idx}
-                      onClick={() => select(i, true)}
-                      className={cn(
-                        "grid min-w-44 grid-cols-[auto_1fr] items-center gap-x-3 rounded-xl border px-3 py-2 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink md:min-w-0",
-                        i === idx ? "border-ink bg-paper shadow-[inset_0_0_0_1px_var(--color-ink)]" : "border-ink/10 bg-paper-deep hover:border-ink/30",
-                      )}
-                    >
-                      <span className="row-span-2 whitespace-nowrap font-thai text-lg">
-                        <PatternText text={patternLabel(r)} toneColor={TONE_META[examples[i]!.to.tone].color} />
-                      </span>
-                      <span className="text-[13px] font-semibold leading-tight">{examples[i]!.to.spelling}</span>
-                      <span className="text-xs leading-tight text-ink-soft">{r.summary[locale]}</span>
-                    </button>
-                  ),
-                )}
-              </div>
-            </div>
+  return (
+    <section ref={root} aria-labelledby="morph-title">
+      <div className="flex items-center gap-2">
+        <h3 id="morph-title" className="min-w-0 flex-1 text-sm font-semibold">
+          {t.morph.title}{" "}
+          <span className="whitespace-nowrap font-thai text-lg font-normal">
+            <PatternText text={patternLabel(m.rule)} toneColor={TONE_META[m.to.tone].color} />
+          </span>
+        </h3>
+        <button type="button" onClick={() => speakThai(m.to.spelling)} aria-label={t.common.listen} title={t.common.listen} className={iconBtn}>
+          <svg aria-hidden viewBox="0 0 20 20" className="size-4 fill-current">
+            <path d="M3 8v4h3l4 4V4L6 8H3zm10.5 2a3.5 3.5 0 0 0-2-3.2v6.4a3.5 3.5 0 0 0 2-3.2zM11.5 3v1.6a5.5 5.5 0 0 1 0 10.8V17a7 7 0 0 0 0-14z" />
+          </svg>
+        </button>
+        <button type="button" onClick={() => select(idx)} aria-label={t.morph.replay} title={t.morph.replay} className={iconBtn}>
+          <svg aria-hidden viewBox="0 0 20 20" className="size-4 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M16 10a6 6 0 1 1-1.8-4.3M16 3.5v3.2h-3.2" />
+          </svg>
+        </button>
+      </div>
+      {rules.length > 1 && (
+        <div role="group" aria-label={t.morph.listAria} className="mt-2 flex flex-wrap gap-1.5">
+          {rules.map((r, i) => (
+            <button
+              key={r.id}
+              type="button"
+              aria-pressed={i === idx}
+              onClick={() => select(i)}
+              className={cn(
+                "rounded-full border px-2.5 py-0.5 text-xs font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
+                i === idx ? "border-ink bg-ink text-paper" : "border-ink/15 hover:border-ink/40",
+              )}
+            >
+              {r.summary[locale]}
+            </button>
           ))}
         </div>
+      )}
+      <p className="mt-1.5 text-xs leading-relaxed text-ink/80">{m.explanation}</p>
 
-        <div className="rounded-xl bg-paper-deep p-4 md:sticky md:top-20 md:self-start md:p-5" aria-live="polite">
-          <div className="flex flex-wrap items-start justify-between gap-3">
-            <div className="min-w-0 flex-1">
-              <h3 className="font-thai text-2xl">
-                <PatternText text={patternLabel(m.rule)} toneColor={TONE_META[m.to.tone].color} />
-              </h3>
-              <p className="mt-1 max-w-xl text-sm text-ink/80">{m.explanation}</p>
-            </div>
-            <div className="flex gap-2">
-              <SpeakButton text={m.to.spelling} />
-              <button
-                type="button"
-                onClick={() => select(idx, true)}
-                className="rounded-full border border-ink/15 px-3 py-1 text-sm font-medium hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
-              >
-                ↻ {t.morph.replay}
-              </button>
-            </div>
-          </div>
-
-          <div
-            ref={stage}
-            lang="th"
-            onClick={() => speakThai(shown.spelling)}
-            className="relative mt-4 h-[clamp(150px,22vw,200px)] cursor-pointer overflow-hidden rounded-xl bg-paper text-[clamp(64px,11vw,116px)]"
-          >
-            <div aria-hidden className="absolute inset-x-0 top-[30%] h-[44%] border-y-[1.5px] border-ink/20 bg-paper-deep/60" />
-            <div className="absolute inset-0 flex items-center justify-center gap-[0.03em]">
-              {tokens.map((tok) => (
-                <Piece
-                  key={tok.key}
-                  tok={tok}
-                  toneColor={shownTone}
-                  className="leading-[1.6]"
-                  pieceRef={(el) => {
-                    if (el) els.current.set(tok.key, el);
-                    else els.current.delete(tok.key);
-                  }}
-                  state={
-                    phase === "doomed" && removedKeys.has(tok.key) ? "doomed" : phase === "to" && addedKeys.has(tok.key) ? "born" : "idle"
-                  }
-                  markState={
-                    phase === "doomed" && markDiff.removed.has(tok.key) ? "doomed" : phase === "to" && markDiff.added.has(tok.key) ? "born" : "idle"
-                  }
-                />
-              ))}
-            </div>
-            <div ref={ghosts} aria-hidden className="pointer-events-none absolute inset-0" />
-          </div>
-
-          <ul className="mt-3 flex min-h-8 flex-wrap gap-1.5 text-sm font-semibold">
-            {m.removed.length === 0 && phase !== "from" && (
-              <li className="rounded-lg bg-paper px-2.5 py-1 font-medium text-ink-soft">{t.morph.unchanged}</li>
+      <div aria-live="polite">
+      <div
+        ref={stage}
+        lang="th"
+        onClick={() => speakThai(shown.spelling)}
+        className="relative mt-2 h-28 cursor-pointer overflow-hidden rounded-xl border border-ink/10 bg-paper text-[60px]"
+      >
+        <div aria-hidden className="absolute inset-x-0 top-[30%] h-[44%] border-y-[1.5px] border-ink/20 bg-paper-deep/60" />
+        <div className="absolute inset-0 flex items-center justify-center gap-[0.03em]">
+          {tokens.map((tok) => (
+            <Piece
+              key={tok.key}
+              tok={tok}
+              toneColor={shownTone}
+              className="leading-[1.6]"
+              pieceRef={(el) => {
+                if (el) els.current.set(tok.key, el);
+                else els.current.delete(tok.key);
+              }}
+              state={
+                phase === "doomed" && removedKeys.has(tok.key)
+                  ? "doomed"
+                  : tok.key === finalTok?.key
+                    ? phase === "final" ? "born" : "idle"
+                    : phase === "to" && addedKeys.has(tok.key) ? "born" : "idle"
+              }
+              markState={
+                phase === "doomed" && markDiff.removed.has(tok.key) ? "doomed" : phase === "to" && markDiff.added.has(tok.key) ? "born" : "idle"
+              }
+            />
+          ))}
+        </div>
+        <div ref={ghosts} aria-hidden className="pointer-events-none absolute inset-0" />
+      </div>
+        {/* Dạng mở → dạng mới trên một dòng, kèm mảnh bị bỏ / được thêm */}
+        <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1.5">
+          <FormInline label={t.morph.from} spelling={m.from.spelling} tokens={m.fromTokens} ipa={m.from.ipa} toneColor={TONE_META[m.from.tone].color} active={phase !== "to"} />
+          <span aria-hidden className="text-ink-soft">→</span>
+          <FormInline
+            label={m.rule.mark ? t.morph.toMark : t.morph.to}
+            spelling={m.to.spelling}
+            tokens={m.toTokens}
+            ipa={m.to.ipa}
+            toneColor={TONE_META[m.to.tone].color}
+            active={phase === "to"}
+          />
+          <span className="ml-auto flex flex-wrap gap-1">
+            {m.removed.length === 0 && (phase === "doomed" || phase === "to") && (
+              <span className="rounded-md bg-paper px-1.5 py-0.5 text-xs text-ink-soft">{t.morph.unchanged}</span>
             )}
             {m.removed.map((p, i) => (
-              <li
+              <span
                 key={`r${i}`}
-                className={cn("rounded-lg px-2.5 py-1 transition-opacity", phase === "from" ? "opacity-0" : "opacity-100")}
+                className={cn(chip, phase === "doomed" || phase === "to" ? "opacity-100" : "opacity-0")}
                 style={{ color: "var(--color-removed)", backgroundColor: soft("var(--color-removed)") }}
               >
-                − <span className="font-thai text-lg font-normal line-through decoration-2">{withHolder(p)}</span>
-              </li>
+                − <span className="font-thai text-base font-normal line-through decoration-2">{withHolder(p)}</span>
+              </span>
             ))}
             {m.added.map((p, i) => (
-              <li
+              <span
                 key={`a${i}`}
-                className={cn("rounded-lg px-2.5 py-1 transition-opacity delay-300", phase === "to" ? "opacity-100" : "opacity-0")}
+                className={cn(chip, "delay-300", phase === "to" || (p.role === "final" && phase !== "from") ? "opacity-100" : "opacity-0")}
                 style={{ color: roleColor(p.role, TONE_META[m.to.tone].color), backgroundColor: soft(roleColor(p.role, TONE_META[m.to.tone].color)) }}
               >
-                + <span className="font-thai text-lg font-normal">{withHolder(p)}</span>
-              </li>
+                + <span className="font-thai text-base font-normal">{withHolder(p)}</span>
+              </span>
             ))}
-          </ul>
-
-          <div className="mt-3 grid items-center gap-2 sm:grid-cols-[1fr_auto_1fr]">
-            <Form label={t.morph.from} spelling={m.from.spelling} tokens={m.fromTokens} ipa={m.from.ipa} toneColor={TONE_META[m.from.tone].color} active={phase !== "to"} />
-            <span aria-hidden className="justify-self-center text-xl text-ink-soft max-sm:rotate-90">
-              →
-            </span>
-            <Form
-              label={m.rule.mark ? t.morph.toMark : t.morph.to}
-              spelling={m.to.spelling}
-              tokens={m.toTokens}
-              ipa={m.to.ipa}
-              toneColor={TONE_META[m.to.tone].color}
-              active={phase === "to"}
-            />
-          </div>
+          </span>
         </div>
       </div>
     </section>
