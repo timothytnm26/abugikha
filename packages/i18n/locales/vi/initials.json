@@ -1,0 +1,11 @@
+{
+  "clusterNote": "Hai phụ âm đọc liền nhau, không chen nguyên âm.",
+  "silentHo": "ห không đọc, chỉ báo nhóm Cao: {chars} đọc là /{ipa}/ theo luật nhóm Cao.",
+  "note": {
+    "ทร": "ทร đọc thành /s/ như ซ (ทราย, ทราบ).",
+    "จร": "ร câm: จร đọc như จ (จริง).",
+    "สร": "ร câm: สร đọc như ส (สร้าง).",
+    "ศร": "ร câm: ศร đọc như ศ (ศรี).",
+    "อย": "อ không đọc, chỉ báo nhóm Trung. Chỉ có 4 từ: อย่า อยู่ อย่าง อยาก."
+  }
+}

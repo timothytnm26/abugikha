@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { CLASS_META, CONSONANT_BY_ID, consonantSpeech } from "@abugikha/core/consonant";
 import { ipaToRtgs } from "@abugikha/core";
-import { useL, useT } from "@/lib/i18n";
+import { fmt, useL, useT } from "@/lib/i18n";
 import { speakThai } from "@/lib/speech";
 import { syncNow } from "@/lib/sync";
 import { useColors } from "@/lib/theme";
@@ -33,16 +33,16 @@ export default function ConsonantScreen() {
       <View style={styles.hero}>
         <Text style={[styles.glyph, { color }]}>{item.char}</Text>
         <Text style={{ color, fontWeight: "600" }}>
-          {t.syllable.group(l(CLASS_META[item.cls].label))} · {CLASS_META[item.cls].thai}
+          {fmt(t.syllable.group, { cls: l(CLASS_META[item.cls].label) })} · {CLASS_META[item.cls].thai}
         </Text>
       </View>
       <Card>
-        <Row label={t.alphabet.keyword} value={`${item.word} · ${l(item.meaning)}`} />
-        <Row label={t.alphabet.initial} value={showPhonetic ? `/${item.initial}/ · ${ipaToRtgs(item.initial)}` : item.char} />
-        <Row label={t.alphabet.final} value={item.final ? (showPhonetic ? `/${item.final}/` : "✓") : t.alphabet.noFinal} />
+        <Row label={t.aksornthai.keyword} value={`${item.word} · ${l(item.meaning)}`} />
+        <Row label={t.aksornthai.initial} value={showPhonetic ? `/${item.initial}/ · ${ipaToRtgs(item.initial)}` : item.char} />
+        <Row label={t.aksornthai.final} value={item.final ? (showPhonetic ? `/${item.final}/` : "✓") : t.aksornthai.noFinal} />
       </Card>
       <View style={styles.actions}>
-        <Button label={`▶ ${t.alphabet.listenName}`} onPress={() => speakThai(consonantSpeech(item))} />
+        <Button label={`▶ ${t.aksornthai.listenName}`} onPress={() => speakThai(consonantSpeech(item))} />
         <Button label={mastered ? t.app.unmarkLearned : t.app.markLearned} onPress={toggle} color={color} />
       </View>
     </Screen>

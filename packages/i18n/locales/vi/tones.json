@@ -1,0 +1,16 @@
+{
+  "label": {
+    "mid": "Ngang",
+    "low": "Trầm",
+    "falling": "Rơi",
+    "high": "Cao",
+    "rising": "Vút"
+  },
+  "desc": {
+    "mid": "Giống thanh ngang, giữ đều ở giữa giọng.",
+    "low": "Thấp hơn thanh ngang, hơi đi xuống. Gần thanh huyền nhưng phẳng và trầm hơn.",
+    "falling": "Lên cao rồi rơi mạnh, như khi nói dứt khoát “Hả!”. Tiếng Việt không có thanh tương đương.",
+    "high": "Cao và hơi vút lên cuối. Gần thanh sắc nhưng kéo dài, không gắt.",
+    "rising": "Hạ xuống rồi vút lên, như giọng hỏi ngạc nhiên. Gần thanh hỏi."
+  }
+}

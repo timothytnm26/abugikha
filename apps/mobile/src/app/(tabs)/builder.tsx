@@ -4,7 +4,7 @@ import { CONSONANTS, CONSONANT_BY_ID, INITIAL_BY_ID, INITIAL_UNITS } from "@abug
 import { VOWELS, VOWEL_BY_ID, vowelFitsInitial, vowelGlyph } from "@abugikha/core/vowel";
 import { TONE_MARKS, TONE_META, analyzeSyllable, type ToneMarkId } from "@abugikha/core/syllable";
 import { ipaToRtgs } from "@abugikha/core";
-import { useL, useLocale, useT } from "@/lib/i18n";
+import { fmt, useL, useLocale, useT } from "@/lib/i18n";
 import { speakThai } from "@/lib/speech";
 import { useColors } from "@/lib/theme";
 import { progressKey, useLearning } from "@/store/learning";
@@ -61,7 +61,7 @@ export default function BuilderScreen() {
           </Text>
         )}
         <Text style={{ color: toneColor, fontWeight: "600" }}>
-          {t.syllable.tone(l(TONE_META[a.tone].label), TONE_META[a.tone].thai)} · {a.liveness === "live" ? t.syllable.live : t.syllable.dead}
+          {fmt(t.syllable.tone, { tone: l(TONE_META[a.tone].label), thai: TONE_META[a.tone].thai })} · {a.liveness === "live" ? t.syllable.live : t.syllable.dead}
         </Text>
         <Button label={`▶ ${t.common.listen}`} onPress={listen} />
       </Card>

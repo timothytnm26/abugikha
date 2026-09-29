@@ -3,7 +3,7 @@ import Link from "next/link";
 import { HeroMerge } from "@/widgets/hero-merge";
 import { CLASS_META, type ConsonantClass } from "@/entities/consonant";
 import { LEARNING_PATH } from "@/shared/config/routes";
-import { useLocale, useLocalePath, useT } from "@/shared/i18n";
+import { fmt, useLocale, useLocalePath, useT } from "@/shared/i18n";
 
 const GROUP_LETTERS: Record<ConsonantClass, string> = {
   mid: "ก จ ด ต บ ป อ ฎ ฏ",
@@ -47,7 +47,7 @@ export function HomePage() {
         {(["mid", "high", "low"] as const).map((c) => (
           <div key={c} className={`${CLASS_META[c].bg} rounded-3xl p-6 text-on-accent`}>
             <p className="text-xl font-semibold">
-              {t.home.groupName(CLASS_META[c].label[locale])} <span className="font-thai font-normal opacity-80">{CLASS_META[c].thai}</span>
+              {fmt(t.home.groupName, { cls: CLASS_META[c].label[locale] })} <span className="font-thai font-normal opacity-80">{CLASS_META[c].thai}</span>
             </p>
             <p className="mt-4 font-thai text-3xl leading-snug">{GROUP_LETTERS[c]}</p>
             <p className="mt-4 text-sm leading-relaxed opacity-90">{t.home.groupNotes[c]}</p>

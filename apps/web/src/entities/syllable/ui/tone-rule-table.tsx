@@ -4,7 +4,7 @@ import { CLASS_META, type ConsonantClass } from "../../consonant/@x/syllable";
 import { resolveTone, type SyllableAnalysis, type ToneMarkId } from "@abugikha/core/syllable";
 import { TONE_META } from "../model/tone";
 import { ToneContour } from "./tone-contour";
-import { useLocale, useT } from "@/shared/i18n";
+import { useLocale, useT, type Locale } from "@/shared/i18n";
 import { cn, tint } from "@/shared/lib";
 import { gsap, useGSAP, prefersReducedMotion } from "@/shared/lib/gsap";
 import { speakThai } from "@/shared/lib/speech";
@@ -24,7 +24,7 @@ export function toneColumnOf(a: SyllableAnalysis): ToneCol {
   return a.mark ?? (a.liveness === "live" ? "live" : a.length === "short" ? "dead-short" : "dead-long");
 }
 
-function toneFor(cls: ConsonantClass, col: ToneCol, locale: "vi" | "en") {
+function toneFor(cls: ConsonantClass, col: ToneCol, locale: Locale) {
   if (col === "live") return resolveTone({ cls, liveness: "live", length: "long", mark: null }, locale);
   if (col === "dead-short") return resolveTone({ cls, liveness: "dead", length: "short", mark: null }, locale);
   if (col === "dead-long") return resolveTone({ cls, liveness: "dead", length: "long", mark: null }, locale);

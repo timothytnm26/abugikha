@@ -1,0 +1,42 @@
+{
+  "a": {
+    "summary": "ะ nhường chỗ cho ◌ั"
+  },
+  "e": {
+    "summary": "ะ đổi thành ◌็"
+  },
+  "ae": {
+    "summary": "ะ đổi thành ◌็"
+  },
+  "o": {
+    "summary": "Nguyên âm biến mất"
+  },
+  "or": {
+    "summary": "Ba mảnh còn hai"
+  },
+  "uue": {
+    "summary": "อ rơi mất"
+  },
+  "ooe": {
+    "summary": "อ đổi thành ◌ิ"
+  },
+  "ooe-y": {
+    "summary": "Gặp ย: อ biến mất",
+    "rule": "Riêng khi âm cuối là ย, อ biến mất và ย đứng ngay chỗ đó, không cần ◌ิ: เ + ล + อ + ย → เลย."
+  },
+  "iia": {
+    "summary": "Giữ nguyên, thêm âm cuối",
+    "rule": "Nguyên âm ghép /ia/ gồm ba mảnh: เ trước, ◌ี trên và ย sau. Khi có âm cuối, cả ba mảnh giữ nguyên, âm cuối đứng sau ย."
+  },
+  "uuea": {
+    "summary": "Giữ nguyên, thêm âm cuối",
+    "rule": "Nguyên âm ghép /ɯa/ gồm เ trước, ◌ื trên và อ sau. Khác với ◌ือ đơn, อ ở đây không rơi khi có âm cuối."
+  },
+  "uua": {
+    "summary": "◌ั biến mất, còn ว"
+  },
+  "taikhu": {
+    "summary": "Dấu thanh đẩy ◌็ ra ngoài",
+    "rule": "◌็ và dấu thanh cùng tranh một chỗ trên phụ âm. Khi có dấu thanh, ◌็ bị bỏ và nguyên âm vẫn được hiểu là ngắn."
+  }
+}

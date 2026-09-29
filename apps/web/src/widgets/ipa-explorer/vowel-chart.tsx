@@ -2,7 +2,7 @@
 import { useRef, useState } from "react";
 import { DIPHTHONGS, VOWEL_PHONES, type VowelPhone } from "@/entities/phoneme";
 import { gsap, useGSAP } from "@/shared/lib/gsap";
-import { useLocale, useT } from "@/shared/i18n";
+import { fmt, useLocale, useT } from "@/shared/i18n";
 import { Phonetic, SpeakButton } from "@/shared/ui";
 import { cn } from "@/shared/lib";
 
@@ -67,7 +67,7 @@ export function VowelChart() {
                 role="button"
                 tabIndex={0}
                 aria-pressed={active}
-                aria-label={t.ipa.vowelAria(v.ipa)}
+                aria-label={fmt(t.ipa.vowelAria, { ipa: v.ipa })}
                 onClick={() => setSel(v)}
                 onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), setSel(v))}
                 className="cursor-pointer outline-none [&:focus-visible>circle]:stroke-ink [&:focus-visible>circle]:stroke-[3]"

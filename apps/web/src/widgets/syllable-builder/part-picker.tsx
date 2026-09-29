@@ -32,7 +32,7 @@ import {
   useSlotDrag,
   type PartKind,
 } from "@/features/build-syllable";
-import { useLocale, useT } from "@/shared/i18n";
+import { fmt, useLocale, useT } from "@/shared/i18n";
 import { usePreferences } from "@/shared/lib/preferences";
 import { cn } from "@/shared/lib";
 import { vowelCell } from "./notebook";
@@ -278,7 +278,7 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
                 key={c}
                 color={CLASS_META[c].color}
                 label={`${CLASS_SYMBOL[c]} ${CLASS_META[c].label[locale]}`}
-                hint={t.groups.classCount(CLASS_COUNT[c])}
+                hint={fmt(t.groups.classCount, { n: CLASS_COUNT[c] })}
               >
                 {rows.single[c].map(initialTile)}
               </Row>

@@ -27,7 +27,7 @@ import {
 import type { Word, WordMatches } from "@/entities/lexicon";
 import { useBuilderStore, type PartKind } from "@/features/build-syllable";
 import { MORPH_BY_VOWEL, MORPH_RULES } from "@abugikha/core/syllable";
-import { useLocale, useLocalePath, useT } from "@/shared/i18n";
+import { fmt, useLocale, useLocalePath, useT } from "@/shared/i18n";
 import { cn } from "@/shared/lib";
 import { paletteVar } from "@/shared/config/palette";
 import { gsap, useGSAP, prefersReducedMotion } from "@/shared/lib/gsap";
@@ -226,12 +226,9 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
     },
     {
       kind: "vowel",
-      title: t.syllable.placement(
-        a.placements.map((p) => t.syllable.where[p]).join(" + "),
-        initial.chars,
-      ),
+      title: fmt(t.syllable.placement, { sides: a.placements.map((p) => t.syllable.where[p]).join(" + "), initial: initial.chars }),
       detail: a.placements.includes("before")
-        ? t.syllable.placementBefore(initial.chars).trim()
+        ? fmt(t.syllable.placementBefore, { initial: initial.chars }).trim()
         : "",
     },
   ];
@@ -351,7 +348,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
   const taikhu = Boolean(a.mark) && (a.form === "closed" ? vowel.closed : vowel.open)?.includes("็");
   const notes: { id: string; text: string }[] = [];
   if (morphId && MORPH_RULES.find((r) => r.id === morphId)?.group !== "compound")
-    notes.push({ id: morphId, text: t.notebook.morphed(vowelGlyph(vowel, "open"), a.spelling) });
+    notes.push({ id: morphId, text: fmt(t.notebook.morphed, { from: vowelGlyph(vowel, "open"), to: a.spelling }) });
   if (taikhu) notes.push({ id: "taikhu", text: t.notebook.taikhu });
 
   const dockSlots = (
@@ -400,7 +397,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
                 multiInitial={initial.chars.length > 1}
                 onSelect={setTab}
                 onClear={(k) => setPart(k, null)}
-                clearLabel={(k) => t.builder.clearPart(t.builder.parts[k])}
+                clearLabel={(k) => fmt(t.builder.clearPart, { part: t.builder.parts[k] })}
                 labels={t.builder.parts}
                 popovers={popovers}
               />
@@ -438,7 +435,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
                   <>
                     <p className="text-xs text-ink-soft">
                       <span style={{ color: clsColor }}>
-                        {t.builder.formula.cls(CLASS_META[a.cls].label[locale])}
+                        {fmt(t.builder.formula.cls, { cls: CLASS_META[a.cls].label[locale] })}
                       </span>
                       {" + "}
                       {a.liveness === "live"
@@ -494,7 +491,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
                 <WordLine word={words.exact} />
                 {words.exact.ipa.normalize("NFC") !== a.ipa && (
                   <p className="px-1 text-xs text-high">
-                    {t.builder.irregular(words.exact.ipa)}
+                    {fmt(t.builder.irregular, { ipa: words.exact.ipa })}
                   </p>
                 )}
               </>

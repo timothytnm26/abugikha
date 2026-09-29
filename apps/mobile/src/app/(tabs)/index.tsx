@@ -1,14 +1,14 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { router } from "expo-router";
 import { CLASS_META, CONSONANTS } from "@abugikha/core/consonant";
-import { useL, useT } from "@/lib/i18n";
+import { fmt, useL, useT } from "@/lib/i18n";
 import { useColors } from "@/lib/theme";
 import { progressKey, useLearning } from "@/store/learning";
 import { Screen, SectionTitle } from "@/ui/screen";
 
 const LETTERS = CONSONANTS.filter((x) => !x.obsolete);
 
-export default function AlphabetScreen() {
+export default function AksornThaiScreen() {
   const t = useT();
   const l = useL();
   const c = useColors();
@@ -17,7 +17,7 @@ export default function AlphabetScreen() {
 
   return (
     <Screen>
-      <Text style={[styles.count, { color: c.ink }]}>{t.app.learned(learned, LETTERS.length)}</Text>
+      <Text style={[styles.count, { color: c.ink }]}>{fmt(t.app.learned, { n: learned, total: LETTERS.length })}</Text>
       <View style={styles.legend}>
         {(["mid", "high", "low"] as const).map((cls) => (
           <Text key={cls} style={{ color: c.accent(cls), fontWeight: "600" }}>
@@ -25,7 +25,7 @@ export default function AlphabetScreen() {
           </Text>
         ))}
       </View>
-      <SectionTitle>{t.alphabet.consonants}</SectionTitle>
+      <SectionTitle>{t.aksornthai.consonants}</SectionTitle>
       <View style={styles.grid}>
         {LETTERS.map((x) => {
           const done = progress[progressKey("consonant", x.id)]?.status === "mastered";

@@ -10,7 +10,7 @@ The repository is a Bun + Turborepo monorepo with a web app, a mobile app, and a
 | `apps/mobile` | Expo SDK 57 · Expo Router · Zustand + AsyncStorage (offline-first) · expo-secure-store · expo-speech | EAS Build / Expo Go |
 | `apps/api` | Hono · Cloudflare Workers · D1 (SQLite) · Drizzle ORM · zod | Cloudflare Workers |
 | `packages/core` | Pure TypeScript: consonants, vowels, tone rules, syllable analysis, lexicon, romanization, palette | — |
-| `packages/i18n` | `vi` / `en` interface dictionaries shared by web and mobile | — |
+| `packages/i18n` | Every user-facing string (UI, analysis explanations, content data) as per-locale JSON, shared by core, web, and mobile | — |
 | `packages/contracts` | zod schemas for the API plus a `fetch`-based client used by web, mobile, and tests | — |
 | `packages/eslint-config`, `packages/tsconfig` | Shared tooling config | — |
 
@@ -110,7 +110,7 @@ apps/
   api/                 Cloudflare Worker: src/modules, src/db, drizzle/ (migrations), test/
 packages/
   core/                Thai script data and engine (no React, no DOM); scripts/extract-strokes.py
-  i18n/                vi/en dictionaries
+  i18n/                locales/<locale>/*.json (all translations), fmt() and l10n() helpers
   contracts/           API schemas and client
   eslint-config/       Shared ESLint flat configs (base, react, next)
   tsconfig/            Shared TypeScript base config
@@ -131,11 +131,21 @@ Audio uses the Web Speech API on the web and `expo-speech` on mobile, both with 
 
 ## Localization, Themes, and Romanization
 
-- `packages/i18n` contains the `vi` and `en` interface dictionaries. Entity text uses the `L10n = { vi, en }` type from `@abugikha/core`. On the web the locale comes from the URL segment. The `locale` cookie only remembers the choice for the root redirect.
+- All translations live in `packages/i18n/locales/<locale>/` as JSON; no user-facing text is written in TypeScript. On the web the locale comes from the URL segment. The `locale` cookie only remembers the choice for the root redirect.
+
+  | File | Contents |
+  | --- | --- |
+  | `ui.json` | Web and mobile interface (`useT()`) |
+  | `analysis.json` | Step-by-step explanations produced by the syllable engine |
+  | `consonants.json`, `initials.json`, `vowels.json`, `tones.json` | Class and tone names, letter meanings, notes, approximate sounds |
+  | `phonemes.json`, `script-history.json`, `lexicon.json`, `morph.json` | IPA page, script-history graph, word meanings (keyed by the Thai word), vowel-morph rules |
+
+  Data in `@abugikha/core` keeps only language-neutral fields and builds its `L10n = Record<Locale, string>` values from these files with `l10n(["lexicon", "กา"])`, so UI code still reads `word.meaning[locale]`. Strings with parameters use `{name}` placeholders (optionally `{name|lower}`) and are rendered with `fmt(t.app.learned, { n, total })`.
+- `packages/i18n/src/catalog.ts` types every locale against the default one (`vi`), so a missing key fails `typecheck`; `packages/i18n/test` also checks that placeholders match. To add a language: add its code to `LOCALES` in `packages/i18n/src/locale.ts`, copy `locales/vi/` to `locales/<code>/`, translate, and register the files in `catalog.ts`. Any missing string in a non-default locale falls back to `vi` at runtime.
 - Light and dark theme tokens are CSS variables, with dark values defined under `[data-theme=dark]`. The default follows `prefers-color-scheme`; the selected theme is stored in the `theme` cookie and applied by a small head script before paint. Consonant-class and tone colors use CSS variables, so SVGs and inline styles follow the active theme. The default palette values also live in `@abugikha/core` (`DEFAULT_PALETTE`, `SURFACE_COLORS`) for the mobile app.
 - RTGS romanization (Royal Thai General System, Thailand's official romanization system) is generated from IPA by `packages/core/src/romanize.ts`. It omits tones and vowel length. Final ย becomes `-i`, final ว becomes `-o`, and both จ and ช are romanized as `ch`. Examples: หน้า → `na`, ควาย → `khwai`, แม่น้ำ → `maenam`.
 - Appearance preferences are stored in localStorage under `kaa-prefs` using Zustand persist. A small script in `<head>` applies the color palette before the page is painted to prevent a color flash.
 
 ## Stroke Data
 
-`packages/core/src/writing/strokes.json` contains centerline paths generated from the **Noto Sans Thai Looped** font by `packages/core/scripts/extract-strokes.py`. It is exported from the separate `@abugikha/core/writing/glyphs` entry point so the ~60 KB file is only bundled where it is imported. These paths are approximations, not verified handwriting stroke sequences, so the alphabet page currently shows static glyphs instead of animating them. The writing animation can return when reliable stroke-order references are available.
+`packages/core/src/writing/strokes.json` contains centerline paths generated from the **Noto Sans Thai Looped** font by `packages/core/scripts/extract-strokes.py`. It is exported from the separate `@abugikha/core/writing/glyphs` entry point so the ~60 KB file is only bundled where it is imported. These paths are approximations, not verified handwriting stroke sequences, so the abugida page currently shows static glyphs instead of animating them. The writing animation can return when reliable stroke-order references are available.

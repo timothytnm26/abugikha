@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, Switch, Text, TextInput, View } from "react-native";
-import type { Locale } from "@abugikha/core";
-import { useT } from "@/lib/i18n";
+import { DICTS, LOCALES, type Locale } from "@abugikha/i18n";
+import { fmt, useT } from "@/lib/i18n";
 import { api, ensureSession } from "@/lib/session";
 import { syncNow, useSyncStatus } from "@/lib/sync";
 import { useColors } from "@/lib/theme";
@@ -39,7 +39,7 @@ export default function ProfileScreen() {
       : status === "offline"
         ? t.app.profile.offline
         : lastSyncAt
-          ? t.app.profile.synced(new Date(lastSyncAt).toLocaleTimeString(locale))
+          ? fmt(t.app.profile.synced, { time: new Date(lastSyncAt).toLocaleTimeString(locale) })
           : t.app.profile.neverSynced;
 
   return (
@@ -65,10 +65,7 @@ export default function ProfileScreen() {
           setLocale(l as Locale);
           void syncNow();
         }}
-        options={[
-          { id: "vi", label: "Tiếng Việt" },
-          { id: "en", label: "English" },
-        ]}
+        options={LOCALES.map((id) => ({ id, label: DICTS[id].meta.languageName }))}
       />
 
       <Card>
@@ -87,7 +84,7 @@ export default function ProfileScreen() {
       <SectionTitle>{t.app.profile.progress}</SectionTitle>
       <Card>
         <Text style={{ color: c.ink }}>
-          {t.alphabet.consonants}: {counts.consonant ?? 0}
+          {t.aksornthai.consonants}: {counts.consonant ?? 0}
         </Text>
       </Card>
 

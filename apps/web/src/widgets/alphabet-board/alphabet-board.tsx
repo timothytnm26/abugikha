@@ -20,7 +20,7 @@ import {
 import { VowelMorph } from "@/entities/syllable";
 import { VOWEL_GROUPS, vowelGroup } from "@abugikha/core/vowel";
 import { useBuilderStore } from "@/features/build-syllable";
-import { useLocale, useLocalePath, useT } from "@/shared/i18n";
+import { fmt, useLocale, useLocalePath, useT } from "@/shared/i18n";
 import { cn, tint } from "@/shared/lib";
 import { speakThai } from "@/shared/lib/speech";
 import { Phonetic, SpeakButton } from "@/shared/ui";
@@ -86,18 +86,16 @@ export function AlphabetBoard() {
                   className="rounded-full px-2.5 py-0.5 text-xs font-medium text-on-accent"
                   style={{ backgroundColor: color }}
                 >
-                  {t.builder.formula.cls(
-                    CLASS_META[sel.item.cls].label[locale],
-                  )}
+                  {fmt(t.builder.formula.cls, { cls: CLASS_META[sel.item.cls].label[locale] })}
                 </span>
                 {sel.item.obsolete && (
                   <span className="rounded-full border border-ink/20 px-2 py-0.5 text-xs text-ink-soft">
-                    {t.alphabet.obsolete}
+                    {t.aksornthai.obsolete}
                   </span>
                 )}
               </div>
               <p className="text-sm text-ink-soft">
-                {sel.item.name} · {t.alphabet.keyword}:{" "}
+                {sel.item.name} · {t.aksornthai.keyword}:{" "}
                 <span className="font-thai text-base text-ink">
                   {sel.item.word}
                 </span>{" "}
@@ -106,20 +104,20 @@ export function AlphabetBoard() {
               <dl className="grid grid-cols-2 gap-2 text-sm">
                 <div className="rounded-xl bg-paper px-3 py-2">
                   <dt className="text-xs text-ink-soft">
-                    {t.alphabet.initial}
+                    {t.aksornthai.initial}
                   </dt>
                   <dd>
                     <Phonetic ipa={sel.item.initial} />
                   </dd>
                 </div>
                 <div className="rounded-xl bg-paper px-3 py-2">
-                  <dt className="text-xs text-ink-soft">{t.alphabet.final}</dt>
+                  <dt className="text-xs text-ink-soft">{t.aksornthai.final}</dt>
                   <dd>
                     {sel.item.final ? (
                       <Phonetic ipa={sel.item.final} />
                     ) : (
                       <span className="text-ink-soft">
-                        {t.alphabet.noFinal}
+                        {t.aksornthai.noFinal}
                       </span>
                     )}
                   </dd>
@@ -128,7 +126,7 @@ export function AlphabetBoard() {
               <div className="flex flex-wrap gap-2">
                 <SpeakButton
                   text={consonantSpeech(sel.item)}
-                  label={t.alphabet.listenName}
+                  label={t.aksornthai.listenName}
                 />
                 {INITIAL_BY_ID.has(sel.item.char) && (
                   <button
@@ -139,7 +137,7 @@ export function AlphabetBoard() {
                     }}
                     className="rounded-full border border-ink/15 px-3 py-1 text-sm font-medium hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
                   >
-                    {t.alphabet.tryIt} →
+                    {t.aksornthai.tryIt} →
                   </button>
                 )}
               </div>
@@ -158,7 +156,7 @@ export function AlphabetBoard() {
               </p>
               {sel.item.closed && (
                 <p className="text-sm">
-                  {t.alphabet.closedForm}:{" "}
+                  {t.aksornthai.closedForm}:{" "}
                   <span className="font-thai text-xl">
                     {vowelGlyph(sel.item, "closed")}
                   </span>
@@ -186,7 +184,7 @@ export function AlphabetBoard() {
                 }}
                 className="w-fit rounded-full border border-ink/15 px-3 py-1 text-sm font-medium hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
               >
-                {t.alphabet.tryVowel} →
+                {t.aksornthai.tryVowel} →
               </button>
             </>
           ) : (
@@ -196,14 +194,14 @@ export function AlphabetBoard() {
                 <Phonetic ipa={sel.item.ipa} className="text-ink-soft" />
               </div>
               <p className="text-sm">
-                {t.alphabet.value}:{" "}
+                {t.aksornthai.value}:{" "}
                 <span className="font-semibold">{sel.item.value}</span>
               </p>
               <SpeakButton text={sel.item.word} />
             </>
           )}
           <p className="text-[11px] leading-relaxed text-ink-soft">
-            {t.alphabet.traceNote}
+            {t.aksornthai.traceNote}
           </p>
         </div>
       </aside>
@@ -212,7 +210,7 @@ export function AlphabetBoard() {
         <section aria-labelledby="cons-title">
           <div className="mb-4 flex flex-wrap items-center gap-2">
             <h2 id="cons-title" className="mr-2 text-xl font-semibold">
-              {t.alphabet.consonants}
+              {t.aksornthai.consonants}
             </h2>
             {(["all", "mid", "high", "low"] as const).map((c) => (
               <button
@@ -233,7 +231,7 @@ export function AlphabetBoard() {
               </button>
             ))}
             <span className="ml-auto text-xs text-ink-soft">
-              {t.alphabet.rareHint}
+              {t.aksornthai.rareHint}
             </span>
           </div>
           <ul className="grid grid-cols-[repeat(auto-fill,minmax(4.5rem,1fr))] gap-2">
@@ -286,7 +284,7 @@ export function AlphabetBoard() {
 
         <section aria-labelledby="vowel-title">
           <h2 id="vowel-title" className="mb-4 text-xl font-semibold">
-            {t.alphabet.vowels}
+            {t.aksornthai.vowels}
           </h2>
           <div className="space-y-5">
             {VOWEL_GROUPS.map((g) => (
@@ -332,7 +330,7 @@ export function AlphabetBoard() {
 
         <section aria-labelledby="digit-title">
           <h2 id="digit-title" className="mb-4 text-xl font-semibold">
-            {t.alphabet.digits}
+            {t.aksornthai.digits}
           </h2>
           <ul className="grid grid-cols-5 gap-2 sm:grid-cols-10">
             {DIGITS.map((d) => {

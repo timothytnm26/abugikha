@@ -1,4 +1,5 @@
-import type { L10n, Locale } from "../i18n";
+import { l10n, l10nOptional, type L10n } from "@abugikha/i18n";
+import { DEFAULT_LOCALE, type Locale } from "../i18n";
 import { CONSONANT_BY_ID, INITIAL_BY_ID } from "../consonant";
 import { VOWEL_BY_ID } from "../vowel";
 import { analyzeSyllable } from "./analyze";
@@ -29,48 +30,27 @@ export interface MorphRule {
   rule?: L10n;
 }
 
-export const MORPH_RULES: MorphRule[] = [
-  { id: "a", group: "short", vowelId: "a", initial: "ว", final: "น", summary: { vi: "ะ nhường chỗ cho ◌ั", en: "ะ gives way to ◌ั" } },
-  { id: "e", group: "short", vowelId: "e", initial: "ต", final: "ม", summary: { vi: "ะ đổi thành ◌็", en: "ะ becomes ◌็" } },
-  { id: "ae", group: "short", vowelId: "ae", initial: "ข", final: "ง", summary: { vi: "ะ đổi thành ◌็", en: "ะ becomes ◌็" } },
-  { id: "o", group: "short", vowelId: "o", initial: "ค", final: "น", summary: { vi: "Nguyên âm biến mất", en: "The vowel disappears" } },
-  { id: "or", group: "short", vowelId: "or", initial: "ล", final: "ก", summary: { vi: "Ba mảnh còn hai", en: "Three pieces become two" } },
-  { id: "uue", group: "long", vowelId: "uue", initial: "ม", final: "ด", summary: { vi: "อ rơi mất", en: "อ drops" } },
-  { id: "ooe", group: "long", vowelId: "ooe", initial: "ด", final: "น", summary: { vi: "อ đổi thành ◌ิ", en: "อ becomes ◌ิ" } },
-  {
-    id: "ooe-y", group: "long", vowelId: "ooe", initial: "ล", final: "ย",
-    summary: { vi: "Gặp ย: อ biến mất", en: "Before ย: อ vanishes" },
-    rule: {
-      vi: "Riêng khi âm cuối là ย, อ biến mất và ย đứng ngay chỗ đó, không cần ◌ิ: เ + ล + อ + ย → เลย.",
-      en: "When the final is ย, อ disappears and ย takes its place with no ◌ิ: เ + ล + อ + ย → เลย.",
-    },
-  },
-  {
-    id: "iia", group: "compound", vowelId: "iia", initial: "ร", final: "น",
-    summary: { vi: "Giữ nguyên, thêm âm cuối", en: "Unchanged, final added" },
-    rule: {
-      vi: "Nguyên âm ghép /ia/ gồm ba mảnh: เ trước, ◌ี trên và ย sau. Khi có âm cuối, cả ba mảnh giữ nguyên, âm cuối đứng sau ย.",
-      en: "The compound vowel /ia/ has three pieces: เ before, ◌ี above and ย after. With a final, all three stay and the final follows ย.",
-    },
-  },
-  {
-    id: "uuea", group: "compound", vowelId: "uuea", initial: "ร", final: "น",
-    summary: { vi: "Giữ nguyên, thêm âm cuối", en: "Unchanged, final added" },
-    rule: {
-      vi: "Nguyên âm ghép /ɯa/ gồm เ trước, ◌ื trên và อ sau. Khác với ◌ือ đơn, อ ở đây không rơi khi có âm cuối.",
-      en: "The compound vowel /ɯa/ is เ before, ◌ื above and อ after. Unlike plain ◌ือ, this อ stays when a final is added.",
-    },
-  },
-  { id: "uua", group: "compound", vowelId: "uua", initial: "ส", final: "น", summary: { vi: "◌ั biến mất, còn ว", en: "◌ั vanishes, ว stays" } },
-  {
-    id: "taikhu", group: "tone", vowelId: "e", initial: "ล", final: "น", mark: "ek",
-    summary: { vi: "Dấu thanh đẩy ◌็ ra ngoài", en: "A tone mark pushes out ◌็" },
-    rule: {
-      vi: "◌็ và dấu thanh cùng tranh một chỗ trên phụ âm. Khi có dấu thanh, ◌็ bị bỏ và nguyên âm vẫn được hiểu là ngắn.",
-      en: "◌็ and a tone mark compete for the same spot above the consonant. With a tone mark, ◌็ is dropped and the vowel is still read as short.",
-    },
-  },
+const RULES: Omit<MorphRule, "summary" | "rule">[] = [
+  { id: "a", group: "short", vowelId: "a", initial: "ว", final: "น" },
+  { id: "e", group: "short", vowelId: "e", initial: "ต", final: "ม" },
+  { id: "ae", group: "short", vowelId: "ae", initial: "ข", final: "ง" },
+  { id: "o", group: "short", vowelId: "o", initial: "ค", final: "น" },
+  { id: "or", group: "short", vowelId: "or", initial: "ล", final: "ก" },
+  { id: "uue", group: "long", vowelId: "uue", initial: "ม", final: "ด" },
+  { id: "ooe", group: "long", vowelId: "ooe", initial: "ด", final: "น" },
+  { id: "ooe-y", group: "long", vowelId: "ooe", initial: "ล", final: "ย" },
+  { id: "iia", group: "compound", vowelId: "iia", initial: "ร", final: "น" },
+  { id: "uuea", group: "compound", vowelId: "uuea", initial: "ร", final: "น" },
+  { id: "uua", group: "compound", vowelId: "uua", initial: "ส", final: "น" },
+  { id: "taikhu", group: "tone", vowelId: "e", initial: "ล", final: "น", mark: "ek" },
 ];
+
+/** Tóm tắt và giải thích nằm ở locales/<locale>/morph.json, khoá là id quy tắc */
+export const MORPH_RULES: MorphRule[] = RULES.map((r) => ({
+  ...r,
+  summary: l10n(["morph", r.id, "summary"]),
+  rule: l10nOptional(["morph", r.id, "rule"]),
+}));
 
 export interface MorphPiece {
   text: string;
@@ -139,7 +119,7 @@ function minus(xs: MorphPiece[], ys: MorphPiece[]): MorphPiece[] {
   });
 }
 
-export function buildMorph(rule: MorphRule, locale: Locale = "vi"): MorphExample {
+export function buildMorph(rule: MorphRule, locale: Locale = DEFAULT_LOCALE): MorphExample {
   const initial = INITIAL_BY_ID.get(rule.initial);
   const vowel = VOWEL_BY_ID.get(rule.vowelId);
   const final = CONSONANT_BY_ID.get(rule.final);

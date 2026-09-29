@@ -4,7 +4,7 @@ import { CLASS_KEYS, DEFAULT_PALETTE, TONE_KEYS, type PaletteKey } from "@/share
 import { usePreferences } from "@/shared/lib/preferences";
 import { useEffectiveTheme } from "@/shared/lib/theme";
 import { useDismiss } from "@/shared/lib/use-dismiss";
-import { useLocale, useT, type L10n } from "@/shared/i18n";
+import { fmt, useLocale, useT, type L10n } from "@/shared/i18n";
 import { gsap, useGSAP, prefersReducedMotion } from "@/shared/lib/gsap";
 import { cn } from "@/shared/lib";
 
@@ -95,7 +95,7 @@ export function SettingsMenu() {
             {row(TONE_KEYS)}
           </div>
           <div className="flex items-center justify-between gap-3 border-t border-ink/10 pt-3 text-xs text-ink-soft">
-            <span>{t.settings.perTheme(theme === "dark" ? t.settings.dark : t.settings.light)}</span>
+            <span>{fmt(t.settings.perTheme, { theme: theme === "dark" ? t.settings.dark : t.settings.light })}</span>
             <button type="button" onClick={() => resetPalette(theme)} className="shrink-0 rounded-full border border-ink/15 px-3 py-1 font-medium text-ink hover:bg-ink hover:text-paper">
               {t.settings.reset}
             </button>

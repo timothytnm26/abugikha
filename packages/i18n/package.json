@@ -2,7 +2,7 @@
   "name": "@abugikha/i18n",
   "version": "0.1.0",
   "private": true,
-  "description": "Từ điển giao diện vi/en dùng chung cho web và mobile.",
+  "description": "Nguồn duy nhất cho mọi chuỗi đa ngôn ngữ (locales/<mã>/*.json), dùng chung cho core, web và mobile.",
   "type": "module",
   "sideEffects": false,
   "exports": {
@@ -10,15 +10,14 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "lint": "eslint ."
-  },
-  "dependencies": {
-    "@abugikha/core": "workspace:*"
+    "lint": "eslint .",
+    "test": "vitest run"
   },
   "devDependencies": {
     "@abugikha/eslint-config": "workspace:*",
     "@abugikha/tsconfig": "workspace:*",
     "eslint": "^9.39.5",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.11"
   }
 }

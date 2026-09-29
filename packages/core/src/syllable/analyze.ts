@@ -1,11 +1,11 @@
 import { CLASS_META, type FinalSound } from "../consonant";
 import { closedPattern, vowelFitsInitial, vowelPlacements } from "../vowel";
-import type { Locale } from "../i18n";
+import { DEFAULT_LOCALE, type Locale } from "../i18n";
 import { TONE_MARK_BY_ID, TONE_META } from "./tone";
 import type { RuleStep, Segment, SyllableAnalysis, SyllableInput } from "./types";
 import { toneKey } from "../theme";
 import { resolveTone } from "./tone-rules";
-import { MSG } from "./messages";
+import { CATALOGS, fmt } from "@abugikha/i18n";
 
 const SONORANT_FINALS: FinalSound[] = ["m", "n", "ŋ", "j", "w"];
 const ABOVE_BELOW = /^[ัิีึืุู]/;
@@ -42,9 +42,9 @@ function spell(pattern: string, input: SyllableInput): Segment[] {
 
 const withTone = (ipa: string, diacritic: string) => (diacritic ? ipa[0] + diacritic + ipa.slice(1) : ipa);
 
-export function analyzeSyllable(input: SyllableInput, locale: Locale = "vi"): SyllableAnalysis {
+export function analyzeSyllable(input: SyllableInput, locale: Locale = DEFAULT_LOCALE): SyllableAnalysis {
   const { initial, vowel } = input;
-  const m = MSG[locale];
+  const m = CATALOGS[locale].analysis;
   const warnings: string[] = [];
   const steps: RuleStep[] = [];
   const cls = initial.cls;
@@ -53,26 +53,26 @@ export function analyzeSyllable(input: SyllableInput, locale: Locale = "vi"): Sy
   // 1. Phụ âm đầu (đơn / ghép / chữ nhấn) – nhóm luôn theo chữ đứng đầu
   const noteText = initial.note?.[locale];
   if (initial.kind === "single") {
-    steps.push({ kind: "class", title: m.single(initial.chars, clsLabel), detail: m.singleDetail(initial.chars, CLASS_META[cls].thai, initial.ipa), accent: cls });
+    steps.push({ kind: "class", title: fmt(m.single, { ch: initial.chars, cls: clsLabel }), detail: fmt(m.singleDetail, { ch: initial.chars, thai: CLASS_META[cls].thai, ipa: initial.ipa }), accent: cls });
   } else if (initial.kind === "cluster") {
-    steps.push({ kind: "class", title: m.cluster(initial.chars, clsLabel), detail: m.clusterDetail(initial.chars, initial.head, clsLabel, initial.ipa), accent: cls });
+    steps.push({ kind: "class", title: fmt(m.cluster, { ch: initial.chars, cls: clsLabel }), detail: fmt(m.clusterDetail, { ch: initial.chars, head: initial.head, cls: clsLabel, ipa: initial.ipa }), accent: cls });
   } else if (initial.kind === "false-cluster") {
-    steps.push({ kind: "class", title: m.falseCluster(initial.chars, clsLabel), detail: `${noteText ?? ""} ${m.leadingDetail(initial.head, clsLabel)}`.trim(), accent: cls });
+    steps.push({ kind: "class", title: fmt(m.falseCluster, { ch: initial.chars, cls: clsLabel }), detail: `${noteText ?? ""} ${fmt(m.leadingDetail, { head: initial.head, cls: clsLabel })}`.trim(), accent: cls });
   } else {
-    steps.push({ kind: "class", title: m.leading(initial.chars, clsLabel), detail: `${noteText ?? ""} ${m.leadingDetail(initial.head, clsLabel)}`.trim(), accent: cls });
+    steps.push({ kind: "class", title: fmt(m.leading, { ch: initial.chars, cls: clsLabel }), detail: `${noteText ?? ""} ${fmt(m.leadingDetail, { head: initial.head, cls: clsLabel })}`.trim(), accent: cls });
   }
 
-  if (!vowelFitsInitial(vowel, initial.chars)) warnings.push(m.wCluster(initial.chars));
+  if (!vowelFitsInitial(vowel, initial.chars)) warnings.push(fmt(m.wCluster, { ch: initial.chars }));
 
   // 2. Hình nguyên âm: mở hay đóng
   let final = input.final ?? null;
   let finalDropped = false;
   if (final && !final.final) {
-    warnings.push(m.noFinal(final.char));
+    warnings.push(fmt(m.noFinal, { ch: final.char }));
     final = null;
   }
   if (final && vowel.excludeFinals?.includes(final.char)) {
-    warnings.push(m.excluded(final.char));
+    warnings.push(fmt(m.excluded, { ch: final.char }));
     final = null;
     finalDropped = true;
   }
@@ -91,8 +91,8 @@ export function analyzeSyllable(input: SyllableInput, locale: Locale = "vi"): Sy
   if (final && finalSound) {
     steps.push({
       kind: "final",
-      title: m.finalAs(final.char, finalSound),
-      detail: final.initial !== finalSound ? m.finalChanged(final.char, final.initial, finalSound) : m.finalSame(final.char, finalSound),
+      title: fmt(m.finalAs, { ch: final.char, sound: finalSound }),
+      detail: final.initial !== finalSound ? fmt(m.finalChanged, { ch: final.char, initial: final.initial, final: finalSound }) : fmt(m.finalSame, { ch: final.char, sound: finalSound }),
     });
   }
 
@@ -101,10 +101,10 @@ export function analyzeSyllable(input: SyllableInput, locale: Locale = "vi"): Sy
   let reason: string;
   if (vowel.alwaysLive) {
     liveness = "live";
-    reason = m.liveSpecial(vowel.open.replace("C", "◌"), vowel.ipa.slice(-1));
+    reason = fmt(m.liveSpecial, { vowel: vowel.open.replace("C", "◌"), sound: vowel.ipa.slice(-1) });
   } else if (finalSound) {
     liveness = SONORANT_FINALS.includes(finalSound) ? "live" : "dead";
-    reason = liveness === "live" ? m.liveFinal(finalSound) : m.deadFinal(finalSound);
+    reason = liveness === "live" ? fmt(m.liveFinal, { sound: finalSound }) : fmt(m.deadFinal, { sound: finalSound });
   } else {
     liveness = vowel.length === "long" ? "live" : "dead";
     reason = liveness === "live" ? m.liveOpen : m.deadOpen;
@@ -117,9 +117,9 @@ export function analyzeSyllable(input: SyllableInput, locale: Locale = "vi"): Sy
   if (irregular) warnings.push(irregular);
   if (mark) {
     const tm = TONE_MARK_BY_ID.get(mark)!;
-    steps.push({ kind: "mark", title: m.markTitle(tm.thai, tm.char), detail: m.markDetail(initial.chars.slice(-1), placements.includes("above")) });
+    steps.push({ kind: "mark", title: fmt(m.markTitle, { thai: tm.thai, ch: tm.char }), detail: fmt(m.markDetail, { last: initial.chars.slice(-1), above: placements.includes("above") ? m.markAbove : "" }) });
   }
-  steps.push({ kind: "result", title: m.result(TONE_META[tone].label[locale], TONE_META[tone].thai), detail: rule, accent: toneKey(tone) });
+  steps.push({ kind: "result", title: fmt(m.result, { tone: TONE_META[tone].label[locale], thai: TONE_META[tone].thai }), detail: rule, accent: toneKey(tone) });
 
   const nucleus = withTone(vowel.ipa, TONE_META[tone].diacritic);
   const coda = finalSound ?? (vowel.length === "short" && !vowel.alwaysLive ? "ʔ" : "");

@@ -1,4 +1,6 @@
 import { DICTS, type L10n } from "@abugikha/i18n";
+
+export { fmt } from "@abugikha/i18n";
 import { useLearning } from "@/store/learning";
 
 export const useLocale = () => useLearning((s) => s.locale);

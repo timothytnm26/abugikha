@@ -1,7 +1,7 @@
 "use client";
 import { createContext, useCallback, useContext, useMemo, type ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { DICTS, type L10n, type Locale } from "@abugikha/i18n";
+import { DEFAULT_LOCALE, DICTS, type L10n, type Locale } from "@abugikha/i18n";
 import { setCookie } from "../lib/cookie";
 import { localizePath, stripLocale } from "../config/routes";
 
@@ -9,7 +9,7 @@ interface Ctx {
   locale: Locale;
   setLocale: (l: Locale) => void;
 }
-const LocaleContext = createContext<Ctx>({ locale: "vi", setLocale: () => {} });
+const LocaleContext = createContext<Ctx>({ locale: DEFAULT_LOCALE, setLocale: () => {} });
 
 /** Locale lấy từ segment `/[locale]` của URL; đổi ngôn ngữ = chuyển sang cùng trang ở locale kia. */
 export function LocaleProvider({ locale, children }: { locale: Locale; children: ReactNode }) {

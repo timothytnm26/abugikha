@@ -1,0 +1,42 @@
+{
+  "approx": {
+    "a": "u in “cut”",
+    "aa": "a in “father”",
+    "i": "i in “bit”",
+    "ii": "ee in “see”",
+    "ue": "“oo” with spread lips (short)",
+    "uue": "“oo” with spread lips (long)",
+    "u": "u in “put”",
+    "uu": "oo in “food”",
+    "e": "e in “bet”, tenser",
+    "ee": "a in “gate”, no glide",
+    "ae": "a in “cat” (short)",
+    "aae": "a in “cat” (long)",
+    "o": "o in “go”, short, no glide",
+    "oo": "o in “go”, no glide",
+    "or": "o in British “hot”",
+    "oor": "aw in “law”",
+    "oe": "u in “hurt”, short",
+    "ooe": "ir in British “bird”",
+    "ia": "ia in “Maria”, short",
+    "iia": "ea in “idea”",
+    "uea": "spread-lip “oo” + a, short",
+    "uuea": "spread-lip “oo” gliding to a",
+    "ua": "ua in “truant”, short",
+    "uua": "ua in “truant”",
+    "am": "um in “rum”",
+    "ai-muan": "i in “bite” (only ~20 words)",
+    "ai-malai": "i in “bite”",
+    "ao": "ow in “cow”"
+  },
+  "closedNote": {
+    "a": "ะ becomes ◌ั (mai han-akat) above the initial: ก + ะ + น → กัน",
+    "uue": "With a final, อ is dropped: ค + ือ + น → คืน",
+    "e": "ะ becomes ◌็ (mai taikhu): เ + ล + ะ + ก → เล็ก",
+    "ae": "ะ becomes ◌็: แ + ข + ะ + ง → แข็ง",
+    "o": "The vowel disappears from writing: ก + น → กน /kon/ (hidden vowel)",
+    "or": "เ-าะ becomes ◌็อ: ล็อก (rare, mostly loanwords)",
+    "ooe": "อ becomes ◌ิ: เ + ด + อ + น → เดิน. Before ย it is written เ-ย: เลย",
+    "uua": "◌ั is dropped: ค + ัว + น → ควร, ส + ัว + น → สวน"
+  }
+}

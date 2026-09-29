@@ -7,7 +7,7 @@ export function AlphabetPage() {
   const t = useT();
   return (
     <>
-      <PageIntro title={t.alphabet.title} compact>{t.alphabet.intro}</PageIntro>
+      <PageIntro title={t.aksornthai.title} compact>{t.aksornthai.intro}</PageIntro>
       <AlphabetBoard />
     </>
   );

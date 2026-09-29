@@ -2,7 +2,7 @@
 import { CLASS_META } from "../../consonant/@x/syllable";
 import type { SyllableAnalysis } from "@abugikha/core/syllable";
 import { TONE_META } from "../model/tone";
-import { useT } from "@/shared/i18n";
+import { fmt, useT } from "@/shared/i18n";
 
 const COMBINING = /^[\u0E31\u0E34-\u0E3A\u0E47-\u0E4E]/;
 
@@ -30,8 +30,8 @@ export function PlacementNote({ analysis }: { analysis: SyllableAnalysis }) {
       </div>
       {sides && (
         <p>
-          {t.syllable.placement(sides, initial)}
-          {analysis.placements.includes("before") && t.syllable.placementBefore(initial)}
+          {fmt(t.syllable.placement, { sides, initial })}
+          {analysis.placements.includes("before") && fmt(t.syllable.placementBefore, { initial })}
         </p>
       )}
     </div>

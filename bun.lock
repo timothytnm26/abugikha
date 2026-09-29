@@ -105,6 +105,9 @@
     "packages/core": {
       "name": "@abugikha/core",
       "version": "0.1.0",
+      "dependencies": {
+        "@abugikha/i18n": "workspace:*",
+      },
       "devDependencies": {
         "@abugikha/eslint-config": "workspace:*",
         "@abugikha/tsconfig": "workspace:*",
@@ -130,14 +133,12 @@
     "packages/i18n": {
       "name": "@abugikha/i18n",
       "version": "0.1.0",
-      "dependencies": {
-        "@abugikha/core": "workspace:*",
-      },
       "devDependencies": {
         "@abugikha/eslint-config": "workspace:*",
         "@abugikha/tsconfig": "workspace:*",
         "eslint": "^9.39.5",
         "typescript": "^5.9.3",
+        "vitest": "^4.1.11",
       },
     },
     "packages/tsconfig": {
