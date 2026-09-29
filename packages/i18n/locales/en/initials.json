@@ -1,0 +1,11 @@
+{
+  "clusterNote": "Two consonants said together, with no vowel between.",
+  "silentHo": "ห is silent and only marks high class: {chars} is read /{ipa}/ with high-class rules.",
+  "note": {
+    "ทร": "ทร is read /s/, like ซ (ทราย, ทราบ).",
+    "จร": "Silent ร: จร is read like จ (จริง).",
+    "สร": "Silent ร: สร is read like ส (สร้าง).",
+    "ศร": "Silent ร: ศร is read like ศ (ศรี).",
+    "อย": "อ is silent and only marks mid class. Only 4 words: อย่า อยู่ อย่าง อยาก."
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "name": "@abugikha/core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Dữ liệu và logic thuần TypeScript về chữ Thái (phụ âm, nguyên âm, thanh điệu, ghép âm tiết), dùng chung cho web, mobile và API.",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts",
+    "./consonant": "./src/consonant/index.ts",
+    "./vowel": "./src/vowel/index.ts",
+    "./syllable": "./src/syllable/index.ts",
+    "./lexicon": "./src/lexicon/index.ts",
+    "./phoneme": "./src/phoneme/index.ts",
+    "./script-history": "./src/script-history/index.ts",
+    "./writing": "./src/writing/index.ts",
+    "./writing/glyphs": "./src/writing/glyphs.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@abugikha/i18n": "workspace:*"
+  },
+  "devDependencies": {
+    "@abugikha/eslint-config": "workspace:*",
+    "@abugikha/tsconfig": "workspace:*",
+    "eslint": "^9.39.5",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.11"
+  }
+}

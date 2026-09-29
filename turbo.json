@@ -1,0 +1,15 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "stream",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "env": ["GITHUB_PAGES", "GITHUB_REPOSITORY", "NEXT_PUBLIC_*"],
+      "outputs": ["out/**", ".next/**", "!.next/cache/**", "dist/**"]
+    },
+    "typecheck": { "dependsOn": ["^typecheck"] },
+    "lint": {},
+    "test": {},
+    "dev": { "cache": false, "persistent": true }
+  }
+}

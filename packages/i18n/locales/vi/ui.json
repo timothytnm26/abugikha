@@ -1,0 +1,353 @@
+{
+  "meta": {
+    "languageName": "Tiếng Việt",
+    "ogLocale": "vi_VN",
+    "title": "Abugikha - Phòng thí nghiệm chữ Thái",
+    "description": "Khám phá âm thanh, lịch sử chữ viết, âm tiết và thanh điệu tiếng Thái cùng Abugikha.",
+    "ipa": "Âm vị IPA",
+    "history": "Lịch sử chữ Thái",
+    "aksornthai": "Aksorn Thai – chữ Thái",
+    "lab": "Ghép chữ"
+  },
+  "app": {
+    "tabs": {
+      "learn": "Học chữ",
+      "builder": "Ghép chữ",
+      "profile": "Hồ sơ"
+    },
+    "learned": "Đã thuộc {n}/{total}",
+    "markLearned": "Đánh dấu đã thuộc",
+    "unmarkLearned": "Bỏ đánh dấu",
+    "profile": {
+      "displayName": "Tên hiển thị",
+      "displayNamePlaceholder": "Bạn muốn được gọi là gì?",
+      "save": "Lưu",
+      "language": "Ngôn ngữ",
+      "showPhonetic": "Hiện IPA / RTGS",
+      "progress": "Tiến độ",
+      "sync": "Đồng bộ",
+      "syncNow": "Đồng bộ ngay",
+      "synced": "Đã đồng bộ lúc {time}",
+      "neverSynced": "Chưa đồng bộ",
+      "offline": "Chưa kết nối được máy chủ, dữ liệu vẫn được lưu trên máy.",
+      "syncing": "Đang đồng bộ…",
+      "anonymousNote": "Tài khoản ẩn danh gắn với máy này. Đăng nhập để dùng trên nhiều thiết bị sẽ có sau."
+    }
+  },
+  "common": {
+    "listen": "Nghe",
+    "stepOf": "Bước {n} / {total}",
+    "none": "Không",
+    "rtgsHint": "RTGS: phiên âm chính thức của Thái Lan, không ghi thanh và độ dài nguyên âm"
+  },
+  "voice": {
+    "unsupported": "Trình duyệt này không hỗ trợ đọc giọng nói. Hãy dùng Chrome, Edge hoặc Safari bản mới.",
+    "missing": "Máy chưa có giọng đọc tiếng Thái nên âm thanh có thể sai. Cài gói giọng nói Thai (th-TH) trong cài đặt ngôn ngữ của hệ điều hành rồi tải lại trang."
+  },
+  "nav": {
+    "home": "Trang chủ",
+    "path": "Lộ trình học",
+    "openMenu": "Mở menu",
+    "settings": "Tuỳ chỉnh",
+    "closeMenu": "Đóng menu",
+    "classColors": "Màu nhóm phụ âm",
+    "toDark": "Chuyển sang giao diện tối",
+    "toLight": "Chuyển sang giao diện sáng",
+    "switchLocale": "Switch to English",
+    "localeShort": "EN"
+  },
+  "routes": {
+    "ipa": {
+      "title": "Âm vị IPA",
+      "blurb": "Nghe và nhìn các âm của tiếng Thái trước khi học mặt chữ."
+    },
+    "history": {
+      "title": "Lịch sử chữ viết",
+      "blurb": "Từ chữ Brahmi đến chữ Thái hiện đại qua sơ đồ tương tác."
+    },
+    "aksornthai": {
+      "title": "Aksorn Thai",
+      "blurb": "Khám phá phụ âm và các dạng viết nguyên âm trong chữ Thái."
+    },
+    "builder": {
+      "title": "Ghép chữ",
+      "blurb": "Ghép phụ âm, nguyên âm, âm cuối, dấu thanh và xem công thức ra thanh bằng màu."
+    }
+  },
+  "home": {
+    "heroMeaning": "tiểu từ lịch sự, thanh Rơi",
+    "headline": "Khám phá chữ Thái qua từng âm tiết.",
+    "body": "Lắng nghe các âm, tìm hiểu lịch sử chữ viết và xem phụ âm, nguyên âm, thanh điệu kết hợp trong từng âm tiết.",
+    "cta": "Bắt đầu ghép chữ",
+    "pathTitle": "Lộ trình",
+    "groupsLabel": "Ba nhóm phụ âm",
+    "groupName": "Nhóm {cls}",
+    "groupNotes": {
+      "mid": "9 chữ. Là nhóm duy nhất dùng được cả 4 dấu thanh.",
+      "high": "11 chữ. Không dấu, âm sống đọc thanh Vút.",
+      "low": "24 chữ. Dấu ่ và ้ cho thanh cao hơn một bậc so với hai nhóm kia."
+    }
+  },
+  "ipa": {
+    "title": "Âm của tiếng Thái",
+    "intro": "Trước khi nhìn mặt chữ, hãy làm quen với âm thanh. Bấm vào từng ký hiệu IPA để nghe ví dụ và so sánh với âm tiếng Việt gần nhất.",
+    "cTitle": "21 phụ âm đầu",
+    "cDesc": "Xếp theo chỗ phát âm (cột) và cách phát âm (hàng). Chú ý hàng “bật hơi”: đây là chỗ người Việt hay nhầm nhất.",
+    "vTitle": "9 nguyên âm đơn, mỗi âm có bản ngắn và dài",
+    "vDesc": "Vị trí trên hình là vị trí của lưỡi trong miệng. Người Việt có sẵn gần như đủ các âm này.",
+    "tTitle": "5 thanh điệu",
+    "tDesc": "Cùng khung /kʰaː/ nhưng 5 thanh cho 5 nghĩa khác nhau. Bấm để nghe và xem đường nét cao độ.",
+    "trapLegend": "Âm dễ đọc nhầm",
+    "trapAria": "Dễ đọc nhầm",
+    "lettersTitle": "Các chữ Thái ghi âm này",
+    "multiClass": "Cùng một âm nhưng có chữ thuộc nhiều nhóm. Nhóm không đổi cách phát âm phụ âm, mà quyết định thanh điệu của cả âm tiết.",
+    "front": "Lưỡi đưa ra trước",
+    "back": "Lưỡi lùi về sau",
+    "high": "Cao",
+    "low": "Thấp",
+    "rounded": "Vòng nét đứt: nguyên âm tròn môi.",
+    "diphthongs": "Nguyên âm đôi:",
+    "short": "ngắn",
+    "long": "dài",
+    "lengthNote": "Độ dài nguyên âm là khác biệt về nghĩa trong tiếng Thái, và còn ảnh hưởng tới thanh điệu. Viền nét đứt = ngắn, viền liền = dài; quy ước này dùng xuyên suốt trang web.",
+    "vowelChartAria": "Hình thang nguyên âm",
+    "toneChartAria": "Đường nét 5 thanh điệu theo thang 1 đến 5",
+    "vowelAria": "Nguyên âm {ipa}"
+  },
+  "history": {
+    "title": "Chữ Thái đến từ đâu",
+    "intro": "Chữ Thái là một abugida: phụ âm là trung tâm, nguyên âm bám quanh nó. Cấu trúc ấy được thừa hưởng qua hơn 2000 năm. Bấm vào từng hệ chữ để xem dòng dõi của nó.",
+    "legendDescent": "phát triển từ",
+    "legendInfluence": "ảnh hưởng",
+    "legendKa": "Chữ trong vòng tròn: chữ “ka” của hệ chữ đó (nếu có trong Unicode)",
+    "lineage": "Dòng dõi",
+    "graphAria": "Sơ đồ phả hệ chữ viết"
+  },
+  "settings": {
+    "title": "Tuỳ chỉnh",
+    "phonetic": "Hiện IPA / RTGS trên các ô chọn",
+    "phoneticHint": "Tắt khi bạn đã thuộc cách đọc và tên của chúng.",
+    "autoSpeak": "Tự đọc khi ghép chữ",
+    "autoSpeakHint": "Tắt để chỉ xem âm tiết. Bấm vào kết quả khi muốn nghe.",
+    "classColors": "Màu nhóm phụ âm",
+    "toneColors": "Màu thanh điệu",
+    "perTheme": "Đang chỉnh bảng màu cho giao diện {theme}.",
+    "light": "sáng",
+    "dark": "tối",
+    "reset": "Khôi phục màu mặc định"
+  },
+  "aksornthai": {
+    "title": "Aksorn Thai – chữ Thái",
+    "intro": "Khám phá 44 phụ âm theo thứ tự truyền thống và các dạng viết nguyên âm kết hợp với chúng. Chọn một chữ để xem thông tin.",
+    "consonants": "Phụ âm",
+    "vowels": "Nguyên âm",
+    "digits": "Chữ số",
+    "tones": "Dấu thanh",
+    "rareHint": "Nền nhạt: ít gặp. Gạch ngang: đã lỗi thời.",
+    "obsolete": "đã lỗi thời",
+    "replay": "Viết lại",
+    "slow": "Chậm",
+    "normal": "Bình thường",
+    "startHere": "Bắt đầu từ đầu tròn (vòng sáng)",
+    "noHead": "Chữ này không có đầu tròn: bắt đầu từ nét bên trái.",
+    "practiceHint": "Cùng một chữ ở 4 font. Khi viết tay, theo font có đầu (มีหัว); font không đầu (ไม่มีหัว) hay gặp trên biển hiệu.",
+    "initial": "Âm đầu",
+    "final": "Âm cuối",
+    "noFinal": "không làm âm cuối",
+    "keyword": "Từ khoá",
+    "tryIt": "Ghép với chữ này",
+    "tryVowel": "Ghép với nguyên âm này",
+    "closedForm": "Khi có phụ âm cuối",
+    "value": "Giá trị",
+    "listenName": "Nghe tên chữ",
+    "fontStyles": {
+      "looped": "Có đầu · มีหัว",
+      "loopless": "Không đầu · ไม่มีหัว",
+      "handwriting": "Viết tay"
+    },
+    "markNote": "Đặt trên phụ âm đầu; nếu có nguyên âm trên thì viết cao hơn, ở tầng dấu thanh.",
+    "toneByClass": "Thanh theo nhóm phụ âm (với nguyên âm า):",
+    "tryMark": "Ghép với dấu này",
+    "morphHint": "Viền tím: đổi cách viết khi có âm cuối hoặc dấu thanh"
+  },
+  "builder": {
+    "title": "Ghép chữ",
+    "intro": "Chọn hoặc kéo bốn mảnh ghép của một âm tiết. Màu viền là nhóm phụ âm, màu phiên âm là thanh điệu.",
+    "parts": {
+      "initial": "Phụ âm đầu",
+      "vowel": "Nguyên âm",
+      "final": "Phụ âm cuối",
+      "mark": "Dấu thanh"
+    },
+    "sumAria": "Âm tiết đang ghép",
+    "sumHint": "Kéo một mảnh lên khung ghép, hoặc bấm để chọn.",
+    "pickTitle": "Chọn thành phần",
+    "hoverHint": "Di chuột hoặc chạm vào từng ô để xem tiến trình tại bước đó.",
+    "rareHint": "Nền nhạt: ít dùng",
+    "rows": {
+      "single": "Phụ âm đơn",
+      "cluster": "Phụ âm ghép",
+      "leading": "Chữ nhấn"
+    },
+    "step": "Bước {n}",
+    "resultStep": "Kết quả",
+    "noFinalStep": "Không có âm cuối",
+    "noMarkStep": "Không có dấu thanh",
+    "phoneticToggle": "IPA / RTGS",
+    "autoSpeak": "Âm thanh",
+    "notWordShort": "không có trong tiếng Thái",
+    "empty": "trống",
+    "clearPart": "Bỏ {part|lower}",
+    "resultHint": "Bấm để nghe",
+    "tabsAria": "Chọn thành phần",
+    "filters": {
+      "all": "Tất cả",
+      "single": "Đơn",
+      "cluster": "Phụ âm ghép",
+      "leading": "Chữ nhấn",
+      "common": "Chỉ chữ thường dùng"
+    },
+    "kindBadge": {
+      "single": "",
+      "cluster": "ghép",
+      "false-cluster": "ghép",
+      "leading": "nhấn"
+    },
+    "finalHeading": "8 âm cuối, nhiều chữ",
+    "stopGroup": "Âm tắc → âm chết",
+    "sonorantGroup": "Âm vang → âm sống",
+    "noFinal": "Không có âm cuối",
+    "vowelNoFinal": "Nguyên âm này không đi với phụ âm cuối.",
+    "liveSound": "Âm vang → âm sống",
+    "deadSound": "Âm tắc → âm chết",
+    "finalLegend": "Nền đậm: âm vang (tạo âm sống). Viền: âm tắc (tạo âm chết).",
+    "noMark": "Không dấu",
+    "formula": {
+      "cls": "Nhóm {cls}",
+      "live": "Âm sống",
+      "dead": "Âm chết",
+      "short": "Nguyên âm ngắn",
+      "long": "Nguyên âm dài",
+      "tone": "Thanh {tone}",
+      "aria": "Công thức thanh điệu"
+    },
+    "processTitle": "Tiến trình hình thành",
+    "stepsTitle": "Từng bước suy ra thanh",
+    "vocabTitle": "Từ vựng",
+    "isWord": "Là một từ",
+    "inWords": "Xuất hiện trong",
+    "notWordTitle": "Không có trong tiếng Thái",
+    "notWordBody": "Âm tiết này ghép đúng chính tả nhưng không phải một từ thông dụng (theo từ điển của app). Thử đổi dấu thanh, nguyên âm hoặc âm cuối.",
+    "irregular": "Từ này đọc bất quy tắc: /{ipa}/",
+    "tableTitle": "Bảng công thức thanh điệu",
+    "tableDesc": "Mỗi ô là một công thức: hàng = nhóm phụ âm, cột = loại âm tiết hoặc dấu thanh. Ô đang áp dụng cho âm tiết ở trên được làm nổi bật.",
+    "noMarkGroup": "Không dấu",
+    "markGroup": "Có dấu",
+    "colLive": "Sống",
+    "colDeadShort": "Chết ngắn",
+    "colDeadLong": "Chết dài",
+    "rare": "Không dùng trong chính tả chuẩn",
+    "current": "Đang áp dụng"
+  },
+  "groups": {
+    "classCount": "{n} chữ",
+    "cluster": "Phụ âm ghép",
+    "clusterHint": "đọc liền hai phụ âm",
+    "falseCluster": "Ghép không thật",
+    "falseClusterHint": "ร câm, ทร đọc /s/",
+    "leading": "Chữ nhấn",
+    "leadingHint": "ห / อ câm, đổi nhóm",
+    "vowels": {
+      "short": "Ngắn",
+      "long": "Dài",
+      "diph": "Ghép",
+      "special": "Đặc biệt"
+    },
+    "vowelHints": {
+      "short": "dễ thành âm chết",
+      "long": "thường là âm sống",
+      "diph": "hai âm lướt vào nhau",
+      "special": "luôn là âm sống"
+    },
+    "finals": {
+      "none": "Không",
+      "live": "Sống",
+      "dead": "Chết"
+    },
+    "finalHints": {
+      "none": "âm tiết mở",
+      "live": "âm vang",
+      "dead": "âm tắc"
+    },
+    "diphIntro": "Nguyên âm ghép (nguyên âm đôi) lướt từ âm này sang âm kia và được viết bằng hai đến ba mảnh quanh phụ âm, vd. เ◌ีย = เ + ◌ี + ย đọc /ia/."
+  },
+  "notebook": {
+    "title": "Vở tập viết · 4 tầng",
+    "tiers": {
+      "tone": "Dấu thanh",
+      "above": "Nguyên âm trên",
+      "main": "Dòng chính",
+      "below": "Nguyên âm dưới"
+    },
+    "tiersShort": {
+      "tone": "Thanh",
+      "above": "Trên",
+      "main": "Chính",
+      "below": "Dưới"
+    },
+    "cells": {
+      "before": "trước",
+      "cons": "phụ âm",
+      "after": "sau",
+      "final": "cuối"
+    },
+    "morphed": "Nguyên âm đổi dạng khi có âm cuối: {from} → {to}.",
+    "taikhu": "Dấu thanh chiếm chỗ của ◌็ nên ◌็ bị bỏ, nguyên âm vẫn ngắn.",
+    "seeMorph": "Xem minh hoạ"
+  },
+  "morph": {
+    "title": "Nguyên âm biến hình",
+    "from": "Dạng mở",
+    "to": "Có phụ âm cuối",
+    "toMark": "Có dấu thanh",
+    "sample": "dạng mẫu",
+    "replay": "Phát lại",
+    "unchanged": "Không mảnh nào bị bỏ",
+    "listAria": "Quy tắc biến hình"
+  },
+  "syllable": {
+    "stepLabels": {
+      "class": "Phụ âm đầu",
+      "vowel": "Nguyên âm",
+      "final": "Âm cuối",
+      "liveness": "Sống / chết",
+      "mark": "Dấu thanh",
+      "result": "Kết quả"
+    },
+    "roles": {
+      "vowel": "nguyên âm",
+      "initial": "phụ âm đầu",
+      "mark": "dấu thanh",
+      "final": "âm cuối"
+    },
+    "where": {
+      "before": "trước",
+      "above": "trên",
+      "below": "dưới",
+      "after": "sau"
+    },
+    "placement": "Nguyên âm được viết ở phía {sides} phụ âm {initial}.",
+    "placementBefore": " Dù viết trước, nó vẫn đọc SAU phụ âm: luôn đọc {initial} trước rồi mới tới nguyên âm.",
+    "partsAria": "Các thành phần của âm tiết",
+    "live": "âm sống",
+    "dead": "âm chết",
+    "short": "nguyên âm ngắn",
+    "long": "nguyên âm dài",
+    "group": "Nhóm {cls}",
+    "tone": "Thanh {tone} ({thai})",
+    "vsTitle": "Thanh {tone} so với tiếng Việt"
+  },
+  "notFound": {
+    "message": "Không tìm thấy trang"
+  }
+}

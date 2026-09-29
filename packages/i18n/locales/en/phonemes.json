@@ -1,0 +1,169 @@
+{
+  "place": {
+    "labial": "Lips",
+    "alveolar": "Alveolar",
+    "palatal": "Palatal",
+    "velar": "Velar",
+    "glottal": "Glottal"
+  },
+  "manner": {
+    "unaspirated": "Stop, unaspirated",
+    "aspirated": "Stop, aspirated",
+    "voiced": "Stop, voiced",
+    "nasal": "Nasal",
+    "fricative": "Fricative",
+    "approximant": "Approximant",
+    "trill": "Trill"
+  },
+  "consonant": {
+    "p": {
+      "meaning": "fish",
+      "note": "Like p in “spin”: no puff of air."
+    },
+    "pʰ": {
+      "meaning": "father",
+      "note": "Like p in “pin”, with a strong puff of air.",
+      "trap": "Romanized “ph” is NOT “f”: พ/ผ are an aspirated p."
+    },
+    "b": {
+      "meaning": "house",
+      "note": "Like b in “bee”."
+    },
+    "m": {
+      "meaning": "mother",
+      "note": "Like m."
+    },
+    "f": {
+      "meaning": "fire",
+      "note": "Like f."
+    },
+    "w": {
+      "meaning": "day",
+      "note": "Like w."
+    },
+    "t": {
+      "meaning": "eye",
+      "note": "Like t in “stop”: no puff of air.",
+      "trap": "English speakers tend to aspirate it; keep it crisp and airless."
+    },
+    "tʰ": {
+      "meaning": "place",
+      "note": "Like t in “top”, with a puff of air.",
+      "trap": "Romanized “th” is NOT the “th” of “think”."
+    },
+    "d": {
+      "meaning": "good",
+      "note": "Like d.",
+      "trap": ""
+    },
+    "n": {
+      "meaning": "water",
+      "note": "Like n."
+    },
+    "s": {
+      "meaning": "color",
+      "note": "Like s."
+    },
+    "l": {
+      "meaning": "wind",
+      "note": "Like l."
+    },
+    "r": {
+      "meaning": "car",
+      "note": "Rolled r. In casual speech often said as l."
+    },
+    "tɕ": {
+      "meaning": "heart",
+      "note": "Between j in “jam” and ch in “chip”, without air."
+    },
+    "tɕʰ": {
+      "meaning": "elephant",
+      "note": "Like ch in “chip”, with air."
+    },
+    "j": {
+      "meaning": "medicine",
+      "note": "Like y in “yes”."
+    },
+    "k": {
+      "meaning": "crow",
+      "note": "Like k in “skin”: no puff of air."
+    },
+    "kʰ": {
+      "meaning": "person",
+      "note": "Like k in “kin”, with a puff of air.",
+      "trap": ""
+    },
+    "ŋ": {
+      "meaning": "snake",
+      "note": "The ng of “sing”, but at the start of a word.",
+      "trap": "Practice saying “singing” and drop the “si-”."
+    },
+    "ʔ": {
+      "meaning": "to read",
+      "note": "The catch in “uh-oh”."
+    },
+    "h": {
+      "meaning": "to look for",
+      "note": "Like h."
+    }
+  },
+  "vowel": {
+    "i": {
+      "meaning": "good",
+      "approx": "ee in “see”"
+    },
+    "ɯ": {
+      "meaning": "hand",
+      "approx": "“oo” with spread lips"
+    },
+    "u": {
+      "meaning": "crab",
+      "approx": "oo in “food”"
+    },
+    "e": {
+      "meaning": "to pour",
+      "approx": "a in “gate”, no glide"
+    },
+    "ɤ": {
+      "meaning": "you, she",
+      "approx": "ir in British “bird”"
+    },
+    "o": {
+      "meaning": "big",
+      "approx": "o in “go”, no glide"
+    },
+    "ɛ": {
+      "meaning": "mother",
+      "approx": "a in “cat”"
+    },
+    "ɔ": {
+      "meaning": "father",
+      "approx": "aw in “law”"
+    },
+    "a": {
+      "meaning": "to come",
+      "approx": "u in “cut” / a in “father”"
+    }
+  },
+  "diphthong": {
+    "ia": {
+      "meaning": "wife",
+      "approx": "ea in “idea”"
+    },
+    "ɯa": {
+      "meaning": "boat",
+      "approx": "spread-lip “oo” + a"
+    },
+    "ua": {
+      "meaning": "cow",
+      "approx": "ua in “truant”"
+    }
+  },
+  "toneExample": {
+    "mid": "stuck",
+    "low": "galangal",
+    "falling": "value",
+    "high": "to trade",
+    "rising": "leg"
+  }
+}

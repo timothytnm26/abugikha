@@ -1,0 +1,42 @@
+{
+  "approx": {
+    "a": "ă",
+    "aa": "a",
+    "i": "i (ngắn)",
+    "ii": "i (dài)",
+    "ue": "ư (ngắn)",
+    "uue": "ư (dài)",
+    "u": "u (ngắn)",
+    "uu": "u (dài)",
+    "e": "ê",
+    "ee": "ê (dài)",
+    "ae": "e",
+    "aae": "e (dài)",
+    "o": "ô",
+    "oo": "ô (dài)",
+    "or": "o",
+    "oor": "o (dài)",
+    "oe": "ơ (ngắn)",
+    "ooe": "ơ",
+    "ia": "iê (ngắn)",
+    "iia": "iê / ia",
+    "uea": "ươ (ngắn)",
+    "uuea": "ươ / ưa",
+    "ua": "uô (ngắn)",
+    "uua": "uô / ua",
+    "am": "ăm",
+    "ai-muan": "ay (chỉ ~20 từ)",
+    "ai-malai": "ay",
+    "ao": "au"
+  },
+  "closedNote": {
+    "a": "ะ đổi thành dấu ◌ั (mái hăn-a-kát) đặt trên phụ âm đầu: ก + ะ + น → กัน",
+    "uue": "Khi có phụ âm cuối thì bỏ อ: ค + ือ + น → คืน",
+    "e": "ะ đổi thành dấu ◌็ (mái tai-khu): เ + ล + ะ + ก → เล็ก",
+    "ae": "ะ đổi thành dấu ◌็: แ + ข + ะ + ง → แข็ง",
+    "o": "Nguyên âm biến mất khỏi mặt chữ: ก + น → กน /kon/ (nguyên âm ẩn)",
+    "or": "เ-าะ đổi thành ◌็อ: ล็อก (hiếm, chủ yếu từ mượn)",
+    "ooe": "อ đổi thành ◌ิ: เ + ด + อ + น → เดิน. Riêng cuối ย viết เ-ย: เลย",
+    "uua": "Dấu ◌ั bị lược bỏ: ค + ัว + น → ควร, ส + ัว + น → สวน"
+  }
+}

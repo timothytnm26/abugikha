@@ -1,0 +1,16 @@
+{
+  "label": {
+    "mid": "Mid",
+    "low": "Low",
+    "falling": "Falling",
+    "high": "High",
+    "rising": "Rising"
+  },
+  "desc": {
+    "mid": "Level, in the middle of your normal speaking range.",
+    "low": "Below mid and slightly falling, like a calm, low “oh.”",
+    "falling": "Rises high then drops sharply, like an emphatic “No!”",
+    "high": "High and slightly rising, like an excited “Wow!”",
+    "rising": "Dips then rises, like a surprised question “Really?”"
+  }
+}

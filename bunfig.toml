@@ -1,0 +1,3 @@
+[install]
+# Mỗi workspace có node_modules riêng (kiểu pnpm): web dùng React 19.3, mobile dùng bản Expo ghim.
+linker = "isolated"

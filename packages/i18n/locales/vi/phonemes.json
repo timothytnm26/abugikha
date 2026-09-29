@@ -1,0 +1,169 @@
+{
+  "place": {
+    "labial": "Môi",
+    "alveolar": "Lợi",
+    "palatal": "Vòm",
+    "velar": "Mạc",
+    "glottal": "Thanh hầu"
+  },
+  "manner": {
+    "unaspirated": "Tắc, không bật hơi",
+    "aspirated": "Tắc, bật hơi",
+    "voiced": "Tắc, hữu thanh",
+    "nasal": "Mũi",
+    "fricative": "Xát",
+    "approximant": "Tiếp cận",
+    "trill": "Rung"
+  },
+  "consonant": {
+    "p": {
+      "meaning": "cá",
+      "note": "p không bật hơi, như “p” trong “pin”."
+    },
+    "pʰ": {
+      "meaning": "bố",
+      "note": "p bật hơi mạnh; để tay trước miệng sẽ thấy luồng hơi.",
+      "trap": "“ph” tiếng Việt là /f/. พ/ผ không phải /f/!"
+    },
+    "b": {
+      "meaning": "nhà",
+      "note": "Gần “b” tiếng Việt."
+    },
+    "m": {
+      "meaning": "mẹ",
+      "note": "Như “m”."
+    },
+    "f": {
+      "meaning": "lửa",
+      "note": "Như “ph” tiếng Việt."
+    },
+    "w": {
+      "meaning": "ngày",
+      "note": "Như “o/u” trong “hoa”, “qua”."
+    },
+    "t": {
+      "meaning": "mắt",
+      "note": "Như “t” tiếng Việt.",
+      "trap": ""
+    },
+    "tʰ": {
+      "meaning": "chỗ",
+      "note": "Như “th” tiếng Việt.",
+      "trap": ""
+    },
+    "d": {
+      "meaning": "tốt",
+      "note": "Như “đ” tiếng Việt.",
+      "trap": "Không phải “d” tiếng Việt (/z/ hoặc /j/)."
+    },
+    "n": {
+      "meaning": "nước",
+      "note": "Như “n”."
+    },
+    "s": {
+      "meaning": "màu",
+      "note": "Như “x”."
+    },
+    "l": {
+      "meaning": "gió",
+      "note": "Như “l”."
+    },
+    "r": {
+      "meaning": "xe",
+      "note": "r rung đầu lưỡi. Khẩu ngữ hay đọc thành /l/."
+    },
+    "tɕ": {
+      "meaning": "tim, lòng",
+      "note": "Gần “ch” tiếng Việt."
+    },
+    "tɕʰ": {
+      "meaning": "voi",
+      "note": "“ch” bật hơi. Tiếng Việt không có âm này."
+    },
+    "j": {
+      "meaning": "thuốc",
+      "note": "Như “d/gi” giọng miền Nam."
+    },
+    "k": {
+      "meaning": "con quạ",
+      "note": "Như “c/k”."
+    },
+    "kʰ": {
+      "meaning": "người",
+      "note": "“k” bật hơi.",
+      "trap": "“kh” tiếng Việt là âm xát /x/. ข/ค là k + luồng hơi, không cọ xát."
+    },
+    "ŋ": {
+      "meaning": "rắn",
+      "note": "Như “ng” – người Việt có lợi thế vì âm này khó với người Âu.",
+      "trap": ""
+    },
+    "ʔ": {
+      "meaning": "đọc",
+      "note": "Tắc thanh hầu, như cách mở đầu từ “ăn”."
+    },
+    "h": {
+      "meaning": "tìm",
+      "note": "Như “h”."
+    }
+  },
+  "vowel": {
+    "i": {
+      "meaning": "tốt",
+      "approx": "i"
+    },
+    "ɯ": {
+      "meaning": "tay",
+      "approx": "ư"
+    },
+    "u": {
+      "meaning": "cua",
+      "approx": "u"
+    },
+    "e": {
+      "meaning": "đổ",
+      "approx": "ê"
+    },
+    "ɤ": {
+      "meaning": "em, cô ấy",
+      "approx": "ơ"
+    },
+    "o": {
+      "meaning": "to lớn",
+      "approx": "ô"
+    },
+    "ɛ": {
+      "meaning": "mẹ",
+      "approx": "e"
+    },
+    "ɔ": {
+      "meaning": "bố",
+      "approx": "o"
+    },
+    "a": {
+      "meaning": "đến",
+      "approx": "ă (ngắn) / a (dài)"
+    }
+  },
+  "diphthong": {
+    "ia": {
+      "meaning": "vợ",
+      "approx": "iê / ia"
+    },
+    "ɯa": {
+      "meaning": "thuyền",
+      "approx": "ươ / ưa"
+    },
+    "ua": {
+      "meaning": "bò",
+      "approx": "uô / ua"
+    }
+  },
+  "toneExample": {
+    "mid": "mắc kẹt",
+    "low": "củ riềng",
+    "falling": "giá trị",
+    "high": "buôn bán",
+    "rising": "cái chân"
+  }
+}

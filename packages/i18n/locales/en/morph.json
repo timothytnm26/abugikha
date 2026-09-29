@@ -1,0 +1,42 @@
+{
+  "a": {
+    "summary": "ะ gives way to ◌ั"
+  },
+  "e": {
+    "summary": "ะ becomes ◌็"
+  },
+  "ae": {
+    "summary": "ะ becomes ◌็"
+  },
+  "o": {
+    "summary": "The vowel disappears"
+  },
+  "or": {
+    "summary": "Three pieces become two"
+  },
+  "uue": {
+    "summary": "อ drops"
+  },
+  "ooe": {
+    "summary": "อ becomes ◌ิ"
+  },
+  "ooe-y": {
+    "summary": "Before ย: อ vanishes",
+    "rule": "When the final is ย, อ disappears and ย takes its place with no ◌ิ: เ + ล + อ + ย → เลย."
+  },
+  "iia": {
+    "summary": "Unchanged, final added",
+    "rule": "The compound vowel /ia/ has three pieces: เ before, ◌ี above and ย after. With a final, all three stay and the final follows ย."
+  },
+  "uuea": {
+    "summary": "Unchanged, final added",
+    "rule": "The compound vowel /ɯa/ is เ before, ◌ื above and อ after. Unlike plain ◌ือ, this อ stays when a final is added."
+  },
+  "uua": {
+    "summary": "◌ั vanishes, ว stays"
+  },
+  "taikhu": {
+    "summary": "A tone mark pushes out ◌็",
+    "rule": "◌็ and a tone mark compete for the same spot above the consonant. With a tone mark, ◌็ is dropped and the vowel is still read as short."
+  }
+}

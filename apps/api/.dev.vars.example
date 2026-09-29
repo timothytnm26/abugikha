@@ -1,0 +1,2 @@
+# Sao chép thành .dev.vars để ghi đè biến khi chạy `wrangler dev` (không commit .dev.vars)
+# CORS_ORIGINS=http://localhost:3000

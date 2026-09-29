@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "Abugikha",
+    "slug": "abugikha",
+    "scheme": "abugikha",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "io.github.timothytnm26.abugikha"
+    },
+    "android": {
+      "package": "io.github.timothytnm26.abugikha",
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": ["expo-router", "expo-status-bar", "expo-secure-store"],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
