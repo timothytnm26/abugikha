@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import { setCookie } from "./cookie";
 
 import type { Theme } from "@abugikha/core";
 
@@ -9,20 +8,9 @@ export type { Theme };
 export function getEffectiveTheme(): Theme {
   const attr = document.documentElement.dataset.theme;
   if (attr === "light" || attr === "dark") return attr;
-  const saved = document.cookie
-    .split(";")
-    .map((cookie) => cookie.trim())
-    .find((cookie) => cookie.startsWith("theme="))
-    ?.slice("theme=".length);
-  if (saved === "light" || saved === "dark") return saved;
   return window.matchMedia("(prefers-color-scheme: dark)").matches
     ? "dark"
     : "light";
-}
-
-export function applyTheme(theme: Theme) {
-  document.documentElement.dataset.theme = theme;
-  setCookie("theme", theme);
 }
 
 /** Theme đang hiển thị; cập nhật khi đổi data-theme hoặc khi hệ thống đổi chế độ. */

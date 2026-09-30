@@ -17,6 +17,8 @@ export function useSlotDrag(
     () => {
       const root = picker.current;
       if (!root || !stage.current) return;
+      // Màn hình cảm ứng: kéo sẽ tranh với cuộn trang, nên chỉ dùng chạm để chọn
+      if (matchMedia("(pointer: coarse)").matches) return;
       // Vùng thả: thanh ghép nổi (khi khung chính bị cuộn khuất) hoặc khung chính
       let zone: HTMLElement = stage.current;
       const pickZone = () => document.querySelector<HTMLElement>('[data-dropzone="dock"]') ?? stage.current!;

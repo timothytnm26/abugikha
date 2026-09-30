@@ -1,6 +1,6 @@
 import type { Vowel } from "@abugikha/core/vowel";
 import { vowelGlyph } from "@abugikha/core/vowel";
-import { cn, ipaToRtgs } from "@/shared/lib";
+import { cn, ipaToRtgs, tint } from "@/shared/lib";
 
 export function VowelFace({
   vowel,
@@ -29,11 +29,12 @@ export function VowelFace({
             ? "h-11 min-w-11 px-1"
             : "size-10 px-1",
         selected
-          ? "border-transparent bg-ink text-paper"
-          : "border-dashed border-ink/30 bg-transparent text-ink",
+          ? "border-transparent bg-part-vowel text-on-accent"
+          : "border-dashed bg-transparent text-part-vowel",
         !selected && vowel.length === "long" && "border-solid",
         className,
       )}
+      style={selected ? undefined : { borderColor: tint("var(--color-part-vowel)", 55) }}
     >
       <span
         className={cn(
@@ -47,7 +48,7 @@ export function VowelFace({
         <span
           className={cn(
             "mt-0.5 text-[10px] leading-none",
-            selected ? "text-paper/80" : "text-ink-soft",
+            selected ? "opacity-85" : "text-ink-soft",
           )}
         >
           <span className="font-ipa">/{vowel.ipa}/</span> {ipaToRtgs(vowel.ipa)}

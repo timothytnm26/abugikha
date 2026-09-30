@@ -1,6 +1,6 @@
-# Abugikha (อะบูกิค่ะ) - Thai Script Lab
+# NarakThai (น่ารักไทย) - Thai Script Lab
 
-Abugikha is an interactive guide to Thai script. Explore its sounds and history, then build syllables to see how consonants, vowels, and tones work together. Its name is a playful nod to both “abugida” and the Thai greeting “sawasdee kha” (สวัสดีค่ะ).
+NarakThai is an interactive guide to Thai script. Explore its sounds and history, then build syllables to see how consonants, vowels, and tones work together. The name plays on “น่ารัก” (nâa-rák), Thai for “cute”, because learning a script can be friendly, too. (The repository and packages keep the original `abugikha` name.)
 
 The repository is a Bun + Turborepo monorepo with a web app, a mobile app, and an API that share the same Thai-script engine.
 
@@ -60,7 +60,7 @@ Every page is prerendered for each locale under `/vi/...` and `/en/...`, with lo
    - The component picker has three columns: initial consonant | vowel and tone mark | final consonant. Initials are grouped as single, cluster, or leading consonants. Finals are grouped by stop (dead syllable) and sonorant (live syllable) sounds.
    - Less common letters have a muted background while remaining legible. IPA, RTGS, and tone-mark names can be toggled on or off.
    - At 1440×900, the full page fits in one viewport. During drag and drop, the target slot flashes in the dragged component's color. If the composition panel scrolls out of view, a floating builder appears below the navigation and remains a drop target.
-5. **Appearance controls:** Toggle IPA and RTGS labels in component pickers, and customize the colors for the three consonant classes and five tones. Light and dark themes have separate color settings.
+5. **Appearance controls:** Toggle IPA and RTGS labels in component pickers, and pick one of seven soft themes, choose the preview paper (4-tier book, ruled, grid, dotted, plain) and customize the color of every syllable part (consonant classes, vowel, final, tone marks). Colors are stored per theme.
 
 ## Mobile Features
 
@@ -142,9 +142,11 @@ Audio uses the Web Speech API on the web and `expo-speech` on mobile, both with 
 
   Data in `@abugikha/core` keeps only language-neutral fields and builds its `L10n = Record<Locale, string>` values from these files with `l10n(["lexicon", "กา"])`, so UI code still reads `word.meaning[locale]`. Strings with parameters use `{name}` placeholders (optionally `{name|lower}`) and are rendered with `fmt(t.app.learned, { n, total })`.
 - `packages/i18n/src/catalog.ts` types every locale against the default one (`vi`), so a missing key fails `typecheck`; `packages/i18n/test` also checks that placeholders match. To add a language: add its code to `LOCALES` in `packages/i18n/src/locale.ts`, copy `locales/vi/` to `locales/<code>/`, translate, and register the files in `catalog.ts`. Any missing string in a non-default locale falls back to `vi` at runtime.
-- Light and dark theme tokens are CSS variables, with dark values defined under `[data-theme=dark]`. The default follows `prefers-color-scheme`; the selected theme is stored in the `theme` cookie and applied by a small head script before paint. Consonant-class and tone colors use CSS variables, so SVGs and inline styles follow the active theme. The default palette values also live in `@abugikha/core` (`DEFAULT_PALETTE`, `SURFACE_COLORS`) for the mobile app.
+- Themes live in `apps/web/src/shared/config/themes.ts`: four soft light themes (Celadon, Sakura milk, Matcha, Sepia paper) and three soft dark ones (Midnight celadon, Twilight, Cocoa), with names in `ui.settings.themes`. Backgrounds avoid pure white and black to reduce glare. A theme is a set of CSS variables applied to `<html>` (plus `data-theme` for the mode); the default follows `prefers-color-scheme`. Class, vowel, final and tone colors are CSS variables, so SVGs and inline styles follow the theme, and each can be overridden per theme. The default light/dark palette still lives in `@abugikha/core` (`DEFAULT_PALETTE`, `SURFACE_COLORS`) for the mobile app.
 - RTGS romanization (Royal Thai General System, Thailand's official romanization system) is generated from IPA by `packages/core/src/romanize.ts`. It omits tones and vowel length. Final ย becomes `-i`, final ว becomes `-o`, and both จ and ช are romanized as `ch`. Examples: หน้า → `na`, ควาย → `khwai`, แม่น้ำ → `maenam`.
-- Appearance preferences are stored in localStorage under `kaa-prefs` using Zustand persist. A small script in `<head>` applies the color palette before the page is painted to prevent a color flash.
+- Appearance preferences (theme, paper style, custom colors, phonetic and auto-speak toggles) are stored in localStorage under `narakthai-prefs` using Zustand persist. A small script in `<head>` applies them before the page is painted to prevent a color flash.
+- The preview notebooks use the `.note-paper` class in `globals.css`; the paper style is read from `data-paper` on `<html>` (`tiers` draws the 4-tier guide lines, the other styles replace them with a ruled, grid or dotted background).
+- The landing page story (`widgets/syllable-story`) pins a full-width stage and scrolls it horizontally with GSAP ScrollTrigger while ค้าน is assembled piece by piece; with `prefers-reduced-motion` it becomes a vertical list. On touch (`pointer: coarse`) screens drag-and-drop is disabled so tiles do not block scrolling; tapping picks a piece.
 
 ## Stroke Data
 

@@ -206,7 +206,7 @@ export function Notebook({
 
   return (
     <div
-      className="relative overflow-hidden rounded-xl bg-paper text-[clamp(52px,11vw,84px)]"
+      className="note-paper relative overflow-hidden rounded-xl text-[clamp(44px,8vw,68px)] xl:text-[clamp(52px,11vw,84px)]"
       style={{ "--tone-accent": toneColor } as CSSProperties}
     >
       <div
@@ -224,7 +224,7 @@ export function Notebook({
             key={k}
             aria-hidden
             className={cn(
-              "pointer-events-none border-ink/20 font-sans",
+              "paper-tier pointer-events-none border-ink/20 font-sans",
               k === "main" ? "border-y-[1.5px] bg-paper-deep/60" : i > 0 && "border-t border-dashed",
             )}
             style={{ gridColumn: "1 / -1", gridRow: i + 1 }}

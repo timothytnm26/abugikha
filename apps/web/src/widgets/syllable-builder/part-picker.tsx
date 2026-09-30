@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useRef, type ReactNode, type RefObject } from "react";
+import { useMemo, useRef, type CSSProperties, type ReactNode, type RefObject } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
   CLASS_META,
@@ -34,7 +34,7 @@ import {
 } from "@/features/build-syllable";
 import { fmt, useLocale, useT } from "@/shared/i18n";
 import { usePreferences } from "@/shared/lib/preferences";
-import { cn } from "@/shared/lib";
+import { cn, tint } from "@/shared/lib";
 import { vowelCell } from "./notebook";
 
 const STOPS: FinalSound[] = ["k", "t", "p"];
@@ -49,8 +49,8 @@ const HOLDER = "◌";
 
 /** Màu đánh dấu ô đích khi kéo (vowel/final không có ngữ nghĩa màu riêng) */
 const ACCENT = {
-  vowel: "var(--color-tone-rising)",
-  final: "var(--color-tone-high)",
+  vowel: "var(--color-part-vowel)",
+  final: "var(--color-part-final)",
 };
 
 const pill = (on: boolean) =>
@@ -61,18 +61,12 @@ const pill = (on: boolean) =>
       : "border-ink/25 bg-transparent hover:bg-ink/5",
   );
 const tileCls =
-  "touch-none rounded-lg focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ink disabled:cursor-not-allowed disabled:opacity-25";
-/** Ô ký tự viền (âm cuối, dấu thanh); `muted` = ít dùng: nền/viền nhạt, chữ vẫn rõ */
-const boxCls = (selected: boolean, muted?: boolean) =>
-  cn(
-    tileCls,
-    "place-items-center border-2 font-thai",
-    selected
-      ? "border-ink bg-ink text-paper"
-      : muted
-        ? "border-ink/5 bg-transparent text-ink/85"
-        : "border-ink/25 bg-transparent",
-  );
+  "pointer-fine:touch-none rounded-lg focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ink disabled:cursor-not-allowed disabled:opacity-25";
+/** Ô ký tự viền (âm cuối, dấu thanh) tô theo màu của phần đó; `muted` = ít dùng: viền nhạt, chữ vẫn rõ */
+const boxCls = (selected: boolean) =>
+  cn(tileCls, "place-items-center border-2 font-thai", selected ? "text-on-accent" : "bg-transparent");
+const boxStyle = (color: string, selected: boolean, muted?: boolean): CSSProperties =>
+  selected ? { borderColor: color, backgroundColor: color } : { borderColor: tint(color, muted ? 25 : 60), color };
 
 /** Trên màn hình rộng mọi nhóm đều hiện; màn hình hẹp chỉ hiện nhóm của tab đang chọn. */
 function Group({
@@ -93,12 +87,12 @@ function Group({
   return (
     <section
       aria-labelledby={`grp-${k}`}
-      className={cn(tab !== k && "hidden lg:block", className)}
+      className={cn(tab !== k && "hidden xl:block", className)}
     >
       <div className="mb-2 flex flex-wrap items-center gap-1.5">
         <h3
           id={`grp-${k}`}
-          className="mr-1 text-sm font-semibold max-lg:sr-only"
+          className="mr-1 text-sm font-semibold max-xl:sr-only"
         >
           {title}
         </h3>
@@ -230,10 +224,8 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
               onClick={() => onPick("final", c.id)}
               aria-pressed={c.id === finalId}
               title={`${c.char}: /${c.initial}/ → /${snd}/`}
-              className={cn(
-                boxCls(c.id === finalId, !c.common),
-                "grid size-9 text-xl",
-              )}
+              style={boxStyle(ACCENT.final, c.id === finalId, !c.common)}
+              className={cn(boxCls(c.id === finalId), "grid size-10 text-xl xl:size-9")}
             >
               {c.char}
             </button>
@@ -243,9 +235,9 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
   );
 
   return (
-    <div ref={ref} className="rounded-xl border border-ink/10 p-3 md:p-4">
+    <div ref={ref} className="rounded-2xl border border-ink/10 p-3 md:p-4">
       <div
-        className="mb-3 flex gap-1 overflow-x-auto rounded-lg bg-paper-deep p-1 lg:hidden"
+        className="mb-3 flex gap-1 overflow-x-auto rounded-xl bg-paper-deep p-1 xl:hidden"
         role="group"
         aria-label={t.builder.tabsAria}
       >
@@ -256,7 +248,7 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
             aria-pressed={tab === k}
             onClick={() => setTab(k)}
             className={cn(
-              "flex-1 whitespace-nowrap rounded-md px-2 py-1.5 text-xs font-medium focus-visible:outline-2 focus-visible:outline-ink sm:px-3 sm:text-sm",
+              "min-h-11 flex-1 whitespace-nowrap rounded-lg px-2 py-2 text-xs font-medium focus-visible:outline-2 focus-visible:outline-ink sm:px-3 sm:text-sm md:px-1.5 md:text-xs min-[900px]:px-3 min-[900px]:text-sm",
               tab === k ? "bg-ink text-paper" : "hover:bg-ink/10",
             )}
           >
@@ -265,12 +257,11 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
         ))}
       </div>
 
-      <div className="lg:grid lg:grid-cols-2 lg:gap-6 xl:grid-cols-[minmax(0,10fr)_minmax(0,8fr)_minmax(0,7fr)] xl:gap-5">
+      <div className="xl:grid xl:grid-cols-[minmax(0,10fr)_minmax(0,8fr)_minmax(0,7fr)] xl:gap-5">
         <Group
           k="initial"
           tab={tab}
           title={t.builder.parts.initial}
-          className="lg:row-span-2 xl:row-span-1"
         >
           <div className="space-y-2">
             {CLASSES.map((c) => (
@@ -298,7 +289,7 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
         </Group>
 
         {/* Nguyên âm, dấu thanh xếp ngay bên dưới */}
-        <div className="contents lg:block lg:space-y-3">
+        <div className="contents xl:block xl:space-y-3">
           <Group k="vowel" tab={tab} title={t.builder.parts.vowel}>
             <div className="space-y-2">
               {vowelRows.map(([g, list]) => (
@@ -340,10 +331,8 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
                 type="button"
                 onClick={() => onPick("mark", null)}
                 aria-pressed={!mark}
-                className={cn(
-                  boxCls(!mark),
-                  "grid h-11 min-w-11 px-2 font-sans text-xs",
-                )}
+                style={!mark ? { borderColor: "var(--color-ink)", backgroundColor: "var(--color-ink)", color: "var(--color-paper)" } : { borderColor: tint("var(--color-ink)", 25) }}
+                className={cn(boxCls(false), "grid h-11 min-w-11 px-2 font-sans text-xs")}
               >
                 {t.builder.noMark}
               </button>
@@ -367,6 +356,7 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
                     onClick={() => onPick("mark", m.id)}
                     aria-pressed={mark === m.id}
                     aria-label={`${m.thai} (${m.latin}) → ${TONE_META[tone].label[locale]}`}
+                    style={boxStyle(TONE_META[tone].color, mark === m.id)}
                     className={cn(
                       boxCls(mark === m.id),
                       "h-11 min-w-11 gap-1.5 px-2",
@@ -379,11 +369,8 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
                     </span>
                     {showPhonetic && (
                       <span className="text-left font-sans text-[10px] leading-tight">
-                        <span className="block text-ink-soft">{m.thai}</span>
-                        <span
-                          className="block font-medium"
-                          style={{ color: TONE_META[tone].color }}
-                        >
+                        <span className={cn("block", mark !== m.id && "text-ink-soft")}>{m.thai}</span>
+                        <span className="block font-medium">
                           → {TONE_META[tone].label[locale]}
                         </span>
                       </span>
