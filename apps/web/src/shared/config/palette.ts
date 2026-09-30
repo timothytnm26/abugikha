@@ -1,11 +1,23 @@
-import type { PaletteKey } from "@abugikha/core";
+import { CLASS_KEYS, TONE_KEYS, type PaletteKey as CorePaletteKey } from "@abugikha/core";
 
-export { CLASS_KEYS, TONE_KEYS, PALETTE_KEYS, DEFAULT_PALETTE, type PaletteKey } from "@abugikha/core";
+export { CLASS_KEYS, TONE_KEYS, PALETTE_KEYS as CORE_PALETTE_KEYS, DEFAULT_PALETTE, type PaletteKey as CorePaletteKey } from "@abugikha/core";
+
+/** Màu vai trò của nguyên âm và phụ âm cuối (đã dùng ở phần nguyên âm biến hình, nay tô cả âm tiết). */
+export const PART_KEYS = ["part-vowel", "part-final"] as const;
+/** Mọi màu người dùng chỉnh được ở web: nhóm phụ âm, nguyên âm, âm cuối, dấu thanh theo thanh. */
+export const PALETTE_KEYS = [...CLASS_KEYS, ...PART_KEYS, ...TONE_KEYS] as const;
+export type PaletteKey = CorePaletteKey | (typeof PART_KEYS)[number];
+
+/** Màu nền, chữ và giấy: do giao diện quyết định, người dùng không chỉnh từng màu. */
+export const SURFACE_KEYS = ["paper", "paper-deep", "ink", "ink-soft", "on-accent", "sheet", "sheet-line", "margin"] as const;
+export type SurfaceKey = (typeof SURFACE_KEYS)[number];
+export type ThemeVarKey = PaletteKey | SurfaceKey;
+
+/** "tiers" = vở 4 tầng (mặc định); các kiểu còn lại thay các tầng bằng nền giấy kẻ. */
+export const PAPER_STYLES = ["tiers", "lines", "grid", "dots", "plain"] as const;
+export type PaperStyle = (typeof PAPER_STYLES)[number];
 
 /** Màu CSS của một khoá palette; là CSS var nên tự đổi theo theme sáng/tối và màu người dùng chọn. */
 export const paletteVar = (key: PaletteKey) => `var(--color-${key})`;
 
-export const PREFS_STORAGE_KEY = "kaa-prefs";
-
-/** Script chạy trong <head> trước khi vẽ trang: áp bảng màu đã lưu, tránh nháy màu. */
-export const PALETTE_BOOT_SCRIPT = `try{var s=JSON.parse(localStorage.getItem(${JSON.stringify(PREFS_STORAGE_KEY)})||"{}").state;var d=document.documentElement;var c=document.cookie.split(";").map(function(x){return x.trim()}).find(function(x){return x.indexOf("theme=")===0});var saved=c&&c.slice(6);var t=d.dataset.theme||(saved==="light"||saved==="dark"?saved:(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));d.dataset.theme=t;var p=s&&s.palette&&s.palette[t];if(p)for(var k in p)d.style.setProperty("--color-"+k,p[k])}catch(e){}`;
+export const PREFS_STORAGE_KEY = "narakthai-prefs";

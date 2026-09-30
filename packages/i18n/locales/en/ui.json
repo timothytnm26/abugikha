@@ -2,8 +2,8 @@
   "meta": {
     "languageName": "English",
     "ogLocale": "en_US",
-    "title": "Abugikha - Thai Script Lab",
-    "description": "Explore Thai sounds, script history, syllables, and tones with Abugikha.",
+    "title": "NarakThai (น่ารักไทย) - Thai Script Lab",
+    "description": "Explore Thai sounds, script history, syllables, and tones with NarakThai, a cute way to learn.",
     "ipa": "IPA phonetics",
     "history": "Thai script history",
     "aksornthai": "Aksorn Thai – Thai script",
@@ -54,7 +54,8 @@
     "toDark": "Switch to dark theme",
     "toLight": "Switch to light theme",
     "switchLocale": "Chuyển sang tiếng Việt",
-    "localeShort": "VI"
+    "localeShort": "VI",
+    "brandLabel": "NarakThai, go to home"
   },
   "routes": {
     "ipa": {
@@ -76,7 +77,7 @@
   },
   "home": {
     "heroMeaning": "polite particle, falling tone",
-    "headline": "Explore Thai script, one syllable at a time.",
+    "headline": "Learn Thai script, one cute syllable at a time.",
     "body": "Hear the sounds, trace the script's history, and see how consonants, vowels, and tones shape each syllable.",
     "cta": "Start building",
     "pathTitle": "Learning path",
@@ -86,6 +87,44 @@
       "mid": "9 letters. The only class that can take all 4 tone marks.",
       "high": "11 letters. Unmarked live syllables take the rising tone.",
       "low": "24 letters. ่ and ้ give a tone one step higher than for the other classes."
+    },
+    "eyebrow": "as cute as its name",
+    "tagline": "(nâa-rák) means cute. Learning Thai script can be, too.",
+    "ctaSecondary": "Browse the alphabet",
+    "scrollCue": "Scroll to watch a syllable get built",
+    "pathBlurb": "Four small stops. Go in order or hop around.",
+    "footerTitle": "Ready to build one yourself?",
+    "footerBody": "Pick the pieces, listen, and watch the tone appear in color."
+  },
+  "story": {
+    "title": "How is a syllable built?",
+    "lead": "Watch the pieces slide together to make ค้าน (/kʰáːn/, “to oppose”).",
+    "partOf": "Piece {n} of {total}",
+    "initial": {
+      "tag": "Initial consonant",
+      "title": "Start with a consonant",
+      "body": "ค sounds like /kʰ/. It belongs to the Low class, and the class decides how the tone is read later on."
+    },
+    "vowel": {
+      "tag": "Vowel",
+      "title": "Vowels cling around the consonant",
+      "body": "า sounds like /aː/, a long vowel. In Thai a vowel can be written before, above, below or after its consonant. Here it sits on the right."
+    },
+    "final": {
+      "tag": "Final consonant",
+      "title": "Close it with a final",
+      "body": "น sounds like /n/ at the end. It is a sonorant, so the syllable is live, and live syllables can take every tone mark."
+    },
+    "mark": {
+      "tag": "Tone mark",
+      "title": "Finish with a tone mark",
+      "body": "The mark ◌้ (mai tho) sits above the consonant. With a Low-class consonant it gives the High tone. The same mark on a Mid-class consonant gives Falling."
+    },
+    "result": {
+      "tag": "Result",
+      "title": "Four pieces, one syllable",
+      "body": "Color shows the job of each piece. Now it is your turn to build.",
+      "cta": "Build your own syllable"
     }
   },
   "ipa": {
@@ -134,7 +173,37 @@
     "perTheme": "Editing the palette for the {theme} theme.",
     "light": "light",
     "dark": "dark",
-    "reset": "Restore default colors"
+    "reset": "Reset colors",
+    "close": "Close",
+    "themeTitle": "Theme",
+    "themeHint": "Soft backgrounds with no glare, easy on the eyes for long study sessions.",
+    "lightGroup": "Light",
+    "darkGroup": "Dark",
+    "themes": {
+      "celadon": "Celadon",
+      "sakura": "Sakura milk",
+      "matcha": "Matcha",
+      "sepia": "Sepia paper",
+      "midnight": "Midnight celadon",
+      "twilight": "Twilight",
+      "cocoa": "Cocoa"
+    },
+    "paperTitle": "Preview paper",
+    "paperHint": "The paper style behind the big letter preview.",
+    "paper": {
+      "tiers": "4-tier book",
+      "lines": "Ruled",
+      "grid": "Grid",
+      "dots": "Dotted",
+      "plain": "Plain"
+    },
+    "partColors": "Color of each syllable part",
+    "partColorsHint": "Tap a circle to change its color. Colors are saved separately for each theme.",
+    "initialColors": "Initial consonant (by class)",
+    "vowelColor": "Vowel",
+    "finalColor": "Final consonant",
+    "markColors": "Tone mark (by tone)",
+    "sample": "Sample"
   },
   "aksornthai": {
     "title": "Aksorn Thai – Thai script",
@@ -247,7 +316,9 @@
     "colDeadShort": "Dead short",
     "colDeadLong": "Dead long",
     "rare": "Not used in standard spelling",
-    "current": "In use"
+    "current": "In use",
+    "tapHint": "Tap a tile to choose a piece. On a computer you can also drag and drop.",
+    "stepsToggle": "Why this tone?"
   },
   "groups": {
     "classCount": "{n} letters",

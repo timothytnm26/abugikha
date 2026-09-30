@@ -14,7 +14,7 @@ const absolute = (locale: Locale, path: string) => `${SITE_URL}${localizePath(lo
 export function pageMetadata(locale: Locale, path: string, page?: PageKey): Metadata {
   const m = DICTS[locale].meta;
   return {
-    title: page ? `${m[page]} – Abugikha` : m.title,
+    title: page ? `${m[page]} – NarakThai` : m.title,
     description: m.description,
     alternates: {
       canonical: absolute(locale, path),

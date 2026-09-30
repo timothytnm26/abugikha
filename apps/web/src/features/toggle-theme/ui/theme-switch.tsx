@@ -1,24 +1,22 @@
 "use client";
-import { useEffect, useState } from "react";
-import { applyTheme, getEffectiveTheme, type Theme } from "@/shared/lib/theme";
+import { useEffectiveTheme } from "@/shared/lib/theme";
+import { usePreferences } from "@/shared/lib/preferences";
 import { useT } from "@/shared/i18n";
 
+/** Nút nhanh sáng ⇄ tối: quay lại giao diện sáng/tối gần nhất mà người dùng đã chọn. */
 export function ThemeSwitch() {
   const t = useT();
-  const [theme, setTheme] = useState<Theme | null>(null);
-  useEffect(() => setTheme(getEffectiveTheme()), []);
-  const next: Theme = theme === "dark" ? "light" : "dark";
+  const theme = useEffectiveTheme();
+  const { lastLight, lastDark, setTheme } = usePreferences();
+  const next = theme === "dark" ? "light" : "dark";
   const label = next === "dark" ? t.nav.toDark : t.nav.toLight;
   return (
     <button
       type="button"
-      onClick={() => {
-        applyTheme(next);
-        setTheme(next);
-      }}
+      onClick={() => setTheme(next === "dark" ? lastDark : lastLight)}
       aria-label={label}
       title={label}
-      className="grid size-9 place-items-center rounded-full border border-ink/15 hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+      className="grid size-10 place-items-center rounded-full border border-ink/15 hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:size-9"
     >
       {theme === "dark" ? (
         <svg aria-hidden viewBox="0 0 24 24" className="size-4 fill-none stroke-current stroke-2" strokeLinecap="round">

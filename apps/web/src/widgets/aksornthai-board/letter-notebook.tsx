@@ -71,7 +71,7 @@ function Specimen({ family, text, frame, onMeasure }: { family: string; text: st
   const textProps = { x: size / 2, y: 0, fontSize: 1, textAnchor: "middle" as const, style: { fontFamily: `"${family}"` } };
   return (
     <svg aria-hidden viewBox={`0 ${top} ${size} ${size}`} className="block aspect-square w-full overflow-hidden">
-      <rect x="0" y={TIERS[2].top} width={size} height={-TIERS[2].top} className="fill-paper-deep/60" />
+      <rect x="0" y={TIERS[2].top} width={size} height={-TIERS[2].top} className="paper-tier fill-paper-deep/60" />
       {TIERS.slice(1).map((tier) => (
         <line
           key={tier.key}
@@ -82,7 +82,7 @@ function Specimen({ family, text, frame, onMeasure }: { family: string; text: st
           vectorEffect="non-scaling-stroke"
           strokeWidth={tier.key === "above" ? 1 : 1.5}
           strokeDasharray={tier.key === "above" ? "4 3" : undefined}
-          className="stroke-ink/20"
+          className="paper-tier stroke-ink/20"
         />
       ))}
       {lone ? (
@@ -119,7 +119,7 @@ function Margin({ frame }: { frame: Frame }) {
         <div
           key={tier.key}
           className={cn(
-            "absolute inset-x-0 overflow-hidden whitespace-nowrap border-ink/20 px-2 pt-0.5 text-[10px] font-semibold leading-tight text-ink-soft",
+            "paper-tier absolute inset-x-0 overflow-hidden whitespace-nowrap border-ink/20 px-2 pt-0.5 text-[10px] font-semibold leading-tight text-ink-soft",
             tier.key === "main" ? "border-y-[1.5px] bg-paper-deep/60" : i === 1 && "border-t border-dashed",
           )}
           style={{ top: at(tier.top), height: `${((tier.bottom - tier.top) / frame.size) * 100}%` }}
@@ -158,7 +158,7 @@ export function LetterNotebook({ text }: { text: string }) {
     <figure>
       {/* React 19 đưa stylesheet lên <head>; chỉ trang này cần các font so sánh */}
       <link rel="stylesheet" href={THAI_SPECIMEN_CSS} precedence="default" />
-      <div className="grid grid-cols-[1rem_minmax(0,1fr)_minmax(0,1fr)] overflow-hidden rounded-xl border border-ink/10 bg-paper sm:grid-cols-[4.25rem_minmax(0,1fr)_minmax(0,1fr)] lg:grid-cols-[3.75rem_minmax(0,1fr)_minmax(0,1fr)]">
+      <div className="grid grid-cols-[1rem_minmax(0,1fr)_minmax(0,1fr)] note-paper overflow-hidden rounded-xl sm:grid-cols-[4.25rem_minmax(0,1fr)_minmax(0,1fr)] lg:grid-cols-[3.75rem_minmax(0,1fr)_minmax(0,1fr)]">
         {ROWS.map((row, r) => (
           <Fragment key={r}>
             <Margin frame={frame} />

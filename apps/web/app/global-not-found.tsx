@@ -4,7 +4,7 @@ import { FONTS } from "@/shared/config/fonts";
 import { BASE_PATH } from "@/shared/config/metadata";
 import "@/app/styles/globals.css";
 
-export const metadata: Metadata = { title: "404 – Abugikha" };
+export const metadata: Metadata = { title: "404 – NarakThai" };
 
 export default function GlobalNotFound() {
   return (

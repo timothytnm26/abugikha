@@ -16,6 +16,7 @@ import {
 } from "@/entities/consonant";
 import { vowelGlyph, type Vowel } from "@/entities/vowel";
 import {
+  RuleBreakdown,
   SyllableCard,
   SyllableGlyph,
   TONE_MARK_BY_ID,
@@ -142,8 +143,8 @@ function DockSlot({
   );
 }
 
-const Plus = ({ c = "+" }: { c?: string }) => (
-  <span className="text-xl text-ink-soft" aria-hidden>
+const Plus = ({ c = "+", compact }: { c?: string; compact?: boolean }) => (
+  <span className={cn("text-xl text-ink-soft", compact && "hidden sm:inline")} aria-hidden>
     {c}
   </span>
 );
@@ -355,21 +356,23 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
   const dockSlots = (
     <>
       <DockSlot kind="initial" label={t.builder.parts.initial} glyph={initial.chars} color={clsColor} onSelect={() => setTab("initial")} />
-      <Plus />
-      <DockSlot kind="vowel" label={t.builder.parts.vowel} glyph={vowelGlyph(vowel, a.form)} onSelect={() => setTab("vowel")} />
-      <Plus />
+      <Plus compact />
+      <DockSlot kind="vowel" label={t.builder.parts.vowel} glyph={vowelGlyph(vowel, a.form)} color="var(--color-part-vowel)" onSelect={() => setTab("vowel")} />
+      <Plus compact />
       <DockSlot
         kind="final"
         label={t.builder.parts.final}
         glyph={hasFinal ? final!.char : "—"}
+        color="var(--color-part-final)"
         empty={!hasFinal}
         onSelect={() => setTab("final")}
       />
-      <Plus />
+      <Plus compact />
       <DockSlot
         kind="mark"
         label={t.builder.parts.mark}
         glyph={markChar ? `◌${markChar}` : "—"}
+        color={tone.color}
         empty={!markChar}
         onSelect={() => setTab("mark")}
       />
@@ -384,12 +387,13 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
         className="rounded-xl bg-paper-deep px-3 pb-2 pt-4 md:px-4"
       >
         <div ref={inner}>
-          <div className="flex flex-col items-stretch gap-3 md:flex-row md:items-center">
+          <div className="flex flex-col items-stretch gap-3 xl:flex-row xl:items-center">
             <div className="min-w-0 flex-1">
               <div className="mb-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 px-1 text-[11px] text-ink-soft">
                 <span className="font-semibold uppercase tracking-wider">{t.notebook.title}</span>
                 <span className="flex items-center gap-3">
-                  <span className="max-md:hidden">{t.builder.hoverHint}</span>
+                  <span className="hidden pointer-fine:inline">{t.builder.hoverHint}</span>
+                  <span className="pointer-fine:hidden">{t.builder.tapHint}</span>
                   <AutoSpeakSwitch label={t.builder.autoSpeak} className="text-ink" />
                 </span>
               </div>
@@ -520,22 +524,35 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
               </ul>
             )}
           </div>
+
+          {/* Máy cảm ứng không có hover: các bước suy ra thanh nằm sẵn trong mục mở được này */}
+          <details className="group mt-2 rounded-xl bg-paper/60 px-3 py-2">
+            <summary className="flex min-h-9 cursor-pointer list-none items-center justify-between gap-2 text-sm font-medium focus-visible:outline-2 focus-visible:outline-ink">
+              {t.builder.stepsToggle}
+              <svg aria-hidden viewBox="0 0 20 20" className="size-4 fill-none stroke-current stroke-2 transition-transform group-open:rotate-180" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 8l5 5 5-5" />
+              </svg>
+            </summary>
+            <div className="pb-2 pt-3">
+              <RuleBreakdown analysis={a} />
+            </div>
+          </details>
         </div>
       </section>
 
       {/* Thanh ghép nổi: hiện khi khung chính bị cuộn khuất, nhận thả như khung chính */}
       {offscreen && (
-        <div className="pointer-events-none fixed inset-x-0 top-[4.25rem] z-30 hidden justify-center px-4 md:flex">
+        <div className="pointer-events-none fixed inset-x-0 top-[3.75rem] z-30 flex justify-center px-2 sm:px-4 md:top-[4.25rem]">
           <div
             data-dropzone="dock"
             aria-label={t.builder.sumAria}
-            className="pointer-events-auto flex items-center gap-2.5 rounded-xl border-2 bg-paper px-4 py-2.5 shadow-[0_24px_60px_-18px_rgb(0_0_0/0.55)] [animation:dock-in_.3s_cubic-bezier(.2,1.4,.4,1)]"
+            className="pointer-events-auto flex items-center gap-1.5 rounded-xl border-2 bg-paper px-2.5 py-2 shadow-[0_24px_60px_-18px_rgb(0_0_0/0.55)] [animation:dock-in_.3s_cubic-bezier(.2,1.4,.4,1)] sm:gap-2.5 sm:px-4 sm:py-2.5"
             style={{
               borderColor: `color-mix(in oklab, ${clsColor} 55%, transparent)`,
             }}
           >
             {dockSlots}
-            <Plus c="=" />
+            <Plus c="=" compact />
             <button
               type="button"
               onClick={() => speakThai(a.spelling)}

@@ -2,7 +2,8 @@
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-@theme {
+/* static: các màu này chỉ được dùng qua var(--color-…) dựng bằng code nên Tailwind sẽ tưởng là thừa và bỏ đi */
+@theme static {
   /* Chữ Thái lẫn trong câu (gợi ý, tên dấu) dùng font Thái thay vì font dự phòng của hệ thống */
   --font-sans: "Be Vietnam Pro", "Noto Serif Thai", "Leelawadee UI", "Thonburi", ui-sans-serif, system-ui, sans-serif;
   --font-thai: "Noto Serif Thai", "Noto Sans Thai", "Leelawadee UI", "Thonburi", serif;
@@ -12,7 +13,7 @@
   --font-taitham: "Noto Sans Tai Tham", sans-serif;
   --font-brahmi: "Noto Sans Brahmi", sans-serif;
 
-  /* Sáng: nền men gốm celadon Sukhothai */
+  /* Mặc định sáng: nền men gốm celadon Sukhothai. Các giao diện khác nằm ở shared/config/themes.ts */
   --color-paper: #eef1ec;
   --color-paper-deep: #e1e8e1;
   --color-ink: #1e2833;
@@ -36,6 +37,10 @@
 
   /* Đường lề đỏ của giấy tập viết */
   --color-margin: #d98a86;
+
+  /* Giấy ghi chú của khung xem trước: màu giấy và màu đường kẻ */
+  --color-sheet: #fbfbf4;
+  --color-sheet-line: #b9c9c9;
 }
 
 /* Tối: men celadon nung khử, xanh đen như gốm sứ Sawankhalok về đêm */
@@ -61,6 +66,8 @@
     --color-part-final: #4fd39a;
     --color-removed: #ff8466;
     --color-margin: #8e4f4c;
+    --color-sheet: #1f2b2f;
+    --color-sheet-line: #3a4c52;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -82,6 +89,8 @@
       --color-part-final: #4fd39a;
       --color-removed: #ff8466;
       --color-margin: #8e4f4c;
+      --color-sheet: #1f2b2f;
+      --color-sheet-line: #3a4c52;
     }
   }
 
@@ -198,4 +207,84 @@
 }
 @media (prefers-reduced-motion: reduce) {
   [data-slot][data-target] { animation: none; }
+}
+
+/* ---------- Giấy ghi chú (khung xem trước) ---------- */
+.note-paper {
+  --u: 2.25rem;
+  position: relative;
+  background-color: var(--color-sheet);
+  border: 1px solid color-mix(in oklab, var(--color-ink) 10%, transparent);
+  box-shadow:
+    0 1px 0 color-mix(in oklab, var(--color-ink) 6%, transparent),
+    0 14px 30px -18px color-mix(in oklab, var(--color-ink) 35%, transparent);
+}
+/* Kiểu giấy do người dùng chọn (data-paper trên <html>); data-style trên chính tờ giấy dùng cho ô xem thử trong Tuỳ chỉnh */
+.note-paper[data-style="lines"],
+[data-paper="lines"] .note-paper:not([data-style]) {
+  background-image: linear-gradient(to bottom, transparent calc(var(--u) - 1.5px), var(--color-sheet-line) calc(var(--u) - 1.5px));
+  background-size: 100% var(--u);
+}
+.note-paper[data-style="grid"],
+[data-paper="grid"] .note-paper:not([data-style]) {
+  background-image:
+    linear-gradient(to right, var(--color-sheet-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-sheet-line) 1px, transparent 1px);
+  background-size: var(--u) var(--u);
+  background-position: center center;
+}
+.note-paper[data-style="dots"],
+[data-paper="dots"] .note-paper:not([data-style]) {
+  background-image: radial-gradient(circle, var(--color-sheet-line) 1.6px, transparent 2px);
+  background-size: var(--u) var(--u);
+  background-position: center center;
+}
+/* Ô xem thử của "vở 4 tầng": vài vạch ngang, dải giữa đậm hơn */
+.note-paper[data-style="tiers"] {
+  background-image: linear-gradient(to bottom, transparent 24%, var(--color-sheet-line) 24%, var(--color-sheet-line) calc(24% + 1px), color-mix(in oklab, var(--color-ink) 8%, transparent) calc(24% + 1px), color-mix(in oklab, var(--color-ink) 8%, transparent) 66%, var(--color-sheet-line) 66%, var(--color-sheet-line) calc(66% + 1px), transparent calc(66% + 1px));
+}
+/* Chỉ kiểu "vở 4 tầng" mới vẽ các tầng (đường kẻ, nhãn, dải nền); kiểu khác chỉ giữ nền giấy */
+html:not([data-paper="tiers"]) .paper-tier {
+  display: none;
+}
+/* Băng dính washi và góc gấp cho vẻ dễ thương */
+.note-paper[data-tape]::before {
+  content: "";
+  position: absolute;
+  top: -0.6rem;
+  left: 50%;
+  width: 5.5rem;
+  height: 1.3rem;
+  translate: -50% 0;
+  rotate: -2deg;
+  border-radius: 2px;
+  background: color-mix(in oklab, var(--color-tone-falling) 32%, transparent);
+  box-shadow: 0 1px 2px color-mix(in oklab, var(--color-ink) 15%, transparent);
+  pointer-events: none;
+}
+.note-paper[data-fold]::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-top-left-radius: 0.6rem;
+  background: linear-gradient(135deg, var(--color-paper-deep) 50%, transparent 50%);
+  box-shadow: -2px -2px 4px -2px color-mix(in oklab, var(--color-ink) 25%, transparent);
+  pointer-events: none;
+}
+/* Quầng cùng màu giấy giúp chữ đọc rõ trên đường kẻ */
+.note-glyph {
+  text-shadow: 0 0 0.12em var(--color-sheet), 0 0 0.3em var(--color-sheet);
+}
+
+@keyframes float-soft {
+  50% { translate: 0 -10px; rotate: 3deg; }
+}
+@keyframes nudge-x {
+  50% { translate: 6px 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
 }

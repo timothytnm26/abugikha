@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Providers, RootShell } from "@/app";
 import { FONTS } from "@/shared/config/fonts";
-import { PALETTE_BOOT_SCRIPT } from "@/shared/config/palette";
+import { THEME_BOOT_SCRIPT } from "@/shared/config/themes";
 import { SITE_URL, pageMetadata } from "@/shared/config/metadata";
 import { localeStaticParams, resolveLocale, type LocaleParams } from "@/shared/config/locale-params";
 import "@/app/styles/globals.css";
@@ -20,7 +20,7 @@ export default async function LocaleLayout({ children, params }: LocaleParams & 
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: PALETTE_BOOT_SCRIPT }} />
+        <script dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="stylesheet" href={FONTS} />
