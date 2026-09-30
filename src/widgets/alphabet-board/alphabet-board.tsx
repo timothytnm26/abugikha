@@ -30,7 +30,7 @@ type Selected =
 
 const pill = (on: boolean) =>
   cn(
-    "rounded-full px-3 py-1 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
+    "rounded-full px-3.5 py-1.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
     on ? "bg-ink text-paper" : "bg-paper-deep hover:bg-ink/10",
   );
 
@@ -50,6 +50,7 @@ export function AlphabetBoard() {
     sel.kind === "consonant"
       ? CLASS_META[sel.item.cls].color
       : "var(--color-ink)";
+  const glyphColor = sel.kind === "vowel" ? "var(--color-vowel)" : color;
 
   const choose = (s: Selected) => {
     setSel(s);
@@ -58,21 +59,28 @@ export function AlphabetBoard() {
   };
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_24rem] xl:grid-cols-[minmax(0,1fr)_28rem]">
-      {/* Panel viết chữ: trên cùng ở mobile, cột phải cố định ở desktop */}
+    <div className="grid gap-6 sm:gap-8 lg:grid-cols-[minmax(0,1fr)_24rem] xl:grid-cols-[minmax(0,1fr)_28rem]">
+      {/* Tờ giấy xem trước: trên cùng ở mobile (chữ bên trái, thông tin bên phải khi đủ rộng), cột phải cố định ở desktop.
+          Cùng kiểu giấy với khung xem trước ở trang Ghép chữ. */}
       <aside
         aria-live="polite"
-        className="order-first rounded-xl bg-paper-deep p-5 lg:sticky lg:top-20 lg:order-last lg:self-start"
+        data-tape
+        data-fold
+        className="note-paper order-first rounded-2xl p-4 pt-6 sm:grid sm:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] sm:items-center sm:gap-6 sm:p-5 sm:pt-7 lg:sticky lg:top-20 lg:order-last lg:block lg:self-start"
       >
-        <div
-          role="img"
-          aria-label={char}
-          className="mx-auto grid aspect-square w-full max-w-80 place-items-center font-thai text-[10rem] leading-none text-ink"
-        >
-          {char}
+        <div>
+          <p className="mb-1 text-xs font-medium uppercase tracking-wide text-ink-soft">{t.alphabet.preview}</p>
+          <div
+            role="img"
+            aria-label={char}
+            className="note-glyph mx-auto grid aspect-[4/3] w-full max-w-80 place-items-center font-thai text-[clamp(6rem,34vw,9rem)] leading-none sm:aspect-square sm:text-[8.5rem] lg:text-[10rem]"
+            style={{ color: glyphColor }}
+          >
+            {char}
+          </div>
         </div>
 
-        <div className="mt-5 space-y-3 border-t border-ink/10 pt-4">
+        <div className="mt-4 space-y-3 rounded-2xl bg-sheet p-4 sm:mt-0 lg:mt-4">
           {sel.kind === "consonant" ? (
             <>
               <div className="flex flex-wrap items-center gap-3">
@@ -101,7 +109,7 @@ export function AlphabetBoard() {
                 “{sel.item.meaning[locale]}”
               </p>
               <dl className="grid grid-cols-2 gap-2 text-sm">
-                <div className="rounded-xl bg-paper px-3 py-2">
+                <div className="rounded-xl bg-sheet/80 px-3 py-2">
                   <dt className="text-xs text-ink-soft">
                     {t.alphabet.initial}
                   </dt>
@@ -109,7 +117,7 @@ export function AlphabetBoard() {
                     <Phonetic ipa={sel.item.initial} />
                   </dd>
                 </div>
-                <div className="rounded-xl bg-paper px-3 py-2">
+                <div className="rounded-xl bg-sheet/80 px-3 py-2">
                   <dt className="text-xs text-ink-soft">{t.alphabet.final}</dt>
                   <dd>
                     {sel.item.final ? (
@@ -134,7 +142,7 @@ export function AlphabetBoard() {
                       setPart("initial", sel.item.char);
                       router.push("/lab");
                     }}
-                    className="rounded-full border border-ink/15 px-3 py-1 text-sm font-medium hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+                    className="rounded-full border border-ink/15 px-3.5 py-1.5 text-sm font-medium hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
                   >
                     {t.alphabet.tryIt} →
                   </button>
@@ -144,7 +152,7 @@ export function AlphabetBoard() {
           ) : sel.kind === "vowel" ? (
             <>
               <div className="flex flex-wrap items-baseline gap-3">
-                <span className="font-thai text-4xl">
+                <span className="font-thai text-4xl text-vowel">
                   {vowelGlyph(sel.item)}
                 </span>
                 <Phonetic ipa={sel.item.ipa} className="text-ink-soft" />
@@ -181,7 +189,7 @@ export function AlphabetBoard() {
                   setPart("vowel", sel.item.id);
                   router.push("/lab");
                 }}
-                className="w-fit rounded-full border border-ink/15 px-3 py-1 text-sm font-medium hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+                className="w-fit rounded-full border border-ink/15 px-3.5 py-1.5 text-sm font-medium hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
               >
                 {t.alphabet.tryVowel} →
               </button>
@@ -301,7 +309,7 @@ export function AlphabetBoard() {
                         "ring-3 ring-ink ring-offset-2 ring-offset-paper",
                     )}
                   >
-                    <span className="block whitespace-nowrap font-thai text-2xl leading-tight">
+                    <span className="block whitespace-nowrap font-thai text-2xl leading-tight text-vowel">
                       {vowelGlyph(vowel)}
                     </span>
                     <Phonetic

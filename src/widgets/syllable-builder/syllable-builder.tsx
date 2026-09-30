@@ -12,9 +12,9 @@ import { SumStage } from "./sum-stage";
 import { PartPicker } from "./part-picker";
 
 /**
- * Bố cục desktop (xl):                Mobile (xếp dọc):
- *  [ lab + tiến trình + từ vựng ] [ bảng thanh ]   lab → chọn thành phần (tab) → bảng thanh
- *  [ chọn thành phần (full width)              ]
+ * Desktop (xl): [ giấy xem trước ][ bảng thanh ]   Tablet (md): [ giấy xem trước (dính) ][ chọn (tab) ]
+ *                [ chọn thành phần (rộng)  ]                   [                    ][ bảng thanh  ]
+ * Mobile: giấy xem trước → chọn thành phần (tab) → bảng thanh
  */
 export function SyllableBuilder() {
   const t = useT();
@@ -53,16 +53,17 @@ export function SyllableBuilder() {
   );
 
   return (
-    <div className="grid grid-cols-[minmax(0,1fr)] gap-3 xl:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] xl:items-start">
-      <div className="xl:col-start-1 xl:row-start-1">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-3 md:grid-cols-[minmax(0,23rem)_minmax(0,1fr)] md:gap-4 xl:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] xl:items-start">
+      {/* Máy tính bảng: tờ giấy xem trước dính ở bên trái để vừa chọn vừa thấy kết quả */}
+      <div className="md:sticky md:top-[4.5rem] md:col-start-1 md:row-span-2 md:row-start-1 md:max-h-[calc(100dvh-5.5rem)] md:self-start md:overflow-y-auto md:pt-3 xl:static xl:row-span-1 xl:max-h-none xl:overflow-visible xl:pt-0">
         <SumStage ref={stage} analysis={analysis} initial={initial} vowel={vowel} final={final} words={words} />
       </div>
 
-      <div className="xl:col-span-2 xl:row-start-2">
+      <div className="md:col-start-2 md:row-start-1 xl:col-span-2 xl:col-start-1 xl:row-start-2">
         <PartPicker stageRef={stage} vowel={vowel} analysis={analysis} onPick={pick} />
       </div>
 
-      <section aria-label={t.builder.tableTitle} className="rounded-xl border border-ink/10 p-2.5 md:p-3 xl:col-start-2 xl:row-start-1">
+      <section aria-label={t.builder.tableTitle} className="rounded-2xl border border-ink/10 p-2.5 md:col-start-2 md:row-start-2 md:p-3 xl:col-start-2 xl:row-start-1">
         <ToneRuleTable analysis={analysis} />
       </section>
     </div>

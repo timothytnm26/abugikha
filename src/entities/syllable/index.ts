@@ -2,6 +2,7 @@ export type {
   SyllableInput,
   SyllableAnalysis,
   Segment,
+  SegmentRole,
   RuleStep,
 } from "./model/types";
 export type { Tone, ToneMark, ToneMarkId, Liveness } from "./model/tone";

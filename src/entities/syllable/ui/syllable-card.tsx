@@ -20,9 +20,11 @@ export function SyllableGlyph({
             ? classColor
             : segment.role === "mark"
               ? toneColor
-              : undefined;
+              : segment.role === "vowel"
+                ? "var(--color-vowel)"
+                : "var(--color-final)";
         return (
-          <span key={index} style={color ? { color } : undefined}>
+          <span key={index} style={{ color }}>
             {segment.text}
           </span>
         );

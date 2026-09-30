@@ -15,8 +15,9 @@ import {
 } from "@/entities/consonant";
 import { vowelGlyph, type Vowel } from "@/entities/vowel";
 import {
-  SyllableCard,
+  RuleBreakdown,
   SyllableGlyph,
+  ToneContour,
   TONE_MARK_BY_ID,
   TONE_META,
   analyzeSyllable,
@@ -30,6 +31,7 @@ import { cn } from "@/shared/lib";
 import { gsap, useGSAP, prefersReducedMotion } from "@/shared/lib/gsap";
 import { speakThai } from "@/shared/lib/speech";
 import { Phonetic, SpeakButton } from "@/shared/ui";
+import { tint } from "@/shared/lib";
 
 interface Props {
   analysis: SyllableAnalysis;
@@ -131,12 +133,7 @@ function Slot({
   popover?: ReactNode;
 }) {
   return (
-    <div
-      className={cn(
-        "group/step relative flex flex-col items-center gap-1.5",
-        kind === "mark" && !small && "ml-2",
-      )}
-    >
+    <div className="group/step relative flex flex-col items-center gap-1">
       <button
         type="button"
         data-slot={kind}
@@ -144,24 +141,23 @@ function Slot({
         title={small ? undefined : hint}
         aria-label={`${label}: ${empty ? "—" : glyph}`}
         className={cn(
-          "relative grid place-items-center rounded-lg border-2 font-thai focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
+          "relative grid place-items-center rounded-xl border-2 font-thai focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
           small
             ? "h-11 min-w-11 px-1.5 text-2xl"
-            : "h-14 min-w-14 px-2 text-3xl md:h-16 md:min-w-16",
-          empty
-            ? "border-dashed border-ink/25 text-ink-soft"
-            : "border-transparent bg-paper",
+            : "h-14 min-w-13 px-2 text-3xl sm:min-w-14 xl:h-16 xl:min-w-16",
+          empty ? "border-dashed border-ink/25 text-ink-soft" : "bg-sheet",
         )}
-        style={!empty && color ? { borderColor: color, color } : undefined}
+        style={!empty && color ? { borderColor: color, color, backgroundColor: tint(color, 10) } : undefined}
       >
         {glyph}
       </button>
+      {!small && <span className="max-w-20 text-center text-[10px] font-medium leading-tight text-ink-soft">{label}</span>}
       {onClear && !empty && !small && (
         <button
           type="button"
           onClick={onClear}
           aria-label={clearLabel}
-          className="absolute -right-2 -top-2 z-10 grid size-5 place-items-center rounded-full bg-ink text-xs leading-none text-paper hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+          className="absolute -right-2 -top-2 z-10 grid size-6 place-items-center rounded-full bg-ink text-xs leading-none text-paper hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink pointer-coarse:size-7"
         >
           ×
         </button>
@@ -171,8 +167,8 @@ function Slot({
   );
 }
 
-const Plus = ({ c = "+" }: { c?: string }) => (
-  <span className="text-xl text-ink-soft" aria-hidden>
+const Plus = ({ c = "+", compact }: { c?: string; compact?: boolean }) => (
+  <span className={cn("text-xl text-ink-soft", compact ? "hidden sm:inline" : "-mt-4")} aria-hidden>
     {c}
   </span>
 );
@@ -347,13 +343,14 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
           )
         }
       />
-      <Plus />
+      <Plus compact={small} />
       <Slot
         hint={t.builder.hoverHint}
         small={small}
         kind="vowel"
         label={t.builder.parts.vowel}
         glyph={vowelGlyph(vowel, a.form)}
+        color="var(--color-vowel)"
         onSelect={() => setTab("vowel")}
         popover={
           !small && (
@@ -368,13 +365,14 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
           )
         }
       />
-      <Plus />
+      <Plus compact={small} />
       <Slot
         hint={t.builder.hoverHint}
         small={small}
         kind="final"
         label={t.builder.parts.final}
         glyph={hasFinal ? final!.char : "—"}
+        color="var(--color-final)"
         empty={!hasFinal}
         onSelect={() => setTab("final")}
         onClear={() => setPart("final", null)}
@@ -392,13 +390,14 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
           )
         }
       />
-      <Plus />
+      <Plus compact={small} />
       <Slot
         hint={t.builder.hoverHint}
         small={small}
         kind="mark"
         label={t.builder.parts.mark}
         glyph={markChar ? `◌${markChar}` : "—"}
+        color={tone.color}
         empty={!markChar}
         onSelect={() => setTab("mark")}
         onClear={() => setPart("mark", null)}
@@ -423,81 +422,125 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
     <>
       <section
         ref={section}
+        data-tape
+        data-fold
         aria-label={t.builder.sumAria}
-        className="rounded-xl bg-paper-deep px-3 pb-2 pt-4 md:px-4"
+        className="note-paper rounded-2xl px-3 pb-3 pt-6 sm:px-5 md:px-6"
       >
         <div ref={inner}>
-          <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3">
-            {slots(false)}
-            <Plus c="=" />
-            <div className="group/step relative grid place-items-center">
-              <span
-                className="sum-ring pointer-events-none absolute size-28 rounded-full border-2 opacity-0"
-                style={{ borderColor: tone.color }}
-              />
-              <button
-                type="button"
-                onClick={() => speakThai(a.spelling)}
-                aria-label={`${a.spelling}, ${t.builder.resultHint}`}
-                className="sum-result relative rounded-xl focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-ink"
-              >
-                <SyllableCard analysis={a} size="lg" />
-                {a.warnings.length > 0 && (
-                  <span
-                    className="absolute -left-1.5 -top-1.5 grid size-5 place-items-center rounded-full bg-high text-xs font-bold text-on-accent"
-                    aria-hidden
-                  >
-                    !
-                  </span>
-                )}
-              </button>
-              <StepPopover
-                align="end"
-                title={t.builder.resultStep}
-                glyph={a.spelling}
-                ipa={a.ipa}
-                tone={tone.color}
-                steps={stepsOf("result")}
-                extra={
-                  <>
-                    <p className="text-xs text-ink-soft">
-                      <span style={{ color: clsColor }}>
-                        {t.builder.formula.cls(CLASS_META[a.cls].label[locale])}
-                      </span>
-                      {" + "}
-                      {a.liveness === "live"
-                        ? t.builder.formula.live
-                        : t.builder.formula.dead}
-                      {!a.mark && a.liveness === "dead" && a.cls === "low" && (
-                        <>
-                          {" "}
-                          +{" "}
-                          {a.length === "long"
-                            ? t.builder.formula.long
-                            : t.builder.formula.short}
-                        </>
-                      )}
-                      {" + "}
-                      {a.mark ? (
-                        <span className="font-thai">◌{markChar}</span>
-                      ) : (
-                        t.builder.noMark
-                      )}
-                    </p>
-                    {a.warnings.map((w) => (
-                      <p key={w} className="text-xs text-high">
-                        {w}
-                      </p>
-                    ))}
-                  </>
-                }
-              />
-            </div>
+          {/* Đầu tờ giấy: tên khung + nút nghe, giống khung xem trước ở trang Abugida */}
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-medium uppercase tracking-wide text-ink-soft">
+              {t.builder.previewTitle}
+            </span>
+            <SpeakButton text={a.spelling} className="bg-sheet" />
           </div>
+
+          {/* Âm tiết lớn */}
+          <div className="group/step relative grid place-items-center py-2">
+            <span
+              className="sum-ring pointer-events-none absolute size-32 rounded-full border-2 opacity-0"
+              style={{ borderColor: tone.color }}
+            />
+            <button
+              type="button"
+              onClick={() => speakThai(a.spelling)}
+              aria-label={`${a.spelling}, ${t.builder.resultHint}`}
+              className="sum-result relative rounded-2xl px-6 focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-ink"
+            >
+              <SyllableGlyph
+                analysis={a}
+                className="note-glyph block text-[clamp(5.5rem,26vw,9rem)] leading-[1.35]"
+              />
+              {a.warnings.length > 0 && (
+                <span
+                  className="absolute -left-1 top-1 grid size-6 place-items-center rounded-full bg-high text-xs font-bold text-on-accent"
+                  aria-hidden
+                >
+                  !
+                </span>
+              )}
+            </button>
+            <StepPopover
+              align="center"
+              title={t.builder.resultStep}
+              glyph={a.spelling}
+              ipa={a.ipa}
+              tone={tone.color}
+              steps={stepsOf("result")}
+              extra={
+                <p className="text-xs text-ink-soft">
+                  <span style={{ color: clsColor }}>
+                    {t.builder.formula.cls(CLASS_META[a.cls].label[locale])}
+                  </span>
+                  {" + "}
+                  {a.liveness === "live"
+                    ? t.builder.formula.live
+                    : t.builder.formula.dead}
+                  {!a.mark && a.liveness === "dead" && a.cls === "low" && (
+                    <>
+                      {" + "}
+                      {a.length === "long"
+                        ? t.builder.formula.long
+                        : t.builder.formula.short}
+                    </>
+                  )}
+                  {" + "}
+                  {a.mark ? (
+                    <span className="font-thai">◌{markChar}</span>
+                  ) : (
+                    t.builder.noMark
+                  )}
+                </p>
+              }
+            />
+          </div>
+
+          {/* Phiên âm + thanh + nhóm */}
+          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2">
+            <Phonetic ipa={a.ipa} className="text-xl" style={{ color: tone.color }} />
+            <ToneContour tone={a.tone} className="w-9" strokeWidth={4} />
+            <ul className="flex flex-wrap items-center justify-center gap-1.5 text-xs font-medium">
+              <li
+                className="rounded-full px-2.5 py-0.5 text-on-accent"
+                style={{ backgroundColor: clsColor }}
+              >
+                {t.builder.formula.cls(CLASS_META[a.cls].label[locale])}
+              </li>
+              <li className="rounded-full bg-ink/8 px-2.5 py-0.5">
+                {a.liveness === "live" ? t.builder.formula.live : t.builder.formula.dead}
+              </li>
+              <li
+                className="rounded-full px-2.5 py-0.5"
+                style={{ backgroundColor: tint(tone.color, 18), color: tone.color }}
+              >
+                {t.builder.toneLabel} {tone.label[locale]}
+              </li>
+            </ul>
+          </div>
+
+          {a.warnings.length > 0 && (
+            <ul className="mt-2 space-y-0.5 text-center text-xs text-high" aria-live="polite">
+              {a.warnings.map((w) => (
+                <li key={w}>{w}</li>
+              ))}
+            </ul>
+          )}
+
+          {/* Nửa dưới là phần điều khiển nên nền trơn (không kẻ) để chữ nhỏ không bị đường kẻ cắt ngang */}
+          <div className="-mx-3 -mb-3 mt-5 rounded-b-2xl border-t-2 border-dashed border-ink/15 bg-sheet px-3 pb-3 pt-4 sm:-mx-5 sm:px-5 md:-mx-6 md:px-6">
+          {/* Phương trình các mảnh ghép */}
+          <div className="flex flex-wrap items-start justify-center gap-x-1.5 gap-y-2 sm:gap-x-2 xl:gap-x-3">
+            {slots(false)}
+          </div>
+          <p className="mt-2 text-center text-[11px] text-ink-soft">
+            <span className="hidden pointer-fine:inline">{t.builder.hoverHint}</span>
+            <span className="pointer-fine:hidden">{t.builder.tapHint}</span>
+          </p>
 
           {/* Từ vựng */}
           <div
-            className="vocab mt-3 space-y-1 border-t-2 border-dashed border-ink/15 pt-1.5"
+            className="vocab mt-3 space-y-1 border-t border-dashed border-ink/15 pt-2"
             aria-live="polite"
           >
             {words.exact ? (
@@ -530,16 +573,30 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
               </ul>
             )}
           </div>
+
+          {/* Máy cảm ứng không có hover: các bước suy ra thanh nằm sẵn trong mục mở được này */}
+          <details className="group mt-2 rounded-xl bg-paper-deep/70 px-3 py-2">
+            <summary className="flex min-h-9 cursor-pointer list-none items-center justify-between gap-2 text-sm font-medium focus-visible:outline-2 focus-visible:outline-ink">
+              {t.builder.stepsToggle}
+              <svg aria-hidden viewBox="0 0 20 20" className="size-4 fill-none stroke-current stroke-2 transition-transform group-open:rotate-180" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 8l5 5 5-5" />
+              </svg>
+            </summary>
+            <div className="pb-2 pt-3">
+              <RuleBreakdown analysis={a} />
+            </div>
+          </details>
+          </div>
         </div>
       </section>
 
       {/* Thanh ghép nổi: hiện khi khung chính bị cuộn khuất, nhận thả như khung chính */}
       {offscreen && (
-        <div className="pointer-events-none fixed inset-x-0 top-[4.25rem] z-30 hidden justify-center px-4 md:flex">
+        <div className="pointer-events-none fixed inset-x-0 top-[3.75rem] z-30 flex justify-center px-2 sm:px-4 md:top-[4.25rem]">
           <div
             data-dropzone="dock"
             aria-label={t.builder.sumAria}
-            className="pointer-events-auto flex items-center gap-2.5 rounded-xl border-2 bg-paper px-4 py-2.5 shadow-[0_24px_60px_-18px_rgb(0_0_0/0.55)] [animation:dock-in_.3s_cubic-bezier(.2,1.4,.4,1)]"
+            className="pointer-events-auto flex items-center gap-1.5 rounded-2xl border-2 bg-paper px-2.5 py-2 shadow-[0_24px_60px_-18px_rgb(0_0_0/0.55)] [animation:dock-in_.3s_cubic-bezier(.2,1.4,.4,1)] sm:gap-2.5 sm:px-4 sm:py-2.5"
             style={{
               borderColor: `color-mix(in oklab, ${clsColor} 55%, transparent)`,
             }}
@@ -549,7 +606,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
             <button
               type="button"
               onClick={() => speakThai(a.spelling)}
-              className="flex items-center self-stretch rounded-xl border-2 bg-paper px-3 focus-visible:outline-2 focus-visible:outline-ink"
+              className="flex items-center self-stretch rounded-xl border-2 bg-sheet px-3 focus-visible:outline-2 focus-visible:outline-ink"
               style={{
                 borderColor: tone.color,
               }}

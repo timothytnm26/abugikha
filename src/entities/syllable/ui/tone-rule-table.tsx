@@ -63,7 +63,7 @@ export function ToneRuleTable({ analysis }: { analysis: SyllableAnalysis }) {
           <tr>
             <th />
             {COLS.map((c) => (
-              <th key={c} scope="col" className={cn("whitespace-nowrap rounded-md px-0.5 py-1 text-[11px] font-medium", c in MARK_CHAR && "font-thai text-base", cur.col === c ? "bg-ink text-paper" : "text-ink-soft")}>
+              <th key={c} scope="col" className={cn("rounded-md px-0.5 py-1 text-[10px] font-medium leading-tight sm:text-[11px]", c in MARK_CHAR && "font-thai text-base", cur.col === c ? "bg-ink text-paper" : "text-ink-soft")}>
                 {label[c]}
               </th>
             ))}

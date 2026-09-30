@@ -82,16 +82,19 @@ export function SiteNav() {
     <div className="relative">
       <nav
         aria-label={t.nav.path}
-        className="mx-auto flex h-14 max-w-[1440px] items-center gap-2 px-4 md:px-6"
+        className="mx-auto flex h-14 max-w-[1440px] items-center gap-1.5 px-3 sm:gap-2 sm:px-4 md:px-6"
       >
         <Link
           href="/"
-          className="mr-4 shrink-0 whitespace-nowrap font-thai text-xl font-medium leading-none sm:text-2xl"
-          aria-label="Abugikha home"
+          className="group mr-2 flex shrink-0 items-baseline gap-2 whitespace-nowrap leading-none md:mr-4"
+          aria-label={t.nav.brandLabel}
         >
-          อะบูกิ<span className="text-mid">ค่ะ</span>
+          <span className="font-thai text-xl font-semibold sm:text-2xl">
+            น่ารัก<span className="text-tone-falling transition-colors group-hover:text-mid">ไทย</span>
+          </span>
+          <span className="hidden text-xs font-medium tracking-wide text-ink-soft min-[420px]:inline">NarakThai</span>
         </Link>
-        <ul className="hidden items-center gap-1 md:flex">
+        <ul className="hidden items-center gap-1 lg:flex">
           {LEARNING_PATH.map((item) => {
             const active = path === item.href;
             return (
@@ -100,7 +103,7 @@ export function SiteNav() {
                   href={item.href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "flex items-center rounded-full px-3.5 py-1.5 text-sm focus-visible:outline-2 focus-visible:outline-ink",
+                    "flex items-center whitespace-nowrap rounded-full px-3.5 py-1.5 text-sm focus-visible:outline-2 focus-visible:outline-ink",
                     active
                       ? "bg-ink text-paper"
                       : "text-ink-soft hover:bg-ink/5 hover:text-ink",
@@ -112,8 +115,8 @@ export function SiteNav() {
             );
           })}
         </ul>
-        <ClassLegend className="ml-auto mr-4 hidden lg:flex" />
-        <div className="ml-auto flex items-center gap-2 lg:ml-0">
+        <ClassLegend className="ml-auto mr-4 hidden xl:flex" />
+        <div className="ml-auto flex items-center gap-2 xl:ml-0">
           <LocaleSwitch />
           <ThemeSwitch />
           <SettingsMenu />
@@ -124,7 +127,7 @@ export function SiteNav() {
             aria-expanded={open}
             aria-controls="site-menu"
             aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
-            className="grid size-9 place-items-center rounded-full border border-ink/15 hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink md:hidden"
+            className="grid size-10 place-items-center rounded-full border border-ink/15 hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:size-9 lg:hidden"
           >
             <svg
               aria-hidden
@@ -146,7 +149,7 @@ export function SiteNav() {
         <div
           ref={panel}
           id="site-menu"
-          className="absolute inset-x-0 top-full border-b border-ink/10 bg-paper px-4 pb-6 pt-2 shadow-xl md:hidden"
+          className="absolute inset-x-0 top-full border-b border-ink/10 bg-paper px-4 pb-6 pt-2 shadow-xl lg:hidden"
         >
           <ol className="space-y-1">
             {LEARNING_PATH.map((item) => {

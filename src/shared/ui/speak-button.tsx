@@ -13,7 +13,7 @@ export function SpeakButton({ text, label, className }: { text: string; label?: 
         speakThai(text);
       }}
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1 text-sm font-medium hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
+        "inline-flex items-center gap-1.5 rounded-full border border-ink/15 px-3.5 py-1.5 text-sm font-medium hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
         className,
       )}
     >

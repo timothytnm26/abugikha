@@ -1,13 +1,18 @@
+"use client";
 import type { ReactNode } from "react";
+import { usePathname } from "next/navigation";
 import { SiteNav } from "@/widgets/site-nav";
+import { cn } from "@/shared/lib";
 
+/** Trang chủ tràn hết chiều ngang để phần cuộn ngang được toàn màn hình; các trang khác nằm trong khung. */
 export function RootShell({ children }: { children: ReactNode }) {
+  const home = usePathname() === "/";
   return (
     <div className="min-h-dvh">
       <header className="sticky top-0 z-40 border-b border-ink/10 bg-paper/85 backdrop-blur">
         <SiteNav />
       </header>
-      <main className="mx-auto w-full max-w-[1440px] px-4 pb-8 pt-4 md:px-6 md:pt-5">{children}</main>
+      <main className={cn("w-full", !home && "mx-auto max-w-[1440px] px-3 pb-8 pt-4 sm:px-4 md:px-6 md:pt-5")}>{children}</main>
     </div>
   );
 }

@@ -10,7 +10,7 @@ import { lexiconQueries } from "@/entities/lexicon";
 import { BuilderPage } from "@/pages/builder";
 
 export const metadata: Metadata = {
-  title: "Ghép chữ / Build syllables – Abugikha",
+  title: "Ghép chữ / Build syllables – NarakThai",
 };
 
 /** Prefetch trên server rồi hydrate xuống client: đổi sang API thật không cần sửa widget. */

@@ -1,8 +1,8 @@
-# Abugikha (อะบูกิค่ะ) - Thai Script Lab
+# NarakThai (น่ารักไทย) - Thai Script Lab
 
-Abugikha is an interactive guide to Thai script. Explore its sounds and history, then build syllables to see how consonants, vowels, and tones work together. Its name is a playful nod to both “abugida” and the Thai greeting “sawasdee kha” (สวัสดีค่ะ).
+NarakThai is an interactive guide to Thai script. Explore its sounds and history, then build syllables to see how consonants, vowels, and tones work together. The name plays on “น่ารัก” (nâa-rák), Thai for “cute”, because learning a script can be friendly, too.
 
-**Stack:** Next.js 15 (App Router) · React 19 · Tailwind CSS 4 · GSAP (Draggable, useGSAP) · TanStack Query · Zustand · Feature-Sliced Design
+**Stack:** Next.js 15 (App Router) · React 19 · Tailwind CSS 4 · GSAP (Draggable, ScrollTrigger, useGSAP) · TanStack Query · Zustand · Feature-Sliced Design
 
 ```bash
 npm install
@@ -59,14 +59,14 @@ Audio uses the Web Speech API with the `th-TH` voice. If a Thai voice is unavail
 ## Localization, Themes, and Romanization
 
 - `src/shared/i18n` contains the `vi` and `en` interface dictionaries. Entity text uses the `L10n = { vi, en }` type. The selected locale is stored in the `locale` cookie and restored in the browser after hydration so the site can be statically exported.
-- Light and dark theme tokens are CSS variables, with dark values defined under `[data-theme=dark]`. The default follows `prefers-color-scheme`; the selected theme is stored in the `theme` cookie and applied by a small head script before paint. Consonant-class and tone colors use CSS variables, so SVGs and inline styles follow the active theme.
+- Themes live in `src/shared/config/themes.ts`: four soft light themes (Celadon, Sakura milk, Matcha, Sepia paper) and three soft dark ones (Midnight celadon, Twilight, Cocoa). Backgrounds avoid pure white and black to reduce glare. Each theme is a set of CSS variables applied to `<html>`; the default follows `prefers-color-scheme`. Consonant-class, vowel, final and tone colors are all CSS variables, so SVGs and inline styles follow the active theme.
+- Every syllable part color can be changed one by one in the Customize panel (initial consonant by class, vowel, final, tone mark by tone). Overrides are stored per theme.
+- The preview sheet on the Build and Abugida pages is a note-paper card (`.note-paper` in `globals.css`). Its ruled / grid / dotted / plain style is a preference read from `data-paper` on `<html>`.
 - RTGS romanization (Royal Thai General System, Thailand's official romanization system) is generated from IPA by `src/shared/lib/romanize.ts`. It omits tones and vowel length. Final ย becomes `-i`, final ว becomes `-o`, and both จ and ช are romanized as `ch`. Examples: หน้า → `na`, ควาย → `khwai`, แม่น้ำ → `maenam`.
-- Appearance preferences are stored in localStorage under `kaa-prefs` using Zustand persist. A small script in `<head>` applies the color palette before the page is painted to prevent a color flash.
+- Appearance preferences (theme, paper style, custom colors, phonetic toggle) are stored in localStorage under `narakthai-prefs` using Zustand persist. A small script in `<head>` applies them before the page is painted to prevent a color flash.
+- The landing page story (`src/widgets/syllable-story`) pins a full-width stage and scrolls it horizontally with GSAP ScrollTrigger while the syllable ค้าน is assembled piece by piece. With `prefers-reduced-motion` it falls back to a plain vertical list.
+- On touch (`pointer: coarse`) screens, drag-and-drop is disabled so tiles do not block page scrolling; tapping picks a piece.
 
 ## Stroke Data
 
 `src/entities/writing/model/strokes.json` contains centerline paths generated from the **Noto Sans Thai Looped** font by `scripts/extract-strokes.py`. These paths are approximations, not verified handwriting stroke sequences, so the alphabet page currently shows static glyphs instead of animating them. The writing animation can return when reliable stroke-order references are available.
-
-# abugikha
-
-# abugikha
