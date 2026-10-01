@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-01T04:12:33.284608+00:00",
+  "generatedAt": "2026-10-01T04:45:35.150322+00:00",
   "title": "Design System: NarakThai",
   "extensions": {
     "colorMeta": {
@@ -310,6 +310,10 @@
       "ipa": {
         "displayName": "IPA",
         "purpose": "IPA transcriptions."
+      },
+      "historic": {
+        "displayName": "Historic scripts",
+        "purpose": "History timeline glyphs; loaded only on /history."
       }
     },
     "shadows": [
@@ -373,14 +377,6 @@
       "description": "Secondary notched action; inverts on hover.",
       "html": "<button class=\"ds-btn-outline\"><span>Xem lịch sử</span></button>",
       "css": ".ds-btn-outline{--n:10px;clip-path:polygon(0 var(--n),calc(var(--n)/2) var(--n),calc(var(--n)/2) calc(var(--n)/2),var(--n) calc(var(--n)/2),var(--n) 0,calc(100% - var(--n)) 0,calc(100% - var(--n)) calc(var(--n)/2),calc(100% - var(--n)/2) calc(var(--n)/2),calc(100% - var(--n)/2) var(--n),100% var(--n),100% calc(100% - var(--n)),calc(100% - var(--n)/2) calc(100% - var(--n)),calc(100% - var(--n)/2) calc(100% - var(--n)/2),calc(100% - var(--n)) calc(100% - var(--n)/2),calc(100% - var(--n)) 100%,var(--n) 100%,var(--n) calc(100% - var(--n)/2),calc(var(--n)/2) calc(100% - var(--n)/2),calc(var(--n)/2) calc(100% - var(--n)),0 calc(100% - var(--n)));background:#1e2833;color:#1e2833;border:0;min-height:48px;padding:0;font:500 1rem 'Be Vietnam Pro',system-ui,sans-serif;cursor:pointer;position:relative}.ds-btn-outline span{position:absolute;inset:1.5px;display:flex;align-items:center;justify-content:center;padding:0 28px;background:#eef1ec;clip-path:inherit;transition:background .15s,color .15s}.ds-btn-outline{opacity:.9}.ds-btn-outline:hover span{background:#1e2833;color:#eef1ec}"
-    },
-    {
-      "name": "Hero Eyebrow Chip",
-      "kind": "chip",
-      "refersTo": "hero-eyebrow",
-      "description": "Pill chip above hero headlines.",
-      "html": "<span class=\"ds-eyebrow\">Thai Script Lab</span>",
-      "css": ".ds-eyebrow{display:inline-flex;align-items:center;gap:8px;border-radius:9999px;background:#e1e8e1;color:#5a6672;padding:6px 14px;font:500 .875rem 'Be Vietnam Pro',system-ui,sans-serif;box-shadow:0 1px 2px rgba(30,40,51,.12)}"
     },
     {
       "name": "Class Legend",
@@ -465,6 +461,8 @@
       "**Do** keep contrast comfortable: ink on paper, never pure black on white."
     ],
     "donts": [
+      "Don't put an eyebrow or kicker pill above a heading.",
+      "Don't loop ambient motion (floating glyphs, marquees) behind content.",
       "**Don't** use saturated color as decoration; it belongs to class, tone, vowel, final and removed parts.",
       "**Don't** put glow, pulse or lift on resting elements.",
       "**Don't** use pure white (#fff) or pure black (#000) for surfaces or text.",

@@ -45,9 +45,16 @@ typography:
   ipa:
     fontFamily: "Charis SIL, Doulos SIL, Gentium Plus, Noto Serif, serif"
     fontWeight: 400
+  historic:
+    fontFamily: "Noto Sans Khmer, Noto Sans Lao, Noto Sans Tai Tham, Noto Sans Brahmi, Noto Sans Devanagari, Noto Sans Tamil, Noto Sans Javanese, Noto Sans Cham, Noto Sans Tai Viet, sans-serif"
+    fontWeight: 400
 rounded:
   pill: "9999px"
+  sheet: "24px"
   card: "16px"
+  panel: "12px"
+  tile: "8px"
+  chip: "6px"
   paper: "2px"
 spacing:
   container-pad-sm: "16px"
@@ -64,11 +71,6 @@ components:
     textColor: "{colors.ink}"
     padding: "12px 28px"
     height: "48px"
-  hero-eyebrow:
-    backgroundColor: "{colors.paper-deep}"
-    textColor: "{colors.ink-soft}"
-    rounded: "{rounded.pill}"
-    padding: "6px 14px"
   note-paper:
     backgroundColor: "{colors.sheet}"
     textColor: "{colors.ink}"
@@ -113,7 +115,7 @@ Muted pastel paper with saturated ink-marks. Light values below are the default 
 
 ### Neutral
 - **Celadon Paper** (#eef1ec): page background.
-- **Deep Celadon** (#e1e8e1): footer, eyebrow chips, folded corner.
+- **Deep Celadon** (#e1e8e1): footer, folded corner.
 - **Slate Ink Soft** (#5a6672): secondary text.
 - **Note Sheet** (#fbfbf4): the preview sheet; **Sheet Line** (#b9c9c9): its ruled lines.
 - **Margin Rose** (#d98a86): the red margin rule of writing paper.
@@ -132,14 +134,14 @@ Muted pastel paper with saturated ink-marks. Light values below are the default 
 **Body Font:** Be Vietnam Pro (with Noto Serif Thai for inline Thai, then system sans-serif)
 **Label/Mono Font:** Charis SIL (IPA transcriptions; falls back to Doulos SIL, Gentium Plus, Noto Serif)
 
-**Character:** A friendly geometric sans for Vietnamese and English prose, set against a looped serif Thai face that models the letterforms learners are copying. Historic scripts (Khmer, Lao, Tai Tham, Brahmi, Devanagari, Tamil, Javanese, Cham, Tai Viet) each get their Noto Sans face on the history timeline.
+**Character:** A friendly geometric sans for Vietnamese and English prose, set against a looped serif Thai face that models the letterforms learners are copying. Historic scripts (Khmer, Lao, Tai Tham, Brahmi, Devanagari, Tamil, Javanese, Cham, Tai Viet) each get their Noto Sans face on the history timeline; those families load only on /history. Noto Serif Thai is loaded at weights 400, 500 and 600, so the logo and headings are never synthesized bold.
 
 ### Hierarchy
 - **Display** (600, Thai glyph sizes set per context, line-height tight): the logo "น่ารักไทย" and large letter specimens.
 - **Headline** (600, 1.5rem to 1.875rem at md and up): section titles.
 - **Title** (600, 0.875rem): footer and card group headings.
 - **Body** (400, 1rem, relaxed leading): prose and explanations; keep lines to about 65 characters.
-- **Label** (500, 0.75rem to 0.875rem): chips, legends, romanization toggles.
+- **Label** (500, 0.75rem to 0.875rem): chips, legends, romanization toggles. 0.75rem (12px) is the floor for any text; no fixed px sizes below it.
 
 ### Named Rules
 **The Thai-First Rule.** A Thai glyph is always the largest element in its group. IPA and RTGS sit below it in the smaller IPA or sans face.
@@ -148,7 +150,7 @@ Muted pastel paper with saturated ink-marks. Light values below are the default 
 
 ## Layout
 
-A single centered container, max 1440px, with 16px side padding on small screens and 24px from md up. The home page is a sequence of one-screen sections (each `100svh` minus the 3.5rem nav) sharing one continuous background of soft radial glows taken from the class and tone colors, so sections flow into each other with no seams. The script-history timeline pins the screen and scrolls horizontally on tall desktop viewports (min 1024px wide and 720px tall), and falls back to a normal horizontal swipe on smaller ones. The syllable builder is designed to fit a 1440×900 viewport, with a floating mini-builder docked under the nav as a drop target when the main composition panel scrolls away. The nav collapses to a hamburger panel on narrow screens.
+A single centered container, max 1440px, with 16px side padding on small screens and 24px from md up. The home page is a sequence of one-screen sections (each `100svh` minus the 3.5rem nav) sharing one continuous background of soft radial glows in only two hues (Mid-class Jade and Falling-tone Plum, the logo's two colors), so sections flow into each other with no seams. The script-history timeline pins the screen and scrolls horizontally on tall desktop viewports (min 1024px wide and 720px tall), and falls back to a normal horizontal swipe on smaller ones. The syllable builder is designed to fit a 1440×900 viewport, with a floating mini-builder docked under the nav as a drop target when the main composition panel scrolls away. The nav collapses to a hamburger panel on narrow screens.
 
 ## Elevation & Depth
 
@@ -165,20 +167,19 @@ Flat paper with tactile detail. Resting surfaces use a hairline border (ink at 1
 
 ## Shapes
 
-Two silhouettes. Rounded things are friendly and small: pills for eyebrow chips, 16px corners for cards, a 2px barely-rounded edge for paper. Interactive controls get the signature notch: four stepped corners cut from a 10px step, drawn as a clip-path, replacing the usual rounded rectangle. Paper may carry a tape strip or a folded corner (a 1.6rem triangle). Path cards tilt about 0.6 degrees on hover.
+Two silhouettes. Rounded things are friendly and small: 6px chips and 8px tiles inside the tools, 12px panels and chart cells, 16px cards, 24px sheets and settings panels, pills for badges, and a 2px barely-rounded edge for paper. Interactive controls get the signature notch: four stepped corners cut from a 10px step, drawn as a clip-path, replacing the usual rounded rectangle. Paper may carry a tape strip or a folded corner (a 1.6rem triangle). Path cards tilt about 0.6 degrees on hover.
 
 ## Components
 
 ### Buttons
-- **Shape:** Notched, stepped corners (clip-path, 10px step; 8px at small, 6px at extra small). Minimum height 48px (44px small, 36px extra small).
+- **Shape:** Notched, stepped corners (clip-path, 10px step; 8px at small, 6px at extra small). Minimum height 48px (44px small and extra small).
 - **Primary:** Ink fill, paper-colored text, padding 12px 28px. Hover fades the fill to about 85%.
 - **Outline:** A 1.5px ink-at-28% border drawn by an inner clip, paper inside, ink text. Hover inverts to a solid ink fill.
 - **Focus:** A 2px ink outline, inset 6px, so it stays inside the notch.
 - **Icon:** The same notch, minimum width 44px, no horizontal padding.
 
 ### Chips
-- **Hero eyebrow:** Pill, Deep Celadon fill, ink-soft text, 12px to 14px medium, small shadow.
-- **Class legend:** A 10px colored dot plus a label in ink-soft, one per consonant class.
+- **Class legend:** A 10px colored dot plus a label in ink-soft, one per consonant class. It sits on /lab and /aksornthai, where the colors are used, not in the nav.
 
 ### Cards / Containers
 - **Path card:** 16px corners, padding 20px (24px top), flexes to equal height. Hover lifts 4px and tilts -0.6 degrees. Fill comes from the card's own class or tone color.
@@ -188,7 +189,7 @@ Two silhouettes. Rounded things are friendly and small: pills for eyebrow chips,
 - Appearance settings (theme, paper, per-theme colors) live in a settings menu; there are no free-text inputs in the core flows. Pickers are draggable parts, not form fields.
 
 ### Navigation
-- **Style:** A 3.5rem top bar with the logo, learning-path steps, class legend, and locale, theme and settings controls.
+- **Style:** A 3.5rem top bar with the logo, learning-path steps, and locale, theme and settings controls (all 44px).
 - **Mobile:** A hamburger panel that eases in 12px from above; items stagger in from the left.
 - **States:** The current path step is marked. Escape or an outside click closes the panel and returns focus to the button.
 
@@ -205,6 +206,8 @@ A rounded part-holder, colored by the part it expects. During drag, non-target s
 - **Do** keep contrast comfortable: ink on paper, never pure black on white.
 
 ### Don't:
+- **Don't** put an eyebrow or kicker pill above a heading.
+- **Don't** loop ambient motion (floating glyphs, marquees) behind content.
 - **Don't** use saturated color as decoration; it belongs to class, tone, vowel, final and removed parts.
 - **Don't** put glow, pulse or lift on resting elements.
 - **Don't** use pure white (#fff) or pure black (#000) for surfaces or text.
