@@ -129,7 +129,7 @@ export function SiteNav() {
             aria-expanded={open}
             aria-controls="site-menu"
             aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
-            className="grid size-10 place-items-center rounded-full border border-ink/15 hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:size-9 lg:hidden"
+            className="grid size-11 place-items-center rounded-full border border-ink/15 hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink lg:hidden"
           >
             <svg
               aria-hidden

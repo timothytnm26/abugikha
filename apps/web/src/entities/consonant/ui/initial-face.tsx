@@ -33,7 +33,7 @@ export function InitialFace({
           ? "h-20 min-w-16 px-2"
           : phonetic
             ? "h-11 min-w-11 px-1"
-            : "size-10 px-1",
+            : "size-11 px-1",
         className,
       )}
       style={

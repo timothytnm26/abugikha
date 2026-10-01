@@ -403,7 +403,7 @@ html:not([data-paper="tiers"]) .paper-tier {
   }
   .btn-xs {
     --n: 6px;
-    @apply min-h-9 gap-1.5 px-4 py-1 text-sm;
+    @apply min-h-11 gap-1.5 px-4 py-1 text-sm;
   }
   .btn-icon {
     @apply min-w-11 px-0;

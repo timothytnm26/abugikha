@@ -27,7 +27,7 @@ export function VowelFace({
           ? "h-20 min-w-16"
           : phonetic
             ? "h-11 min-w-11 px-1"
-            : "size-10 px-1",
+            : "size-11 px-1",
         selected
           ? "border-transparent bg-part-vowel text-on-accent"
           : "border-dashed bg-transparent text-part-vowel",

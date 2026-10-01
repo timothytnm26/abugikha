@@ -89,7 +89,7 @@ export function ToneRuleTable({ analysis }: { analysis: SyllableAnalysis }) {
                       title={`${r.rule}${ex ? ` (${ex})` : ""}`}
                       aria-label={`${CLASS_META[cls].label[locale]}, ${label[c]}: ${meta.label[locale]}${ex ? `, ${ex}` : ""}${on ? `, ${t.builder.current}` : ""}`}
                       className={cn(
-                        "flex h-8 w-full items-center justify-center rounded-md font-medium focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ink",
+                        "flex h-10 w-full items-center justify-center rounded-md font-medium focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ink",
                         on && "relative z-10 text-on-accent shadow-md ring-2 ring-ink ring-offset-1 ring-offset-paper",
                       )}
                       style={{ backgroundColor: on ? meta.color : tint(meta.color, 13), color: on ? undefined : onTint(meta.color) }}

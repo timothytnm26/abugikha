@@ -165,7 +165,7 @@ function WordLine({ word }: { word: Word }) {
       <span className="min-w-0 flex-1 truncate text-sm">
         {word.meaning[locale]}
       </span>
-      <SpeakButton text={word.thai} label="" className="px-2 py-0.5" />
+      <SpeakButton text={word.thai} label="" className="px-2" />
     </div>
   );
 }
@@ -178,7 +178,7 @@ function CompoundChip({ word, highlight }: { word: Word; highlight: string }) {
         type="button"
         onClick={() => speakThai(word.thai)}
         title={`/${word.ipa}/`}
-        className="flex items-baseline gap-1.5 rounded-md bg-paper/70 px-2 py-0.5 text-xs hover:bg-paper focus-visible:outline-2 focus-visible:outline-ink"
+        className="flex min-h-9 items-center gap-1.5 rounded-md bg-paper/70 px-2.5 py-1 text-xs hover:bg-paper focus-visible:outline-2 focus-visible:outline-ink"
       >
         <span lang="th" className="font-thai text-base">
           {word.parts!.map((p, i) => (
@@ -575,7 +575,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
 
           {/* Các bước suy ra thanh luôn nằm sẵn trong mục mở được này (mở sẵn trên máy cảm ứng) */}
           <details className="group mt-2 rounded-xl bg-paper/60 px-3 py-2" open={whyOpen} onToggle={(e) => setWhyOpen(e.currentTarget.open)}>
-            <summary className="flex min-h-9 cursor-pointer list-none items-center justify-between gap-2 text-sm font-medium focus-visible:outline-2 focus-visible:outline-ink">
+            <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 text-sm font-medium focus-visible:outline-2 focus-visible:outline-ink">
               {t.builder.stepsToggle}
               <svg aria-hidden viewBox="0 0 20 20" className="size-4 fill-none stroke-current stroke-2 transition-transform group-open:rotate-180" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 8l5 5 5-5" />

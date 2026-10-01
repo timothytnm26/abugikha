@@ -124,7 +124,7 @@ function NotebookCell({ cell, part, slot, text, color, label, popover, onSelect,
         aria-describedby={popover ? popId : undefined}
         className={cn(
           "relative grid place-items-center rounded-[0.14em] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
-          main ? "min-w-[0.95em] px-[0.06em]" : "min-h-[0.46em] min-w-[0.7em]",
+          main ? "min-w-[0.95em] px-[0.06em]" : "min-h-[0.62em] min-w-[0.7em]",
           cell === "cons" && "min-w-[1.15em]",
           main && empty && "border-[1.5px] border-dashed border-ink/55",
           !main && empty && "opacity-0 focus-visible:opacity-100",
@@ -152,7 +152,7 @@ function NotebookCell({ cell, part, slot, text, color, label, popover, onSelect,
           type="button"
           onClick={onClear}
           aria-label={clearLabel}
-          className="absolute -right-1.5 -top-1.5 z-10 grid size-5 place-items-center rounded-full bg-ink font-sans text-xs leading-none text-paper hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+          className="absolute -right-1.5 -top-1.5 z-10 grid size-5 place-items-center rounded-full bg-ink font-sans text-xs leading-none text-paper before:absolute before:-inset-3.5 before:content-[''] hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
         >
           ×
         </button>

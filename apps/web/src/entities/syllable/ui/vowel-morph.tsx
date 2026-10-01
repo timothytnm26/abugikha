@@ -273,7 +273,7 @@ export function MorphPanel({ rules, initialId }: { rules: MorphRule[]; initialId
   const shownTone = TONE_META[shown.tone].color;
 
   const iconBtn =
-    "grid size-8 shrink-0 place-items-center rounded-full border border-ink/15 hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
+    "grid size-11 shrink-0 place-items-center rounded-full border border-ink/15 hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
   const chip = "rounded-md px-1.5 py-0.5 text-xs font-semibold transition-opacity";
 
   return (

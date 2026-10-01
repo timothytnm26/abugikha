@@ -55,7 +55,7 @@ const ACCENT = {
 
 const pill = (on: boolean) =>
   cn(
-    "rounded-md border px-2 py-0.5 text-xs font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
+    "min-h-9 rounded-md border px-2.5 py-1 text-xs font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
     on
       ? "border-ink bg-ink text-paper"
       : "border-ink/25 bg-transparent hover:bg-ink/5",
@@ -231,7 +231,7 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
               aria-label={`${c.char}: /${c.initial}/ → /${snd}/`}
               title={`${c.char}: /${c.initial}/ → /${snd}/`}
               style={boxStyle(ACCENT.final, c.id === finalId, !c.common)}
-              className={cn(boxCls(c.id === finalId), "grid size-10 text-xl xl:size-9")}
+              className={cn(boxCls(c.id === finalId), "grid size-11 text-xl xl:size-10")}
             >
               {c.char}
             </button>

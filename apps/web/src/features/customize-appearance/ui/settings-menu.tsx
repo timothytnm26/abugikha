@@ -31,7 +31,7 @@ const labelOf = (k: PaletteKey, t: ReturnType<typeof useT>): L10n | string =>
 
 function Switch({ on, set, className, label }: { on: boolean; set: (v: boolean) => void; className?: string; label: string }) {
   return (
-    <button type="button" role="switch" aria-checked={on} onClick={() => set(!on)} className={cn("flex items-center gap-2 text-xs font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink", className)}>
+    <button type="button" role="switch" aria-checked={on} onClick={() => set(!on)} className={cn("flex min-h-11 items-center gap-2 text-xs font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink", className)}>
       <span className={cn("relative h-5 w-9 shrink-0 rounded-full transition-colors", on ? "bg-ink" : "bg-ink/20")}>
         <span className={cn("absolute top-0.5 size-4 rounded-full bg-paper shadow transition-[left]", on ? "left-4.5" : "left-0.5")} />
       </span>
@@ -197,7 +197,7 @@ export function SettingsMenu() {
       >
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">{t.settings.title}</h2>
-          <button type="button" onClick={close} className="grid size-10 place-items-center rounded-full border border-ink/15 hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink" aria-label={t.settings.close}>
+          <button type="button" onClick={close} className="grid size-11 place-items-center rounded-full border border-ink/15 hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink" aria-label={t.settings.close}>
             <svg aria-hidden viewBox="0 0 24 24" className="size-4 stroke-current stroke-2" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
           </button>
         </div>
@@ -276,7 +276,7 @@ export function SettingsMenu() {
         aria-controls="settings-panel"
         aria-label={t.nav.settings}
         title={t.nav.settings}
-        className="grid size-10 place-items-center rounded-full border border-ink/15 hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:size-9"
+        className="grid size-11 place-items-center rounded-full border border-ink/15 hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
       >
         <svg aria-hidden viewBox="0 0 24 24" className="size-4 fill-none stroke-current stroke-2" strokeLinecap="round">
           <circle cx="7" cy="8" r="2.5" /><circle cx="16" cy="8" r="2.5" /><circle cx="11.5" cy="16" r="2.5" />
