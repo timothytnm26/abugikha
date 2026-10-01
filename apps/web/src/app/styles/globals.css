@@ -23,10 +23,10 @@
   --font-taiviet: "Noto Sans Tai Viet", sans-serif;
 
   /* Mặc định sáng: nền men gốm celadon Sukhothai. Các giao diện khác nằm ở shared/config/themes.ts */
-  --color-paper: #eef1ec;
-  --color-paper-deep: #e1e8e1;
-  --color-ink: #1e2833;
-  --color-ink-soft: #58646f;
+  --color-paper: #f4efe9;
+  --color-paper-deep: #e9e1d7;
+  --color-ink: #1b1a17;
+  --color-ink-soft: #5e5750;
   --color-on-accent: #ffffff;
 
   --color-mid: #007a5b;
@@ -48,19 +48,15 @@
   --color-margin: #d98a86;
 
   /* Giấy ghi chú của khung xem trước: màu giấy và màu đường kẻ */
-  --color-sheet: #fbfbf4;
-  --color-sheet-line: #b9c9c9;
+  --color-sheet: #fbf8f3;
+  --color-sheet-line: #d3c8ba;
 
-  /* Bảng màu áp phích của trang chủ: cố định, không đổi theo giao diện hay dark mode. Cặp chữ-nền nào đạt AA đã có test ở shared/config/poster.test.ts */
-  --color-poster-blue: #2332e8;
-  --color-poster-lime: #d4f72a;
-  --color-poster-violet: #5a1fb0;
-  --color-poster-black: #0c0c18;
-  --color-poster-orange: #ff6a1f;
-  --color-poster-red: #e8382f;
-  --color-poster-cream: #fbe6cc;
-  --color-poster-green: #0e7a58;
-  --color-poster-pink: #f6a6c3;
+  /* Bảng màu áp phích rút gọn: xanh điện, cam đỏ, đen, kem và xám kem. Cố định, không đổi theo giao diện hay dark mode. Cặp chữ-nền đạt AA đã có test ở shared/config/poster.test.ts */
+  --color-poster-blue: #0a0adc;
+  --color-poster-orange: #ff5200;
+  --color-poster-black: #14130f;
+  --color-poster-cream: #f4efe9;
+  --color-poster-taupe: #8a7f73;
 }
 
 /* Tối: men celadon nung khử, xanh đen như gốm sứ Sawankhalok về đêm */
@@ -322,7 +318,7 @@ html:not([data-paper="tiers"]) .paper-tier {
     @apply relative inline-flex min-h-12 items-center justify-center gap-2 border-2 px-7 py-3 font-poster text-xl font-bold uppercase leading-none tracking-wide transition-colors focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ink;
   }
   .btn-primary {
-    @apply border-poster-black bg-poster-lime text-poster-black hover:bg-poster-black hover:text-poster-lime;
+    @apply border-poster-black bg-poster-orange text-poster-black hover:bg-poster-black hover:text-poster-cream;
   }
   .btn-outline {
     @apply border-ink bg-transparent text-ink hover:bg-ink hover:text-paper;
@@ -333,9 +329,9 @@ html:not([data-paper="tiers"]) .paper-tier {
   .btn-xs {
     @apply min-h-11 gap-1.5 px-4 py-1 text-base;
   }
-  /* Nút trên thanh đầu trang (nền đen): ô vuông viền chanh, hover đặc chanh */
+  /* Nút trên thanh đầu trang: ô vuông viền mực, hover đặc mực */
   .nav-btn {
-    @apply grid min-h-11 min-w-11 place-items-center border-2 border-poster-lime text-poster-lime hover:bg-poster-lime hover:text-poster-black focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-white;
+    @apply grid min-h-11 min-w-11 place-items-center border-2 border-ink text-ink hover:bg-ink hover:text-paper focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ink;
   }
   .btn-icon {
     @apply min-w-11 px-0;

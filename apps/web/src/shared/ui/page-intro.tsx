@@ -1,18 +1,14 @@
 "use client";
 import type { ReactNode } from "react";
-import { cn } from "../lib/cn";
-import { PosterTile, type PosterBg } from "./poster-tile";
+import { Asterisk } from "./poster-tile";
 
-/** Dải tiêu đề đầu trang: ô màu tràn hết chiều ngang, tít condensed viết hoa; bản `compact` thấp hơn cho trang công cụ. */
-export function PageIntro({ title, compact, bg, children }: { title: string; compact?: boolean; bg: PosterBg; children: ReactNode }) {
+/** Đầu trang công cụ: dấu sao cam, tít condensed rất lớn và một câu dẫn, tất cả trên nền giấy. */
+export function PageIntro({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <header>
-      <PosterTile bg={bg} pad={compact ? "py-4 md:py-6" : "py-8 md:py-14"}>
-        <div className={cn("page-container", compact ? "flex flex-wrap items-baseline gap-x-6 gap-y-1" : "")}>
-          <h1 className={cn("font-poster font-extrabold uppercase leading-[0.98]", compact ? "text-4xl md:text-6xl" : "text-5xl md:text-8xl")}>{title}</h1>
-          <div className={cn("max-w-[60ch] leading-snug", compact ? "text-base md:text-lg" : "mt-4 text-lg md:text-xl")}>{children}</div>
-        </div>
-      </PosterTile>
+    <header className="page-container pb-4 pt-10 md:pb-6 md:pt-20">
+      <Asterisk className="size-8 text-poster-orange md:size-10" />
+      <h1 className="mt-3 text-balance font-poster text-6xl font-extrabold uppercase leading-[0.92] md:text-9xl">{title}</h1>
+      <div className="mt-5 max-w-[56ch] text-lg leading-snug text-ink-soft md:text-xl">{children}</div>
     </header>
   );
 }

@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { SYLLABLE_EXAMPLES, useBuilderStore } from "@/features/build-syllable";
 import { useT } from "@/shared/i18n";
 import { usePreferences } from "@/shared/lib/preferences";
-import { LIGHT_VARS } from "@/shared/ui";
 
 /** Khung hướng dẫn ngắn ở đầu trang /lab: bốn bước ghép và vài âm tiết mẫu bấm một lần là điền đủ. Đóng rồi thì nhớ lại. */
 export function BuilderCoach() {
@@ -35,7 +34,7 @@ export function BuilderCoach() {
 
   const c = t.builder.coach;
   return (
-    <section aria-label={c.title} style={LIGHT_VARS} className="mb-4 bg-poster-lime px-5 py-4 text-poster-black">
+    <section aria-label={c.title} className="mb-4 border-2 border-ink bg-sheet px-5 py-4">
       <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-2">
         <div className="min-w-0">
           <h2 className="text-sm font-semibold">{c.title}</h2>
@@ -50,7 +49,7 @@ export function BuilderCoach() {
         <button
           type="button"
           onClick={() => setDismissed(true)}
-          className="min-h-11 shrink-0 border-2 border-poster-black px-4 text-sm font-semibold hover:bg-poster-black hover:text-poster-lime focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-poster-black"
+          className="min-h-11 shrink-0 border-2 border-ink px-4 text-sm font-semibold hover:bg-ink hover:text-paper focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ink"
         >
           {c.dismiss}
         </button>
@@ -63,12 +62,12 @@ export function BuilderCoach() {
             type="button"
             lang="th"
             onClick={() => setSyllable(e)}
-            className="min-h-11 min-w-11 border-2 border-poster-black bg-poster-cream px-3 font-thai text-2xl leading-none hover:bg-poster-black hover:text-poster-lime focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-poster-black"
+            className="min-h-11 min-w-11 border-2 border-ink bg-paper px-3 font-thai text-2xl leading-none hover:bg-ink hover:text-paper focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ink"
           >
             {e.word}
           </button>
         ))}
-        <span className="text-xs text-poster-black/80">{c.tryHint}</span>
+        <span className="text-xs text-ink-soft">{c.tryHint}</span>
       </div>
     </section>
   );

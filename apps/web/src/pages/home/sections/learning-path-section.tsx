@@ -1,59 +1,72 @@
 'use client';
-import { useRef } from 'react';
+import Link from 'next/link';
+import { useRef, useState } from 'react';
 import { LEARNING_PATH } from '@/shared/config/routes';
 import { useLocalePath, useT } from '@/shared/i18n';
 import { cn } from '@/shared/lib';
-import { useTileReveal } from '@/shared/lib/use-tile-reveal';
-import { Chevrons, PosterFrame, PosterHeading, PosterLink, type PosterBg } from '@/shared/ui';
+import { gsap, ScrollTrigger, useGSAP } from '@/shared/lib/gsap';
+import { Circles, SectionLabel } from '@/shared/ui';
 
 const STEP_NUMERALS = ['๑', '๒', '๓', '๔'];
 
-/** Mỗi chặng một ô màu có kích thước riêng; chặng cuối (ghép chữ) là ô lớn nhất vì đó là nơi người học thực sự làm việc. */
-const STEPS: { bg: PosterBg; place: string; big?: boolean }[] = [
-  { bg: 'blue', place: 'lg:col-span-3 lg:row-span-2' },
-  { bg: 'orange', place: 'lg:col-span-3 lg:row-span-2' },
-  { bg: 'violet', place: 'lg:col-span-2 lg:row-span-2' },
-  { bg: 'lime', place: 'lg:col-span-4 lg:row-span-2', big: true },
-];
-
+/** Lộ trình: bốn tít khổng lồ xếp dọc, tít nào đi qua giữa màn hình thì chuyển từ xám kem sang mực; bốn vòng tròn cam bên cạnh đặc dần theo chặng đang xem. */
 export function LearningPathSection() {
   const t = useT();
   const href = useLocalePath();
-  const root = useRef<HTMLDivElement>(null);
-  useTileReveal(root);
+  const root = useRef<HTMLElement>(null);
+  const [active, setActive] = useState(0);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        gsap.utils.toArray<HTMLElement>('.path-row', root.current).forEach((row, i) => {
+          ScrollTrigger.create({ trigger: row, start: 'top 58%', end: 'bottom 58%', onToggle: (self) => self.isActive && setActive(i) });
+        });
+        gsap.from('.path-row', { opacity: 0, y: 40, duration: 0.8, stagger: 0.1, ease: 'power3.out', scrollTrigger: { trigger: '.path-list', start: 'top 80%', once: true } });
+      });
+    },
+    { scope: root },
+  );
+
   return (
-    <section aria-labelledby="path-title" className="scroll-mt-14">
-      <PosterHeading bg="black" id="path-title">{t.home.pathTitle}</PosterHeading>
-      <div className="page-container py-6 md:py-8">
-        <p className="max-w-[52ch] text-ink/85 md:text-lg">{t.home.pathBlurb}</p>
-      </div>
-      <PosterFrame ref={root}>
-          <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 lg:grid-rows-[repeat(4,minmax(4.5rem,auto))]">
-            {LEARNING_PATH.map((p, i) => {
-              const s = STEPS[i];
-              return (
-                <li key={p.href} className={cn('grid', s.place, i === 3 && 'sm:col-span-2')}>
-                  <PosterLink bg={s.bg} href={href(p.href)} className="relative flex min-h-56 flex-col justify-between gap-8 overflow-hidden">
-                    <span
-                      lang="th"
-                      aria-hidden
-                      className={cn('poster-outline pointer-events-none absolute -right-2 -top-4 select-none font-thai font-medium leading-none', s.big ? 'text-[11rem] md:text-[15rem]' : 'text-[9rem] md:text-[11rem]')}
-                    >
-                      {STEP_NUMERALS[p.step - 1]}
+    <section ref={root} aria-labelledby="path-title" className="scroll-mt-14">
+      <div className="page-container py-20 md:py-32">
+        <h2 id="path-title">
+          <SectionLabel>{t.home.pathTitle}</SectionLabel>
+        </h2>
+        <p className="mt-4 max-w-[52ch] text-lg leading-snug text-ink-soft">{t.home.pathBlurb}</p>
+        <div className="mt-10 grid gap-10 lg:grid-cols-12">
+          <ol className="path-list lg:col-span-8">
+            {LEARNING_PATH.map((p, i) => (
+              <li key={p.href} className="path-row border-t-2 border-ink last:border-b-2">
+                <Link
+                  href={href(p.href)}
+                  onMouseEnter={() => setActive(i)}
+                  onFocus={() => setActive(i)}
+                  className="group grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 py-6 focus-visible:outline-4 focus-visible:-outline-offset-4 focus-visible:outline-ink md:gap-8 md:py-10"
+                >
+                  <span lang="th" aria-hidden className="w-[1.2em] font-thai text-4xl leading-none text-ink-soft md:text-6xl">
+                    {STEP_NUMERALS[p.step - 1]}
+                  </span>
+                  <span className="min-w-0">
+                    <span className={cn('block font-poster text-[clamp(2.75rem,7vw,6.5rem)] font-extrabold uppercase leading-[1] pb-[0.06em] transition-colors duration-300', active === i ? 'text-ink' : 'text-poster-taupe')}>
+                      {t.routes[p.key].title}
                     </span>
-                    <span className="relative">
-                      <span className="block font-poster text-3xl font-bold uppercase leading-none md:text-5xl">{t.routes[p.key].title}</span>
-                      <span className="mt-3 block max-w-[34ch] text-sm leading-snug md:text-base">{t.routes[p.key].blurb}</span>
-                    </span>
-                    <span aria-hidden className="relative self-start transition-transform duration-200 group-hover:translate-x-2">
-                      <Chevrons className="w-14" />
-                    </span>
-                  </PosterLink>
-                </li>
-              );
-            })}
+                    <span className="mt-3 block max-w-[46ch] text-base leading-snug text-ink-soft md:text-lg">{t.routes[p.key].blurb}</span>
+                  </span>
+                  <span aria-hidden className="font-poster text-5xl leading-none transition-transform duration-300 group-hover:translate-x-2">→</span>
+                </Link>
+              </li>
+            ))}
           </ol>
-      </PosterFrame>
+          <div className="hidden lg:col-span-4 lg:block">
+            <div className="sticky top-28">
+              <Circles active={active} />
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

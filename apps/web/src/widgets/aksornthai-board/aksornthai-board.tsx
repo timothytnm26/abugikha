@@ -25,7 +25,7 @@ import { fmt, useLocale, useLocalePath, useT } from "@/shared/i18n";
 import { cn, tint } from "@/shared/lib";
 import { prefersReducedMotion } from "@/shared/lib/gsap";
 import { speakThai } from "@/shared/lib/speech";
-import { LIGHT_VARS, Phonetic, SpeakButton } from "@/shared/ui";
+import { Phonetic, SpeakButton } from "@/shared/ui";
 import { LetterNotebook } from "./letter-notebook";
 
 type Selected =
@@ -141,7 +141,7 @@ export function AksornThaiBoard() {
       {/* Khung preview dùng chung: trên cùng ở mobile, cột phải dính khi cuộn ở desktop */}
       <aside
         ref={preview}
-        style={LIGHT_VARS} className="order-first scroll-mt-20 bg-poster-cream p-4 text-poster-black md:p-5 lg:sticky lg:top-20 lg:order-last lg:max-h-[calc(100dvh-6rem)] lg:self-start lg:overflow-y-auto lg:overscroll-contain lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden"
+        className="order-first scroll-mt-20 border-2 border-ink bg-sheet p-4 md:p-5 lg:sticky lg:top-20 lg:order-last lg:max-h-[calc(100dvh-6rem)] lg:self-start lg:overflow-y-auto lg:overscroll-contain lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden"
       >
         {/* Chỉ thông báo một dòng ngắn khi đổi lựa chọn, không đọc lại cả khung */}
         <p role="status" className="sr-only">
@@ -295,7 +295,7 @@ export function AksornThaiBoard() {
         <div
           aria-hidden
           className={cn(
-            "pointer-events-none sticky -bottom-4 -mx-4 -mb-4 hidden h-12 bg-linear-to-t from-poster-cream to-transparent md:-bottom-5 md:-mx-5 md:-mb-5",
+            "pointer-events-none sticky -bottom-4 -mx-4 -mb-4 hidden h-12 bg-linear-to-t from-sheet to-transparent md:-bottom-5 md:-mx-5 md:-mb-5",
             more && "lg:block",
           )}
         />

@@ -1,7 +1,7 @@
 import { PREFS_STORAGE_KEY, type PaletteKey, type SurfaceKey, type ThemeVarKey } from './palette';
 
 export type ThemeMode = 'light' | 'dark';
-export type ThemeId = 'celadon' | 'sakura' | 'matcha' | 'sepia' | 'midnight' | 'twilight' | 'cocoa';
+export type ThemeId = 'cream' | 'celadon' | 'sakura' | 'matcha' | 'sepia' | 'midnight' | 'twilight' | 'cocoa';
 
 export interface ThemeDef {
   id: ThemeId;
@@ -24,6 +24,33 @@ const make = (id: ThemeId, mode: ThemeMode, surface: Record<SurfaceKey, string>,
  * nguyên âm, âm cuối, 5 thanh) sao cho hợp nền và vẫn tách được nhau. Tên hiển thị: ui.settings.themes.<id>.
  */
 export const THEMES: ThemeDef[] = [
+  // default light theme: warm cream paper
+  make(
+    'cream',
+    'light',
+    {
+      paper: '#f4efe9',
+      'paper-deep': '#e9e1d7',
+      ink: '#1b1a17',
+      'ink-soft': '#5e5750',
+      'on-accent': '#ffffff',
+      sheet: '#fbf8f3',
+      'sheet-line': '#d3c8ba',
+      margin: '#d98a86',
+    },
+    {
+      mid: '#007a5b',
+      high: '#a23e2d',
+      low: '#215da5',
+      'part-vowel': '#7c4a98',
+      'part-final': '#507308',
+      'tone-mid': '#616c67',
+      'tone-low': '#474c95',
+      'tone-falling': '#a3416d',
+      'tone-high': '#965f00',
+      'tone-rising': '#007498',
+    },
+  ),
   make(
     'celadon',
     'light',
@@ -210,7 +237,7 @@ export const THEMES: ThemeDef[] = [
 ];
 
 export const THEME_BY_ID = new Map(THEMES.map((t) => [t.id, t]));
-export const DEFAULT_THEME: Record<ThemeMode, ThemeId> = { light: 'celadon', dark: 'midnight' };
+export const DEFAULT_THEME: Record<ThemeMode, ThemeId> = { light: 'cream', dark: 'midnight' };
 
 /** Script chạy trong <head> trước khi vẽ trang: áp giao diện, màu và kiểu giấy đã lưu để không bị nháy. */
 export const THEME_BOOT_SCRIPT = `try{var T=${JSON.stringify(Object.fromEntries(THEMES.map((t) => [t.id, { mode: t.mode, vars: t.vars }])))};var s=JSON.parse(localStorage.getItem(${JSON.stringify(PREFS_STORAGE_KEY)})||"{}").state||{};var d=document.documentElement;var th=T[s.themeId];d.dataset.paper=s.paper||"tiers";if(th){d.dataset.theme=th.mode;var o=(s.palette&&s.palette[s.themeId])||{};for(var k in th.vars)d.style.setProperty("--color-"+k,o[k]||th.vars[k])}else d.dataset.theme=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}catch(e){}`;

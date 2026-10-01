@@ -16,23 +16,23 @@ export function SiteFooter() {
   const t = useT();
   const href = useLocalePath();
   return (
-    <footer className="bg-poster-black text-white">
+    <footer className="bg-poster-black text-poster-cream">
       <div className="page-container grid gap-8 py-10 md:grid-cols-[1.4fr_1fr_1fr] md:py-12">
         <div>
-          <Link href={href("/")} className="inline-flex items-baseline gap-2 leading-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-poster-lime" aria-label={t.nav.brandLabel}>
+          <Link href={href("/")} className="inline-flex items-baseline gap-2 leading-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-poster-orange" aria-label={t.nav.brandLabel}>
             <span lang="th" className="font-thai text-3xl font-semibold">
-              น่ารัก<span className="text-poster-lime">ไทย</span>
+              น่ารัก<span className="text-poster-orange">ไทย</span>
             </span>
-            <span className="font-poster text-sm font-semibold uppercase tracking-wide text-white/75">NarakThai</span>
+            <span className="font-poster text-sm font-semibold uppercase tracking-wide text-poster-cream/75">NarakThai</span>
           </Link>
-          <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/75">{t.home.footer.tagline}</p>
+          <p className="mt-3 max-w-xs text-sm leading-relaxed text-poster-cream/75">{t.home.footer.tagline}</p>
         </div>
         <nav aria-label={t.home.footer.explore}>
-          <p className="font-poster text-lg font-bold uppercase text-poster-lime">{t.home.footer.explore}</p>
-          <ul className="mt-3 space-y-2 text-sm text-white/75">
+          <p className="font-poster text-lg font-bold uppercase text-poster-orange">{t.home.footer.explore}</p>
+          <ul className="mt-3 space-y-2 text-sm text-poster-cream/75">
             {LEARNING_PATH.map((p) => (
               <li key={p.href}>
-                <Link href={href(p.href)} className="hover:text-white hover:underline hover:underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-poster-lime">
+                <Link href={href(p.href)} className="hover:text-poster-cream hover:underline hover:underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-poster-orange">
                   {t.routes[p.key].title}
                 </Link>
               </li>
@@ -40,11 +40,11 @@ export function SiteFooter() {
           </ul>
         </nav>
         <div>
-          <p className="font-poster text-lg font-bold uppercase text-poster-lime">{t.home.footer.follow}</p>
+          <p className="font-poster text-lg font-bold uppercase text-poster-orange">{t.home.footer.follow}</p>
           <ul className="mt-3 flex gap-3">
             {SOCIALS.map((s) => (
               <li key={s.label}>
-                <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} className="grid size-11 place-items-center border-2 border-poster-lime text-poster-lime hover:bg-poster-lime hover:text-poster-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-poster-lime">
+                <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} className="grid size-11 place-items-center border-2 border-poster-orange text-poster-orange hover:bg-poster-orange hover:text-poster-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-poster-orange">
                   <svg aria-hidden viewBox="0 0 24 24" className="size-5 fill-current">
                     <path d={s.path} />
                   </svg>
@@ -54,10 +54,10 @@ export function SiteFooter() {
           </ul>
         </div>
       </div>
-      <div className="border-t border-white/20">
-        <div className="page-container flex flex-wrap items-center justify-between gap-3 py-4 text-xs text-white/75">
+      <div className="border-t border-poster-cream/20">
+        <div className="page-container flex flex-wrap items-center justify-between gap-3 py-4 text-xs text-poster-cream/75">
           <p>{fmt(t.home.footer.copyright, { year: new Date().getFullYear() })}</p>
-          <a href="#top" className="hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-poster-lime">
+          <a href="#top" className="hover:text-poster-cream focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-poster-orange">
             ↑ {t.home.footer.top}
           </a>
         </div>

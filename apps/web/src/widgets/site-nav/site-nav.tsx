@@ -73,9 +73,9 @@ export function SiteNav() {
           aria-label={t.nav.brandLabel}
         >
           <span lang="th" className="font-thai text-xl font-semibold sm:text-2xl">
-            น่ารัก<span className="text-poster-lime">ไทย</span>
+            น่ารัก<span className="text-poster-blue dark:text-poster-orange">ไทย</span>
           </span>
-          <span className="hidden font-poster text-base font-semibold uppercase tracking-wide text-white/75 min-[420px]:inline">NarakThai</span>
+          <span className="hidden font-poster text-base font-semibold uppercase tracking-wide text-ink-soft min-[420px]:inline">NarakThai</span>
         </Link>
         <ul className="hidden items-center gap-1 lg:flex">
           {LEARNING_PATH.map((item) => {
@@ -86,10 +86,10 @@ export function SiteNav() {
                   href={href(item.href)}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "flex min-h-11 items-center whitespace-nowrap px-4 font-poster text-lg font-bold uppercase tracking-wide focus-visible:outline-4 focus-visible:-outline-offset-4 focus-visible:outline-white",
+                    "flex min-h-11 items-center whitespace-nowrap px-4 font-poster text-lg font-bold uppercase tracking-wide focus-visible:outline-4 focus-visible:-outline-offset-4 focus-visible:outline-ink",
                     active
-                      ? "bg-poster-lime text-poster-black"
-                      : "text-white hover:bg-white/15",
+                      ? "bg-poster-orange text-poster-black"
+                      : "text-ink hover:bg-ink/10",
                   )}
                 >
                   {t.routes[item.key].title}
@@ -131,7 +131,7 @@ export function SiteNav() {
         <div
           ref={panel}
           id="site-menu"
-          className="absolute inset-x-0 top-full border-t-2 border-poster-lime bg-poster-black px-4 pb-6 pt-2 text-white lg:hidden"
+          className="absolute inset-x-0 top-full border-b-2 border-ink bg-paper px-4 pb-6 pt-2 text-ink lg:hidden"
         >
           <ol className="space-y-1">
             {LEARNING_PATH.map((item) => {
@@ -142,8 +142,8 @@ export function SiteNav() {
                     href={href(item.href)}
                     aria-current={active ? "page" : undefined}
                     className={cn(
-                      "flex gap-3 p-3 focus-visible:outline-4 focus-visible:-outline-offset-4 focus-visible:outline-white",
-                      active ? "bg-poster-lime text-poster-black" : "hover:bg-white/15",
+                      "flex gap-3 p-3 focus-visible:outline-4 focus-visible:-outline-offset-4 focus-visible:outline-ink",
+                      active ? "bg-poster-orange text-poster-black" : "hover:bg-ink/10",
                     )}
                   >
                     <span>
@@ -153,7 +153,7 @@ export function SiteNav() {
                       <span
                         className={cn(
                           "block text-sm",
-                          active ? "opacity-80" : "text-white/75",
+                          active ? "opacity-80" : "text-ink-soft",
                         )}
                       >
                         {t.routes[item.key].blurb}

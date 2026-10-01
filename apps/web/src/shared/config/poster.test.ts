@@ -10,19 +10,21 @@ const color = (name: string) => (name === "white" ? "#ffffff" : poster[name]);
 /** Cặp chữ trên nền đang dùng ở shared/ui/poster-tile.tsx (TILE) cùng các cặp phụ: dải màu, chữ phụ và viền đậm. */
 const PAIRS: [text: string, bg: string][] = [
   ["white", "blue"],
-  ["black", "lime"],
-  ["white", "violet"],
-  ["lime", "black"],
+  ["cream", "blue"],
   ["black", "orange"],
-  ["black", "red"],
+  ["orange", "black"],
+  ["cream", "black"],
   ["black", "cream"],
-  ["white", "green"],
-  ["black", "pink"],
+  ["blue", "cream"],
 ];
 
 describe("bảng màu áp phích", () => {
-  it("đủ chín màu", () => {
-    expect(Object.keys(poster).sort()).toEqual(["black", "blue", "cream", "green", "lime", "orange", "pink", "red", "violet"]);
+  it("đủ năm màu", () => {
+    expect(Object.keys(poster).sort()).toEqual(["black", "blue", "cream", "orange", "taupe"]);
+  });
+
+  it("xám kem đủ 3:1 cho chữ lớn trên nền kem", () => {
+    expect(contrastRatio(color("taupe"), color("cream"))).toBeGreaterThanOrEqual(3);
   });
 
   it.each(PAIRS)("chữ %s trên nền %s đạt AA", (text, bg) => {

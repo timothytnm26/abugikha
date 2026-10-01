@@ -1,50 +1,62 @@
 'use client';
+import Link from 'next/link';
 import { useRef } from 'react';
 import { HeroMerge } from '@/widgets/hero-merge';
 import { useLocalePath, useT } from '@/shared/i18n';
-import { useTileReveal } from '@/shared/lib/use-tile-reveal';
-import { Chevrons, PosterFrame, PosterLink, PosterTile } from '@/shared/ui';
+import { gsap, useGSAP } from '@/shared/lib/gsap';
+import { Asterisk, SplitWords } from '@/shared/ui';
 
-/** Áp phích mở đầu: lưới ô phẳng khít nhau, tít condensed to nhất ở ô xanh, ค่ะ ghép chữ trên ô kem, hai nút là hai ô đen và cam. */
+/** Mở đầu: tít condensed khổng lồ trồi lên từng từ, tờ giấy ghép ค่ะ bên phải, hàng dưới có lời dẫn và hai nút. Tất cả trên nền giấy. */
 export function HeroSection() {
   const t = useT();
   const href = useLocalePath();
-  const root = useRef<HTMLDivElement>(null);
-  useTileReveal(root);
+  const root = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        gsap.from('.sw', { yPercent: 115, duration: 1, stagger: 0.07, ease: 'expo.out', delay: 0.15 });
+        gsap.from('.hero-fade', { opacity: 0, y: 24, duration: 0.9, stagger: 0.12, ease: 'power3.out', delay: 0.7 });
+      });
+    },
+    { scope: root },
+  );
+
   return (
-    <section>
-      <PosterFrame ref={root}>
-          <div className="grid grid-cols-1 lg:min-h-[calc(100svh-3.5rem)] lg:grid-cols-12 lg:grid-rows-6">
-            <PosterTile bg="blue" className="flex items-end lg:col-span-7 lg:row-span-3">
-              <h1 className="text-balance font-poster text-6xl font-extrabold uppercase leading-[0.98] md:text-8xl lg:text-7xl xl:text-[5.5rem]">{t.home.headline}</h1>
-            </PosterTile>
+    <section ref={root} className="page-container relative flex min-h-[calc(100svh-3.5rem)] flex-col justify-between gap-10 py-8 md:py-12">
+      <p className="hero-fade flex items-center gap-2 font-poster text-xl font-bold uppercase leading-none">
+        <Asterisk className="text-poster-orange" />
+        <span lang="th" className="font-thai">น่ารักไทย</span> · NarakThai
+      </p>
 
-            <PosterTile bg="lime" className="flex items-center lg:col-span-5 lg:row-span-2">
-              <p className="max-w-[34ch] text-lg font-medium leading-snug md:text-xl">{t.home.body}</p>
-            </PosterTile>
-
-            <PosterTile bg="cream" themed className="flex items-center lg:col-span-5 lg:row-span-4 lg:col-start-8">
-              <HeroMerge />
-            </PosterTile>
-
-            <PosterTile bg="violet" className="flex flex-col justify-between gap-4 lg:col-span-4 lg:row-span-2 lg:col-start-1">
-              <span lang="th" aria-hidden className="poster-outline font-thai text-7xl font-medium leading-none md:text-8xl">น่ารัก</span>
-              <p className="max-w-[30ch] text-sm leading-snug text-poster-lime md:text-base">
-                <span lang="th" className="font-thai">“น่ารัก”</span> {t.home.tagline}
-              </p>
-            </PosterTile>
-
-            <PosterLink bg="black" href={href('/lab')} className="flex flex-col justify-between gap-6 lg:col-span-3 lg:row-span-2">
-              <span className="font-poster text-3xl font-bold uppercase leading-none md:text-4xl">{t.home.cta}</span>
-              <Chevrons className="w-16 transition-transform duration-200 group-hover:translate-x-2" />
-            </PosterLink>
-
-            <PosterLink bg="orange" href={href('/aksornthai')} className="flex items-center justify-between gap-4 py-4 md:py-5 lg:col-span-7">
-              <span className="font-poster text-2xl font-bold uppercase leading-none md:text-3xl">{t.home.ctaSecondary}</span>
-              <span aria-hidden className="text-3xl leading-none transition-transform duration-200 group-hover:translate-x-2">→</span>
-            </PosterLink>
+      <div className="grid items-end gap-10 lg:grid-cols-12">
+        <h1 className="text-balance font-poster text-[clamp(3.5rem,9.5vw,9rem)] font-extrabold uppercase leading-[0.9] lg:col-span-8">
+          <SplitWords text={t.home.headline} />
+        </h1>
+        <div className="hero-fade border-2 border-ink lg:col-span-4">
+          <div className="note-paper !border-0 px-4 pb-8 pt-10 md:px-6">
+            <HeroMerge />
           </div>
-      </PosterFrame>
+        </div>
+      </div>
+
+      <div className="hero-fade flex flex-wrap items-end justify-between gap-6 border-t-2 border-ink pt-6">
+        <div className="max-w-[48ch] space-y-2">
+          <p className="text-lg leading-snug md:text-xl">{t.home.body}</p>
+          <p className="text-sm leading-relaxed text-ink-soft">
+            <span lang="th" className="font-thai">“น่ารัก”</span> {t.home.tagline}
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-3">
+          <Link href={href('/lab')} className="btn btn-primary">
+            {t.home.cta}
+          </Link>
+          <Link href={href('/aksornthai')} className="btn btn-outline">
+            {t.home.ctaSecondary}
+          </Link>
+        </div>
+      </div>
     </section>
   );
 }

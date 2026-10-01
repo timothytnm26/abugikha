@@ -70,14 +70,6 @@ const boxStyle = (color: string, selected: boolean, muted?: boolean): CSSPropert
   selected ? { borderColor: color, backgroundColor: color } : { borderColor: tint(color, muted ? 25 : 60), color };
 
 /** Trên màn hình rộng mọi nhóm đều hiện; màn hình hẹp chỉ hiện nhóm của tab đang chọn. */
-/** Dải màu áp phích trên đầu mỗi nhóm ở màn hình rộng (dưới xl đã có thanh tab); màu dải chỉ để trang trí, màu của ô mới mang nghĩa. */
-const STRIP: Record<PartKind, string> = {
-  initial: "xl:bg-poster-blue xl:text-white",
-  vowel: "xl:bg-poster-violet xl:text-white",
-  final: "xl:bg-poster-orange xl:text-poster-black",
-  mark: "xl:bg-poster-green xl:text-white",
-};
-
 function Group({
   k,
   tab,
@@ -98,7 +90,7 @@ function Group({
       aria-labelledby={`grp-${k}`}
       className={cn(tab !== k && "hidden xl:block", className)}
     >
-      <div className={cn("mb-3 flex flex-wrap items-center gap-2 xl:px-3 xl:py-2", STRIP[k])}>
+      <div className="mb-3 flex flex-wrap items-center gap-2 xl:border-b-2 xl:border-ink xl:pb-2">
         <h2
           id={`grp-${k}`}
           className="mr-1 font-poster text-2xl font-bold uppercase leading-none max-xl:sr-only"
@@ -258,7 +250,7 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
             onClick={() => setTab(k)}
             className={cn(
               "min-h-11 flex-1 whitespace-nowrap px-2 py-2 text-xs font-medium focus-visible:outline-2 focus-visible:outline-ink sm:px-3 sm:text-sm md:px-1.5 md:text-xs min-[900px]:px-3 min-[900px]:text-sm",
-              tab === k ? "bg-poster-black text-poster-lime" : "border-2 border-ink hover:bg-ink hover:text-paper",
+              tab === k ? "bg-poster-orange text-poster-black border-2 border-poster-black" : "border-2 border-ink hover:bg-ink hover:text-paper",
             )}
           >
             {t.builder.parts[k]}

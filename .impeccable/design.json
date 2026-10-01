@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-01T06:04:00.151652+00:00",
+  "generatedAt": "2026-10-01T06:41:47.933926+00:00",
   "title": "Design System: NarakThai",
   "extensions": {
     "colorMeta": {
@@ -351,14 +351,14 @@
   },
   "components": [],
   "narrative": {
-    "northStar": "The Flat Poster Lab",
-    "overview": "Flat color-block poster built from flush tiles and full-bleed bands; poster colors structure the page, meaning colors mark glyphs.",
+    "northStar": "The Calm Poster",
+    "overview": "Warm cream canvas, enormous condensed uppercase type, one saturated color per section and scroll-driven reveals; glyph colors carry meaning.",
     "keyCharacteristics": [
-      "Flush tiles and full-bleed bands",
-      "Square everywhere; circles only as small marks",
-      "Condensed uppercase poster type",
-      "Black top bar with a lime active tab",
-      "Flat state feedback, no shadows"
+      "Cream canvas with generous whitespace",
+      "One saturated color per section",
+      "Huge condensed uppercase headings",
+      "Square everywhere; circles only as motif and marks",
+      "Scroll-driven storytelling with smooth inertia"
     ],
     "rules": [
       {

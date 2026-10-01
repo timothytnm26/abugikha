@@ -8,7 +8,7 @@ export function BuilderPage() {
   const t = useT();
   return (
     <>
-      <PageIntro bg="orange" title={t.routes.builder.title} compact>{t.routes.builder.blurb}</PageIntro>
+      <PageIntro title={t.routes.builder.title}>{t.routes.builder.blurb}</PageIntro>
       <div className="page-container py-6 md:py-8">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
           <VoiceNotice />

@@ -73,7 +73,7 @@ export function SyllableBuilder() {
       </div>
 
       <section aria-labelledby="table-title" className="md:col-start-2 md:row-start-2 xl:col-start-2 xl:row-start-1">
-        <h2 id="table-title" className="mb-3 bg-poster-green px-3 py-2 font-poster text-2xl font-bold uppercase leading-none text-white">
+        <h2 id="table-title" className="mb-3 border-b-2 border-ink pb-2 font-poster text-2xl font-bold uppercase leading-none">
           {t.builder.tableTitle}
         </h2>
         <ToneRuleTable analysis={analysis} />

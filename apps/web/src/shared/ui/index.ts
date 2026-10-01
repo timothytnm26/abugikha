@@ -3,4 +3,6 @@ export { SpeakButton } from "./speak-button";
 export { VoiceNotice } from "./voice-notice";
 export { PageIntro } from "./page-intro";
 export { Phonetic } from "./phonetic";
-export { CREAM_PANEL, Chevrons, LIGHT_VARS, PosterFrame, PosterHeading, PosterLink, PosterTile, type PosterBg } from "./poster-tile";
+export { Asterisk, Circles, PosterLink, PosterTile, SectionHeading, SectionLabel, type PosterBg } from "./poster-tile";
+export { SmoothScroll } from "./smooth-scroll";
+export { ScrubWords, SplitWords } from "./split-words";
