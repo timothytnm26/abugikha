@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { useShallow } from "zustand/react/shallow";
 import { CLASS_META, type ConsonantClass } from "@abugikha/core/consonant";
 import { TONE_META, type Tone } from "@abugikha/core/syllable";
 import { CLASS_KEYS, PAPER_STYLES, PART_KEYS, TONE_KEYS, type PaletteKey } from "@/shared/config/palette";
@@ -95,7 +96,9 @@ export function SettingsMenu() {
   const t = useT();
   const { locale } = useLocale();
   const mode = useEffectiveTheme() ?? "light";
-  const { themeId, palette, paper, setTheme, setColor, resetPalette, setPaper } = usePreferences();
+  const { themeId, palette, paper, setTheme, setColor, resetPalette, setPaper } = usePreferences(
+    useShallow((p) => ({ themeId: p.themeId, palette: p.palette, paper: p.paper, setTheme: p.setTheme, setColor: p.setColor, resetPalette: p.resetPalette, setPaper: p.setPaper })),
+  );
   const activeId = themeId ?? DEFAULT_THEME[mode];
   const active = THEME_BY_ID.get(activeId)!;
   const overrides = palette[activeId] ?? {};

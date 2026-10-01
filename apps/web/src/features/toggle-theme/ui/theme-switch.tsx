@@ -1,5 +1,6 @@
 "use client";
 import { useEffectiveTheme } from "@/shared/lib/theme";
+import { useShallow } from "zustand/react/shallow";
 import { usePreferences } from "@/shared/lib/preferences";
 import { useT } from "@/shared/i18n";
 
@@ -7,7 +8,7 @@ import { useT } from "@/shared/i18n";
 export function ThemeSwitch() {
   const t = useT();
   const theme = useEffectiveTheme();
-  const { lastLight, lastDark, setTheme } = usePreferences();
+  const { lastLight, lastDark, setTheme } = usePreferences(useShallow((p) => ({ lastLight: p.lastLight, lastDark: p.lastDark, setTheme: p.setTheme })));
   const next = theme === "dark" ? "light" : "dark";
   const label = next === "dark" ? t.nav.toDark : t.nav.toLight;
   return (

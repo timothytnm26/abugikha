@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useShallow } from "zustand/react/shallow";
 import {
   forwardRef,
   useEffect,
@@ -208,7 +209,9 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
   const t = useT();
   const { locale } = useLocale();
   const href = useLocalePath();
-  const { setTab, setPart, pulse, lastKind } = useBuilderStore();
+  const { setTab, setPart, pulse, lastKind } = useBuilderStore(
+    useShallow((s) => ({ setTab: s.setTab, setPart: s.setPart, pulse: s.pulse, lastKind: s.lastKind })),
+  );
   const inner = useRef<HTMLDivElement>(null);
   const resultPopId = useId();
   const tone = TONE_META[a.tone];

@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useMemo, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useShallow } from "zustand/react/shallow";
 import { CONSONANT_BY_ID, INITIAL_BY_ID } from "@/entities/consonant";
 import { VOWEL_BY_ID, vowelFitsInitial } from "@/entities/vowel";
 import { ToneRuleTable, analyzeSyllable } from "@/entities/syllable";
@@ -21,7 +22,9 @@ import { BuilderCoach } from "./builder-coach";
 export function SyllableBuilder() {
   const t = useT();
   const { locale } = useLocale();
-  const { initialId, vowelId, finalId, mark, setPart } = useBuilderStore();
+  const { initialId, vowelId, finalId, mark, setPart } = useBuilderStore(
+    useShallow((s) => ({ initialId: s.initialId, vowelId: s.vowelId, finalId: s.finalId, mark: s.mark, setPart: s.setPart })),
+  );
   const initial = INITIAL_BY_ID.get(initialId)!;
   const vowel = VOWEL_BY_ID.get(vowelId)!;
   const final = finalId ? CONSONANT_BY_ID.get(finalId)! : null;

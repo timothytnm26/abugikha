@@ -1,9 +1,12 @@
 "use client";
-import type { RefObject } from "react";
+import { useEffect, useRef, type RefObject } from "react";
 import { gsap, Draggable, useGSAP, prefersReducedMotion } from "@/shared/lib/gsap";
 import type { PartKind } from "../model/builder-store";
 
 /**
+ * Draggable chỉ được dựng lại khi bộ ô thay đổi (`deps`: số ô mỗi nhóm); ô bị vô hiệu hoá (disabled) theo nguyên âm hay phụ âm đang chọn
+ * thì chỉ bật/tắt Draggable sau mỗi lần render, không huỷ và tạo lại cả trăm ô sau mỗi lần chọn.
+ *
  * Mọi [data-tile] trong `picker` kéo được. Thả vào vùng `stage` (hoặc thanh ghép nổi [data-dropzone=dock]) → mảnh bay vào đúng ô
  * [data-slot=<data-target-slot của mảnh>] (hoặc [data-slot=<kind>]) rồi gọi onDrop. Thả ra ngoài → bật về chỗ cũ.
  */
@@ -13,6 +16,14 @@ export function useSlotDrag(
   onDrop: (kind: PartKind, id: string) => void,
   deps: unknown[],
 ) {
+  const instances = useRef(new Map<HTMLElement, Draggable>());
+  // Chạy sau mỗi lần render: đồng bộ trạng thái bật/tắt kéo với thuộc tính disabled hiện tại của từng ô
+  useEffect(() => {
+    instances.current.forEach((d, tile) => {
+      const off = tile.hasAttribute("disabled");
+      if (d.enabled() === off) d.enabled(!off);
+    });
+  });
   useGSAP(
     () => {
       const root = picker.current;
@@ -23,15 +34,15 @@ export function useSlotDrag(
       let zone: HTMLElement = stage.current;
       const pickZone = () => document.querySelector<HTMLElement>('[data-dropzone="dock"]') ?? stage.current!;
       const reduce = prefersReducedMotion();
-      const tiles = gsap.utils.toArray<HTMLElement>("[data-tile]:not([disabled])", root);
+      const tiles = gsap.utils.toArray<HTMLElement>("[data-tile]", root);
       // Ô riêng của mảnh (vd. vowel-above) nếu vùng thả có, không thì ô chung theo loại (thanh ghép nổi)
       const slotOf = (t: HTMLElement) =>
         (t.dataset.targetSlot && zone.querySelector<HTMLElement>(`[data-slot="${t.dataset.targetSlot}"]`)) ||
         zone.querySelector<HTMLElement>(`[data-slot="${t.dataset.kind}"]`);
 
-      const instances = tiles.map(
-        (tile) =>
-          Draggable.create(tile, {
+      const created = tiles.map(
+        (tile) => {
+          const d = Draggable.create(tile, {
             type: "x,y",
             zIndexBoost: true,
             minimumMovement: 6,
@@ -87,9 +98,16 @@ export function useSlotDrag(
                 })
                 .add(() => onDrop(tile.dataset.kind as PartKind, tile.dataset.id!));
             },
-          })[0],
+          })[0];
+          if (tile.hasAttribute("disabled")) d.enabled(false);
+          instances.current.set(tile, d);
+          return d;
+        },
       );
-      return () => instances.forEach((d) => d.kill());
+      return () => {
+        created.forEach((d) => d.kill());
+        instances.current.clear();
+      };
     },
     { scope: picker, dependencies: deps, revertOnUpdate: true },
   );

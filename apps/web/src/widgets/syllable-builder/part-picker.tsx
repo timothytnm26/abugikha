@@ -1,6 +1,7 @@
 "use client";
 import { useMemo, useRef, useState, type CSSProperties, type ReactNode, type RefObject } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useShallow } from "zustand/react/shallow";
 import {
   CLASS_META,
   CONSONANTS,
@@ -144,7 +145,9 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
   const t = useT();
   const { locale } = useLocale();
   const ref = useRef<HTMLDivElement>(null);
-  const { tab, setTab, initialId, vowelId, finalId, mark } = useBuilderStore();
+  const { tab, setTab, initialId, vowelId, finalId, mark } = useBuilderStore(
+    useShallow((s) => ({ tab: s.tab, setTab: s.setTab, initialId: s.initialId, vowelId: s.vowelId, finalId: s.finalId, mark: s.mark })),
+  );
   const { data: initials = [] } = useQuery(consonantQueries.initials());
   const { data: consonants = [] } = useQuery(consonantQueries.all());
   const { data: vowels = [] } = useQuery(vowelQueries.all());
@@ -173,15 +176,7 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
   const finalDisabled = (ch: string) =>
     !vowel.closed || Boolean(vowel.excludeFinals?.includes(ch));
 
-  useSlotDrag(ref, stageRef, onPick, [
-    vowel.id,
-    initialId,
-    shown.length,
-    finals.length,
-    analysis.cls,
-    analysis.liveness,
-    showPhonetic,
-  ]);
+  useSlotDrag(ref, stageRef, onPick, [shown.length, finals.length, vowels.length]);
 
   const initialTile = (u: InitialUnit) => (
     <button
