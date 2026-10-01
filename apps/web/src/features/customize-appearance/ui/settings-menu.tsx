@@ -12,6 +12,13 @@ import { fmt, useLocale, useT, type L10n } from "@/shared/i18n";
 import { gsap, useGSAP, prefersReducedMotion } from "@/shared/lib/gsap";
 import { cn } from "@/shared/lib";
 
+/** Ký tự đại diện cho từng khoá màu: phụ âm mẫu của nhóm, nguyên âm, âm cuối, hoặc dấu thanh trên ◌ (thanh sắc-thường không có dấu). */
+const GLYPH: Record<PaletteKey, string> = {
+  mid: "ก", high: "ข", low: "ค",
+  "part-vowel": "า", "part-final": "น",
+  "tone-mid": "◌", "tone-low": "◌่", "tone-falling": "◌้", "tone-high": "◌๊", "tone-rising": "◌๋",
+};
+
 /** Nhãn của khoá palette: tên nhóm phụ âm, tên thanh điệu hoặc vai trò nguyên âm / âm cuối */
 const labelOf = (k: PaletteKey, t: ReturnType<typeof useT>): L10n | string =>
   k.startsWith("tone-")
@@ -58,8 +65,8 @@ function ThemeCard({ theme, selected, onPick }: { theme: ThemeDef; selected: boo
     >
       <span className="flex h-11 items-center gap-1.5 rounded-xl px-2.5" style={{ backgroundColor: v.paper }}>
         <span className="font-thai text-lg leading-none" style={{ color: v.ink }}>ก</span>
-        {(["mid", "high", "low"] as const).map((k) => (
-          <span key={k} className="size-3 rounded-full" style={{ backgroundColor: v[k] }} />
+        {(["mid", "high", "low", "part-vowel", "part-final"] as const).map((k) => (
+          <span key={k} className="font-thai text-base leading-none" style={{ color: v[k] }}>{GLYPH[k]}</span>
         ))}
         <span className="ml-auto h-6 w-5 rounded-sm" style={{ backgroundColor: v.sheet, boxShadow: `inset 0 -3px 0 -1px ${v["sheet-line"]}` }} />
       </span>
@@ -127,10 +134,11 @@ export function SettingsMenu() {
     return typeof l === "string" ? l : l[locale];
   };
   const swatches = (keys: readonly PaletteKey[]) => (
-    <div className={cn("grid gap-2", keys.length === 5 ? "grid-cols-5" : "grid-cols-5")}>
+    <div className={"grid grid-cols-5 gap-2"}>
       {keys.map((k) => (
         <label key={k} className="flex flex-col items-center gap-1 text-[11px] text-ink-soft">
-          <span className="relative size-11 overflow-hidden rounded-full ring-2 ring-ink/10 focus-within:ring-ink sm:size-9" style={{ backgroundColor: `var(--color-${k})` }}>
+          <span className="font-thai relative grid size-11 place-items-center overflow-hidden rounded-xl bg-sheet text-2xl leading-none ring-2 ring-ink/10 focus-within:ring-ink sm:size-10" style={{ color: `var(--color-${k})` }}>
+            {GLYPH[k]}
             <input type="color" value={overrides[k] ?? active.vars[k]} onChange={(e) => setColor(activeId, k, e.target.value)} className="absolute inset-0 size-full cursor-pointer opacity-0" aria-label={label(k)} />
           </span>
           {label(k)}

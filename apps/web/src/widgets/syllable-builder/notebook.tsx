@@ -206,6 +206,7 @@ export function Notebook({
 
   return (
     <div
+      data-scale
       className="note-paper relative overflow-hidden rounded-xl text-[clamp(44px,8vw,68px)] xl:text-[clamp(52px,11vw,84px)]"
       style={{ "--tone-accent": toneColor } as CSSProperties}
     >

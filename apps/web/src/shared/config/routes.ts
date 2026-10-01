@@ -1,8 +1,8 @@
 import { LOCALES, type Locale } from "@abugikha/core";
 
 export const LEARNING_PATH = [
-  { href: "/ipa", step: 1, key: "ipa" },
-  { href: "/history", step: 2, key: "history" },
+  { href: "/history", step: 1, key: "history" },
+  { href: "/ipa", step: 2, key: "ipa" },
   { href: "/aksornthai", step: 3, key: "aksornthai" },
   { href: "/lab", step: 4, key: "builder" },
 ] as const;

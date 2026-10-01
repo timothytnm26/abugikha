@@ -52,7 +52,7 @@ For the mobile app, copy `apps/mobile/.env.example` to `apps/mobile/.env` and po
 Every page is prerendered for each locale under `/vi/...` and `/en/...`, with localized `<html lang>`, titles, canonical URLs, and `hreflang` alternates. The root `/` sends visitors to their saved locale (the `locale` cookie) or to their browser language.
 
 1. **/ipa - Phonetics:** Explore consonants by place and manner of articulation, vowel positions, and the contours of all five tones. IPA transcriptions are accompanied by RTGS romanization.
-2. **/history - Script history:** Follow the script's lineage from Brahmi through Pallava, Old Khmer and Mon, and Sukhothai to modern Thai.
+2. **/history - Script history:** Travel a horizontally scrolling timeline from Brahmi through Pallava, Old Khmer, Sukhothai and Ayutthaya to modern Thai, with grey side branches (Mon, Cham, Lao, Tai Tham, Tai Dam and others) for related scripts.
 3. **/aksornthai - Aksorn Thai (อักษรไทย, the Thai script):** Browse the 44 consonants in traditional order, vowel spellings, and all 10 digits. Less common consonants are muted and obsolete ones are struck through. Select a consonant to see its details and open the syllable builder with it.
 4. **/lab - Syllable builder:** Combine consonants, vowels, tone marks, and final consonants to explore how Thai syllables are formed.
    - Each of the four composition slots represents a step in the process. Hover over or touch a slot to inspect the syllable and its explanation. For example, step 2 of หน้า is หนา /nǎː/.
@@ -102,7 +102,7 @@ apps/
     src/
       app/             Locale and Query providers, root shell, global styles
       pages/           Page compositions: home, IPA, history, and builder
-      widgets/         Site navigation, hero merge, IPA explorer, history graph, syllable builder
+      widgets/         Site navigation, hero merge, IPA explorer, history timeline, syllable builder
       features/        Syllable building, locale and theme toggles, appearance customization
       entities/        UI and queries on top of @abugikha/core (adds web colors to class/tone metadata)
       shared/          i18n provider, routing and metadata helpers, utilities, UI
@@ -138,7 +138,7 @@ Audio uses the Web Speech API on the web and `expo-speech` on mobile, both with 
   | `ui.json` | Web and mobile interface (`useT()`) |
   | `analysis.json` | Step-by-step explanations produced by the syllable engine |
   | `consonants.json`, `initials.json`, `vowels.json`, `tones.json` | Class and tone names, letter meanings, notes, approximate sounds |
-  | `phonemes.json`, `script-history.json`, `lexicon.json`, `morph.json` | IPA page, script-history graph, word meanings (keyed by the Thai word), vowel-morph rules |
+  | `phonemes.json`, `script-history.json`, `lexicon.json`, `morph.json` | IPA page, script-history timeline (main eras plus side branches), word meanings (keyed by the Thai word), vowel-morph rules |
 
   Data in `@abugikha/core` keeps only language-neutral fields and builds its `L10n = Record<Locale, string>` values from these files with `l10n(["lexicon", "กา"])`, so UI code still reads `word.meaning[locale]`. Strings with parameters use `{name}` placeholders (optionally `{name|lower}`) and are rendered with `fmt(t.app.learned, { n, total })`.
 - `packages/i18n/src/catalog.ts` types every locale against the default one (`vi`), so a missing key fails `typecheck`; `packages/i18n/test` also checks that placeholders match. To add a language: add its code to `LOCALES` in `packages/i18n/src/locale.ts`, copy `locales/vi/` to `locales/<code>/`, translate, and register the files in `catalog.ts`. Any missing string in a non-default locale falls back to `vi` at runtime.
@@ -146,7 +146,7 @@ Audio uses the Web Speech API on the web and `expo-speech` on mobile, both with 
 - RTGS romanization (Royal Thai General System, Thailand's official romanization system) is generated from IPA by `packages/core/src/romanize.ts`. It omits tones and vowel length. Final ย becomes `-i`, final ว becomes `-o`, and both จ and ช are romanized as `ch`. Examples: หน้า → `na`, ควาย → `khwai`, แม่น้ำ → `maenam`.
 - Appearance preferences (theme, paper style, custom colors, phonetic and auto-speak toggles) are stored in localStorage under `narakthai-prefs` using Zustand persist. A small script in `<head>` applies them before the page is painted to prevent a color flash.
 - The preview notebooks use the `.note-paper` class in `globals.css`; the paper style is read from `data-paper` on `<html>` (`tiers` draws the 4-tier guide lines, the other styles replace them with a ruled, grid or dotted background).
-- The landing page story (`widgets/syllable-story`) pins a full-width stage and scrolls it horizontally with GSAP ScrollTrigger while ค้าน is assembled piece by piece; with `prefers-reduced-motion` it becomes a vertical list. On touch (`pointer: coarse`) screens drag-and-drop is disabled so tiles do not block scrolling; tapping picks a piece.
+- The history page (`widgets/script-timeline`) pins a full-width stage and scrolls it horizontally with GSAP ScrollTrigger from Brahmi to modern Thai; below 1024×720 or with `prefers-reduced-motion` it becomes a normal swipeable strip. The landing page explains syllable building with a plain vertical section (`widgets/syllable-intro`) under a full-screen hero. On touch (`pointer: coarse`) screens drag-and-drop is disabled so tiles do not block scrolling; tapping picks a piece.
 
 ## Stroke Data
 

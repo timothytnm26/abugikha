@@ -1,5 +1,5 @@
 "use client";
-import { Fragment, useCallback, useLayoutEffect, useRef, useState } from "react";
+import { Fragment, useCallback, useId, useLayoutEffect, useRef, useState } from "react";
 import { THAI_SPECIMEN_CSS, THAI_SPECIMEN_FONTS, type ThaiFontStyle } from "@/shared/config/fonts";
 import { useT } from "@/shared/i18n";
 import { cn } from "@/shared/lib";
@@ -26,6 +26,9 @@ const FRAME_TOP = -1.48;
 const FRAME_BOTTOM = 0.55;
 const FRAME_H = FRAME_BOTTOM - FRAME_TOP;
 const PAD = 0.18;
+/** Ô kẻ của các kiểu giấy khác (em): nửa thân chữ Thái (0.58em); "kẻ ngang" mỗi dòng cao đúng một thân chữ. Giống globals.css [data-scale]. */
+const CELL = 0.29;
+const LINE_H = 0.58;
 /**
  * Dấu thanh đứng một mình (◌่ ◌้ ◌๊ ◌๋): font hạ dấu xuống sát phụ âm (tầng nguyên âm trên); trong vở tập viết
  * dấu thanh nằm ở tầng trên cùng. Khoảng nâng (em) để tâm dấu ở giữa tầng dấu thanh, đo sẵn theo từng font.
@@ -35,8 +38,7 @@ const TONE_LIFT: Record<string, Record<string, number>> = {
   "Noto Sans Thai Looped": { "\u0E48": 0.26, "\u0E49": 0.25, "\u0E4A": 0.255, "\u0E4B": 0.265 },
   Kanit: { "\u0E48": 0.315, "\u0E49": 0.315, "\u0E4A": 0.305, "\u0E4B": 0.31 },
   Charm: { "\u0E48": 0.21, "\u0E49": 0.1, "\u0E4A": 0.09, "\u0E4B": 0.22 },
-  Sriracha: { "\u0E48": 0.255, "\u0E49": 0.275, "\u0E4A": 0.285, "\u0E4B": 0.24 },
-};
+  };
 const DEFAULT_LIFT = 0.26;
 
 /** Khung vuông chung cho cả 4 ô: cao cố định, rộng thêm khi chữ rộng (vd. เ◌ียะ) */
@@ -66,11 +68,28 @@ function Specimen({ family, text, frame, onMeasure }: { family: string; text: st
   }, [family, text, onMeasure]);
 
   const { size, top } = frame;
+  // Mẫu kẻ vẽ trong hệ toạ độ em của chữ: đổi cỡ chữ (hay bề rộng ô) thì ô kẻ co giãn theo, đường ngang đầu tiên là đường cơ sở
+  const pid = useId().replaceAll(":", "");
+  const paperRect = { x: 0, y: top, width: size, height: size };
   // ◌ chỉ là chỗ giữ phụ âm nên tô nhạt; vẫn cùng một khối <text> để font ghép dấu đúng vị trí
   const parts = text.split(/(◌)/).filter(Boolean);
   const textProps = { x: size / 2, y: 0, fontSize: 1, textAnchor: "middle" as const, style: { fontFamily: `"${family}"` } };
   return (
     <svg aria-hidden viewBox={`0 ${top} ${size} ${size}`} className="block aspect-square w-full overflow-hidden">
+      <defs>
+        <pattern id={`${pid}-l`} width={LINE_H} height={LINE_H} x="0" y="0" patternUnits="userSpaceOnUse">
+          <line x1="0" x2={LINE_H} y1="0" y2="0" vectorEffect="non-scaling-stroke" strokeWidth="1" className="stroke-sheet-line" />
+        </pattern>
+        <pattern id={`${pid}-g`} width={CELL} height={CELL} x={size / 2} y="0" patternUnits="userSpaceOnUse">
+          <path d={`M0 0H${CELL}M0 0V${CELL}`} vectorEffect="non-scaling-stroke" strokeWidth="1" className="fill-none stroke-sheet-line" />
+        </pattern>
+        <pattern id={`${pid}-d`} width={CELL} height={CELL} x={size / 2} y="0" patternUnits="userSpaceOnUse">
+          <circle cx="0" cy="0" r="0.014" className="fill-sheet-line" />
+        </pattern>
+      </defs>
+      <rect {...paperRect} fill={`url(#${pid}-l)`} className="paper-lines" />
+      <rect {...paperRect} fill={`url(#${pid}-g)`} className="paper-grid" />
+      <rect {...paperRect} fill={`url(#${pid}-d)`} className="paper-dots" />
       <rect x="0" y={TIERS[2].top} width={size} height={-TIERS[2].top} className="paper-tier fill-paper-deep/60" />
       {TIERS.slice(1).map((tier) => (
         <line
@@ -133,12 +152,11 @@ function Margin({ frame }: { frame: Frame }) {
   );
 }
 
-function Caption({ family, style }: { family: string; style: ThaiFontStyle }) {
+function Caption({ style }: { style: ThaiFontStyle }) {
   const t = useT();
   return (
     <p className="h-full border-y border-ink/10 px-2 py-1 text-center leading-tight">
-      <span className="block text-balance text-[11px] font-medium">{family}</span>
-      <span className="block text-[10px] text-ink-soft">{t.aksornthai.fontStyles[style]}</span>
+      <span className="block text-[11px] font-medium">{t.aksornthai.fontStyles[style]}</span>
     </p>
   );
 }
@@ -158,7 +176,7 @@ export function LetterNotebook({ text }: { text: string }) {
     <figure>
       {/* React 19 đưa stylesheet lên <head>; chỉ trang này cần các font so sánh */}
       <link rel="stylesheet" href={THAI_SPECIMEN_CSS} precedence="default" />
-      <div className="grid grid-cols-[1rem_minmax(0,1fr)_minmax(0,1fr)] note-paper overflow-hidden rounded-xl sm:grid-cols-[4.25rem_minmax(0,1fr)_minmax(0,1fr)] lg:grid-cols-[3.75rem_minmax(0,1fr)_minmax(0,1fr)]">
+      <div data-svgpaper className="grid grid-cols-[1rem_minmax(0,1fr)_minmax(0,1fr)] note-paper overflow-hidden rounded-xl sm:grid-cols-[4.25rem_minmax(0,1fr)_minmax(0,1fr)] lg:grid-cols-[3.75rem_minmax(0,1fr)_minmax(0,1fr)]">
         {ROWS.map((row, r) => (
           <Fragment key={r}>
             <Margin frame={frame} />
@@ -170,7 +188,7 @@ export function LetterNotebook({ text }: { text: string }) {
             <div aria-hidden className={cn("border-r-2 border-y border-r-margin border-y-ink/10", r === ROWS.length - 1 && "border-b-0")} />
             {row.map((f, i) => (
               <div key={f.family} className={cn(i > 0 && "border-l border-ink/10", r === ROWS.length - 1 && "[&>p]:border-b-0")}>
-                <Caption family={f.family} style={f.style} />
+                <Caption style={f.style} />
               </div>
             ))}
           </Fragment>

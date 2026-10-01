@@ -209,7 +209,7 @@ export function AksornThaiBoard() {
                       setPart("initial", sel.item.char);
                       router.push(href("/lab"));
                     }}
-                    className="rounded-full border border-ink/15 px-3 py-1 text-sm font-medium hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+                    className="btn btn-outline btn-xs"
                   >
                     {t.aksornthai.tryIt} →
                   </button>
@@ -256,7 +256,7 @@ export function AksornThaiBoard() {
                   setPart("vowel", sel.item.id);
                   router.push(href("/lab"));
                 }}
-                className="w-fit rounded-full border border-ink/15 px-3 py-1 text-sm font-medium hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+                className="w-fit btn btn-outline btn-xs"
               >
                 {t.aksornthai.tryVowel} →
               </button>
@@ -535,7 +535,7 @@ function ToneDetails({ mark, onTry }: { mark: ToneMark; onTry: () => void }) {
       <button
         type="button"
         onClick={onTry}
-        className="w-fit rounded-full border border-ink/15 px-3 py-1 text-sm font-medium hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+        className="w-fit btn btn-outline btn-xs"
       >
         {t.aksornthai.tryMark} →
       </button>
