@@ -6,6 +6,13 @@
     "velar": "Mạc",
     "glottal": "Thanh hầu"
   },
+  "placeHint": {
+    "labial": "hai môi",
+    "alveolar": "đầu lưỡi chạm lợi trên",
+    "palatal": "giữa lưỡi chạm vòm cứng",
+    "velar": "cuống lưỡi chạm vòm mềm",
+    "glottal": "ngay trong cổ họng"
+  },
   "manner": {
     "unaspirated": "Tắc, không bật hơi",
     "aspirated": "Tắc, bật hơi",
@@ -14,6 +21,15 @@
     "fricative": "Xát",
     "approximant": "Tiếp cận",
     "trill": "Rung"
+  },
+  "mannerHint": {
+    "unaspirated": "chặn hơi, không bật (p trong spin)",
+    "aspirated": "chặn hơi rồi bật ra (p trong pin)",
+    "voiced": "chặn hơi, dây thanh rung (b)",
+    "nasal": "hơi đi qua mũi (m, n)",
+    "fricative": "hơi xát qua khe hẹp (s, f)",
+    "approximant": "hơi thoát êm (l, w, y)",
+    "trill": "đầu lưỡi gõ hoặc rung (r)"
   },
   "consonant": {
     "p": {

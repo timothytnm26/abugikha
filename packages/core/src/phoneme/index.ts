@@ -7,8 +7,8 @@ const PLACE_IDS: Place[] = ["labial", "alveolar", "palatal", "velar", "glottal"]
 const MANNER_IDS: Manner[] = ["unaspirated", "aspirated", "voiced", "nasal", "fricative", "approximant", "trill"];
 
 /** Mọi chuỗi hiển thị của trang IPA nằm ở locales/<locale>/phonemes.json */
-export const PLACES: { id: Place; label: L10n }[] = PLACE_IDS.map((id) => ({ id, label: l10n(["phonemes", "place", id]) }));
-export const MANNERS: { id: Manner; label: L10n }[] = MANNER_IDS.map((id) => ({ id, label: l10n(["phonemes", "manner", id]) }));
+export const PLACES: { id: Place; label: L10n; hint: L10n }[] = PLACE_IDS.map((id) => ({ id, label: l10n(["phonemes", "place", id]), hint: l10n(["phonemes", "placeHint", id]) }));
+export const MANNERS: { id: Manner; label: L10n; hint: L10n }[] = MANNER_IDS.map((id) => ({ id, label: l10n(["phonemes", "manner", id]), hint: l10n(["phonemes", "mannerHint", id]) }));
 
 export interface ConsonantPhone {
   ipa: string;

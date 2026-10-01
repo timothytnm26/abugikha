@@ -6,6 +6,13 @@
     "velar": "Velar",
     "glottal": "Glottal"
   },
+  "placeHint": {
+    "labial": "both lips",
+    "alveolar": "tongue tip on the ridge behind the teeth",
+    "palatal": "middle of the tongue on the hard palate",
+    "velar": "back of the tongue on the soft palate",
+    "glottal": "in the throat"
+  },
   "manner": {
     "unaspirated": "Stop, unaspirated",
     "aspirated": "Stop, aspirated",
@@ -14,6 +21,15 @@
     "fricative": "Fricative",
     "approximant": "Approximant",
     "trill": "Trill"
+  },
+  "mannerHint": {
+    "unaspirated": "air stopped, no puff (p in spin)",
+    "aspirated": "air stopped, then a puff (p in pin)",
+    "voiced": "air stopped, voice on (b)",
+    "nasal": "air through the nose (m, n)",
+    "fricative": "air hisses through (s, f)",
+    "approximant": "air flows smoothly (l, w, y)",
+    "trill": "tongue tap or roll (r)"
   },
   "consonant": {
     "p": {

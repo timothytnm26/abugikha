@@ -22,14 +22,20 @@ export function ConsonantChart() {
             <tr>
               <th className="w-40" />
               {PLACES.map((p) => (
-                <th key={p.id} scope="col" className="pb-2 text-center font-medium text-ink-soft">{p.label[locale]}</th>
+                <th key={p.id} scope="col" className="pb-2 text-center align-top font-medium text-ink-soft">
+                  {p.label[locale]}
+                  <span className="mt-0.5 block text-xs font-normal leading-tight">{p.hint[locale]}</span>
+                </th>
               ))}
             </tr>
           </thead>
           <tbody>
             {MANNERS.map((m) => (
               <tr key={m.id}>
-                <th scope="row" className="pr-3 text-left font-medium text-ink-soft">{m.label[locale]}</th>
+                <th scope="row" className="pr-3 text-left font-medium text-ink-soft">
+                  {m.label[locale]}
+                  <span className="mt-0.5 block text-xs font-normal leading-tight">{m.hint[locale]}</span>
+                </th>
                 {PLACES.map((p) => {
                   const phone = CONSONANT_PHONES.find((x) => x.place === p.id && x.manner === m.id);
                   if (!phone) return <td key={p.id} className="rounded-xl bg-ink/[0.03]" />;
@@ -56,7 +62,8 @@ export function ConsonantChart() {
             ))}
           </tbody>
         </table>
-        <p className="mt-3 flex items-center gap-2 text-xs text-ink-soft">
+        <p className="mt-3 text-xs text-ink-soft">{t.ipa.howTo}</p>
+        <p className="mt-1 flex items-center gap-2 text-xs text-ink-soft">
           <span className="size-2 rounded-full bg-high" /> {t.ipa.trapLegend}
           <span className="ml-4">{t.common.rtgsHint}</span>
         </p>
