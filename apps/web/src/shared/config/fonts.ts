@@ -5,6 +5,9 @@ export const FONTS =
 export const HISTORIC_FONTS_CSS =
   "https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer&family=Noto+Sans+Lao&family=Noto+Sans+Tai+Tham&family=Noto+Sans+Brahmi&family=Noto+Sans+Devanagari&family=Noto+Sans+Tamil&family=Noto+Sans+Javanese&family=Noto+Sans+Cham&family=Noto+Sans+Tai+Viet&display=swap";
 
+/** Font tít của trang chủ; chỉ nạp ở đó. */
+export const DISPLAY_SERIF_CSS = "https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap";
+
 export type ThaiFontStyle = "looped" | "loopless" | "handwriting";
 
 /**

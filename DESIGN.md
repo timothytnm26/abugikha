@@ -89,6 +89,8 @@ Surfaces are muted and paper-like, tinted grey-cream or grey-green and never pur
 
 Everything the learner sees can be re-skinned. Seven soft themes, five paper styles and per-theme syllable-part colors are first-class, so no component may hard-code a color.
 
+**Home page variant: "Ink and Newsprint".** Only the home page (hero, syllable intro, learning path, closing section, site footer) uses a front-page treatment: a display serif (Source Serif 4, falling back to Noto Serif Thai) for headlines, a 4px double rule or 2px ink rule opening each section, square corners, flat notched-free buttons (`btn-flat`), taped paper replaced by plain bordered note sheets, and a faint grain over the theme's paper color. Color is still only the meaning colors. The tool pages (/lab, /ipa, /aksornthai, /history) and the nav keep the notebook treatment described below until they are migrated; the two treatments share tokens, themes and dark mode.
+
 **Key Characteristics:**
 - Note paper as the working surface, with ruled tiers, a margin line, tape and a folded corner.
 - Color as information: every saturated hue maps to a class, tone or syllable part.
@@ -150,7 +152,7 @@ Muted pastel paper with saturated ink-marks. Light values below are the default 
 
 ## Layout
 
-A single centered container, max 1440px, with 16px side padding on small screens and 24px from md up. The home page is a sequence of one-screen sections (each `100svh` minus the 3.5rem nav) sharing one continuous background of soft radial glows in only two hues (Mid-class Jade and Falling-tone Plum, the logo's two colors), so sections flow into each other with no seams. The script-history timeline pins the screen and scrolls horizontally on tall desktop viewports (min 1024px wide and 720px tall), and falls back to a normal horizontal swipe on smaller ones. The syllable builder is designed to fit a 1440×900 viewport, with a floating mini-builder docked under the nav as a drop target when the main composition panel scrolls away. The nav collapses to a hamburger panel on narrow screens.
+A single centered container, max 1440px, with 16px side padding on small screens and 24px from md up. The home page is a sequence of one-screen sections (each `100svh` minus the 3.5rem nav) sharing one flat paper background with a faint grain layer (no color glows), so sections flow into each other with no seams. The script-history timeline pins the screen and scrolls horizontally on tall desktop viewports (min 1024px wide and 720px tall), and falls back to a normal horizontal swipe on smaller ones. The syllable builder is designed to fit a 1440×900 viewport, with a floating mini-builder docked under the nav as a drop target when the main composition panel scrolls away. The nav collapses to a hamburger panel on narrow screens.
 
 ## Elevation & Depth
 
