@@ -23,7 +23,7 @@ Friendly, not academic. The name plays on "น่ารัก" (nâa-rák, "cute
 
 ## Capabilities and Constraints
 - Pages: /ipa (phonetics), /history (script timeline), /aksornthai (consonants, vowels, digits), /lab (syllable builder).
-- Appearance controls: seven soft themes, preview paper style, per-theme colors for each syllable part.
+- Appearance controls: flat poster skin by default (notebook is in development and disabled), preview paper style, per-skin colors for each syllable part.
 - All user-facing strings live in `packages/i18n` as per-locale JSON; no hard-coded copy.
 - Shared engine in `packages/core`; web, mobile and API must stay consistent with it.
 - The repository and package names keep the original `abugikha` name; the product name is NarakThai.
@@ -40,4 +40,4 @@ Real Thai-script data in `packages/core` and `packages/i18n` (44 consonants, vow
 2. Show the rule, not just the answer: every syllable result explains why.
 3. Thai script first: glyphs stay legible and prominent, with romanization as an optional aid.
 4. One engine, many surfaces: web, mobile and API share the same truth.
-5. Learners make it theirs: themes, paper and colors are choices, not defaults to be fixed.
+5. Learners make it theirs: skins, paper and colors are choices, not defaults to be fixed.
