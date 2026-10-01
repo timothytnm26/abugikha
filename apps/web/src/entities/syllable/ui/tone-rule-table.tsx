@@ -62,7 +62,7 @@ export function ToneRuleTable({ analysis }: { analysis: SyllableAnalysis }) {
           <tr>
             <th />
             {COLS.map((c) => (
-              <th key={c} scope="col" className={cn("rounded-md px-0.5 py-1 text-[10px] font-medium leading-tight sm:text-[11px]", c in MARK_CHAR && "font-thai text-base", cur.col === c ? "bg-ink text-paper" : "text-ink-soft")}>
+              <th key={c} scope="col" className={cn("rounded-md px-0.5 py-1 text-xs font-medium leading-tight", c in MARK_CHAR && "font-thai text-base", cur.col === c ? "bg-ink text-paper" : "text-ink-soft")}>
                 {label[c]}
               </th>
             ))}
@@ -103,7 +103,7 @@ export function ToneRuleTable({ analysis }: { analysis: SyllableAnalysis }) {
           ))}
         </tbody>
       </table>
-      <ul className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-[11px]">
+      <ul className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs">
         {(Object.keys(TONE_META) as (keyof typeof TONE_META)[]).map((k) => (
           <li key={k} className="flex items-center gap-1.5" style={{ color: TONE_META[k].color }}>
             <ToneContour tone={k} className="w-5" strokeWidth={5} />

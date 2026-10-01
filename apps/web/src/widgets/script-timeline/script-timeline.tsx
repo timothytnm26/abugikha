@@ -28,7 +28,7 @@ function BranchChip({ branch }: { branch: ScriptBranch }) {
           </span>
           <span className="min-w-0">
             <span className="block truncate text-sm font-semibold leading-tight text-ink">{branch.name[locale]}</span>
-            <span className="block text-[11px] leading-tight">{branch.period[locale]}</span>
+            <span className="block text-xs leading-tight">{branch.period[locale]}</span>
           </span>
         </div>
         <p className="mt-2 text-xs leading-snug">{branch.note[locale]}</p>
@@ -106,7 +106,7 @@ function EraColumn({ era, index, last }: { era: ScriptEra; index: number; last: 
             <p className="mt-2 text-sm leading-relaxed text-ink/80">{era.summary[locale]}</p>
           </div>
           <div className="min-w-0 space-y-3">
-            <ul className="space-y-1.5 text-[13px] leading-snug text-ink/80">
+            <ul className="space-y-1.5 text-[0.8125rem] leading-snug text-ink/80">
               {era.facts.map((f) => (
                 <li key={f.en} className="flex gap-2">
                   <span aria-hidden className={cn("mt-1.5 size-1.5 shrink-0 rounded-full", nodeColor)} />
@@ -114,7 +114,7 @@ function EraColumn({ era, index, last }: { era: ScriptEra; index: number; last: 
                 </li>
               ))}
             </ul>
-            <p className="rounded-xl bg-paper-deep px-3 py-2 text-[13px] leading-snug">
+            <p className="rounded-xl bg-paper-deep px-3 py-2 text-[0.8125rem] leading-snug">
               <span className="font-semibold">{t.history.changeLabel}: </span>
               {era.change[locale]}
             </p>
@@ -300,7 +300,7 @@ export function ScriptTimeline() {
                 )}
               >
                 <span className="text-xs font-semibold leading-tight">{era.year[locale]}</span>
-                <span className="hidden w-full truncate text-[11px] leading-tight sm:block">{era.name[locale]}</span>
+                <span className="hidden w-full truncate text-xs leading-tight sm:block">{era.name[locale]}</span>
               </button>
             </li>
           ))}

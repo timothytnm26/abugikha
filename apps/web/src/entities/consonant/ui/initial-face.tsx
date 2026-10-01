@@ -51,7 +51,7 @@ export function InitialFace({
         {unit.chars}
       </span>
       {phonetic && (
-        <span className="mt-0.5 text-[10px] leading-none opacity-90">
+        <span className="mt-0.5 text-xs leading-none opacity-90">
           <span className="font-ipa">/{unit.ipa}/</span> {ipaToRtgs(unit.ipa)}
         </span>
       )}

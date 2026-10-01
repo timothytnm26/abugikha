@@ -161,7 +161,7 @@ export function SettingsMenu() {
   const swatches = (keys: readonly PaletteKey[]) => (
     <div className={"grid grid-cols-5 gap-2"}>
       {keys.map((k) => (
-        <label key={k} className="flex flex-col items-center gap-1 text-[11px] text-ink-soft">
+        <label key={k} className="flex flex-col items-center gap-1 text-xs text-ink-soft">
           <span lang="th" className="font-thai relative grid size-11 place-items-center overflow-hidden rounded-xl bg-sheet text-2xl leading-none ring-2 ring-ink/10 focus-within:ring-ink sm:size-10" style={{ color: `var(--color-${k})` }}>
             {GLYPH[k]}
             <input type="color" value={overrides[k] ?? active.vars[k]} onChange={(e) => setColor(activeId, k, e.target.value)} className="absolute inset-0 size-full cursor-pointer opacity-0" aria-label={label(k)} />

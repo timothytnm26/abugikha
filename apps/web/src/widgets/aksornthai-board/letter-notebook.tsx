@@ -138,7 +138,7 @@ function Margin({ frame }: { frame: Frame }) {
         <div
           key={tier.key}
           className={cn(
-            "paper-tier absolute inset-x-0 overflow-hidden whitespace-nowrap border-ink/20 px-2 pt-0.5 text-[10px] font-semibold leading-tight text-ink-soft",
+            "paper-tier absolute inset-x-0 overflow-hidden whitespace-nowrap border-ink/20 px-2 pt-0.5 text-xs font-semibold leading-tight text-ink-soft",
             tier.key === "main" ? "border-y-[1.5px] bg-paper-deep/60" : i === 1 && "border-t border-dashed",
           )}
           style={{ top: at(tier.top), height: `${((tier.bottom - tier.top) / frame.size) * 100}%` }}
@@ -156,7 +156,7 @@ function Caption({ style }: { style: ThaiFontStyle }) {
   const t = useT();
   return (
     <p className="h-full border-y border-ink/10 px-2 py-1 text-center leading-tight">
-      <span className="block text-[11px] font-medium">{t.aksornthai.fontStyles[style]}</span>
+      <span className="block text-xs font-medium">{t.aksornthai.fontStyles[style]}</span>
     </p>
   );
 }

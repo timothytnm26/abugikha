@@ -321,7 +321,7 @@ export function MorphPanel({ rules, initialId }: { rules: MorphRule[]; initialId
         ref={stage}
         lang="th"
         onClick={() => speakThai(shown.spelling)}
-        className="relative mt-2 h-28 cursor-pointer overflow-hidden rounded-xl border border-ink/10 bg-paper text-[60px]"
+        className="relative mt-2 h-28 cursor-pointer overflow-hidden rounded-xl border border-ink/10 bg-paper text-[3.75rem]"
       >
         <div aria-hidden className="absolute inset-x-0 top-[30%] h-[44%] border-y-[1.5px] border-ink/20 bg-paper-deep/60" />
         <div className="absolute inset-0 flex items-center justify-center gap-[0.03em]">

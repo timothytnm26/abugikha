@@ -46,7 +46,7 @@ export function ConsonantChart() {
                         )}
                       >
                         <span className="font-ipa text-2xl leading-none">{phone.ipa}</span>
-                        <span className="mt-1 text-[11px] opacity-70">{ipaToRtgs(phone.ipa) || "–"}</span>
+                        <span className="mt-1 text-xs opacity-70">{ipaToRtgs(phone.ipa) || "–"}</span>
                         {phone.trap?.[locale] && <span role="img" className="absolute right-1.5 top-1.5 size-2 rounded-full bg-high" aria-label={t.ipa.trapAria} />}
                       </button>
                     </td>

@@ -85,7 +85,7 @@ function StepPopover({
       )}
     >
       <div className="rounded-xl border border-ink/10 bg-paper p-4 shadow-2xl [animation:pop-in_.15s_ease-out]">
-      <p className="text-[11px] font-medium uppercase tracking-wide text-ink-soft">
+      <p className="text-xs font-medium uppercase tracking-wide text-ink-soft">
         {title}
       </p>
       <div className="mt-2 flex items-baseline gap-3">
@@ -424,7 +424,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
           </p>
           <div className="flex flex-col items-stretch gap-3 xl:flex-row xl:items-center">
             <div className="min-w-0 flex-1">
-              <div className="mb-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 px-1 text-[11px] text-ink-soft">
+              <div className="mb-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 px-1 text-xs text-ink-soft">
                 <span className="font-semibold uppercase tracking-wider">{t.notebook.title}</span>
                 <span className="flex items-center gap-3">
                   <span className="hidden pointer-fine:inline">{t.builder.hoverHint}</span>
@@ -563,7 +563,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
             )}
             {words.compounds.length > 0 && (
               <ul className="flex flex-wrap items-center gap-1 px-1 pb-1">
-                <li className="mr-1 text-[11px] font-medium text-ink-soft">
+                <li className="mr-1 text-xs font-medium text-ink-soft">
                   {t.builder.inWords}
                 </li>
                 {words.compounds.map((w) => (

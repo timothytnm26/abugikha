@@ -47,7 +47,7 @@ export function VowelFace({
       {phonetic && (
         <span
           className={cn(
-            "mt-0.5 text-[10px] leading-none",
+            "mt-0.5 text-xs leading-none",
             selected ? "opacity-85" : "text-ink-soft",
           )}
         >

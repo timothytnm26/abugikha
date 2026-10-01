@@ -123,7 +123,7 @@ function Row({
       >
         {label}
         {hint && (
-          <small className="mt-0.5 block text-[10.5px] font-normal leading-tight text-ink-soft">
+          <small className="mt-0.5 block text-xs font-normal leading-tight text-ink-soft">
             {hint}
           </small>
         )}
@@ -384,7 +384,7 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
                       {m.char}
                     </span>
                     {showPhonetic && (
-                      <span className="text-left font-sans text-[10px] leading-tight">
+                      <span className="text-left font-sans text-xs leading-tight">
                         <span className={cn("block", mark !== m.id && "text-ink-soft")}>{m.thai}</span>
                         <span className="block font-medium">
                           → {TONE_META[tone].label[locale]}

@@ -48,10 +48,10 @@ export function VowelChart() {
           <polygon points={`120,${TOP} 560,${TOP} 560,${TOP + 280} 270,${TOP + 280}`} fill="none" stroke="currentColor" strokeOpacity={0.15} strokeWidth={2} />
           <line x1="170" y1={TOP + 93} x2="560" y2={TOP + 93} stroke="currentColor" strokeOpacity={0.08} />
           <line x1="220" y1={TOP + 187} x2="560" y2={TOP + 187} stroke="currentColor" strokeOpacity={0.08} />
-          <text x="120" y="28" className="fill-ink-soft text-[13px]">← {t.ipa.front}</text>
-          <text x="586" y="28" textAnchor="end" className="fill-ink-soft text-[13px]">{t.ipa.back} →</text>
-          <text x="80" y={TOP + 5} textAnchor="end" className="fill-ink-soft text-[13px]">{t.ipa.high}</text>
-          <text x="230" y={TOP + 285} textAnchor="end" className="fill-ink-soft text-[13px]">{t.ipa.low}</text>
+          <text x="120" y="28" className="fill-ink-soft text-[0.8125rem]">← {t.ipa.front}</text>
+          <text x="586" y="28" textAnchor="end" className="fill-ink-soft text-[0.8125rem]">{t.ipa.back} →</text>
+          <text x="80" y={TOP + 5} textAnchor="end" className="fill-ink-soft text-[0.8125rem]">{t.ipa.high}</text>
+          <text x="230" y={TOP + 285} textAnchor="end" className="fill-ink-soft text-[0.8125rem]">{t.ipa.low}</text>
           <defs>
             <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
               <path d="M0,0 L10,5 L0,10 z" fill="var(--color-low)" />
@@ -73,7 +73,7 @@ export function VowelChart() {
                 className="cursor-pointer outline-none [&:focus-visible>circle]:stroke-ink [&:focus-visible>circle]:stroke-[3]"
               >
                 <circle cx={cx} cy={cy} r={26} className={active ? "fill-ink" : "fill-paper-deep hover:fill-ink/15"} strokeDasharray={v.rounded ? "4 3" : undefined} stroke={v.rounded ? "currentColor" : "none"} strokeOpacity={0.5} />
-                <text x={cx} y={cy + 8} textAnchor="middle" className={cn("pointer-events-none font-ipa text-[24px]", active ? "fill-paper" : "fill-ink")}>{v.ipa}</text>
+                <text x={cx} y={cy + 8} textAnchor="middle" className={cn("pointer-events-none font-ipa text-2xl", active ? "fill-paper" : "fill-ink")}>{v.ipa}</text>
               </g>
             );
           })}

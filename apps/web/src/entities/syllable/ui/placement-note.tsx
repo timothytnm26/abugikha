@@ -24,7 +24,7 @@ export function PlacementNote({ analysis }: { analysis: SyllableAnalysis }) {
             >
               {COMBINING.test(s.text) ? `◌${s.text}` : s.text}
             </span>
-            <span className="mt-1 text-[11px] text-ink-soft">{t.syllable.roles[s.role]}</span>
+            <span className="mt-1 text-xs text-ink-soft">{t.syllable.roles[s.role]}</span>
           </span>
         ))}
       </div>

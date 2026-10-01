@@ -33,7 +33,7 @@ export function ToneContours() {
         {[1, 2, 3, 4, 5].map((n) => (
           <g key={n}>
             <line x1="60" x2="460" y1={20 + (5 - n) * 50} y2={20 + (5 - n) * 50} stroke="currentColor" strokeOpacity={0.08} />
-            <text x="40" y={25 + (5 - n) * 50} textAnchor="end" className="fill-ink-soft text-[12px]">{n}</text>
+            <text x="40" y={25 + (5 - n) * 50} textAnchor="end" className="fill-ink-soft text-xs">{n}</text>
           </g>
         ))}
         {(Object.keys(TONE_META) as Tone[]).map((tn) => (

@@ -529,7 +529,7 @@ function ToneDetails({ mark, onTry }: { mark: ToneMark; onTry: () => void }) {
                 <span className="text-xs font-semibold" style={{ color: TONE_META[r.tone].color }}>
                   → {fmt(t.builder.formula.tone, { tone: TONE_META[r.tone].label[locale] })}
                 </span>
-                {r.irregular && <span className="text-[10px] leading-tight text-ink-soft">{t.builder.rare}</span>}
+                {r.irregular && <span className="text-xs leading-tight text-ink-soft">{t.builder.rare}</span>}
               </button>
             </li>
           );

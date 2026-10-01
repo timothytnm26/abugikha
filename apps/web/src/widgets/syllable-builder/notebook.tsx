@@ -142,7 +142,7 @@ function NotebookCell({ cell, part, slot, text, color, label, popover, onSelect,
             </span>
           ))}
         {main && empty && label && (
-          <span className="absolute inset-x-0 bottom-[0.08em] text-center font-sans text-[max(9px,0.13em)] font-semibold uppercase tracking-wider text-ink-soft">
+          <span className="absolute inset-x-0 bottom-[0.08em] text-center font-sans text-[max(0.75rem,0.13em)] font-semibold uppercase tracking-wider text-ink-soft">
             {label}
           </span>
         )}
@@ -232,7 +232,7 @@ export function Notebook({
             )}
             style={{ gridColumn: "1 / -1", gridRow: i + 1 }}
           >
-            <span className={cn("ml-3 mt-1.5 hidden text-[10px] font-semibold uppercase tracking-widest text-ink-soft sm:block", cls)}>
+            <span className={cn("ml-3 mt-1.5 hidden text-xs font-semibold uppercase tracking-widest text-ink-soft sm:block", cls)}>
               {tiers[k]}
             </span>
           </div>
@@ -279,7 +279,7 @@ export function Notebook({
         />
         <NotebookCell cell="below" text={L.below} multi={multiInitial} {...vowelProps("below", "center")} />
         <div className="grid place-items-center" style={{ gridArea: "liveness" }}>
-          <span className="rounded-full bg-paper-deep px-2 py-0.5 font-sans text-[11px] font-medium text-ink-soft">{liveLabel}</span>
+          <span className="rounded-full bg-paper-deep px-2 py-0.5 font-sans text-xs font-medium text-ink-soft">{liveLabel}</span>
         </div>
       </div>
     </div>
