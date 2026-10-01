@@ -60,7 +60,7 @@ export function ToneContours() {
               type="button"
               onClick={() => (setActive(ex.tone), speakThai(ex.word))}
               aria-pressed={on}
-              className={cn("flex w-full items-center gap-4 rounded-2xl px-4 py-3 text-left focus-visible:outline-2 focus-visible:outline-ink", on ? "text-on-accent" : "bg-paper-deep hover:bg-ink/10")}
+              className={cn("flex w-full items-center gap-4 px-4 py-3 text-left focus-visible:outline-2 focus-visible:outline-ink", on ? "text-on-accent" : "bg-paper-deep hover:bg-ink/10")}
               style={on ? { backgroundColor: meta.color } : undefined}
             >
               <span lang="th" className="font-thai text-3xl">{ex.word}</span>

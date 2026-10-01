@@ -26,7 +26,7 @@ export function FooterCtaSection() {
                 <h2 className="text-balance font-poster text-5xl font-extrabold uppercase leading-[0.98] md:text-7xl">{t.home.footerTitle}</h2>
                 <p className="mt-4 max-w-[44ch] md:text-lg">{t.home.footerBody}</p>
               </div>
-              <Link href={href('/lab')} className="btn btn-flat btn-primary self-start">
+              <Link href={href('/lab')} className="btn btn-primary self-start">
                 {t.home.cta}
               </Link>
             </PosterTile>

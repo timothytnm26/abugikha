@@ -38,7 +38,7 @@ export function ConsonantChart() {
                 </th>
                 {PLACES.map((p) => {
                   const phone = CONSONANT_PHONES.find((x) => x.place === p.id && x.manner === m.id);
-                  if (!phone) return <td key={p.id} className="rounded-xl bg-ink/[0.03]" />;
+                  if (!phone) return <td key={p.id} className="bg-ink/[0.03]" />;
                   const active = phone.ipa === sel.ipa;
                   return (
                     <td key={p.id} className="p-0">
@@ -47,7 +47,7 @@ export function ConsonantChart() {
                         onClick={() => setSel(phone)}
                         aria-pressed={active}
                         className={cn(
-                          "relative flex h-16 w-full flex-col items-center justify-center rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
+                          "relative flex h-16 w-full flex-col items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
                           active ? "bg-ink text-paper" : "bg-paper-deep hover:bg-ink/10",
                         )}
                       >
@@ -69,11 +69,11 @@ export function ConsonantChart() {
         </p>
       </div>
 
-      <aside className="rounded-3xl bg-paper-deep p-6">
+      <aside className="bg-paper-deep p-6">
         <p role="status" className="sr-only">{`/${sel.ipa}/ · ${sel.example}, ${sel.meaning[locale]}`}</p>
         <Phonetic ipa={sel.ipa} className="text-5xl" />
         <p className="mt-3 leading-relaxed">{sel.note[locale]}</p>
-        {trap && <p className="mt-3 rounded-2xl bg-high/10 p-3 text-sm text-high">{trap}</p>}
+        {trap && <p className="mt-3 bg-high/10 p-3 text-sm text-high">{trap}</p>}
         <div className="mt-5 flex flex-wrap items-center gap-3">
           <span lang="th" className="font-thai text-3xl">{sel.example}</span>
           <Phonetic ipa={sel.exampleIpa} className="text-ink-soft" />
@@ -84,7 +84,7 @@ export function ConsonantChart() {
         <p className="mt-6 text-sm font-medium">{t.ipa.lettersTitle}</p>
         <div className="mt-2 flex flex-wrap gap-2">
           {letters.map((l) => (
-            <span lang="th" key={l.id} className={cn("grid size-11 place-items-center rounded-xl font-thai text-2xl text-on-accent", CLASS_META[l.cls].bg, l.obsolete && "opacity-40")} title={`${l.name} – ${CLASS_META[l.cls].label[locale]}`}>
+            <span lang="th" key={l.id} className={cn("grid size-11 place-items-center font-thai text-2xl text-on-accent", CLASS_META[l.cls].bg, l.obsolete && "opacity-40")} title={`${l.name} – ${CLASS_META[l.cls].label[locale]}`}>
               {l.char}
             </span>
           ))}

@@ -108,7 +108,7 @@ export function SyllableIntro() {
                 <h3 className="font-poster text-2xl font-bold uppercase leading-tight">{t.story.result.title}</h3>
                 <p className="text-sm leading-relaxed">{t.story.result.body}</p>
                 <div className="mt-auto flex flex-wrap items-center gap-3 pt-2">
-                  <Link href={href("/lab")} className={cn("btn btn-flat btn-primary btn-sm")}>
+                  <Link href={href("/lab")} className={cn("btn btn-primary btn-sm")}>
                     {t.story.result.cta} →
                   </Link>
                   <SpeakButton text={a.spelling} />

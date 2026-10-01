@@ -123,7 +123,7 @@ function NotebookCell({ cell, part, slot, text, color, label, popover, onSelect,
         aria-label={ariaLabel}
         aria-describedby={popover ? popId : undefined}
         className={cn(
-          "relative grid place-items-center rounded-[0.14em] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
+          "relative grid place-items-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
           main ? "min-w-[0.95em] px-[0.06em]" : "min-h-[0.62em] min-w-[0.7em]",
           cell === "cons" && "min-w-[1.15em]",
           main && empty && "border-[1.5px] border-dashed border-ink/55",
@@ -152,7 +152,7 @@ function NotebookCell({ cell, part, slot, text, color, label, popover, onSelect,
           type="button"
           onClick={onClear}
           aria-label={clearLabel}
-          className="absolute -right-1.5 -top-1.5 z-10 grid size-5 place-items-center rounded-full bg-ink font-sans text-xs leading-none text-paper before:absolute before:-inset-3.5 before:content-[''] hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+          className="absolute -right-1.5 -top-1.5 z-10 grid size-5 place-items-center bg-ink font-sans text-xs leading-none text-paper before:absolute before:-inset-3.5 before:content-[''] hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
         >
           ×
         </button>
@@ -209,7 +209,7 @@ export function Notebook({
   return (
     <div
       data-scale
-      className="note-paper relative overflow-hidden rounded-xl text-[clamp(44px,8vw,68px)] xl:text-[clamp(52px,11vw,84px)]"
+      className="note-paper relative overflow-hidden text-[clamp(44px,8vw,68px)] xl:text-[clamp(52px,11vw,84px)]"
       style={{ "--tone-accent": toneColor } as CSSProperties}
     >
       <div
@@ -279,7 +279,7 @@ export function Notebook({
         />
         <NotebookCell cell="below" text={L.below} multi={multiInitial} {...vowelProps("below", "center")} />
         <div className="grid place-items-center" style={{ gridArea: "liveness" }}>
-          <span className="rounded-full bg-paper-deep px-2 py-0.5 font-sans text-xs font-medium text-ink-soft">{liveLabel}</span>
+          <span className="bg-paper-deep px-2 py-0.5 font-sans text-xs font-medium text-ink-soft">{liveLabel}</span>
         </div>
       </div>
     </div>

@@ -58,12 +58,12 @@ export function PosterLink({ bg, themed, pad = "p-5 md:p-8", className, children
   );
 }
 
-/** Khung ngoài của một lưới ô: chỉ góc ngoài bo, các ô bên trong khít nhau không khe. */
+/** Khung ngoài của một lưới ô: vuông góc, không bóng; chỉ gom các ô khít nhau không khe. */
 export function PosterFrame({ className, children, ref }: { className?: string; children: ReactNode; ref?: RefObject<HTMLDivElement | null> }) {
   return (
     <div
       ref={ref}
-      className={cn("overflow-hidden rounded-3xl shadow-[0_24px_44px_-30px_color-mix(in_oklab,var(--color-ink)_55%,transparent)]", className)}
+      className={cn("overflow-hidden", className)}
     >
       {children}
     </div>

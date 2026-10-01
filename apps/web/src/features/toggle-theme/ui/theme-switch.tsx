@@ -17,7 +17,7 @@ export function ThemeSwitch() {
       onClick={() => setTheme(next === "dark" ? lastDark : lastLight)}
       aria-label={label}
       title={label}
-      className="grid size-11 place-items-center rounded-full border border-ink/15 hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+      className="nav-btn"
     >
       {theme === "dark" ? (
         <svg aria-hidden viewBox="0 0 24 24" className="size-4 fill-none stroke-current stroke-2" strokeLinecap="round">

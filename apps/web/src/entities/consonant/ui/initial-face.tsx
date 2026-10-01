@@ -25,7 +25,7 @@ export function InitialFace({
   return (
     <span
       className={cn(
-        "relative flex flex-col items-center justify-center rounded-lg border-2",
+        "relative flex flex-col items-center justify-center border-2",
         selected
           ? `${CLASS_META[unit.cls].bg} border-transparent text-on-accent`
           : "bg-transparent",

@@ -25,7 +25,7 @@ export function BuilderCoach() {
         <button
           type="button"
           onClick={() => setDismissed(false)}
-          className="min-h-11 rounded-full px-3 text-xs font-medium text-ink-soft underline underline-offset-4 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+          className="min-h-11 px-3 text-xs font-medium text-ink-soft underline underline-offset-4 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
         >
           {t.builder.coach.show}
         </button>
@@ -34,7 +34,7 @@ export function BuilderCoach() {
 
   const c = t.builder.coach;
   return (
-    <section aria-label={c.title} className="mb-3 rounded-2xl border border-ink/10 bg-paper-deep/60 px-4 py-3">
+    <section aria-label={c.title} className="mb-3 border border-ink/10 bg-paper-deep/60 px-4 py-3">
       <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-2">
         <div className="min-w-0">
           <h2 className="text-sm font-semibold">{c.title}</h2>
@@ -49,7 +49,7 @@ export function BuilderCoach() {
         <button
           type="button"
           onClick={() => setDismissed(true)}
-          className="min-h-11 shrink-0 rounded-full border border-ink/15 px-4 text-sm font-medium hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+          className="min-h-11 shrink-0 border border-ink/15 px-4 text-sm font-medium hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
         >
           {c.dismiss}
         </button>
@@ -62,7 +62,7 @@ export function BuilderCoach() {
             type="button"
             lang="th"
             onClick={() => setSyllable(e)}
-            className="min-h-11 min-w-11 rounded-xl border-2 border-ink/20 bg-paper px-3 font-thai text-2xl leading-none hover:border-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+            className="min-h-11 min-w-11 border-2 border-ink/20 bg-paper px-3 font-thai text-2xl leading-none hover:border-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
           >
             {e.word}
           </button>

@@ -150,12 +150,12 @@
   outline-offset: 4px;
   animation: slot-pulse 1s ease-in-out infinite;
 }
-/* Mảnh đã ở trên ô: phóng to, phát sáng, xem trước chữ sẽ vào */
+/* Mảnh đã ở trên ô: phóng to, viền đặc dày, xem trước chữ sẽ vào */
 [data-slot][data-near] {
   scale: 1.15;
   outline-style: solid;
   animation: none;
-  box-shadow: 0 0 0 6px color-mix(in oklab, var(--accent) 35%, transparent), 0 16px 40px -8px var(--accent);
+  outline-width: 5px;
 }
 [data-slot][data-near]::after {
   content: attr(data-preview);
@@ -240,10 +240,7 @@
   --u: 2.25rem;
   position: relative;
   background-color: var(--color-sheet);
-  border: 1px solid color-mix(in oklab, var(--color-ink) 10%, transparent);
-  box-shadow:
-    0 1px 0 color-mix(in oklab, var(--color-ink) 6%, transparent),
-    0 14px 30px -18px color-mix(in oklab, var(--color-ink) 35%, transparent);
+  border: 2px solid var(--color-ink);
 }
 /* Kiểu giấy do người dùng chọn (data-paper trên <html>); data-style trên chính tờ giấy dùng cho ô xem thử trong Tuỳ chỉnh */
 .note-paper[data-style="lines"],
@@ -300,33 +297,6 @@ html:not([data-paper="dots"]) .paper-dots {
 html:not([data-paper="tiers"]) .paper-tier {
   display: none;
 }
-/* Băng dính washi và góc gấp cho vẻ dễ thương */
-.note-paper[data-tape]::before {
-  content: "";
-  position: absolute;
-  top: -0.6rem;
-  left: 50%;
-  width: 5.5rem;
-  height: 1.3rem;
-  translate: -50% 0;
-  rotate: -2deg;
-  border-radius: 2px;
-  background: color-mix(in oklab, var(--color-tone-falling) 32%, transparent);
-  box-shadow: 0 1px 2px color-mix(in oklab, var(--color-ink) 15%, transparent);
-  pointer-events: none;
-}
-.note-paper[data-fold]::after {
-  content: "";
-  position: absolute;
-  right: -1px;
-  bottom: -1px;
-  width: 1.6rem;
-  height: 1.6rem;
-  border-top-left-radius: 0.6rem;
-  background: linear-gradient(135deg, var(--color-paper-deep) 50%, transparent 50%);
-  box-shadow: -2px -2px 4px -2px color-mix(in oklab, var(--color-ink) 25%, transparent);
-  pointer-events: none;
-}
 /* Quầng cùng màu giấy giúp chữ đọc rõ trên đường kẻ */
 .note-glyph {
   text-shadow: 0 0 0.12em var(--color-sheet), 0 0 0.3em var(--color-sheet);
@@ -347,74 +317,28 @@ html:not([data-paper="tiers"]) .paper-tier {
   .page-container {
     @apply mx-auto w-full max-w-[1440px] px-4 md:px-6;
   }
-  /* Nút mang họa tiết "ย่อมุม" của kiến trúc Thái: bốn góc thụt bậc thay cho bo tròn đơn điệu */
+  /* Nút áp phích: ô phẳng vuông góc, viền 2px, chữ condensed viết hoa. Đổi màu khi hover chứ không nhấc lên hay đổ bóng. */
   .btn {
-    --n: 10px;
-    --btn-fill: var(--color-ink);
-    --btn-inner: transparent;
-    --notch: polygon(
-      0 var(--n), calc(var(--n) / 2) var(--n), calc(var(--n) / 2) calc(var(--n) / 2), var(--n) calc(var(--n) / 2), var(--n) 0,
-      calc(100% - var(--n)) 0, calc(100% - var(--n)) calc(var(--n) / 2), calc(100% - var(--n) / 2) calc(var(--n) / 2), calc(100% - var(--n) / 2) var(--n), 100% var(--n),
-      100% calc(100% - var(--n)), calc(100% - var(--n) / 2) calc(100% - var(--n)), calc(100% - var(--n) / 2) calc(100% - var(--n) / 2), calc(100% - var(--n)) calc(100% - var(--n) / 2), calc(100% - var(--n)) 100%,
-      var(--n) 100%, var(--n) calc(100% - var(--n) / 2), calc(var(--n) / 2) calc(100% - var(--n) / 2), calc(var(--n) / 2) calc(100% - var(--n)), 0 calc(100% - var(--n))
-    );
-    @apply relative isolate inline-flex min-h-12 items-center justify-center gap-2 px-7 py-3 font-medium transition-colors focus-visible:outline-2 focus-visible:-outline-offset-6 focus-visible:outline-ink;
-    clip-path: var(--notch);
-  }
-  .btn::before,
-  .btn::after {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    clip-path: var(--notch);
-    transition: background-color 0.15s, opacity 0.15s;
-  }
-  .btn::before {
-    inset: 0;
-    background: var(--btn-fill);
-  }
-  .btn::after {
-    inset: 1.5px;
-    background: var(--btn-inner);
+    @apply relative inline-flex min-h-12 items-center justify-center gap-2 border-2 px-7 py-3 font-poster text-xl font-bold uppercase leading-none tracking-wide transition-colors focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ink;
   }
   .btn-primary {
-    @apply text-paper;
-  }
-  .btn-primary:hover::before {
-    opacity: 0.85;
+    @apply border-poster-black bg-poster-lime text-poster-black hover:bg-poster-black hover:text-poster-lime;
   }
   .btn-outline {
-    --btn-fill: color-mix(in oklab, var(--color-ink) 28%, transparent);
-    --btn-inner: var(--color-paper);
-    @apply text-ink;
-  }
-  .btn-outline:hover {
-    @apply text-paper;
-    --btn-inner: var(--color-ink);
-  }
-  .btn-hero {
-    filter: drop-shadow(0 6px 10px color-mix(in oklab, var(--color-ink) 28%, transparent));
+    @apply border-ink bg-transparent text-ink hover:bg-ink hover:text-paper;
   }
   .btn-sm {
-    --n: 8px;
-    @apply min-h-11 px-5 py-2.5 text-sm;
+    @apply min-h-11 px-5 py-2.5 text-lg;
   }
   .btn-xs {
-    --n: 6px;
-    @apply min-h-11 gap-1.5 px-4 py-1 text-sm;
+    @apply min-h-11 gap-1.5 px-4 py-1 text-base;
+  }
+  /* Nút trên thanh đầu trang (nền đen): ô vuông viền chanh, hover đặc chanh */
+  .nav-btn {
+    @apply grid min-h-11 min-w-11 place-items-center border-2 border-poster-lime text-poster-lime hover:bg-poster-lime hover:text-poster-black focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-white;
   }
   .btn-icon {
     @apply min-w-11 px-0;
-  }
-  /* Nút vuông góc cho các ô áp phích của trang chủ: bỏ khuyết góc, giữ nguyên mọi trạng thái còn lại */
-  .btn-flat {
-    --notch: inset(0);
-  }
-  .section-title {
-    @apply text-2xl font-semibold md:text-3xl;
-  }
-  .path-card {
-    @apply flex h-full flex-col gap-3 rounded-2xl p-5 pt-6 transition-[translate,rotate] duration-200 hover:-translate-y-1 hover:rotate-[-0.6deg] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink;
   }
 }
 

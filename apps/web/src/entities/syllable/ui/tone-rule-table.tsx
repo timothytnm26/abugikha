@@ -62,7 +62,7 @@ export function ToneRuleTable({ analysis }: { analysis: SyllableAnalysis }) {
           <tr>
             <th />
             {COLS.map((c) => (
-              <th key={c} scope="col" className={cn("rounded-md px-0.5 py-1 text-xs font-medium leading-tight", c in MARK_CHAR && "font-thai text-base", cur.col === c ? "bg-ink text-paper" : "text-ink-soft")}>
+              <th key={c} scope="col" className={cn("px-0.5 py-1 text-xs font-medium leading-tight", c in MARK_CHAR && "font-thai text-base", cur.col === c ? "bg-ink text-paper" : "text-ink-soft")}>
                 {label[c]}
               </th>
             ))}
@@ -71,7 +71,7 @@ export function ToneRuleTable({ analysis }: { analysis: SyllableAnalysis }) {
         <tbody>
           {(["mid", "high", "low"] as ConsonantClass[]).map((cls) => (
             <tr key={cls}>
-              <th scope="row" className={cn("whitespace-nowrap rounded-md px-1 py-1 font-medium", cur.cls === cls ? "text-on-accent" : "")} style={cur.cls === cls ? { backgroundColor: CLASS_META[cls].color } : { color: CLASS_META[cls].color }}>
+              <th scope="row" className={cn("whitespace-nowrap px-1 py-1 font-medium", cur.cls === cls ? "text-on-accent" : "")} style={cur.cls === cls ? { backgroundColor: CLASS_META[cls].color } : { color: CLASS_META[cls].color }}>
                 {CLASS_META[cls].label[locale]}
               </th>
               {COLS.map((c) => {
@@ -79,7 +79,7 @@ export function ToneRuleTable({ analysis }: { analysis: SyllableAnalysis }) {
                 const on = cur.cls === cls && cur.col === c;
                 const ex = EXAMPLES[cls][c];
                 const meta = TONE_META[r.tone];
-                if (r.irregular) return <td key={c} className="rounded-md border border-dashed border-ink/40 text-ink-soft" title={t.builder.rare}>·</td>;
+                if (r.irregular) return <td key={c} className="border border-dashed border-ink/40 text-ink-soft" title={t.builder.rare}>·</td>;
                 return (
                   <td key={c} className="p-0">
                     <button
@@ -89,7 +89,7 @@ export function ToneRuleTable({ analysis }: { analysis: SyllableAnalysis }) {
                       title={`${r.rule}${ex ? ` (${ex})` : ""}`}
                       aria-label={`${CLASS_META[cls].label[locale]}, ${label[c]}: ${meta.label[locale]}${ex ? `, ${ex}` : ""}${on ? `, ${t.builder.current}` : ""}`}
                       className={cn(
-                        "flex h-10 w-full items-center justify-center rounded-md font-medium focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ink",
+                        "flex h-10 w-full items-center justify-center font-medium focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ink",
                         on && "relative z-10 text-on-accent shadow-md ring-2 ring-ink ring-offset-1 ring-offset-paper",
                       )}
                       style={{ backgroundColor: on ? meta.color : tint(meta.color, 13), color: on ? undefined : onTint(meta.color) }}
@@ -110,7 +110,7 @@ export function ToneRuleTable({ analysis }: { analysis: SyllableAnalysis }) {
             <span className="text-ink">{TONE_META[k].label[locale]}</span>
           </li>
         ))}
-        <li className="flex items-center gap-1.5 text-ink-soft"><span className="grid h-4 w-5 place-items-center rounded border border-dashed border-ink/40">·</span>{t.builder.rare}</li>
+        <li className="flex items-center gap-1.5 text-ink-soft"><span className="grid h-4 w-5 place-items-center border border-dashed border-ink/40">·</span>{t.builder.rare}</li>
       </ul>
     </div>
   );

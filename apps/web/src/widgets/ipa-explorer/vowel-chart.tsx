@@ -87,7 +87,7 @@ export function VowelChart() {
               type="button"
               onClick={() => setSel(d)}
               aria-pressed={isDiph && sel.ipa === d.ipa}
-              className={cn("rounded-full px-4 py-1.5 font-ipa text-lg focus-visible:outline-2 focus-visible:outline-ink", isDiph && sel.ipa === d.ipa ? "bg-low text-on-accent" : "bg-paper-deep hover:bg-ink/10")}
+              className={cn("px-4 py-1.5 font-ipa text-lg focus-visible:outline-2 focus-visible:outline-ink", isDiph && sel.ipa === d.ipa ? "bg-low text-on-accent" : "bg-paper-deep hover:bg-ink/10")}
             >
               {d.ipa}
             </button>
@@ -95,7 +95,7 @@ export function VowelChart() {
         </div>
       </div>
 
-      <aside className="rounded-3xl bg-paper-deep p-6">
+      <aside className="bg-paper-deep p-6">
         <p role="status" className="sr-only">{`/${sel.ipa}/ ≈ ${sel.approx[locale]}`}</p>
         <Phonetic ipa={sel.ipa} className="text-5xl" />
         <p className="mt-2">≈ {sel.approx[locale]}</p>
@@ -103,11 +103,11 @@ export function VowelChart() {
           <p lang="th" className="mt-4 font-thai text-4xl">{sel.thai}</p>
         ) : (
           <div className="mt-4 flex gap-3">
-            <div className="flex-1 rounded-2xl border-2 border-dashed border-ink/25 p-3 text-center">
+            <div className="flex-1 border-2 border-dashed border-ink/25 p-3 text-center">
               <p lang="th" className="font-thai text-3xl">{sel.short}</p>
               <p className="text-xs text-ink-soft">{t.ipa.short}</p>
             </div>
-            <div className="flex-1 rounded-2xl border-2 border-ink/25 p-3 text-center">
+            <div className="flex-1 border-2 border-ink/25 p-3 text-center">
               <p lang="th" className="font-thai text-3xl">{sel.long}</p>
               <p className="text-xs text-ink-soft">{t.ipa.long}</p>
             </div>

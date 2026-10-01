@@ -17,11 +17,11 @@ function BranchChip({ branch }: { branch: ScriptBranch }) {
   const { locale } = useLocale();
   return (
     <li className="tl-branch relative min-w-0 flex-1 tall:max-w-[15rem]">
-      <div className="h-full rounded-2xl border border-dashed border-ink/25 bg-paper-deep/60 p-3 text-ink-soft">
+      <div className="h-full border border-dashed border-ink/25 bg-paper-deep/60 p-3 text-ink-soft">
         <div className="flex items-center gap-2.5">
           <span
             aria-hidden
-            className="grid size-9 shrink-0 place-items-center rounded-full bg-ink/10 text-lg leading-none text-ink-soft"
+            className="grid size-9 shrink-0 place-items-center bg-ink/10 text-lg leading-none text-ink-soft"
             style={glyphFont(branch.font)}
           >
             {branch.ka ?? initials(branch.name.en)}
@@ -74,8 +74,8 @@ function EraColumn({ era, index, last }: { era: ScriptEra; index: number; last: 
 
       {/* Trục thời gian */}
       <div className="relative order-1 h-24 tall:order-none" aria-hidden>
-        <div className="absolute inset-x-0 top-1/2 h-1.5 -translate-y-1/2 rounded-full bg-ink/15" />
-        <div className="absolute inset-x-0 top-1/2 h-1.5 -translate-y-1/2 overflow-hidden rounded-full">
+        <div className="absolute inset-x-0 top-1/2 h-1.5 -translate-y-1/2 bg-ink/15" />
+        <div className="absolute inset-x-0 top-1/2 h-1.5 -translate-y-1/2 overflow-hidden">
           <div className={cn("tl-fill size-full origin-left", nodeColor)} />
         </div>
         <div className="absolute left-6 top-1/2 size-[4.5rem] -translate-y-1/2 tall:left-10">
@@ -92,7 +92,7 @@ function EraColumn({ era, index, last }: { era: ScriptEra; index: number; last: 
       </div>
 
       {/* Thẻ giải thích chặng */}
-      <article data-tape className="tl-card note-paper relative order-2 mx-0 overflow-hidden rounded-3xl p-5 tall:order-none tall:mx-6 tall:mt-3 tall:p-6">
+      <article className="tl-card note-paper relative order-2 mx-0 overflow-hidden p-5 tall:order-none tall:mx-6 tall:mt-3 tall:p-6">
         <span aria-hidden className="tl-year pointer-events-none absolute -bottom-6 right-3 select-none text-[8rem] font-bold leading-none tracking-tighter text-ink/[0.05]">
           {era.year[locale]}
         </span>
@@ -101,7 +101,7 @@ function EraColumn({ era, index, last }: { era: ScriptEra; index: number; last: 
             <p className="text-xs font-medium text-ink-soft">{era.region[locale]} · {era.period[locale]}</p>
             <div className="mt-1 flex flex-wrap items-baseline gap-x-3">
               <h2 id={`era-${era.id}`} className="text-2xl font-semibold leading-tight tall:text-3xl">{era.name[locale]}</h2>
-              <span className={cn("rounded-full px-2.5 py-0.5 text-sm font-semibold text-on-accent", nodeColor)}>{era.year[locale]}</span>
+              <span className={cn("px-2.5 py-0.5 text-sm font-semibold text-on-accent", nodeColor)}>{era.year[locale]}</span>
             </div>
             <p className="mt-2 text-sm leading-relaxed text-ink/80">{era.summary[locale]}</p>
           </div>
@@ -114,7 +114,7 @@ function EraColumn({ era, index, last }: { era: ScriptEra; index: number; last: 
                 </li>
               ))}
             </ul>
-            <p className="rounded-xl bg-paper-deep px-3 py-2 text-[0.8125rem] leading-snug">
+            <p className="bg-paper-deep px-3 py-2 text-[0.8125rem] leading-snug">
               <span className="font-semibold">{t.history.changeLabel}: </span>
               {era.change[locale]}
             </p>
@@ -136,10 +136,10 @@ function IntroPanel() {
         <h1 id="timeline-title" className="text-4xl font-semibold leading-[1.1] tracking-tight md:text-6xl">{t.history.title}</h1>
         <p className="mt-5 text-base leading-relaxed text-ink/80 md:text-lg">{t.history.intro}</p>
         <ul className="mt-6 space-y-2 text-sm text-ink-soft">
-          <li className="flex items-center gap-3"><span aria-hidden className="h-1.5 w-10 rounded-full bg-mid" /> {t.history.mainLine}</li>
+          <li className="flex items-center gap-3"><span aria-hidden className="h-1.5 w-10 bg-mid" /> {t.history.mainLine}</li>
           <li className="flex items-center gap-3"><span aria-hidden className="w-10 border-t-2 border-dashed border-ink/25" /> {t.history.branchLine}</li>
         </ul>
-        <p className="mt-8 inline-flex items-center gap-2 rounded-full bg-paper-deep px-4 py-2 text-sm font-medium text-ink-soft">
+        <p className="mt-8 inline-flex items-center gap-2 bg-paper-deep px-4 py-2 text-sm font-medium text-ink-soft">
           {t.history.cue}
           <svg aria-hidden viewBox="0 0 24 24" className="size-4 fill-none stroke-current stroke-2 [animation:nudge-x_1.4s_ease-in-out_infinite]" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
         </p>
@@ -313,7 +313,7 @@ export function ScriptTimeline() {
                 aria-label={fmt(t.history.jumpTo, { name: era.name[locale] })}
                 aria-current={active === i ? "step" : undefined}
                 className={cn(
-                  "flex w-full min-w-[4.5rem] flex-col items-center rounded-xl px-2 py-1.5 text-center transition-colors focus-visible:outline-2 focus-visible:outline-ink",
+                  "flex w-full min-w-[4.5rem] flex-col items-center px-2 py-1.5 text-center transition-colors focus-visible:outline-2 focus-visible:outline-ink",
                   active === i ? "bg-ink text-paper" : "text-ink-soft hover:bg-ink/5",
                 )}
               >

@@ -80,7 +80,7 @@ function Piece({
         // Vạch gạch ngang ngay tầng của dấu bị loại (trên ~22% chiều cao dòng, dưới ~77%)
         <span
           aria-hidden
-          className="morph-doomed-mark absolute left-[15%] right-[15%] h-[0.06em] rounded bg-[var(--color-removed)]"
+          className="morph-doomed-mark absolute left-[15%] right-[15%] h-[0.06em] bg-[var(--color-removed)]"
           style={{ top: BELOW_RE.test(mark.text) ? "77%" : "22%" } as CSSProperties}
         />
       )}
@@ -273,8 +273,8 @@ export function MorphPanel({ rules, initialId }: { rules: MorphRule[]; initialId
   const shownTone = TONE_META[shown.tone].color;
 
   const iconBtn =
-    "grid size-11 shrink-0 place-items-center rounded-full border border-ink/15 hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
-  const chip = "rounded-md px-1.5 py-0.5 text-xs font-semibold transition-opacity";
+    "grid size-11 shrink-0 place-items-center border border-ink/15 hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
+  const chip = "px-1.5 py-0.5 text-xs font-semibold transition-opacity";
 
   return (
     <section ref={root} aria-labelledby="morph-title">
@@ -305,7 +305,7 @@ export function MorphPanel({ rules, initialId }: { rules: MorphRule[]; initialId
               aria-pressed={i === idx}
               onClick={() => select(i)}
               className={cn(
-                "rounded-full border px-2.5 py-0.5 text-xs font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
+                "border px-2.5 py-0.5 text-xs font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
                 i === idx ? "border-ink bg-ink text-paper" : "border-ink/15 hover:border-ink/40",
               )}
             >
@@ -321,7 +321,7 @@ export function MorphPanel({ rules, initialId }: { rules: MorphRule[]; initialId
         ref={stage}
         lang="th"
         onClick={() => speakThai(shown.spelling)}
-        className="relative mt-2 h-28 cursor-pointer overflow-hidden rounded-xl border border-ink/10 bg-paper text-[3.75rem]"
+        className="relative mt-2 h-28 cursor-pointer overflow-hidden border border-ink/10 bg-paper text-[3.75rem]"
       >
         <div aria-hidden className="absolute inset-x-0 top-[30%] h-[44%] border-y-[1.5px] border-ink/20 bg-paper-deep/60" />
         <div className="absolute inset-0 flex items-center justify-center gap-[0.03em]">
@@ -364,7 +364,7 @@ export function MorphPanel({ rules, initialId }: { rules: MorphRule[]; initialId
           />
           <span className="ml-auto flex flex-wrap gap-1">
             {m.removed.length === 0 && (phase === "doomed" || phase === "to") && (
-              <span className="rounded-md bg-paper px-1.5 py-0.5 text-xs text-ink-soft">{t.morph.unchanged}</span>
+              <span className="bg-paper px-1.5 py-0.5 text-xs text-ink-soft">{t.morph.unchanged}</span>
             )}
             {m.removed.map((p, i) => (
               <span

@@ -85,7 +85,7 @@ function StepPopover({
             : "left-1/2 -translate-x-1/2",
       )}
     >
-      <div className="rounded-xl border border-ink/10 bg-paper p-4 shadow-2xl [animation:pop-in_.15s_ease-out]">
+      <div className="border border-ink/10 bg-paper p-4 shadow-2xl [animation:pop-in_.15s_ease-out]">
       <p className="text-xs font-medium uppercase tracking-wide text-ink-soft">
         {title}
       </p>
@@ -141,7 +141,7 @@ function DockSlot({
       onClick={onSelect}
       aria-label={`${label}: ${empty ? "—" : glyph}`}
       className={cn(
-        "relative grid h-11 min-w-11 place-items-center rounded-lg border-2 px-1.5 font-thai text-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
+        "relative grid h-11 min-w-11 place-items-center border-2 px-1.5 font-thai text-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
         empty ? "border-dashed border-ink/55 text-ink-soft" : "border-transparent bg-paper",
       )}
       style={!empty && color ? { borderColor: color, color } : undefined}
@@ -179,7 +179,7 @@ function CompoundChip({ word, highlight }: { word: Word; highlight: string }) {
         type="button"
         onClick={() => speakThai(word.thai)}
         title={`/${word.ipa}/`}
-        className="flex min-h-9 items-center gap-1.5 rounded-md bg-paper/70 px-2.5 py-1 text-xs hover:bg-paper focus-visible:outline-2 focus-visible:outline-ink"
+        className="flex min-h-9 items-center gap-1.5 bg-paper/70 px-2.5 py-1 text-xs hover:bg-paper focus-visible:outline-2 focus-visible:outline-ink"
       >
         <span lang="th" className="font-thai text-base">
           {word.parts!.map((p, i) => (
@@ -418,7 +418,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
       <section
         ref={section}
         aria-label={t.builder.sumAria}
-        className="rounded-xl bg-paper-deep px-3 pb-2 pt-4 md:px-4"
+        className="bg-paper-deep px-3 pb-2 pt-4 md:px-4"
       >
         <div ref={inner}>
           {/* Thông báo âm tiết vừa ghép và thanh của nó cho trình đọc màn hình */}
@@ -459,12 +459,12 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
                 onClick={() => speakThai(a.spelling)}
                 aria-label={`${a.spelling}, ${t.builder.resultHint}${a.warnings.length ? `. ${a.warnings.join(" ")}` : ""}`}
                 aria-describedby={resultPopId}
-                className="sum-result relative rounded-xl focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-ink"
+                className="sum-result relative focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-ink"
               >
                 <SyllableCard analysis={a} size="lg" />
                 {a.warnings.length > 0 && (
                   <span
-                    className="absolute -left-1.5 -top-1.5 grid size-5 place-items-center rounded-full bg-high text-xs font-bold text-on-accent"
+                    className="absolute -left-1.5 -top-1.5 grid size-5 place-items-center bg-high text-xs font-bold text-on-accent"
                     aria-hidden
                   >
                     !
@@ -519,7 +519,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
           {a.warnings.length > 0 && (
             <ul className="mt-3 space-y-1.5">
               {a.warnings.map((w) => (
-                <li key={w} className="flex gap-2 rounded-lg bg-paper px-3 py-2 text-sm text-high">
+                <li key={w} className="flex gap-2 bg-paper px-3 py-2 text-sm text-high">
                   <span aria-hidden className="font-bold">!</span>
                   <span>{w}</span>
                 </li>
@@ -530,7 +530,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
           {notes.length > 0 && (
             <ul className="mt-3 space-y-1.5">
               {notes.map((n) => (
-                <li key={n.id} className="flex flex-wrap items-baseline gap-x-2 rounded-lg bg-paper px-3 py-2 text-sm">
+                <li key={n.id} className="flex flex-wrap items-baseline gap-x-2 bg-paper px-3 py-2 text-sm">
                   <span>{n.text}</span>
                   <Link href={`${href("/aksornthai")}#morph-${n.id}`} className="font-medium underline underline-offset-4 hover:no-underline">
                     {t.notebook.seeMorph} →
@@ -577,7 +577,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
           </div>
 
           {/* Các bước suy ra thanh luôn nằm sẵn trong mục mở được này (mở sẵn trên máy cảm ứng) */}
-          <details className="group mt-2 rounded-xl bg-paper/60 px-3 py-2" open={whyOpen} onToggle={(e) => setWhyOpen(e.currentTarget.open)}>
+          <details className="group mt-2 bg-paper/60 px-3 py-2" open={whyOpen} onToggle={(e) => setWhyOpen(e.currentTarget.open)}>
             <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 text-sm font-medium focus-visible:outline-2 focus-visible:outline-ink">
               {t.builder.stepsToggle}
               <svg aria-hidden viewBox="0 0 20 20" className="size-4 fill-none stroke-current stroke-2 transition-transform group-open:rotate-180" strokeLinecap="round" strokeLinejoin="round">
@@ -598,7 +598,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
             data-dropzone="dock"
             role="group"
             aria-label={t.builder.sumAria}
-            className="pointer-events-auto flex items-center gap-1.5 rounded-xl border-2 bg-paper px-2.5 py-2 shadow-[0_24px_60px_-18px_color-mix(in_oklab,var(--color-ink)_55%,transparent)] [animation:dock-in_.3s_cubic-bezier(.16,1,.3,1)] sm:gap-2.5 sm:px-4 sm:py-2.5"
+            className="pointer-events-auto flex items-center gap-1.5 border-2 bg-paper px-2.5 py-2 shadow-[0_24px_60px_-18px_color-mix(in_oklab,var(--color-ink)_55%,transparent)] [animation:dock-in_.3s_cubic-bezier(.16,1,.3,1)] sm:gap-2.5 sm:px-4 sm:py-2.5"
             style={{
               borderColor: `color-mix(in oklab, ${clsColor} 55%, transparent)`,
             }}
@@ -608,7 +608,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
             <button
               type="button"
               onClick={() => speakThai(a.spelling)}
-              className="flex items-center self-stretch rounded-xl border-2 bg-paper px-3 focus-visible:outline-2 focus-visible:outline-ink"
+              className="flex items-center self-stretch border-2 bg-paper px-3 focus-visible:outline-2 focus-visible:outline-ink"
               style={{
                 borderColor: tone.color,
               }}

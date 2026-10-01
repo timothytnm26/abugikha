@@ -22,7 +22,7 @@ export function VowelFace({
   return (
     <span
       className={cn(
-        "flex flex-col items-center justify-center rounded-lg border-2 px-2",
+        "flex flex-col items-center justify-center border-2 px-2",
         size === "md"
           ? "h-20 min-w-16"
           : phonetic

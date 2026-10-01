@@ -55,7 +55,7 @@ const CLASS_RING: Record<ConsonantClass, string> = { mid: "ring-mid", high: "rin
  */
 const glyphTile = ({ active, morph, short }: { active: boolean; morph: boolean; short?: boolean }) =>
   cn(
-    "flex shrink-0 items-center justify-center rounded-lg text-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
+    "flex shrink-0 items-center justify-center text-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
     short ? "border-dashed" : "border-solid",
     morph ? "border-[1.5px]" : "border",
     active
@@ -70,7 +70,7 @@ const closedForms = (v: Vowel) => [
 
 const pill = (on: boolean) =>
   cn(
-    "rounded-full px-3 py-1 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
+    "px-3 py-1 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
     on ? "bg-ink text-paper" : "bg-paper-deep hover:bg-ink/10",
   );
 
@@ -141,7 +141,7 @@ export function AksornThaiBoard() {
       {/* Khung preview dùng chung: trên cùng ở mobile, cột phải dính khi cuộn ở desktop */}
       <aside
         ref={preview}
-        className="order-first scroll-mt-20 rounded-xl bg-paper-deep p-4 md:p-5 lg:sticky lg:top-20 lg:order-last lg:max-h-[calc(100dvh-6rem)] lg:self-start lg:overflow-y-auto lg:overscroll-contain lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden"
+        className="order-first scroll-mt-20 bg-paper-deep p-4 md:p-5 lg:sticky lg:top-20 lg:order-last lg:max-h-[calc(100dvh-6rem)] lg:self-start lg:overflow-y-auto lg:overscroll-contain lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden"
       >
         {/* Chỉ thông báo một dòng ngắn khi đổi lựa chọn, không đọc lại cả khung */}
         <p role="status" className="sr-only">
@@ -160,13 +160,13 @@ export function AksornThaiBoard() {
                   {consonantSpeech(sel.item)}
                 </span>
                 <span
-                  className="rounded-full px-2.5 py-0.5 text-xs font-medium text-on-accent"
+                  className="px-2.5 py-0.5 text-xs font-medium text-on-accent"
                   style={{ backgroundColor: color }}
                 >
                   {fmt(t.builder.formula.cls, { cls: CLASS_META[sel.item.cls].label[locale] })}
                 </span>
                 {sel.item.obsolete && (
-                  <span className="rounded-full border border-ink/20 px-2 py-0.5 text-xs text-ink-soft">
+                  <span className="border border-ink/20 px-2 py-0.5 text-xs text-ink-soft">
                     {t.aksornthai.obsolete}
                   </span>
                 )}
@@ -179,7 +179,7 @@ export function AksornThaiBoard() {
                 “{sel.item.meaning[locale]}”
               </p>
               <dl className="grid grid-cols-2 gap-2 text-sm">
-                <div className="rounded-xl bg-paper px-3 py-2">
+                <div className="bg-paper px-3 py-2">
                   <dt className="text-xs text-ink-soft">
                     {t.aksornthai.initial}
                   </dt>
@@ -187,7 +187,7 @@ export function AksornThaiBoard() {
                     <Phonetic ipa={sel.item.initial} />
                   </dd>
                 </div>
-                <div className="rounded-xl bg-paper px-3 py-2">
+                <div className="bg-paper px-3 py-2">
                   <dt className="text-xs text-ink-soft">{t.aksornthai.final}</dt>
                   <dd>
                     {sel.item.final ? (
@@ -343,7 +343,7 @@ export function AksornThaiBoard() {
                     aria-pressed={active}
                     aria-label={`${c.char}, ${c.name}, ${CLASS_META[c.cls].label[locale]}`}
                     className={cn(
-                      "relative flex size-18 flex-col items-center justify-center rounded-lg transition-[scale] hover:scale-105 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ink",
+                      "relative flex size-18 flex-col items-center justify-center transition-[scale] hover:scale-105 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ink",
                       (c.common || active) &&
                         `${CLASS_META[c.cls].bg} text-on-accent`,
                       active &&
@@ -518,7 +518,7 @@ function ToneDetails({ mark, onTry }: { mark: ToneMark; onTry: () => void }) {
                 onClick={() => speakThai(example)}
                 title={r.irregular}
                 className={cn(
-                  "flex w-full flex-col rounded-xl bg-paper px-2.5 py-1.5 text-left hover:bg-paper/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
+                  "flex w-full flex-col bg-paper px-2.5 py-1.5 text-left hover:bg-paper/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
                   r.irregular && "border border-dashed border-ink/40",
                 )}
               >

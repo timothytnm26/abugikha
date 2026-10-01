@@ -33,8 +33,8 @@ const labelOf = (k: PaletteKey, t: ReturnType<typeof useT>): L10n | string =>
 function Switch({ on, set, className, label }: { on: boolean; set: (v: boolean) => void; className?: string; label: string }) {
   return (
     <button type="button" role="switch" aria-checked={on} onClick={() => set(!on)} className={cn("flex min-h-11 items-center gap-2 text-xs font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink", className)}>
-      <span className={cn("relative h-5 w-9 shrink-0 rounded-full transition-colors", on ? "bg-ink" : "bg-ink/20")}>
-        <span className={cn("absolute top-0.5 size-4 rounded-full bg-paper shadow transition-[left]", on ? "left-4.5" : "left-0.5")} />
+      <span className={cn("relative h-5 w-9 shrink-0 transition-colors", on ? "bg-ink" : "bg-ink/20")}>
+        <span className={cn("absolute top-0.5 size-4 bg-paper shadow transition-[left]", on ? "left-4.5" : "left-0.5")} />
       </span>
       {label}
     </button>
@@ -62,14 +62,14 @@ function ThemeCard({ theme, selected, onPick }: { theme: ThemeDef; selected: boo
       type="button"
       onClick={onPick}
       aria-pressed={selected}
-      className={cn("flex flex-col gap-2 rounded-2xl border-2 p-2.5 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink", selected ? "border-ink" : "border-ink/10 hover:border-ink/30")}
+      className={cn("flex flex-col gap-2 border-2 p-2.5 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink", selected ? "border-ink" : "border-ink/10 hover:border-ink/30")}
     >
-      <span className="flex h-11 items-center gap-1.5 rounded-xl px-2.5" style={{ backgroundColor: v.paper }}>
+      <span className="flex h-11 items-center gap-1.5 px-2.5" style={{ backgroundColor: v.paper }}>
         <span lang="th" className="font-thai text-lg leading-none" style={{ color: v.ink }}>ก</span>
         {(["mid", "high", "low", "part-vowel", "part-final"] as const).map((k) => (
           <span lang="th" key={k} className="font-thai text-base leading-none" style={{ color: v[k] }}>{GLYPH[k]}</span>
         ))}
-        <span className="ml-auto h-6 w-5 rounded-sm" style={{ backgroundColor: v.sheet, boxShadow: `inset 0 -3px 0 -1px ${v["sheet-line"]}` }} />
+        <span className="ml-auto h-6 w-5" style={{ backgroundColor: v.sheet, boxShadow: `inset 0 -3px 0 -1px ${v["sheet-line"]}` }} />
       </span>
       <span className="text-xs font-medium">{t.settings.themes[theme.id]}</span>
     </button>
@@ -80,7 +80,7 @@ function ThemeCard({ theme, selected, onPick }: { theme: ThemeDef; selected: boo
 function Sample() {
   const t = useT();
   return (
-    <div className="note-paper flex items-center justify-between gap-3 rounded-2xl px-4 py-2" data-tape>
+    <div className="note-paper flex items-center justify-between gap-3 px-4 py-2">
       <span className="text-xs text-ink-soft">{t.settings.sample}</span>
       <span lang="th" className="note-glyph font-thai text-4xl leading-normal" aria-hidden>
         <span className="text-low">ค</span>
@@ -169,7 +169,7 @@ export function SettingsMenu() {
         const low = Math.min(contrastRatio(value, active.vars.paper), contrastRatio(value, active.vars.sheet)) < AA_CONTRAST;
         return (
         <label key={k} className="flex flex-col items-center gap-1 text-xs text-ink-soft">
-          <span lang="th" className="font-thai relative grid size-11 place-items-center overflow-hidden rounded-xl bg-sheet text-2xl leading-none ring-2 ring-ink/10 focus-within:ring-ink sm:size-10" style={{ color: `var(--color-${k})` }}>
+          <span lang="th" className="font-thai relative grid size-11 place-items-center overflow-hidden bg-sheet text-2xl leading-none ring-2 ring-ink/10 focus-within:ring-ink sm:size-10" style={{ color: `var(--color-${k})` }}>
             {GLYPH[k]}
             <input type="color" value={value} onChange={(e) => setColor(activeId, k, e.target.value)} className="absolute inset-0 size-full cursor-pointer opacity-0" aria-label={low ? `${label(k)}: ${t.settings.lowContrast}` : label(k)} />
           </span>
@@ -202,11 +202,11 @@ export function SettingsMenu() {
         aria-modal="true"
         tabIndex={-1}
         aria-label={t.settings.title}
-        className="fixed inset-x-0 bottom-0 z-[70] max-h-[88dvh] outline-none space-y-6 overflow-y-auto overscroll-contain rounded-t-3xl border border-ink/10 bg-paper p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-2xl sm:inset-x-auto sm:bottom-auto sm:right-4 sm:top-[3.75rem] sm:max-h-[calc(100dvh-5rem)] sm:w-[25rem] sm:rounded-3xl md:right-6"
+        className="fixed inset-x-0 bottom-0 z-[70] max-h-[88dvh] outline-none space-y-6 overflow-y-auto overscroll-contain border border-ink/10 bg-paper p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-2xl sm:inset-x-auto sm:bottom-auto sm:right-4 sm:top-[3.75rem] sm:max-h-[calc(100dvh-5rem)] sm:w-[25rem] md:right-6"
       >
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">{t.settings.title}</h2>
-          <button type="button" onClick={close} className="grid size-11 place-items-center rounded-full border border-ink/15 hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink" aria-label={t.settings.close}>
+          <button type="button" onClick={close} className="grid size-11 place-items-center border-2 border-ink hover:bg-ink hover:text-paper focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ink" aria-label={t.settings.close}>
             <svg aria-hidden viewBox="0 0 24 24" className="size-4 stroke-current stroke-2" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
           </button>
         </div>
@@ -227,8 +227,8 @@ export function SettingsMenu() {
           </div>
           <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
             {PAPER_STYLES.map((p) => (
-              <button key={p} type="button" aria-pressed={paper === p} onClick={() => setPaper(p)} className={cn("flex flex-col items-center gap-1.5 rounded-2xl border-2 p-2 text-xs font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink", paper === p ? "border-ink" : "border-ink/10 hover:border-ink/30")}>
-                <span data-style={p} className="note-paper block h-12 w-full rounded-lg [--u:0.75rem]" />
+              <button key={p} type="button" aria-pressed={paper === p} onClick={() => setPaper(p)} className={cn("flex flex-col items-center gap-1.5 border-2 p-2 text-xs font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink", paper === p ? "border-ink" : "border-ink/10 hover:border-ink/30")}>
+                <span data-style={p} className="note-paper block h-12 w-full [--u:0.75rem]" />
                 {t.settings.paper[p]}
               </button>
             ))}
@@ -260,7 +260,7 @@ export function SettingsMenu() {
           </div>
           <div className="flex items-center justify-between gap-3 border-t border-ink/10 pt-3 text-xs text-ink-soft">
             <span>{fmt(t.settings.perTheme, { theme: t.settings.themes[active.id] })}</span>
-            <button type="button" onClick={() => resetPalette(activeId)} className="shrink-0 rounded-full border border-ink/15 px-3 py-2 font-medium text-ink hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
+            <button type="button" onClick={() => resetPalette(activeId)} className="shrink-0 border border-ink/15 px-3 py-2 font-medium text-ink hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
               {t.settings.reset}
             </button>
           </div>
@@ -290,7 +290,7 @@ export function SettingsMenu() {
         aria-controls="settings-panel"
         aria-label={t.nav.settings}
         title={t.nav.settings}
-        className="grid size-11 place-items-center rounded-full border border-ink/15 hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+        className="nav-btn"
       >
         <svg aria-hidden viewBox="0 0 24 24" className="size-4 fill-none stroke-current stroke-2" strokeLinecap="round">
           <circle cx="7" cy="8" r="2.5" /><circle cx="16" cy="8" r="2.5" /><circle cx="11.5" cy="16" r="2.5" />

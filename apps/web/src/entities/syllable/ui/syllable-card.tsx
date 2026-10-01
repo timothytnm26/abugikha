@@ -46,7 +46,7 @@ export function SyllableCard({
   return (
     <span
       className={cn(
-        "relative flex flex-col items-center justify-center rounded-xl bg-paper",
+        "relative flex flex-col items-center justify-center bg-paper",
         size === "lg"
           ? "min-h-28 min-w-32 border-4 px-4 py-2"
           : "h-28 min-w-24 border-4 px-3",

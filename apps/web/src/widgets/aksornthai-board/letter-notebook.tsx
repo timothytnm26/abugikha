@@ -176,7 +176,7 @@ export function LetterNotebook({ text }: { text: string }) {
     <figure>
       {/* React 19 đưa stylesheet lên <head>; chỉ trang này cần các font so sánh */}
       <link rel="stylesheet" href={THAI_SPECIMEN_CSS} precedence="default" />
-      <div data-svgpaper className="grid grid-cols-[1rem_minmax(0,1fr)_minmax(0,1fr)] note-paper overflow-hidden rounded-xl sm:grid-cols-[4.25rem_minmax(0,1fr)_minmax(0,1fr)] lg:grid-cols-[3.75rem_minmax(0,1fr)_minmax(0,1fr)]">
+      <div data-svgpaper className="grid grid-cols-[1rem_minmax(0,1fr)_minmax(0,1fr)] note-paper overflow-hidden sm:grid-cols-[4.25rem_minmax(0,1fr)_minmax(0,1fr)] lg:grid-cols-[3.75rem_minmax(0,1fr)_minmax(0,1fr)]">
         {ROWS.map((row, r) => (
           <Fragment key={r}>
             <Margin frame={frame} />

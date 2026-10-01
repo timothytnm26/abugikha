@@ -56,13 +56,13 @@ const ACCENT = {
 
 const pill = (on: boolean) =>
   cn(
-    "min-h-9 rounded-md border px-2.5 py-1 text-xs font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
+    "min-h-9 border px-2.5 py-1 text-xs font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
     on
       ? "border-ink bg-ink text-paper"
       : "border-ink/25 bg-transparent hover:bg-ink/5",
   );
 const tileCls =
-  "pointer-fine:touch-none rounded-lg focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ink disabled:cursor-not-allowed disabled:opacity-25";
+  "pointer-fine:touch-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ink disabled:cursor-not-allowed disabled:opacity-25";
 /** Ô ký tự viền (âm cuối, dấu thanh) tô theo màu của phần đó; `muted` = ít dùng: viền nhạt, chữ vẫn rõ */
 const boxCls = (selected: boolean) =>
   cn(tileCls, "place-items-center border-2 font-thai", selected ? "text-on-accent" : "bg-transparent");
@@ -236,9 +236,9 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
   );
 
   return (
-    <div ref={ref} className="rounded-2xl border border-ink/10 p-3 md:p-4">
+    <div ref={ref} className="border border-ink/10 p-3 md:p-4">
       <div
-        className="mb-3 flex gap-1 overflow-x-auto rounded-xl bg-paper-deep p-1 xl:hidden"
+        className="mb-3 flex gap-1 overflow-x-auto bg-paper-deep p-1 xl:hidden"
         role="group"
         aria-label={t.builder.tabsAria}
       >
@@ -249,7 +249,7 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
             aria-pressed={tab === k}
             onClick={() => setTab(k)}
             className={cn(
-              "min-h-11 flex-1 whitespace-nowrap rounded-lg px-2 py-2 text-xs font-medium focus-visible:outline-2 focus-visible:outline-ink sm:px-3 sm:text-sm md:px-1.5 md:text-xs min-[900px]:px-3 min-[900px]:text-sm",
+              "min-h-11 flex-1 whitespace-nowrap px-2 py-2 text-xs font-medium focus-visible:outline-2 focus-visible:outline-ink sm:px-3 sm:text-sm md:px-1.5 md:text-xs min-[900px]:px-3 min-[900px]:text-sm",
               tab === k ? "bg-ink text-paper" : "hover:bg-ink/10",
             )}
           >
@@ -291,7 +291,7 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
                 type="button"
                 aria-expanded={showRare}
                 onClick={() => setShowRare((v) => !v)}
-                className="min-h-11 rounded-full border border-ink/15 px-4 text-xs font-medium hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+                className="min-h-11 border border-ink/15 px-4 text-xs font-medium hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
               >
                 {showRare ? t.builder.hideRare : fmt(t.builder.showRare, { n: rareCount })}
               </button>

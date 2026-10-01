@@ -19,7 +19,7 @@ export function PlacementNote({ analysis }: { analysis: SyllableAnalysis }) {
         {analysis.segments.map((s, i) => (
           <span key={i} className="flex flex-col items-center">
             <span lang="th"
-              className="grid min-h-12 min-w-10 place-items-center rounded-xl border-2 bg-paper-deep px-2 font-thai text-2xl"
+              className="grid min-h-12 min-w-10 place-items-center border-2 bg-paper-deep px-2 font-thai text-2xl"
               style={{ borderColor: color(s.role) ?? "transparent", color: color(s.role) }}
             >
               {COMBINING.test(s.text) ? `◌${s.text}` : s.text}

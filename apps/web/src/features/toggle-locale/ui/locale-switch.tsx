@@ -10,7 +10,7 @@ export function LocaleSwitch() {
       onClick={() => setLocale(LOCALES[(LOCALES.indexOf(locale) + 1) % LOCALES.length])}
       aria-label={t.nav.switchLocale}
       title={t.nav.switchLocale}
-      className="grid h-11 min-w-11 place-items-center rounded-full border border-ink/15 px-2.5 text-xs font-semibold hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+      className="nav-btn px-2.5 font-poster text-lg font-bold uppercase"
     >
       {t.nav.localeShort}
     </button>

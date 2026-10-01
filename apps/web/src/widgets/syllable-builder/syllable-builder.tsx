@@ -72,7 +72,7 @@ export function SyllableBuilder() {
         <PartPicker stageRef={stage} vowel={vowel} analysis={analysis} onPick={pick} />
       </div>
 
-      <section aria-label={t.builder.tableTitle} className="rounded-2xl border border-ink/10 p-2.5 md:col-start-2 md:row-start-2 md:p-3 xl:col-start-2 xl:row-start-1">
+      <section aria-label={t.builder.tableTitle} className="border border-ink/10 p-2.5 md:col-start-2 md:row-start-2 md:p-3 xl:col-start-2 xl:row-start-1">
         <ToneRuleTable analysis={analysis} />
       </section>
     </div>
