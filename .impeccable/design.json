@@ -1,0 +1,475 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-01T04:12:33.284608+00:00",
+  "title": "Design System: NarakThai",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Celadon Paper",
+        "canonical": "#eef1ec",
+        "tonalRamp": [
+          "#0a0c09",
+          "#242622",
+          "#40433f",
+          "#60625e",
+          "#81837f",
+          "#a3a6a1",
+          "#c7cac5",
+          "#edf0eb"
+        ]
+      },
+      "paper-deep": {
+        "role": "neutral",
+        "displayName": "Deep Celadon",
+        "canonical": "#e1e8e1",
+        "tonalRamp": [
+          "#080d08",
+          "#212722",
+          "#3e443e",
+          "#5d635d",
+          "#7e847e",
+          "#a1a7a1",
+          "#c4cbc4",
+          "#eaf1ea"
+        ]
+      },
+      "ink": {
+        "role": "primary",
+        "displayName": "Ink Slate",
+        "canonical": "#1e2833",
+        "tonalRamp": [
+          "#040c15",
+          "#1c2631",
+          "#38434f",
+          "#57636f",
+          "#788491",
+          "#9aa7b5",
+          "#becbd9",
+          "#e3f0ff"
+        ]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Slate Ink Soft",
+        "canonical": "#5a6672",
+        "tonalRamp": [
+          "#040c15",
+          "#1c2630",
+          "#38434e",
+          "#57636f",
+          "#778491",
+          "#9aa7b4",
+          "#bdcbd9",
+          "#e2f0fe"
+        ]
+      },
+      "sheet": {
+        "role": "neutral",
+        "displayName": "Note Sheet",
+        "canonical": "#fbfbf4",
+        "tonalRamp": [
+          "#0c0b07",
+          "#252520",
+          "#42423d",
+          "#62625c",
+          "#83837d",
+          "#a5a59f",
+          "#cacac3",
+          "#efefe8"
+        ]
+      },
+      "sheet-line": {
+        "role": "neutral",
+        "displayName": "Sheet Line",
+        "canonical": "#b9c9c9",
+        "tonalRamp": [
+          "#030d0e",
+          "#1b2828",
+          "#374545",
+          "#566465",
+          "#778686",
+          "#99a9a9",
+          "#bdcdcd",
+          "#e2f2f2"
+        ]
+      },
+      "margin": {
+        "role": "neutral",
+        "displayName": "Margin Rose",
+        "canonical": "#d98a86",
+        "tonalRamp": [
+          "#280000",
+          "#4a060c",
+          "#6d2929",
+          "#914947",
+          "#b66a67",
+          "#dc8c88",
+          "#ffb0ab",
+          "#ffd5d0"
+        ]
+      },
+      "class-mid": {
+        "role": "secondary",
+        "displayName": "Mid-class Jade",
+        "canonical": "#007a5b",
+        "tonalRamp": [
+          "#001603",
+          "#00331a",
+          "#005336",
+          "#007455",
+          "#339676",
+          "#5bba98",
+          "#80dfbb",
+          "#a6ffe0"
+        ]
+      },
+      "class-high": {
+        "role": "secondary",
+        "displayName": "High-class Brick",
+        "canonical": "#a23e2d",
+        "tonalRamp": [
+          "#310000",
+          "#550000",
+          "#7a1706",
+          "#a03c2b",
+          "#c65f4c",
+          "#ee826e",
+          "#ffa691",
+          "#ffccb5"
+        ]
+      },
+      "class-low": {
+        "role": "secondary",
+        "displayName": "Low-class Cobalt",
+        "canonical": "#215da5",
+        "tonalRamp": [
+          "#000040",
+          "#001e62",
+          "#004085",
+          "#2561a9",
+          "#4884cf",
+          "#6ba7f6",
+          "#8eccff",
+          "#b2f2ff"
+        ]
+      },
+      "tone-mid": {
+        "role": "tertiary",
+        "displayName": "Mid-tone Graphite",
+        "canonical": "#616c67",
+        "tonalRamp": [
+          "#050d0a",
+          "#1e2823",
+          "#3a4540",
+          "#59645f",
+          "#7a8580",
+          "#9ca8a3",
+          "#c0cdc7",
+          "#e5f2ec"
+        ]
+      },
+      "tone-low": {
+        "role": "tertiary",
+        "displayName": "Low-tone Indigo",
+        "canonical": "#474c95",
+        "tonalRamp": [
+          "#09003b",
+          "#1c175c",
+          "#35387f",
+          "#5258a3",
+          "#727ac8",
+          "#939dee",
+          "#b6c2ff",
+          "#dbe7ff"
+        ]
+      },
+      "tone-falling": {
+        "role": "tertiary",
+        "displayName": "Falling-tone Plum",
+        "canonical": "#a3416d",
+        "tonalRamp": [
+          "#2d000e",
+          "#500028",
+          "#751346",
+          "#9a3965",
+          "#c05b86",
+          "#e77ea9",
+          "#ffa2ce",
+          "#ffc7f3"
+        ]
+      },
+      "tone-high": {
+        "role": "tertiary",
+        "displayName": "High-tone Ochre",
+        "canonical": "#965f00",
+        "tonalRamp": [
+          "#250000",
+          "#451300",
+          "#673300",
+          "#895300",
+          "#ad7527",
+          "#d3984e",
+          "#f9bc72",
+          "#ffe197"
+        ]
+      },
+      "tone-rising": {
+        "role": "tertiary",
+        "displayName": "Rising-tone Teal",
+        "canonical": "#007498",
+        "tonalRamp": [
+          "#000d2c",
+          "#002b4b",
+          "#004a6c",
+          "#006b8f",
+          "#2f8eb3",
+          "#57b1d8",
+          "#7dd6fe",
+          "#a2fdff"
+        ]
+      },
+      "part-vowel": {
+        "role": "tertiary",
+        "displayName": "Vowel Violet",
+        "canonical": "#7c4a98",
+        "tonalRamp": [
+          "#1c0030",
+          "#390151",
+          "#592772",
+          "#7a4896",
+          "#9c69ba",
+          "#c08ce0",
+          "#e6b0ff",
+          "#ffd5ff"
+        ]
+      },
+      "part-final": {
+        "role": "tertiary",
+        "displayName": "Final Olive",
+        "canonical": "#507308",
+        "tonalRamp": [
+          "#001100",
+          "#112e00",
+          "#2d4d00",
+          "#4b6e00",
+          "#6c9032",
+          "#8db457",
+          "#b1d97b",
+          "#d5ff9f"
+        ]
+      },
+      "removed": {
+        "role": "tertiary",
+        "displayName": "Removed Red",
+        "canonical": "#c2361c",
+        "tonalRamp": [
+          "#3b0000",
+          "#620000",
+          "#890000",
+          "#b12304",
+          "#d94c32",
+          "#ff7256",
+          "#ff977a",
+          "#ffbd9e"
+        ]
+      },
+      "night-paper": {
+        "role": "neutral",
+        "displayName": "Night Paper",
+        "canonical": "#121a1d",
+        "tonalRamp": [
+          "#060c0f",
+          "#1e272a",
+          "#3b4447",
+          "#596367",
+          "#7a8488",
+          "#9da7ab",
+          "#c0cbcf",
+          "#e6f1f5"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Logo and large Thai letter specimens."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section titles."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Prose and explanations."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Chips, legends and toggles."
+      },
+      "ipa": {
+        "displayName": "IPA",
+        "purpose": "IPA transcriptions."
+      }
+    },
+    "shadows": [
+      {
+        "name": "sheet-rest",
+        "value": "0 1px 0 rgba(30,40,51,.06), 0 14px 30px -18px rgba(30,40,51,.35)",
+        "purpose": "Note paper at rest."
+      },
+      {
+        "name": "slot-near",
+        "value": "0 0 0 6px color-mix(in oklab, var(--accent) 35%, transparent), 0 16px 40px -8px var(--accent)",
+        "purpose": "Slot a part is hovering over."
+      },
+      {
+        "name": "tape",
+        "value": "0 1px 2px rgba(30,40,51,.15)",
+        "purpose": "Washi tape."
+      }
+    ],
+    "motion": [
+      {
+        "name": "slot-pulse",
+        "value": "1s ease-in-out infinite",
+        "purpose": "Drop-target outline pulse."
+      },
+      {
+        "name": "slot-ease",
+        "value": "200ms",
+        "purpose": "Slot scale, opacity, filter, shadow transitions."
+      },
+      {
+        "name": "morph-overshoot",
+        "value": "cubic-bezier(0.2, 1.4, 0.4, 1)",
+        "purpose": "A removed part scaling up before it is struck out."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "tall",
+        "value": "min-width 1024px and min-height 720px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Filled notched action; ink fill, paper text.",
+      "html": "<button class=\"ds-btn-primary\">Bắt đầu</button>",
+      "css": ".ds-btn-primary{--n:10px;clip-path:polygon(0 var(--n),calc(var(--n)/2) var(--n),calc(var(--n)/2) calc(var(--n)/2),var(--n) calc(var(--n)/2),var(--n) 0,calc(100% - var(--n)) 0,calc(100% - var(--n)) calc(var(--n)/2),calc(100% - var(--n)/2) calc(var(--n)/2),calc(100% - var(--n)/2) var(--n),100% var(--n),100% calc(100% - var(--n)),calc(100% - var(--n)/2) calc(100% - var(--n)),calc(100% - var(--n)/2) calc(100% - var(--n)/2),calc(100% - var(--n)) calc(100% - var(--n)/2),calc(100% - var(--n)) 100%,var(--n) 100%,var(--n) calc(100% - var(--n)/2),calc(var(--n)/2) calc(100% - var(--n)/2),calc(var(--n)/2) calc(100% - var(--n)),0 calc(100% - var(--n)));background:#1e2833;color:#eef1ec;border:0;min-height:48px;padding:12px 28px;font:500 1rem 'Be Vietnam Pro',system-ui,sans-serif;cursor:pointer;transition:opacity .15s}.ds-btn-primary:hover{opacity:.85}.ds-btn-primary:focus-visible{outline:2px solid #fff;outline-offset:-6px}"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary notched action; inverts on hover.",
+      "html": "<button class=\"ds-btn-outline\"><span>Xem lịch sử</span></button>",
+      "css": ".ds-btn-outline{--n:10px;clip-path:polygon(0 var(--n),calc(var(--n)/2) var(--n),calc(var(--n)/2) calc(var(--n)/2),var(--n) calc(var(--n)/2),var(--n) 0,calc(100% - var(--n)) 0,calc(100% - var(--n)) calc(var(--n)/2),calc(100% - var(--n)/2) calc(var(--n)/2),calc(100% - var(--n)/2) var(--n),100% var(--n),100% calc(100% - var(--n)),calc(100% - var(--n)/2) calc(100% - var(--n)),calc(100% - var(--n)/2) calc(100% - var(--n)/2),calc(100% - var(--n)) calc(100% - var(--n)/2),calc(100% - var(--n)) 100%,var(--n) 100%,var(--n) calc(100% - var(--n)/2),calc(var(--n)/2) calc(100% - var(--n)/2),calc(var(--n)/2) calc(100% - var(--n)),0 calc(100% - var(--n)));background:#1e2833;color:#1e2833;border:0;min-height:48px;padding:0;font:500 1rem 'Be Vietnam Pro',system-ui,sans-serif;cursor:pointer;position:relative}.ds-btn-outline span{position:absolute;inset:1.5px;display:flex;align-items:center;justify-content:center;padding:0 28px;background:#eef1ec;clip-path:inherit;transition:background .15s,color .15s}.ds-btn-outline{opacity:.9}.ds-btn-outline:hover span{background:#1e2833;color:#eef1ec}"
+    },
+    {
+      "name": "Hero Eyebrow Chip",
+      "kind": "chip",
+      "refersTo": "hero-eyebrow",
+      "description": "Pill chip above hero headlines.",
+      "html": "<span class=\"ds-eyebrow\">Thai Script Lab</span>",
+      "css": ".ds-eyebrow{display:inline-flex;align-items:center;gap:8px;border-radius:9999px;background:#e1e8e1;color:#5a6672;padding:6px 14px;font:500 .875rem 'Be Vietnam Pro',system-ui,sans-serif;box-shadow:0 1px 2px rgba(30,40,51,.12)}"
+    },
+    {
+      "name": "Class Legend",
+      "kind": "chip",
+      "refersTo": "hero-eyebrow",
+      "description": "Colored dot plus label for each consonant class.",
+      "html": "<ul class=\"ds-legend\"><li><span class=\"ds-dot\" style=\"background:#007a5b\"></span>Mid</li><li><span class=\"ds-dot\" style=\"background:#a23e2d\"></span>High</li><li><span class=\"ds-dot\" style=\"background:#215da5\"></span>Low</li></ul>",
+      "css": ".ds-legend{display:flex;gap:12px;list-style:none;margin:0;padding:0;font:400 .75rem 'Be Vietnam Pro',system-ui,sans-serif;color:#5a6672}.ds-legend li{display:flex;align-items:center;gap:6px}.ds-dot{width:10px;height:10px;border-radius:50%}"
+    },
+    {
+      "name": "Note Paper",
+      "kind": "card",
+      "refersTo": "note-paper",
+      "description": "Ruled note sheet with washi tape; hosts the previewed syllable.",
+      "html": "<div class=\"ds-note\">หน้า</div>",
+      "css": ".ds-note{position:relative;width:260px;padding:20px;background-color:#fbfbf4;background-image:linear-gradient(to bottom,transparent calc(2.25rem - 1.5px),#b9c9c9 calc(2.25rem - 1.5px));background-size:100% 2.25rem;border:1px solid rgba(30,40,51,.1);box-shadow:0 1px 0 rgba(30,40,51,.06),0 14px 30px -18px rgba(30,40,51,.35);font:600 2rem 'Noto Serif Thai',serif;color:#1e2833}.ds-note::before{content:'';position:absolute;top:-.6rem;left:50%;width:5.5rem;height:1.3rem;translate:-50% 0;rotate:-2deg;background:rgba(163,65,109,.32);box-shadow:0 1px 2px rgba(30,40,51,.15)}"
+    },
+    {
+      "name": "Path Card",
+      "kind": "card",
+      "refersTo": "note-paper",
+      "description": "Learning path card; tilts and lifts on hover.",
+      "html": "<div class=\"ds-path\" tabindex=\"0\"><b>อักษรไทย</b>Browse 44 consonants.</div>",
+      "css": ".ds-path{display:flex;flex-direction:column;gap:12px;width:240px;padding:24px 20px 20px;border-radius:16px;background:#d6ebe2;color:#1e2833;font:400 .875rem 'Be Vietnam Pro',system-ui,sans-serif;transition:translate .2s,rotate .2s}.ds-path:hover{translate:0 -4px;rotate:-.6deg}.ds-path b{font:600 1.5rem 'Noto Serif Thai',serif}"
+    },
+    {
+      "name": "Syllable Slot",
+      "kind": "custom",
+      "refersTo": "note-paper",
+      "description": "Drop target while a part is dragged; glows when a part is over it.",
+      "html": "<div class=\"ds-slot\">ก</div>",
+      "css": ".ds-slot{display:grid;place-items:center;width:80px;height:96px;border-radius:12px;background:#e1e8e1;color:#007a5b;font:600 2.5rem 'Noto Serif Thai',serif;outline:3px dashed #007a5b;outline-offset:4px;animation:ds-pulse 1s ease-in-out infinite}@keyframes ds-pulse{50%{outline-offset:9px}}.ds-slot:hover{animation:none;scale:1.15;outline-style:solid;box-shadow:0 0 0 6px rgba(0,122,91,.35),0 16px 40px -8px #007a5b}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Gentle Script Lab",
+    "overview": "**Creative North Star: \"The Gentle Script Lab\"**\n\nNarakThai is a lab where a beginner can pick letters up, drop them into slots and watch Thai syllables assemble. It is friendly, never clinical: the lab bench is a stack of note paper, with ruled tiers, a red margin line and a strip of washi tape. Playfulness comes from motion and glow that respond to what the learner does, not from decoration that sits there.\n\nSurfaces are muted and paper-like, tinted grey-cream or grey-green and never pure white or black, so a long study session does not tire the eyes. Color is saturated only where it carries meaning: consonant class, tone, vowel, final, and the one red that marks a part about to be removed. Thai glyphs are the largest, most legible thing on any screen; romanization is an optional aid.\n\nEverything the learner sees can be re-skinned. Seven soft themes, five paper styles and per-theme syllable-part colors are first-class, so no component may hard-code a color.",
+    "keyCharacteristics": [
+      "Note paper as the working surface, with ruled tiers, a margin line, tape and a folded corner.",
+      "Color as information: every saturated hue maps to a class, tone or syllable part.",
+      "State-driven glow: slots pulse, lift and light up only during drag, hover or focus.",
+      "Notched, stepped corners on buttons, borrowed from Thai architecture.",
+      "Thai first: glyph set in a serif Thai face, with IPA and RTGS shown beside it on demand."
+    ],
+    "rules": [
+      {
+        "name": "The Meaning-Only Color Rule",
+        "body": "Saturated hues appear only to mark a consonant class, a tone, a vowel, a final or a removed part. A hue used for decoration steals meaning from the learner.",
+        "section": "colors"
+      },
+      {
+        "name": "The No-Pure-Black Rule",
+        "body": "Neither paper nor ink is ever #fff or #000. Contrast must read as comfortable, not stark.",
+        "section": "colors"
+      },
+      {
+        "name": "The Theme Variable Rule",
+        "body": "Colors are always read from `--color-*` variables (set by the theme, never literals), so every theme and every custom syllable-part color works everywhere.",
+        "section": "colors"
+      },
+      {
+        "name": "The Thai-First Rule",
+        "body": "A Thai glyph is always the largest element in its group. IPA and RTGS sit below it in the smaller IPA or sans face.",
+        "section": "typography"
+      },
+      {
+        "name": "The Specimen Rule",
+        "body": "When letters are compared (looped, loopless, handwriting), render each in its own real font. Never fake a style with weight or slant.",
+        "section": "typography"
+      },
+      {
+        "name": "The Glow-on-Action Rule",
+        "body": "A glow, ring or pulse means \"this is a live target or the result of your action\". Never use one at rest.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** read every color from a `--color-*` variable so themes and custom syllable-part colors apply everywhere.",
+      "**Do** set Thai glyphs in Noto Serif Thai at the largest size in their group, with IPA and RTGS beneath.",
+      "**Do** use the notched `.btn` for actions and the paper-and-tape treatment for content that \"lives on a page\".",
+      "**Do** respect `prefers-reduced-motion`: transitions drop to near zero and loops stop.",
+      "**Do** keep contrast comfortable: ink on paper, never pure black on white."
+    ],
+    "donts": [
+      "**Don't** use saturated color as decoration; it belongs to class, tone, vowel, final and removed parts.",
+      "**Don't** put glow, pulse or lift on resting elements.",
+      "**Don't** use pure white (#fff) or pure black (#000) for surfaces or text.",
+      "**Don't** fake Thai letterform styles with weight or slant; use the real specimen fonts.",
+      "**Don't** hard-code user-facing strings or colors; copy comes from `packages/i18n`, color from theme variables."
+    ]
+  }
+}
