@@ -7,7 +7,7 @@ import { SyllableGlyph, TONE_MARK_BY_ID, TONE_META, ToneContour, analyzeSyllable
 import { fmt, useLocale, useLocalePath, useT } from "@/shared/i18n";
 import { cn } from "@/shared/lib";
 import { useTileReveal } from "@/shared/lib/use-tile-reveal";
-import { Phonetic, PosterFrame, PosterTile, SpeakButton, type PosterBg } from "@/shared/ui";
+import { Phonetic, PosterFrame, PosterHeading, PosterTile, SpeakButton, type PosterBg } from "@/shared/ui";
 
 /**
  * Một mảnh của âm tiết gồm ba ô xếp dọc: dải nhãn màu áp phích (số mảnh, tên, dấu + hoặc =), ô kem có chữ Thái to tô màu theo nghĩa
@@ -73,12 +73,12 @@ export function SyllableIntro() {
   const clsColor = CLASS_META[a.cls].color;
 
   return (
-    <section id="syllable" aria-labelledby="story-title" className="screen scroll-mt-14">
-      <div className="page-container w-full py-10 md:py-14">
-        <h2 id="story-title" className="max-w-4xl text-balance font-poster text-5xl font-extrabold uppercase leading-[0.98] md:text-7xl">{t.story.title}</h2>
-        <p className="mt-4 max-w-[56ch] text-base leading-relaxed text-ink/85 md:text-lg">{t.story.lead}</p>
-
-        <PosterFrame ref={root} className="mt-8 md:mt-10">
+    <section id="syllable" aria-labelledby="story-title" className="scroll-mt-14">
+      <PosterHeading bg="black" id="story-title">{t.story.title}</PosterHeading>
+      <div className="page-container py-6 md:py-8">
+        <p className="max-w-[60ch] text-base leading-relaxed text-ink/85 md:text-lg">{t.story.lead}</p>
+      </div>
+      <PosterFrame ref={root}>
           <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[repeat(4,minmax(0,1fr))_minmax(0,1.3fr)] lg:grid-rows-[auto_auto_1fr]">
             <Piece n={1} strip="blue" operator="+" tag={t.story.initial.tag} color={clsColor} title={t.story.initial.title} glyph={initial.chars} ipa={initial.ipa} small={fmt(t.builder.formula.cls, { cls: CLASS_META[a.cls].label[locale] })}>
               {t.story.initial.body}
@@ -116,8 +116,7 @@ export function SyllableIntro() {
               </PosterTile>
             </li>
           </ol>
-        </PosterFrame>
-      </div>
+      </PosterFrame>
     </section>
   );
 }

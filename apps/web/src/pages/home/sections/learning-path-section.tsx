@@ -4,7 +4,7 @@ import { LEARNING_PATH } from '@/shared/config/routes';
 import { useLocalePath, useT } from '@/shared/i18n';
 import { cn } from '@/shared/lib';
 import { useTileReveal } from '@/shared/lib/use-tile-reveal';
-import { Chevrons, PosterFrame, PosterLink, type PosterBg } from '@/shared/ui';
+import { Chevrons, PosterFrame, PosterHeading, PosterLink, type PosterBg } from '@/shared/ui';
 
 const STEP_NUMERALS = ['๑', '๒', '๓', '๔'];
 
@@ -22,13 +22,12 @@ export function LearningPathSection() {
   const root = useRef<HTMLDivElement>(null);
   useTileReveal(root);
   return (
-    <section aria-labelledby="path-title" className="screen scroll-mt-14">
-      <div className="page-container w-full py-10 md:py-14">
-        <h2 id="path-title" className="font-poster text-5xl font-extrabold uppercase leading-[0.98] md:text-7xl">
-          {t.home.pathTitle}
-        </h2>
-        <p className="mt-4 max-w-[52ch] text-ink/85 md:text-lg">{t.home.pathBlurb}</p>
-        <PosterFrame ref={root} className="mt-8 md:mt-10">
+    <section aria-labelledby="path-title" className="scroll-mt-14">
+      <PosterHeading bg="black" id="path-title">{t.home.pathTitle}</PosterHeading>
+      <div className="page-container py-6 md:py-8">
+        <p className="max-w-[52ch] text-ink/85 md:text-lg">{t.home.pathBlurb}</p>
+      </div>
+      <PosterFrame ref={root}>
           <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 lg:grid-rows-[repeat(4,minmax(4.5rem,auto))]">
             {LEARNING_PATH.map((p, i) => {
               const s = STEPS[i];
@@ -54,8 +53,7 @@ export function LearningPathSection() {
               );
             })}
           </ol>
-        </PosterFrame>
-      </div>
+      </PosterFrame>
     </section>
   );
 }

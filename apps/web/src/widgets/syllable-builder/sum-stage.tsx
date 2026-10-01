@@ -418,7 +418,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
       <section
         ref={section}
         aria-label={t.builder.sumAria}
-        className="bg-paper-deep px-3 pb-2 pt-4 md:px-4"
+        className="pb-2"
       >
         <div ref={inner}>
           {/* Thông báo âm tiết vừa ghép và thanh của nó cho trình đọc màn hình */}
@@ -577,7 +577,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
           </div>
 
           {/* Các bước suy ra thanh luôn nằm sẵn trong mục mở được này (mở sẵn trên máy cảm ứng) */}
-          <details className="group mt-2 bg-paper/60 px-3 py-2" open={whyOpen} onToggle={(e) => setWhyOpen(e.currentTarget.open)}>
+          <details className="group mt-3 border-2 border-ink px-3 py-2" open={whyOpen} onToggle={(e) => setWhyOpen(e.currentTarget.open)}>
             <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 text-sm font-medium focus-visible:outline-2 focus-visible:outline-ink">
               {t.builder.stepsToggle}
               <svg aria-hidden viewBox="0 0 20 20" className="size-4 fill-none stroke-current stroke-2 transition-transform group-open:rotate-180" strokeLinecap="round" strokeLinejoin="round">

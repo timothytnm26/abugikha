@@ -3,4 +3,4 @@ export { SpeakButton } from "./speak-button";
 export { VoiceNotice } from "./voice-notice";
 export { PageIntro } from "./page-intro";
 export { Phonetic } from "./phonetic";
-export { Chevrons, PosterFrame, PosterLink, PosterTile, type PosterBg } from "./poster-tile";
+export { CREAM_PANEL, Chevrons, LIGHT_VARS, PosterFrame, PosterHeading, PosterLink, PosterTile, type PosterBg } from "./poster-tile";

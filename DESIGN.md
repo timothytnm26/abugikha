@@ -1,11 +1,11 @@
 ---
 name: NarakThai
-description: A gentle Thai script lab on soft note paper, where color means something and parts glow into place.
+description: A flat poster Thai script lab: flush color tiles, condensed uppercase type, and glyph colors that carry meaning.
 colors:
   paper: "#eef1ec"
   paper-deep: "#e1e8e1"
   ink: "#1e2833"
-  ink-soft: "#5a6672"
+  ink-soft: "#58646f"
   on-accent: "#ffffff"
   sheet: "#fbfbf4"
   sheet-line: "#b9c9c9"
@@ -55,6 +55,7 @@ typography:
     fontFamily: "Charis SIL, Doulos SIL, Gentium Plus, Noto Serif, serif"
     fontWeight: 400
   poster:
+    fontSize: "clamp(3rem, 8vw, 6rem)"
     fontFamily: "Barlow Condensed, Be Vietnam Pro, Noto Sans Thai, ui-sans-serif, sans-serif"
     fontWeight: 800
     lineHeight: 0.98
@@ -62,26 +63,22 @@ typography:
     fontFamily: "Noto Sans Khmer, Noto Sans Lao, Noto Sans Tai Tham, Noto Sans Brahmi, Noto Sans Devanagari, Noto Sans Tamil, Noto Sans Javanese, Noto Sans Cham, Noto Sans Tai Viet, sans-serif"
     fontWeight: 400
 rounded:
-  pill: "9999px"
-  sheet: "24px"
-  card: "16px"
-  panel: "12px"
-  tile: "8px"
-  chip: "6px"
-  paper: "2px"
+  none: "0px"
+  mark: "9999px"
 spacing:
   container-pad-sm: "16px"
   container-pad-md: "24px"
-  notch: "10px"
 components:
   button-primary:
-    backgroundColor: "{colors.ink}"
-    textColor: "{colors.paper}"
+    backgroundColor: "{colors.poster-lime}"
+    textColor: "{colors.poster-black}"
+    rounded: "{rounded.none}"
     padding: "12px 28px"
     height: "48px"
   button-outline:
-    backgroundColor: "{colors.paper}"
+    backgroundColor: "transparent"
     textColor: "{colors.ink}"
+    rounded: "{rounded.none}"
     padding: "12px 28px"
     height: "48px"
   poster-tile-blue:
@@ -99,154 +96,141 @@ components:
   note-paper:
     backgroundColor: "{colors.sheet}"
     textColor: "{colors.ink}"
-    rounded: "{rounded.paper}"
+    rounded: "{rounded.none}"
 ---
 
 # Design System: NarakThai
 
 ## Overview
 
-**Creative North Star: "The Gentle Script Lab"**
+**Creative North Star: "The Flat Poster Lab"**
 
-NarakThai is a lab where a beginner can pick letters up, drop them into slots and watch Thai syllables assemble. It is friendly, never clinical: the lab bench is a stack of note paper, with ruled tiers, a red margin line and a strip of washi tape. Playfulness comes from motion and glow that respond to what the learner does, not from decoration that sits there.
+NarakThai is a lab where a beginner can pick Thai letters up, drop them into slots and watch syllables assemble, set as a flat color-block poster. Every page is built from flush rectangular tiles and full-bleed color bands: condensed uppercase headlines, huge Thai glyphs, outlined repeated numerals and chevron marks. There are no rounded corners, no shadows, no gradients, no textures and no separate card backgrounds; surfaces meet edge to edge.
 
-Surfaces are muted and paper-like, tinted grey-cream or grey-green and never pure white or black, so a long study session does not tire the eyes. Color is saturated only where it carries meaning: consonant class, tone, vowel, final, and the one red that marks a part about to be removed. Thai glyphs are the largest, most legible thing on any screen; romanization is an optional aid.
+Color has two jobs and they never mix. Poster colors (blue, lime, violet, black, orange, red, cream, green, pink) are structure: bands, strips, buttons, tiles. Meaning colors (consonant class, tone, vowel, final, removed part) live only on Thai glyphs and their tiles, so a learner can still read a color as information. Thai glyphs are the largest, most legible thing in their group; romanization is an optional aid.
 
-Everything the learner sees can be re-skinned. Seven soft themes, five paper styles and per-theme syllable-part colors are first-class, so no component may hard-code a color.
-
-**Home page variant: "Flat Poster".** Only the home page (hero, syllable intro, learning path, closing section, site footer) is composed as flat color-block posters: grids of flush rectangular tiles in a fixed saturated palette (blue, lime, violet, black, orange, red, cream, green, pink), condensed uppercase headlines (Barlow Condensed 800), outlined repeated Thai numerals and glyphs, chevron and arrow marks, and no gradients, grain or inner shadows. Only the outer frame of a grid is rounded (24px). The poster palette is fixed and ignores themes and dark mode; any tile that holds theme-colored content (Thai glyphs colored by class or tone) resets the theme variables to the celadon values so it stays legible. The tool pages (/lab, /ipa, /aksornthai, /history) and the nav keep the notebook treatment until they are migrated.
+The page itself stays theme-aware: the seven themes, dark mode and per-theme syllable-part colors still set paper, ink and meaning colors, while poster colors are fixed. Any poster tile that holds theme-colored content resets the theme variables to celadon so it stays legible in dark mode.
 
 **Key Characteristics:**
-- Note paper as the working surface, with ruled tiers, a margin line, tape and a folded corner.
-- Color as information: every saturated hue maps to a class, tone or syllable part.
-- State-driven glow: slots pulse, lift and light up only during drag, hover or focus.
-- Notched, stepped corners on buttons, borrowed from Thai architecture.
-- Thai first: glyph set in a serif Thai face, with IPA and RTGS shown beside it on demand.
+- Flush tiles and full-bleed bands; the only separation between areas is a change of color.
+- Square everywhere. Circles appear only as small marks (dots, rings, timeline nodes).
+- Condensed uppercase poster type for headings and buttons; humanist sans for prose.
+- Black top bar with a lime active tab; every page opens with a colored title band.
+- Flat state feedback: hover inverts colors, focus draws a thick outline, drop targets get a thick solid outline.
+- Motion only where it teaches: the hero merge, tile reveal on the home page, result stamp and drop.
 
 ## Colors
 
-Muted pastel paper with saturated ink-marks. Light values below are the default celadon theme; each of the seven themes (celadon, sakura, matcha, sepia, midnight, twilight, cocoa) redefines every token in `packages/core` and `apps/web/src/shared/config/themes.ts`.
+Fixed poster palette for structure, theme-driven paper and ink for the page, meaning colors for glyphs.
+
+### Poster palette (structure)
+- **Electric Blue** (#2332e8): title tiles and the first group strip; white text (7.8:1). **Lime** (#d4f72a): primary buttons, highlight tiles, the active nav tab; black text (15.9:1). **Violet** (#5a1fb0): white text (9.3:1). **Poster Black** (#0c0c18): the top bar, footer and some tiles; lime or white text. **Orange** (#ff6a1f): black text (6.8:1). **Red** (#e8382f): black text only (4.7:1; white fails). **Cream** (#fbe6cc): the one light tile, black text, hosts themed content. **Green** (#0e7a58): white text (5.3:1). **Pink** (#f6a6c3): black text.
+- Every tile and text pair is fixed in `PosterTile` and checked in `shared/config/poster.test.ts`; do not pair colors the list above does not give.
 
 ### Primary
-- **Ink Slate** (#1e2833): body text, filled buttons, focus outlines. It is the only "brand" color; the identity lives in the meaning-colors below.
+- **Ink Slate** (#1e2833): body text and outlines on the page paper, theme-driven.
 
 ### Secondary (consonant classes)
-- **Mid-class Jade** (#007a5b): mid-class consonants, .
-- **High-class Brick** (#a23e2d): high-class consonants.
-- **Low-class Cobalt** (#215da5): low-class consonants.
+- **Mid-class Jade** (#007a5b), **High-class Brick** (#a23e2d), **Low-class Cobalt** (#215da5): consonant classes.
 
 ### Tertiary (tones and syllable parts)
-- **Mid-tone Graphite** (#616c67), **Low-tone Indigo** (#474c95), **Falling-tone Plum** (#a3416d), **High-tone Ochre** (#965f00), **Rising-tone Teal** (#007498): the five tones. Falling-tone Plum also tints the washi tape and the "ไทย" in the logo.
-- **Vowel Violet** (#7c4a98) and **Final Olive** (#507308): the vowel and final-consonant parts of a syllable.
-- **Removed Red** (#c2361c): a part being dropped by a vowel transformation. It is never used for errors or decoration.
+- **Mid-tone Graphite** (#616c67), **Low-tone Indigo** (#474c95), **Falling-tone Plum** (#a3416d), **High-tone Ochre** (#965f00), **Rising-tone Teal** (#007498): the five tones.
+- **Vowel Violet** (#7c4a98) and **Final Olive** (#507308): vowel and final parts. **Removed Red** (#c2361c): a part being dropped by a vowel transformation, never an error color.
 
 ### Neutral
-- **Celadon Paper** (#eef1ec): page background.
-- **Deep Celadon** (#e1e8e1): footer, folded corner.
-- **Slate Ink Soft** (#5a6672): secondary text.
-- **Note Sheet** (#fbfbf4): the preview sheet; **Sheet Line** (#b9c9c9): its ruled lines.
-- **Margin Rose** (#d98a86): the red margin rule of writing paper.
-- **Night Paper** (#121a1d), **Night Deep** (#1b262a), **Night Ink** (#e3ebe6), **Night Ink Soft** (#9aaaa2), **Night Sheet** (#1f2b2f): the default dark (midnight) theme. Dark values are lighter, softer versions of each meaning-color, not inversions.
-
-### Poster palette (home page only)
-- **Electric Blue** (#2332e8): headline tiles; white text (7.8:1). **Lime** (#d4f72a): highlight and CTA tiles; black text (15.9:1). **Violet** (#5a1fb0): white text (9.3:1). **Poster Black** (#0c0c18): lime or white text. **Orange** (#ff6a1f): black text (6.8:1). **Red** (#e8382f): black text only (4.7:1; white fails). **Cream** (#fbe6cc): the one light tile, black text, hosts themed content. **Green** (#0e7a58): white text (5.3:1). **Pink** (#f6a6c3): black text.
-- Every text and tile pair is fixed in `PosterTile` and checked in `shared/config/poster.test.ts`; do not pair colors that the table above does not list.
+- **Celadon Paper** (#eef1ec) is the page background, **Slate Ink Soft** (#58646f) secondary text, **Note Sheet** (#fbfbf4) the ruled notebook sheet and **Sheet Line** (#b9c9c9) its rules. Dark mode uses Night Paper (#121a1d), Night Ink (#e3ebe6), Night Ink Soft (#9aaaa2) and Night Sheet (#1f2b2f). All seven themes redefine these in `shared/config/themes.ts`.
 
 ### Named Rules
-**The Meaning-Only Color Rule.** Outside the home page poster grids, saturated hues appear only to mark a consonant class, a tone, a vowel, a final or a removed part. Inside a poster tile the tile color is decoration and never carries meaning; a glyph's own color (class, tone, vowel, final) still does. A hue used for decoration steals meaning from the learner.
+**The Two Jobs Rule.** Poster colors structure the page; meaning colors mark class, tone, vowel, final and removed parts. A poster tile color never carries meaning and a meaning color never fills a band.
 
-**The No-Pure-Black Rule.** Neither paper nor ink is ever #fff or #000. Contrast must read as comfortable, not stark.
+**The No-Pure-Black Rule.** Page paper and ink are never #fff or #000; the poster black and white text are confined to poster tiles.
 
-**The Theme Variable Rule.** Colors are always read from `--color-*` variables (set by the theme, never literals), so every theme and every custom syllable-part color works everywhere.
+**The Theme Variable Rule.** Page-level colors come from `--color-*` variables; poster colors from `--color-poster-*`. Never hard-code a literal in a component.
 
 ## Typography
 
-**Display Font:** Noto Serif Thai (with Noto Sans Thai, Leelawadee UI, Thonburi, serif)
-**Body Font:** Be Vietnam Pro (with Noto Serif Thai for inline Thai, then system sans-serif)
-**Label/Mono Font:** Charis SIL (IPA transcriptions; falls back to Doulos SIL, Gentium Plus, Noto Serif)
+**Poster Font:** Barlow Condensed 600 to 800 (with Be Vietnam Pro, Noto Sans Thai), loaded for every page.
+**Body Font:** Be Vietnam Pro (with Noto Serif Thai for inline Thai).
+**Thai Display:** Noto Serif Thai at 400, 500, 600, so glyphs never synthesize bold. **IPA:** Charis SIL (Doulos SIL, Gentium Plus). **Historic scripts:** Noto Sans faces, loaded only on /history.
 
-**Character:** A friendly geometric sans for Vietnamese and English prose, set against a looped serif Thai face that models the letterforms learners are copying. Historic scripts (Khmer, Lao, Tai Tham, Brahmi, Devanagari, Tamil, Javanese, Cham, Tai Viet) each get their Noto Sans face on the history timeline; those families load only on /history. Noto Serif Thai is loaded at weights 400, 500 and 600, so the logo and headings are never synthesized bold.
+**Character:** Loud condensed uppercase headings against calm readable prose, with a looped serif Thai face that models the letterforms learners copy.
 
 ### Hierarchy
-- **Display** (600, Thai glyph sizes set per context, line-height tight): the logo "น่ารักไทย" and large letter specimens.
-- **Headline** (600, 1.5rem to 1.875rem at md and up): section titles.
-- **Title** (600, 0.875rem): footer and card group headings.
-- **Body** (400, 1rem, relaxed leading): prose and explanations; keep lines to about 65 characters.
-- **Label** (500, 0.75rem to 0.875rem): chips, legends, romanization toggles. 0.75rem (12px) is the floor for any text; no fixed px sizes below it.
+- **Poster display** (800, up to 5.5rem, line-height about 0.98, uppercase): page title bands, hero headline, section bands (3rem to 5rem).
+- **Poster title** (700, 1.5rem to 3rem, uppercase): tile titles, group strips, buttons (1.25rem).
+- **Body** (400, 1rem, relaxed leading, about 65 characters): prose and explanations.
+- **Label** (500 to 600, 0.75rem to 0.875rem): captions, legends, romanization. 0.75rem is the floor for any text.
 
 ### Named Rules
-**The Thai-First Rule.** A Thai glyph is always the largest element in its group. IPA and RTGS sit below it in the smaller IPA or sans face.
-
-**The Specimen Rule.** When letters are compared (looped, loopless, handwriting), render each in its own real font. Never fake a style with weight or slant.
+**The Thai-First Rule.** A Thai glyph is always the largest element in its group, with IPA and RTGS below.
+**The Specimen Rule.** Compare letterform styles in their real fonts; never fake with weight or slant.
 
 ## Layout
 
-A single centered container, max 1440px, with 16px side padding on small screens and 24px from md up. The home page is a sequence of one-screen sections (each `100svh` minus the 3.5rem nav), each one a flat poster grid on the plain theme paper. The hero is a 12-column by 6-row grid on lg and above (headline tile 7 columns by 3 rows, merge tile 5 by 4) and stacks to one column below. The script-history timeline pins the screen and scrolls horizontally on tall desktop viewports (min 1024px wide and 720px tall), and falls back to a normal horizontal swipe on smaller ones. The syllable builder is designed to fit a 1440×900 viewport, with a floating mini-builder docked under the nav as a drop target when the main composition panel scrolls away. The nav collapses to a hamburger panel on narrow screens.
+A centered container (max 1440px, 16px then 24px side padding) holds prose and tools, while title bands, section bands, poster grids and the footer run full-bleed. The home page is a stack of flush grids: the hero is a 12-column by 6-row grid on lg and above that fills the first screen; later sections are a black heading band, a short lead, then a flush tile grid. Every tool page starts with a colored title band (blue /ipa, violet /aksornthai, orange /lab), then bands and content in the container. /history pins the screen and scrolls horizontally on tall desktop viewports (min 1024px wide, 720px tall) and falls back to a swipe strip otherwise; its era bar is a black strip. The syllable builder is designed to fit 1440×900, with a floating mini-builder docked under the nav when the main composition scrolls away. The nav collapses to a hamburger panel on narrow screens.
 
 ## Elevation & Depth
 
-Flat paper with tactile detail. Resting surfaces use a hairline border (ink at 10%) and a very soft long shadow, like a sheet on a desk. Real lift and glow appear only in response to state: a drop-target slot gets a dashed outline that pulses, and a slot with a part hovering over it scales to 1.15 and gains a colored ring and glow in the part's color. A hero button carries a soft drop shadow.
-
-### Shadow Vocabulary
-- **Sheet rest** (`box-shadow: 0 1px 0 ink@6%, 0 14px 30px -18px ink@35%`): the note paper.
-- **Slot near** (`box-shadow: 0 0 0 6px accent@35%, 0 16px 40px -8px accent`): a slot a part is hovering over.
-- **Tape** (`box-shadow: 0 1px 2px ink@15%`): washi tape.
-- **Hero button** (`filter: drop-shadow(0 6px 10px ink@28%)`): the primary call to action only.
+None. The system is flat: no box shadows, drop shadows or blur. Depth is conveyed only by color change and by 2px ink or poster outlines. Hover inverts a tile or button; focus draws a 4px outline; a drop target gets a 3px dashed outline that becomes a 5px solid outline when a part is over it. Popovers and the settings panel are set apart by a 2px ink border.
 
 ### Named Rules
-**The Glow-on-Action Rule.** A glow, ring or pulse means "this is a live target or the result of your action". Never use one at rest.
+**The Flat Rule.** Never add a shadow, gradient, blur or texture to a surface.
 
 ## Shapes
 
-Two silhouettes. Rounded things are friendly and small: 6px chips and 8px tiles inside the tools, 12px panels and chart cells, 16px cards, 24px sheets and settings panels, pills for badges, and a 2px barely-rounded edge for paper. Interactive controls get the signature notch: four stepped corners cut from a 10px step, drawn as a clip-path, replacing the usual rounded rectangle. Paper may carry a tape strip or a folded corner (a 1.6rem triangle). 
+Square. Every tile, button, input, chip, panel, popover and sheet has square corners and straight edges; the 2px-bordered ruled note sheet is a plain rectangle. Circles are allowed only as small marks: legend dots, trap dots, the timeline nodes, the hero ring and the rule-breakdown bullets. Marks that look like tiles (the clear button, the warning badge) are squares too.
 
 ## Components
 
 ### Buttons
-- **Shape:** Notched, stepped corners (clip-path, 10px step; 8px at small, 6px at extra small). Minimum height 48px (44px small and extra small).
-- **Primary:** Ink fill, paper-colored text, padding 12px 28px. Hover fades the fill to about 85%.
-- **Outline:** A 1.5px ink-at-28% border drawn by an inner clip, paper inside, ink text. Hover inverts to a solid ink fill.
-- **Focus:** A 2px ink outline, inset 6px, so it stays inside the notch.
-- **Icon:** The same notch, minimum width 44px, no horizontal padding.
+- **Shape:** Square, 2px border, minimum height 48px (44px small and extra small), condensed uppercase labels.
+- **Primary:** Lime fill, Poster Black border and text; hover flips to Poster Black fill with lime text.
+- **Outline:** Transparent, 2px ink border and ink text; hover fills ink with paper text.
+- **Focus:** 4px outline offset 2px.
+- **Icon (nav):** 44px square with a 2px lime border on the black bar; hover fills lime.
 
-### Chips
-- **Class legend:** A 10px colored dot plus a label in ink-soft, one per consonant class. It sits on /lab and /aksornthai, where the colors are used, not in the nav.
+### Chips and pills
+- Small bordered squares. The active chip is filled ink. Legend dots are the only round marks.
 
-### Cards / Containers
-- **Poster tile:** A flush rectangle with no radius, border or shadow, padded 20px (32px from md up), colored from the poster palette with its paired text color. Tiles that are links focus with a 4px inset outline and nudge their chevrons or arrow right on hover. Tiles reveal in sequence once on scroll (opacity and 28px rise, 70ms stagger) unless reduced motion is requested.
-- **Poster frame:** The only rounded and shadowed element of a grid: 24px outer corners with a soft ink-tinted shadow under the whole frame.
-- **Learning path tiles:** Four link tiles of different sizes in a 6-column mosaic (history 3 by 2, phonetics 3 by 2, alphabet 2 by 2, builder 4 by 2 as the largest, because it is where learners work), each with a huge outlined Thai numeral and chevrons.
-- **Syllable intro:** Five three-tile columns on a shared subgrid: a colored label strip with the part number and the + or = sign, a cream tile with the large Thai glyph in its meaning color, and a cream tile with the explanation. The result column is lime.
-- **Note paper:** Sheet fill, 1px ink@10% border, 2px corners. Ruling by `data-paper` (tiers, lines, grid, dots, plain).
+### Tiles and bands
+- **Poster tile:** A flush rectangle in a poster color with its paired text color, padded 20px (32px from md up). Links nudge their arrow or chevrons right on hover and focus with an inset 4px outline.
+- **Title band (PageIntro):** A full-bleed tile with a condensed uppercase h1 and a one-line lead; compact on tool pages.
+- **Section band (PosterHeading):** A full-bleed tile with an uppercase h2 above a section of content.
+- **Group strip:** The header of each builder group at xl and above, in blue, violet, orange or green; the strip color is decoration, tile colors carry meaning.
+- **Cream panel:** The selected-item detail (IPA and alphabet previews, hero merge, syllable parts) on Cream with celadon variables.
+- **Poster frame:** An unstyled wrapper that groups flush tiles; it has no radius, border or shadow.
+- **Learning path tiles:** Four link tiles of different sizes in a 6-column mosaic (builder the largest), each with a huge outlined Thai numeral and chevrons.
+- **Syllable intro:** Five three-tile columns on a shared subgrid: a colored strip with the part number and the + or = sign, a cream tile with the large Thai glyph in its meaning color, and a cream explanation tile. The result column is lime.
 
 ### Inputs / Fields
-- Appearance settings (theme, paper, per-theme colors) live in a settings menu; there are no free-text inputs in the core flows. Pickers are draggable parts, not form fields.
+- Appearance settings (theme, paper, per-part colors) are square swatches and switches in a 2px-bordered panel; there are no free-text inputs in the core flows. Pickers are tiles, not form fields.
 
 ### Navigation
-- **Style:** A 3.5rem top bar with the logo, learning-path steps, and locale, theme and settings controls (all 44px).
-- **Mobile:** A hamburger panel that eases in 12px from above; items stagger in from the left.
-- **States:** The current path step is marked. Escape or an outside click closes the panel and returns focus to the button.
+- **Style:** A 3.5rem Poster Black bar with the logo (white with a lime "ไทย"), learning-path tabs in uppercase condensed type (the current page is a lime tab) and 44px lime-bordered locale, theme and settings buttons.
+- **Mobile:** A hamburger opens a black panel with a lime top rule; the current page is a lime row. Esc or an outside click closes it and returns focus.
 
 ### Syllable slot (signature)
-A rounded part-holder, colored by the part it expects. During drag, non-target slots fade to 30% and go greyscale; the target gets a dashed pulsing outline; the slot a part hovers over previews the glyph that will land. Parts removed by a vowel transformation wobble, turn red and get a quick strike-through; new parts glow once.
+A square part-holder colored by the part it expects. While dragging, non-target slots fade to 30% and go greyscale; the target gets a dashed outline that pulses; the slot a part hovers over previews the glyph with a 5px solid outline. Parts removed by a vowel transformation wobble, turn red and get a strike-through; new parts glow once.
+
+### Notebook sheet
+The ruled sheet (4 tiers, lines, grid, dots or plain by user choice) is a plain rectangle with a 2px ink border; ruling is functional because it shows where a letter sits when writing.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** keep poster grids flush: tiles touch, only the outer frame rounds, and heights are shared through the grid rather than set per tile.
-- **Do** read every color from a `--color-*` variable so themes and custom syllable-part colors apply everywhere.
-- **Do** set Thai glyphs in Noto Serif Thai at the largest size in their group, with IPA and RTGS beneath.
-- **Do** use the notched `.btn` for actions and the paper-and-tape treatment for content that "lives on a page".
-- **Do** respect `prefers-reduced-motion`: transitions drop to near zero and loops stop.
-- **Do** keep contrast comfortable: ink on paper, never pure black on white.
+- **Do** keep tiles flush: they touch, areas separate by color change only, heights come from the grid.
+- **Do** pair poster text colors exactly as `PosterTile` does and keep the test green.
+- **Do** read page colors from `--color-*` variables and poster colors from `--color-poster-*`.
+- **Do** give every page a colored title band and use the condensed uppercase poster font for headings and buttons.
+- **Do** reset theme variables (celadon) on any poster tile that shows theme-colored glyphs.
+- **Do** set Thai glyphs largest in their group, with IPA and RTGS beneath.
+- **Do** respect prefers-reduced-motion: transitions shorten and loops stop.
 
 ### Don't:
+- **Don't** add rounded corners, shadows, gradients, blur, grain, tape or fold effects.
 - **Don't** put an eyebrow or kicker pill above a heading.
-- **Don't** use the poster palette, outlined type or flush tiles outside the home page until a tool page is deliberately migrated.
-- **Don't** put white text on red or red text on cream; they fail AA.
 - **Don't** loop ambient motion (floating glyphs, marquees) behind content.
-- **Don't** use saturated color as decoration; it belongs to class, tone, vowel, final and removed parts.
-- **Don't** put glow, pulse or lift on resting elements.
-- **Don't** use pure white (#fff) or pure black (#000) for surfaces or text.
-- **Don't** fake Thai letterform styles with weight or slant; use the real specimen fonts.
-- **Don't** hard-code user-facing strings or colors; copy comes from `packages/i18n`, color from theme variables.
+- **Don't** fill a band with a meaning color or let a poster color stand for class, tone, vowel or final.
+- **Don't** put white text on red or red text on cream; they fail AA.
+- **Don't** use pure white or pure black on the page paper or page text.
+- **Don't** hard-code user-facing strings or colors; copy comes from `packages/i18n`.

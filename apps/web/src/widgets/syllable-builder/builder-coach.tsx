@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { SYLLABLE_EXAMPLES, useBuilderStore } from "@/features/build-syllable";
 import { useT } from "@/shared/i18n";
 import { usePreferences } from "@/shared/lib/preferences";
+import { LIGHT_VARS } from "@/shared/ui";
 
 /** Khung hướng dẫn ngắn ở đầu trang /lab: bốn bước ghép và vài âm tiết mẫu bấm một lần là điền đủ. Đóng rồi thì nhớ lại. */
 export function BuilderCoach() {
@@ -34,7 +35,7 @@ export function BuilderCoach() {
 
   const c = t.builder.coach;
   return (
-    <section aria-label={c.title} className="mb-3 border border-ink/10 bg-paper-deep/60 px-4 py-3">
+    <section aria-label={c.title} style={LIGHT_VARS} className="mb-4 bg-poster-lime px-5 py-4 text-poster-black">
       <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-2">
         <div className="min-w-0">
           <h2 className="text-sm font-semibold">{c.title}</h2>
@@ -49,25 +50,25 @@ export function BuilderCoach() {
         <button
           type="button"
           onClick={() => setDismissed(true)}
-          className="min-h-11 shrink-0 border border-ink/15 px-4 text-sm font-medium hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+          className="min-h-11 shrink-0 border-2 border-poster-black px-4 text-sm font-semibold hover:bg-poster-black hover:text-poster-lime focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-poster-black"
         >
           {c.dismiss}
         </button>
       </div>
       <div className="mt-2 flex flex-wrap items-center gap-2">
-        <span className="text-sm text-ink/80">{c.try}</span>
+        <span className="text-sm font-medium">{c.try}</span>
         {SYLLABLE_EXAMPLES.map((e) => (
           <button
             key={e.word}
             type="button"
             lang="th"
             onClick={() => setSyllable(e)}
-            className="min-h-11 min-w-11 border-2 border-ink/20 bg-paper px-3 font-thai text-2xl leading-none hover:border-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+            className="min-h-11 min-w-11 border-2 border-poster-black bg-poster-cream px-3 font-thai text-2xl leading-none hover:bg-poster-black hover:text-poster-lime focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-poster-black"
           >
             {e.word}
           </button>
         ))}
-        <span className="text-xs text-ink-soft">{c.tryHint}</span>
+        <span className="text-xs text-poster-black/80">{c.tryHint}</span>
       </div>
     </section>
   );

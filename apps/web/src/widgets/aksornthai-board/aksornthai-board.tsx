@@ -25,7 +25,7 @@ import { fmt, useLocale, useLocalePath, useT } from "@/shared/i18n";
 import { cn, tint } from "@/shared/lib";
 import { prefersReducedMotion } from "@/shared/lib/gsap";
 import { speakThai } from "@/shared/lib/speech";
-import { Phonetic, SpeakButton } from "@/shared/ui";
+import { LIGHT_VARS, Phonetic, SpeakButton } from "@/shared/ui";
 import { LetterNotebook } from "./letter-notebook";
 
 type Selected =
@@ -141,7 +141,7 @@ export function AksornThaiBoard() {
       {/* Khung preview dùng chung: trên cùng ở mobile, cột phải dính khi cuộn ở desktop */}
       <aside
         ref={preview}
-        className="order-first scroll-mt-20 bg-paper-deep p-4 md:p-5 lg:sticky lg:top-20 lg:order-last lg:max-h-[calc(100dvh-6rem)] lg:self-start lg:overflow-y-auto lg:overscroll-contain lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden"
+        style={LIGHT_VARS} className="order-first scroll-mt-20 bg-poster-cream p-4 text-poster-black md:p-5 lg:sticky lg:top-20 lg:order-last lg:max-h-[calc(100dvh-6rem)] lg:self-start lg:overflow-y-auto lg:overscroll-contain lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden"
       >
         {/* Chỉ thông báo một dòng ngắn khi đổi lựa chọn, không đọc lại cả khung */}
         <p role="status" className="sr-only">
@@ -295,17 +295,17 @@ export function AksornThaiBoard() {
         <div
           aria-hidden
           className={cn(
-            "pointer-events-none sticky -bottom-4 -mx-4 -mb-4 hidden h-12 bg-linear-to-t from-paper-deep to-transparent md:-bottom-5 md:-mx-5 md:-mb-5",
+            "pointer-events-none sticky -bottom-4 -mx-4 -mb-4 hidden h-12 bg-linear-to-t from-poster-cream to-transparent md:-bottom-5 md:-mx-5 md:-mb-5",
             more && "lg:block",
           )}
         />
       </aside>
 
       {/* Cột chọn chữ; các phần ngăn bởi đường nét đứt */}
-      <div className="divide-y divide-dashed divide-ink/20 [&>*]:py-8 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0">
+      <div className="divide-y-4 divide-ink [&>*]:py-8 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0">
         <section aria-labelledby="cons-title">
           <div className="mb-4 flex flex-wrap items-center gap-2">
-            <h2 id="cons-title" className="mr-2 text-xl font-semibold">
+            <h2 id="cons-title" className="mr-2 font-poster text-4xl font-extrabold uppercase leading-none">
               {t.aksornthai.consonants}
             </h2>
             {(["all", "mid", "high", "low"] as const).map((c) => (
@@ -378,7 +378,7 @@ export function AksornThaiBoard() {
 
         <section aria-labelledby="vowel-title">
           <div className="mb-4 flex flex-wrap items-center gap-2">
-            <h2 id="vowel-title" className="mr-2 text-xl font-semibold">
+            <h2 id="vowel-title" className="mr-2 font-poster text-4xl font-extrabold uppercase leading-none">
               {t.aksornthai.vowels}
             </h2>
             {(["all", ...VOWEL_GROUPS] as const).map((g) => (
@@ -434,7 +434,7 @@ export function AksornThaiBoard() {
 
         <section aria-labelledby="digit-title">
           <div className="mb-4 flex flex-wrap items-center gap-2">
-            <h2 id="digit-title" className="mr-2 text-xl font-semibold">
+            <h2 id="digit-title" className="mr-2 font-poster text-4xl font-extrabold uppercase leading-none">
               {t.aksornthai.digits}
             </h2>
           </div>
@@ -463,7 +463,7 @@ export function AksornThaiBoard() {
 
         <section aria-labelledby="tone-title">
           <div className="mb-4 flex flex-wrap items-center gap-2">
-            <h2 id="tone-title" className="mr-2 text-xl font-semibold">
+            <h2 id="tone-title" className="mr-2 font-poster text-4xl font-extrabold uppercase leading-none">
               {t.aksornthai.tones}
             </h2>
             <span className="ml-auto text-xs text-ink-soft">

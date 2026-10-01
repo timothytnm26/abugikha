@@ -5,12 +5,10 @@ import { SiteNav } from "@/widgets/site-nav";
 import { SiteFooter } from "@/widgets/site-footer";
 import { useT } from "@/shared/i18n";
 import { stripLocale } from "@/shared/config/routes";
-import { cn } from "@/shared/lib";
 
 /** Trang chủ và trang lịch sử tràn hết chiều ngang (phần mở đầu, dòng thời gian cuộn ngang); các trang khác nằm trong khung. */
 export function RootShell({ children }: { children: ReactNode }) {
   const path = stripLocale(usePathname() ?? "/");
-  const bleed = ["/", "/history"].includes(path);
   const t = useT();
   return (
     <div className="min-h-dvh">
@@ -23,7 +21,7 @@ export function RootShell({ children }: { children: ReactNode }) {
       <header className="sticky top-0 z-40 bg-poster-black text-white">
         <SiteNav />
       </header>
-      <main id="main" tabIndex={-1} className={cn("w-full outline-none", !bleed && "mx-auto max-w-[1440px] px-3 pb-8 pt-4 sm:px-4 md:px-6 md:pt-5")}>{children}</main>
+      <main id="main" tabIndex={-1} className="w-full outline-none">{children}</main>
       {path === "/" && <SiteFooter />}
     </div>
   );

@@ -202,10 +202,10 @@ export function SettingsMenu() {
         aria-modal="true"
         tabIndex={-1}
         aria-label={t.settings.title}
-        className="fixed inset-x-0 bottom-0 z-[70] max-h-[88dvh] outline-none space-y-6 overflow-y-auto overscroll-contain border border-ink/10 bg-paper p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-2xl sm:inset-x-auto sm:bottom-auto sm:right-4 sm:top-[3.75rem] sm:max-h-[calc(100dvh-5rem)] sm:w-[25rem] md:right-6"
+        className="fixed inset-x-0 bottom-0 z-[70] max-h-[88dvh] outline-none space-y-6 overflow-y-auto overscroll-contain border-2 border-ink bg-paper p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] sm:inset-x-auto sm:bottom-auto sm:right-4 sm:top-[3.75rem] sm:max-h-[calc(100dvh-5rem)] sm:w-[25rem] md:right-6"
       >
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">{t.settings.title}</h2>
+          <h2 className="font-poster text-3xl font-extrabold uppercase leading-none">{t.settings.title}</h2>
           <button type="button" onClick={close} className="grid size-11 place-items-center border-2 border-ink hover:bg-ink hover:text-paper focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ink" aria-label={t.settings.close}>
             <svg aria-hidden viewBox="0 0 24 24" className="size-4 stroke-current stroke-2" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
           </button>
@@ -213,7 +213,7 @@ export function SettingsMenu() {
 
         <section className="space-y-3" aria-label={t.settings.themeTitle}>
           <div>
-            <h3 className="text-sm font-semibold">{t.settings.themeTitle}</h3>
+            <h3 className="font-poster text-xl font-bold uppercase leading-none">{t.settings.themeTitle}</h3>
             <p className="text-xs text-ink-soft">{t.settings.themeHint}</p>
           </div>
           {themeGroup("light", t.settings.lightGroup)}
@@ -222,7 +222,7 @@ export function SettingsMenu() {
 
         <section className="space-y-3" aria-label={t.settings.paperTitle}>
           <div>
-            <h3 className="text-sm font-semibold">{t.settings.paperTitle}</h3>
+            <h3 className="font-poster text-xl font-bold uppercase leading-none">{t.settings.paperTitle}</h3>
             <p className="text-xs text-ink-soft">{t.settings.paperHint}</p>
           </div>
           <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
@@ -238,7 +238,7 @@ export function SettingsMenu() {
         <details className="group space-y-3">
           <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
             <span>
-              <h3 className="text-sm font-semibold">{t.settings.partColors}</h3>
+              <h3 className="font-poster text-xl font-bold uppercase leading-none">{t.settings.partColors}</h3>
               <span className="block text-xs text-ink-soft">{t.settings.partColorsHint}</span>
             </span>
             <svg aria-hidden viewBox="0 0 20 20" className="size-4 shrink-0 fill-none stroke-current stroke-2 transition-transform group-open:rotate-180" strokeLinecap="round" strokeLinejoin="round">

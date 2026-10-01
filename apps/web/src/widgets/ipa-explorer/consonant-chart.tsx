@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { CONSONANT_PHONES, MANNERS, PLACES, type ConsonantPhone } from "@/entities/phoneme";
 import { CLASS_META, CONSONANTS } from "@/entities/consonant";
 import { useLocale, useT } from "@/shared/i18n";
-import { Phonetic, SpeakButton } from "@/shared/ui";
+import { CREAM_PANEL, LIGHT_VARS, Phonetic, SpeakButton } from "@/shared/ui";
 import { cn, ipaToRtgs } from "@/shared/lib";
 
 export function ConsonantChart() {
@@ -69,7 +69,7 @@ export function ConsonantChart() {
         </p>
       </div>
 
-      <aside className="bg-paper-deep p-6">
+      <aside className={`${CREAM_PANEL} p-6`} style={LIGHT_VARS}>
         <p role="status" className="sr-only">{`/${sel.ipa}/ · ${sel.example}, ${sel.meaning[locale]}`}</p>
         <Phonetic ipa={sel.ipa} className="text-5xl" />
         <p className="mt-3 leading-relaxed">{sel.note[locale]}</p>

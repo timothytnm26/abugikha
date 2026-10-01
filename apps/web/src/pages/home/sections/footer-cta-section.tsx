@@ -17,9 +17,8 @@ export function FooterCtaSection() {
   const root = useRef<HTMLDivElement>(null);
   useTileReveal(root);
   return (
-    <section className="screen relative">
-      <div className="page-container w-full py-10 md:py-14">
-        <PosterFrame ref={root}>
+    <section>
+      <PosterFrame ref={root}>
           <div className="grid grid-cols-1 lg:grid-cols-12">
             <PosterTile bg="cream" themed pad="p-6 md:p-10 lg:p-12" className="flex flex-col justify-between gap-8 lg:col-span-7">
               <div>
@@ -44,7 +43,7 @@ export function FooterCtaSection() {
                       setSyllable(e);
                       router.push(href('/lab'));
                     }}
-                    className="grid min-h-40 place-items-center font-thai text-7xl font-medium leading-none focus-visible:outline-4 focus-visible:-outline-offset-8 focus-visible:outline-poster-lime md:text-8xl"
+                    className="grid min-h-40 place-items-center text-inherit font-thai text-7xl font-medium leading-none focus-visible:outline-4 focus-visible:-outline-offset-8 focus-visible:outline-poster-lime md:text-8xl"
                   >
                     {e.word}
                   </button>
@@ -55,8 +54,7 @@ export function FooterCtaSection() {
               </PosterTile>
             </div>
           </div>
-        </PosterFrame>
-      </div>
+      </PosterFrame>
     </section>
   );
 }

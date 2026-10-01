@@ -100,7 +100,7 @@ function EraColumn({ era, index, last }: { era: ScriptEra; index: number; last: 
           <div className="min-w-0">
             <p className="text-xs font-medium text-ink-soft">{era.region[locale]} · {era.period[locale]}</p>
             <div className="mt-1 flex flex-wrap items-baseline gap-x-3">
-              <h2 id={`era-${era.id}`} className="text-2xl font-semibold leading-tight tall:text-3xl">{era.name[locale]}</h2>
+              <h2 id={`era-${era.id}`} className="font-poster text-4xl font-extrabold uppercase leading-none tall:text-5xl">{era.name[locale]}</h2>
               <span className={cn("px-2.5 py-0.5 text-sm font-semibold text-on-accent", nodeColor)}>{era.year[locale]}</span>
             </div>
             <p className="mt-2 text-sm leading-relaxed text-ink/80">{era.summary[locale]}</p>
@@ -114,7 +114,7 @@ function EraColumn({ era, index, last }: { era: ScriptEra; index: number; last: 
                 </li>
               ))}
             </ul>
-            <p className="bg-paper-deep px-3 py-2 text-[0.8125rem] leading-snug">
+            <p className="bg-poster-lime px-3 py-2 text-[0.8125rem] leading-snug text-poster-black">
               <span className="font-semibold">{t.history.changeLabel}: </span>
               {era.change[locale]}
             </p>
@@ -133,13 +133,13 @@ function IntroPanel() {
       className="tl-col flex w-[88vw] max-w-[36rem] shrink-0 snap-start flex-col justify-center gap-6 py-10 tall:h-full tall:w-[min(76rem,calc(100vw-2rem))] tall:max-w-none tall:flex-row tall:items-center tall:justify-between tall:gap-12 tall:px-16 tall:py-0"
     >
       <div className="tl-intro max-w-xl">
-        <h1 id="timeline-title" className="text-4xl font-semibold leading-[1.1] tracking-tight md:text-6xl">{t.history.title}</h1>
+        <h1 id="timeline-title" className="text-balance font-poster text-6xl font-extrabold uppercase leading-[0.98] md:text-8xl">{t.history.title}</h1>
         <p className="mt-5 text-base leading-relaxed text-ink/80 md:text-lg">{t.history.intro}</p>
         <ul className="mt-6 space-y-2 text-sm text-ink-soft">
           <li className="flex items-center gap-3"><span aria-hidden className="h-1.5 w-10 bg-mid" /> {t.history.mainLine}</li>
           <li className="flex items-center gap-3"><span aria-hidden className="w-10 border-t-2 border-dashed border-ink/25" /> {t.history.branchLine}</li>
         </ul>
-        <p className="mt-8 inline-flex items-center gap-2 bg-paper-deep px-4 py-2 text-sm font-medium text-ink-soft">
+        <p className="mt-8 inline-flex items-center gap-2 bg-poster-lime px-4 py-2 font-poster text-lg font-bold uppercase text-poster-black">
           {t.history.cue}
           <svg aria-hidden viewBox="0 0 24 24" className="size-4 fill-none stroke-current stroke-2 [animation:nudge-x_1.4s_ease-in-out_infinite]" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
         </p>
@@ -303,8 +303,8 @@ export function ScriptTimeline() {
         </div>
       </div>
 
-      <nav aria-label={t.history.timelineNavAria} className="shrink-0 border-t border-ink/15 bg-paper-deep/60 px-3 py-2">
-        <ol className="mx-auto flex max-w-[1440px] gap-1 overflow-x-auto">
+      <nav aria-label={t.history.timelineNavAria} className="shrink-0 bg-poster-black text-white">
+        <ol className="mx-auto flex max-w-[1440px] overflow-x-auto">
           {SCRIPT_ERAS.map((era, i) => (
             <li key={era.id} className="min-w-0 flex-1 basis-0">
               <button
@@ -313,8 +313,8 @@ export function ScriptTimeline() {
                 aria-label={fmt(t.history.jumpTo, { name: era.name[locale] })}
                 aria-current={active === i ? "step" : undefined}
                 className={cn(
-                  "flex w-full min-w-[4.5rem] flex-col items-center px-2 py-1.5 text-center transition-colors focus-visible:outline-2 focus-visible:outline-ink",
-                  active === i ? "bg-ink text-paper" : "text-ink-soft hover:bg-ink/5",
+                  "flex min-h-14 w-full min-w-[4.5rem] flex-col items-center justify-center px-2 py-1.5 text-center transition-colors focus-visible:outline-4 focus-visible:-outline-offset-4 focus-visible:outline-white",
+                  active === i ? "bg-poster-lime text-poster-black" : "text-white/85 hover:bg-white/15",
                 )}
               >
                 <span className="text-xs font-semibold leading-tight">{era.year[locale]}</span>

@@ -12,10 +12,9 @@ export function HeroSection() {
   const root = useRef<HTMLDivElement>(null);
   useTileReveal(root);
   return (
-    <section className="screen relative">
-      <div className="page-container w-full py-6 md:py-10">
-        <PosterFrame ref={root}>
-          <div className="grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-[repeat(6,minmax(4.75rem,auto))]">
+    <section>
+      <PosterFrame ref={root}>
+          <div className="grid grid-cols-1 lg:min-h-[calc(100svh-3.5rem)] lg:grid-cols-12 lg:grid-rows-6">
             <PosterTile bg="blue" className="flex items-end lg:col-span-7 lg:row-span-3">
               <h1 className="text-balance font-poster text-6xl font-extrabold uppercase leading-[0.98] md:text-8xl lg:text-7xl xl:text-[5.5rem]">{t.home.headline}</h1>
             </PosterTile>
@@ -24,7 +23,7 @@ export function HeroSection() {
               <p className="max-w-[34ch] text-lg font-medium leading-snug md:text-xl">{t.home.body}</p>
             </PosterTile>
 
-            <PosterTile bg="cream" themed className="lg:col-span-5 lg:row-span-4 lg:col-start-8">
+            <PosterTile bg="cream" themed className="flex items-center lg:col-span-5 lg:row-span-4 lg:col-start-8">
               <HeroMerge />
             </PosterTile>
 
@@ -45,8 +44,7 @@ export function HeroSection() {
               <span aria-hidden className="text-3xl leading-none transition-transform duration-200 group-hover:translate-x-2">→</span>
             </PosterLink>
           </div>
-        </PosterFrame>
-      </div>
+      </PosterFrame>
     </section>
   );
 }

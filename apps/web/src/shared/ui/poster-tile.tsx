@@ -23,7 +23,7 @@ const TILE: Record<PosterBg, string> = {
  * Ô nền sáng cố định chứa nội dung tô màu theo giao diện (chữ Thái đổi màu theo nhóm phụ âm, thanh...): đặt lại các biến màu về
  * giao diện celadon để ở dark mode chữ vẫn đọc được trên nền kem.
  */
-const LIGHT_VARS = Object.fromEntries(Object.entries(THEME_BY_ID.get("celadon")!.vars).map(([k, v]) => [`--color-${k}`, v])) as CSSProperties;
+export const LIGHT_VARS = Object.fromEntries(Object.entries(THEME_BY_ID.get("celadon")!.vars).map(([k, v]) => [`--color-${k}`, v])) as CSSProperties;
 
 interface BaseProps {
   bg: PosterBg;
@@ -55,6 +55,22 @@ export function PosterLink({ bg, themed, pad = "p-5 md:p-8", className, children
     >
       {children}
     </Link>
+  );
+}
+
+/** Ô kem cho khung chi tiết đang chọn: nền sáng cố định, màu theo giao diện đặt lại về celadon để dark mode vẫn đọc được. */
+export const CREAM_PANEL = "bg-poster-cream text-poster-black";
+
+/** Dải tiêu đề của một phần nội dung: một ô màu tràn hết chiều ngang phía trên nội dung, chữ condensed viết hoa. */
+export function PosterHeading({ bg, id, as: Tag = "h2", children }: { bg: PosterBg; id?: string; as?: "h2" | "h3"; children: ReactNode }) {
+  return (
+    <PosterTile bg={bg} pad="py-3 md:py-4">
+      <div className="page-container">
+        <Tag id={id} className="font-poster text-3xl font-extrabold uppercase leading-none md:text-5xl">
+          {children}
+        </Tag>
+      </div>
+    </PosterTile>
   );
 }
 

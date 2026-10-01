@@ -320,23 +320,7 @@
         "purpose": "Condensed uppercase headlines on the home page poster grids."
       }
     },
-    "shadows": [
-      {
-        "name": "sheet-rest",
-        "value": "0 1px 0 rgba(30,40,51,.06), 0 14px 30px -18px rgba(30,40,51,.35)",
-        "purpose": "Note paper at rest."
-      },
-      {
-        "name": "slot-near",
-        "value": "0 0 0 6px color-mix(in oklab, var(--accent) 35%, transparent), 0 16px 40px -8px var(--accent)",
-        "purpose": "Slot a part is hovering over."
-      },
-      {
-        "name": "tape",
-        "value": "0 1px 2px rgba(30,40,51,.15)",
-        "purpose": "Washi tape."
-      }
-    ],
+    "shadows": [],
     "motion": [
       {
         "name": "slot-pulse",
@@ -365,57 +349,16 @@
       }
     ]
   },
-  "components": [
-    {
-      "name": "Primary Button",
-      "kind": "button",
-      "refersTo": "button-primary",
-      "description": "Filled notched action; ink fill, paper text.",
-      "html": "<button class=\"ds-btn-primary\">Bắt đầu</button>",
-      "css": ".ds-btn-primary{--n:10px;clip-path:polygon(0 var(--n),calc(var(--n)/2) var(--n),calc(var(--n)/2) calc(var(--n)/2),var(--n) calc(var(--n)/2),var(--n) 0,calc(100% - var(--n)) 0,calc(100% - var(--n)) calc(var(--n)/2),calc(100% - var(--n)/2) calc(var(--n)/2),calc(100% - var(--n)/2) var(--n),100% var(--n),100% calc(100% - var(--n)),calc(100% - var(--n)/2) calc(100% - var(--n)),calc(100% - var(--n)/2) calc(100% - var(--n)/2),calc(100% - var(--n)) calc(100% - var(--n)/2),calc(100% - var(--n)) 100%,var(--n) 100%,var(--n) calc(100% - var(--n)/2),calc(var(--n)/2) calc(100% - var(--n)/2),calc(var(--n)/2) calc(100% - var(--n)),0 calc(100% - var(--n)));background:#1e2833;color:#eef1ec;border:0;min-height:48px;padding:12px 28px;font:500 1rem 'Be Vietnam Pro',system-ui,sans-serif;cursor:pointer;transition:opacity .15s}.ds-btn-primary:hover{opacity:.85}.ds-btn-primary:focus-visible{outline:2px solid #fff;outline-offset:-6px}"
-    },
-    {
-      "name": "Outline Button",
-      "kind": "button",
-      "refersTo": "button-outline",
-      "description": "Secondary notched action; inverts on hover.",
-      "html": "<button class=\"ds-btn-outline\"><span>Xem lịch sử</span></button>",
-      "css": ".ds-btn-outline{--n:10px;clip-path:polygon(0 var(--n),calc(var(--n)/2) var(--n),calc(var(--n)/2) calc(var(--n)/2),var(--n) calc(var(--n)/2),var(--n) 0,calc(100% - var(--n)) 0,calc(100% - var(--n)) calc(var(--n)/2),calc(100% - var(--n)/2) calc(var(--n)/2),calc(100% - var(--n)/2) var(--n),100% var(--n),100% calc(100% - var(--n)),calc(100% - var(--n)/2) calc(100% - var(--n)),calc(100% - var(--n)/2) calc(100% - var(--n)/2),calc(100% - var(--n)) calc(100% - var(--n)/2),calc(100% - var(--n)) 100%,var(--n) 100%,var(--n) calc(100% - var(--n)/2),calc(var(--n)/2) calc(100% - var(--n)/2),calc(var(--n)/2) calc(100% - var(--n)),0 calc(100% - var(--n)));background:#1e2833;color:#1e2833;border:0;min-height:48px;padding:0;font:500 1rem 'Be Vietnam Pro',system-ui,sans-serif;cursor:pointer;position:relative}.ds-btn-outline span{position:absolute;inset:1.5px;display:flex;align-items:center;justify-content:center;padding:0 28px;background:#eef1ec;clip-path:inherit;transition:background .15s,color .15s}.ds-btn-outline{opacity:.9}.ds-btn-outline:hover span{background:#1e2833;color:#eef1ec}"
-    },
-    {
-      "name": "Class Legend",
-      "kind": "chip",
-      "refersTo": "hero-eyebrow",
-      "description": "Colored dot plus label for each consonant class.",
-      "html": "<ul class=\"ds-legend\"><li><span class=\"ds-dot\" style=\"background:#007a5b\"></span>Mid</li><li><span class=\"ds-dot\" style=\"background:#a23e2d\"></span>High</li><li><span class=\"ds-dot\" style=\"background:#215da5\"></span>Low</li></ul>",
-      "css": ".ds-legend{display:flex;gap:12px;list-style:none;margin:0;padding:0;font:400 .75rem 'Be Vietnam Pro',system-ui,sans-serif;color:#5a6672}.ds-legend li{display:flex;align-items:center;gap:6px}.ds-dot{width:10px;height:10px;border-radius:50%}"
-    },
-    {
-      "name": "Note Paper",
-      "kind": "card",
-      "refersTo": "note-paper",
-      "description": "Ruled note sheet with washi tape; hosts the previewed syllable.",
-      "html": "<div class=\"ds-note\">หน้า</div>",
-      "css": ".ds-note{position:relative;width:260px;padding:20px;background-color:#fbfbf4;background-image:linear-gradient(to bottom,transparent calc(2.25rem - 1.5px),#b9c9c9 calc(2.25rem - 1.5px));background-size:100% 2.25rem;border:1px solid rgba(30,40,51,.1);box-shadow:0 1px 0 rgba(30,40,51,.06),0 14px 30px -18px rgba(30,40,51,.35);font:600 2rem 'Noto Serif Thai',serif;color:#1e2833}.ds-note::before{content:'';position:absolute;top:-.6rem;left:50%;width:5.5rem;height:1.3rem;translate:-50% 0;rotate:-2deg;background:rgba(163,65,109,.32);box-shadow:0 1px 2px rgba(30,40,51,.15)}"
-    },
-    {
-      "name": "Syllable Slot",
-      "kind": "custom",
-      "refersTo": "note-paper",
-      "description": "Drop target while a part is dragged; glows when a part is over it.",
-      "html": "<div class=\"ds-slot\">ก</div>",
-      "css": ".ds-slot{display:grid;place-items:center;width:80px;height:96px;border-radius:12px;background:#e1e8e1;color:#007a5b;font:600 2.5rem 'Noto Serif Thai',serif;outline:3px dashed #007a5b;outline-offset:4px;animation:ds-pulse 1s ease-in-out infinite}@keyframes ds-pulse{50%{outline-offset:9px}}.ds-slot:hover{animation:none;scale:1.15;outline-style:solid;box-shadow:0 0 0 6px rgba(0,122,91,.35),0 16px 40px -8px #007a5b}"
-    }
-  ],
+  "components": [],
   "narrative": {
-    "northStar": "The Gentle Script Lab",
-    "overview": "**Creative North Star: \"The Gentle Script Lab\"**\n\nNarakThai is a lab where a beginner can pick letters up, drop them into slots and watch Thai syllables assemble. It is friendly, never clinical: the lab bench is a stack of note paper, with ruled tiers, a red margin line and a strip of washi tape. Playfulness comes from motion and glow that respond to what the learner does, not from decoration that sits there.\n\nSurfaces are muted and paper-like, tinted grey-cream or grey-green and never pure white or black, so a long study session does not tire the eyes. Color is saturated only where it carries meaning: consonant class, tone, vowel, final, and the one red that marks a part about to be removed. Thai glyphs are the largest, most legible thing on any screen; romanization is an optional aid.\n\nEverything the learner sees can be re-skinned. Seven soft themes, five paper styles and per-theme syllable-part colors are first-class, so no component may hard-code a color.",
+    "northStar": "The Flat Poster Lab",
+    "overview": "Flat color-block poster built from flush tiles and full-bleed bands; poster colors structure the page, meaning colors mark glyphs.",
     "keyCharacteristics": [
-      "Note paper as the working surface, with ruled tiers, a margin line, tape and a folded corner.",
-      "Color as information: every saturated hue maps to a class, tone or syllable part.",
-      "State-driven glow: slots pulse, lift and light up only during drag, hover or focus.",
-      "Notched, stepped corners on buttons, borrowed from Thai architecture.",
-      "Thai first: glyph set in a serif Thai face, with IPA and RTGS shown beside it on demand."
+      "Flush tiles and full-bleed bands",
+      "Square everywhere; circles only as small marks",
+      "Condensed uppercase poster type",
+      "Black top bar with a lime active tab",
+      "Flat state feedback, no shadows"
     ],
     "rules": [
       {

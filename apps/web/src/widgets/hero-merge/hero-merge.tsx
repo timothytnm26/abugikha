@@ -33,8 +33,8 @@ export function HeroMerge() {
   );
 
   return (
-    <div ref={root} className="relative flex flex-col items-center gap-4 text-center">
-      <div lang="th" className="relative h-[1.3em] w-full font-thai text-[clamp(5rem,17vw,11rem)] leading-none">
+    <div ref={root} className="@container relative flex w-full flex-col items-center gap-4 text-center">
+      <div lang="th" className="relative h-[1.3em] w-full font-thai text-[clamp(3rem,26cqw,10rem)] leading-none">
         <span className="hero-parts absolute inset-0 flex items-center justify-center gap-[0.15em]">
           <span className="hero-c text-mid">ค</span>
           <span className="hero-plus text-[0.4em] text-ink-soft">+</span>

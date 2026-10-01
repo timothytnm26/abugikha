@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import { DIPHTHONGS, VOWEL_PHONES, type VowelPhone } from "@/entities/phoneme";
 import { gsap, useGSAP, prefersReducedMotion } from "@/shared/lib/gsap";
 import { fmt, useLocale, useT } from "@/shared/i18n";
-import { Phonetic, SpeakButton } from "@/shared/ui";
+import { CREAM_PANEL, LIGHT_VARS, Phonetic, SpeakButton } from "@/shared/ui";
 import { cn } from "@/shared/lib";
 
 // Hình thang: đỉnh trên (y=0) từ x=120 đến 560, đáy từ 270 đến 560; chừa 70px phía trên cho nhãn
@@ -95,7 +95,7 @@ export function VowelChart() {
         </div>
       </div>
 
-      <aside className="bg-paper-deep p-6">
+      <aside className={`${CREAM_PANEL} p-6`} style={LIGHT_VARS}>
         <p role="status" className="sr-only">{`/${sel.ipa}/ ≈ ${sel.approx[locale]}`}</p>
         <Phonetic ipa={sel.ipa} className="text-5xl" />
         <p className="mt-2">≈ {sel.approx[locale]}</p>
