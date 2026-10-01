@@ -120,6 +120,31 @@ export function SettingsMenu() {
     };
   }, [open]);
 
+  // Mở bảng thì đưa focus vào trong; Tab xoay vòng trong bảng, Esc đóng và trả focus về nút mở
+  useEffect(() => {
+    if (!open) return;
+    const el = panel.current;
+    if (!el) return;
+    const items = () => [...el.querySelectorAll<HTMLElement>('button, input, [href], [tabindex]:not([tabindex="-1"])')].filter((n) => !n.hasAttribute("disabled"));
+    (items()[0] ?? el).focus();
+    const trap = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
+      const list = items();
+      if (!list.length) return;
+      const first = list[0];
+      const last = list[list.length - 1];
+      if (e.shiftKey && (document.activeElement === first || document.activeElement === el)) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    el.addEventListener("keydown", trap);
+    return () => el.removeEventListener("keydown", trap);
+  }, [open, mounted]);
+
   useGSAP(
     () => {
       if (!open || prefersReducedMotion()) return;
@@ -165,8 +190,10 @@ export function SettingsMenu() {
         ref={panel}
         id="settings-panel"
         role="dialog"
+        aria-modal="true"
+        tabIndex={-1}
         aria-label={t.settings.title}
-        className="fixed inset-x-0 bottom-0 z-[70] max-h-[88dvh] space-y-6 overflow-y-auto overscroll-contain rounded-t-3xl border border-ink/10 bg-paper p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-2xl sm:inset-x-auto sm:bottom-auto sm:right-4 sm:top-[3.75rem] sm:max-h-[calc(100dvh-5rem)] sm:w-[25rem] sm:rounded-3xl md:right-6"
+        className="fixed inset-x-0 bottom-0 z-[70] max-h-[88dvh] outline-none space-y-6 overflow-y-auto overscroll-contain rounded-t-3xl border border-ink/10 bg-paper p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-2xl sm:inset-x-auto sm:bottom-auto sm:right-4 sm:top-[3.75rem] sm:max-h-[calc(100dvh-5rem)] sm:w-[25rem] sm:rounded-3xl md:right-6"
       >
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">{t.settings.title}</h2>
