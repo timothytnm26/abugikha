@@ -24,7 +24,7 @@ function Piece({ n, tag, color, title, glyph, holder, ipa, small, operator, chil
   const t = useT();
   return (
     <li className="syl-piece relative min-w-0">
-      <span aria-hidden className="block h-1.5 w-14" style={{ backgroundColor: color }} />
+      <span aria-hidden className="block h-1.5 w-14 rounded-full" style={{ backgroundColor: color }} />
       <p className="mt-3 text-sm font-semibold" style={{ color: onTint(color) }}>
         {fmt(t.story.partOf, { n, total: 4 })} · {tag}
       </p>
@@ -34,7 +34,7 @@ function Piece({ n, tag, color, title, glyph, holder, ipa, small, operator, chil
       </span>
       {ipa && <Phonetic ipa={ipa} className="text-lg" style={{ color: onTint(color) }} />}
       {small && <span className="mt-1 block text-xs text-ink-soft">{small}</span>}
-      <h3 className="mt-4 font-display text-xl font-semibold leading-snug">{title}</h3>
+      <h3 className="mt-4 text-lg font-semibold leading-snug">{title}</h3>
       <div className="mt-1.5 max-w-[34ch] text-sm leading-relaxed text-ink/80">{children}</div>
       <span aria-hidden className="syl-op absolute -right-7 top-24 hidden select-none text-4xl font-light leading-none text-ink/30 lg:block">
         {operator}
@@ -76,8 +76,8 @@ export function SyllableIntro() {
   return (
     <section ref={root} id="syllable" aria-labelledby="story-title" className="screen scroll-mt-14">
       <div className="page-container py-14 md:py-16">
-        <div className="syl-head max-w-3xl border-t-2 border-ink pt-6">
-          <h2 id="story-title" className="text-balance font-display text-3xl font-semibold leading-tight tracking-[-0.02em] md:text-5xl">{t.story.title}</h2>
+        <div className="syl-head max-w-3xl">
+          <h2 id="story-title" className="text-balance text-3xl font-semibold leading-tight tracking-tight md:text-5xl">{t.story.title}</h2>
           <p className="mt-4 max-w-[56ch] text-base leading-relaxed text-ink/80 md:text-lg">{t.story.lead}</p>
         </div>
 
@@ -97,7 +97,7 @@ export function SyllableIntro() {
           </Piece>
 
           <li className="syl-result">
-            <div className="note-paper flex h-full flex-col rounded-none border-2 p-6 shadow-none!" style={{ borderColor: tone.color }}>
+            <div data-tape className="note-paper flex h-full flex-col rounded-3xl border-2 p-6 pt-8" style={{ borderColor: tone.color }}>
               <span className="self-start rounded-full px-3 py-1 text-xs font-semibold" style={{ backgroundColor: tint(tone.color, 16), color: onTint(tone.color) }}>{t.story.result.tag}</span>
               <div className="my-3 grid min-h-32 place-items-center text-center">
                 <div>
@@ -105,10 +105,10 @@ export function SyllableIntro() {
                   <Phonetic ipa={a.ipa} className="justify-center text-lg" style={{ color: tone.color }} />
                 </div>
               </div>
-              <h3 className="font-display text-xl font-semibold leading-snug">{t.story.result.title}</h3>
+              <h3 className="text-lg font-semibold leading-snug">{t.story.result.title}</h3>
               <p className="mt-1.5 text-sm leading-relaxed text-ink/80">{t.story.result.body}</p>
               <div className="mt-4 flex flex-wrap gap-2">
-                <Link href={href("/lab")} className="btn btn-flat btn-primary btn-sm">
+                <Link href={href("/lab")} className="btn btn-primary btn-sm">
                   {t.story.result.cta} →
                 </Link>
                 <SpeakButton text={a.spelling} />

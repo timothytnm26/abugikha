@@ -9,8 +9,6 @@
   /* Chữ Thái lẫn trong câu (gợi ý, tên dấu) dùng font Thái thay vì font dự phòng của hệ thống */
   --font-sans: "Be Vietnam Pro", "Noto Serif Thai", "Leelawadee UI", "Thonburi", ui-sans-serif, system-ui, sans-serif;
   --font-thai: "Noto Serif Thai", "Noto Sans Thai", "Leelawadee UI", "Thonburi", serif;
-  /* Chỉ trang chủ dùng: tít báo cho tiếng Việt và Anh (Source Serif 4 có đủ dấu tiếng Việt), chữ Thái rơi về Noto Serif Thai */
-  --font-display: "Source Serif 4", "Noto Serif Thai", "Leelawadee UI", "Thonburi", Georgia, serif;
   --font-ipa: "Charis SIL", "Doulos SIL", "Gentium Plus", "Noto Serif", serif;
   --font-khmer: "Noto Sans Khmer", "Khmer OS", sans-serif;
   --font-lao: "Noto Sans Lao", "Phetsarath OT", sans-serif;
@@ -325,20 +323,15 @@ html:not([data-paper="tiers"]) .paper-tier {
   50% { translate: 6px 0; }
 }
 
-/* Nền trang chủ kiểu giấy báo: phẳng, không quầng màu, chỉ có một lớp hạt giấy rất nhẹ phủ lên màu giấy của giao diện đang chọn */
-.home-flow::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.55;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-.home-flow > * {
-  position: relative;
-  z-index: 1;
+/* Nền liền mạch của cả trang chủ: chỉ hai quầng màu (ngọc lục bảo của nhóm phụ âm giữa và tím của "ไทย" ở logo), trải dọc theo từng màn hình để các phần nối nhau không có đường cắt */
+.home-flow {
+  background:
+    radial-gradient(60rem 36rem at 12% 8svh, color-mix(in oklab, var(--color-mid) 22%, transparent), transparent 70%),
+    radial-gradient(48rem 34rem at 92% 22svh, color-mix(in oklab, var(--color-tone-falling) 16%, transparent), transparent 70%),
+    radial-gradient(56rem 36rem at 60% 100svh, color-mix(in oklab, var(--color-mid) 18%, transparent), transparent 70%),
+    radial-gradient(50rem 34rem at 8% 170svh, color-mix(in oklab, var(--color-tone-falling) 14%, transparent), transparent 70%),
+    radial-gradient(52rem 34rem at 94% 215svh, color-mix(in oklab, var(--color-mid) 16%, transparent), transparent 70%),
+    radial-gradient(56rem 36rem at 40% 290svh, color-mix(in oklab, var(--color-tone-falling) 14%, transparent), transparent 70%);
 }
 
 /* ---------- Thành phần dùng lại (trang chủ) ---------- */
@@ -405,12 +398,11 @@ html:not([data-paper="tiers"]) .paper-tier {
   .btn-icon {
     @apply min-w-11 px-0;
   }
-  /* Nút vuông góc cho trang chủ kiểu giấy báo: bỏ khuyết góc, giữ nguyên mọi trạng thái còn lại */
-  .btn-flat {
-    --notch: inset(0);
-  }
   .section-title {
     @apply text-2xl font-semibold md:text-3xl;
+  }
+  .path-card {
+    @apply flex h-full flex-col gap-3 rounded-2xl p-5 pt-6 transition-[translate,rotate] duration-200 hover:-translate-y-1 hover:rotate-[-0.6deg] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink;
   }
 }
 

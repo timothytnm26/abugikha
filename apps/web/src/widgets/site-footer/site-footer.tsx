@@ -16,7 +16,7 @@ export function SiteFooter() {
   const t = useT();
   const href = useLocalePath();
   return (
-    <footer className="border-t-4 border-double border-ink">
+    <footer className="border-t border-ink/10 bg-paper-deep/60">
       <div className="page-container grid gap-8 py-10 md:grid-cols-[1.4fr_1fr_1fr] md:py-12">
         <div>
           <Link href={href("/")} className="inline-flex items-baseline gap-2 leading-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink" aria-label={t.nav.brandLabel}>
@@ -44,7 +44,7 @@ export function SiteFooter() {
           <ul className="mt-3 flex gap-3">
             {SOCIALS.map((s) => (
               <li key={s.label}>
-                <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} className="btn btn-flat btn-outline btn-icon">
+                <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} className="btn btn-outline btn-icon">
                   <svg aria-hidden viewBox="0 0 24 24" className="size-5 fill-current">
                     <path d={s.path} />
                   </svg>

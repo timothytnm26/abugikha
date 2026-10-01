@@ -14,14 +14,14 @@ export function FooterCtaSection() {
       <div className="page-container w-full py-14 md:py-16">
         <div className="grid items-center gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
           <div>
-            <h2 className="text-balance border-t-2 border-ink pt-6 font-display text-4xl font-semibold leading-[1.05] tracking-[-0.025em] md:text-6xl">{t.home.footerTitle}</h2>
+            <h2 className="text-balance text-4xl font-semibold leading-[1.05] tracking-[-0.03em] md:text-6xl">{t.home.footerTitle}</h2>
             <p className="mt-5 max-w-[46ch] text-ink-soft md:text-lg">{t.home.footerBody}</p>
-            <Link href={href('/lab')} className="btn btn-flat btn-primary mt-8">
+            <Link href={href('/lab')} className="btn btn-primary btn-hero mt-8">
               {t.home.cta}
             </Link>
           </div>
           {/* Mỗi ví dụ nạp sẵn âm tiết vào trang ghép rồi mở trang đó, nên người đọc thử được ngay mà không cần chọn từ đầu */}
-          <div className="note-paper rounded-none border-ink! px-6 py-8 shadow-none! md:px-9">
+          <div data-tape className="note-paper rounded-3xl px-6 pb-8 pt-10 md:px-9">
             <p className="text-sm text-ink/80">{t.builder.coach.try}</p>
             <ul className="mt-3 flex flex-wrap gap-3">
               {SYLLABLE_EXAMPLES.map((e) => (
@@ -33,7 +33,7 @@ export function FooterCtaSection() {
                       setSyllable(e);
                       router.push(href('/lab'));
                     }}
-                    className="note-glyph min-h-16 min-w-16 border-2 border-ink/30 bg-paper px-4 font-thai text-5xl leading-none hover:border-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+                    className="note-glyph min-h-16 min-w-16 rounded-2xl border-2 border-ink/20 bg-paper px-4 font-thai text-5xl leading-none hover:border-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
                   >
                     {e.word}
                   </button>
