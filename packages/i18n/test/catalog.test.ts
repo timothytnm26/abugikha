@@ -41,7 +41,7 @@ describe("l10n", () => {
   });
   it("trường tuỳ chọn và mảng", () => {
     expect(l10nOptional(["vowels", "closedNote", "aa"])).toBeUndefined();
-    expect(l10nList(["scriptHistory", "brahmi", "facts"])).toHaveLength(2);
+    expect(l10nList(["scriptHistory", "eras", "brahmi", "facts"])).toHaveLength(3);
   });
   it("ném lỗi khi locale mặc định thiếu chuỗi", () => {
     expect(() => l10n(["lexicon", "không-có"])).toThrow(/lexicon\.không-có/);

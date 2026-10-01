@@ -1,102 +1,154 @@
 {
-  "brahmi": {
-    "name": "Brahmi",
-    "period": "~3rd c. BCE",
-    "region": "India",
-    "summary": "Ancestor of nearly every script in South and Southeast Asia, best known from the edicts of Emperor Ashoka.",
-    "facts": [
-      "An abugida: every consonant carries an inherent /a/ vowel.",
-      "Other vowels are written as marks around the consonant, just like Thai today."
-    ]
+  "eras": {
+    "brahmi": {
+      "name": "Brahmi",
+      "year": "~250 BCE",
+      "period": "3rd c. BCE",
+      "region": "India, Ashoka’s empire",
+      "summary": "Every Thai letter traces back to this ancient Indian script, best known from the rock and pillar edicts of Emperor Ashoka.",
+      "facts": [
+        "An abugida: each consonant carries an inherent /a/, and other vowels attach around it, the same principle Thai still uses.",
+        "Ashoka’s edicts, from the middle of the 3rd century BCE, are among its earliest securely dated examples.",
+        "Written left to right, unlike its northwestern contemporary Kharosthi."
+      ],
+      "change": "Gave Thai its core idea: consonant-first writing, with vowels as marks attached to the consonant."
+    },
+    "pallava": {
+      "name": "Pallava",
+      "year": "~4th c.",
+      "period": "4th–8th c.",
+      "region": "South India",
+      "summary": "A rounder southern form of Brahmi used by the Pallava dynasty. It sailed to Southeast Asia with traders, monks and Brahmins.",
+      "facts": [
+        "Sanskrit and local-language inscriptions in Pallava letters turn up from South India to Cambodia and Java.",
+        "Each new home adapted it on its own, which is why Mon, Khmer, Cham and Javanese look related but distinct.",
+        "Letters became more rounded and ornamental than Brahmi’s angular forms."
+      ],
+      "change": "Supplied the southern letter shapes that every Southeast Asian script, Thai included, still echoes."
+    },
+    "old-khmer": {
+      "name": "Old Khmer",
+      "year": "611",
+      "period": "7th–13th c.",
+      "region": "Chenla and Angkor",
+      "summary": "The direct parent of Thai. The Angkor empire wrote with it, and its reach included much of today’s Thailand.",
+      "facts": [
+        "Dated Old Khmer inscriptions begin in 611 CE and are found across Cambodia, southern Laos and Thailand.",
+        "Thai calls it อักษรขอม (akson khom) and still uses a Khom form for Pali and sacred texts.",
+        "Thai also borrowed many Khmer words, e.g. เดิน (to walk)."
+      ],
+      "change": "Provided the letter shapes and consonant inventory that Sukhothai would simplify."
+    },
+    "sukhothai": {
+      "name": "Sukhothai script",
+      "year": "1283",
+      "period": "13th–14th c.",
+      "region": "Sukhothai Kingdom",
+      "summary": "Tradition credits King Ram Khamhaeng with devising the Thai alphabet in 1283, adapting Old Khmer letters to the sounds of Tai speech.",
+      "facts": [
+        "Its big invention was tone marks. Thai is often described as the first script to write tones with dedicated marks.",
+        "Letters were set in one straight line: no stacked consonants, and vowels at first sat on the same line too.",
+        "The Ram Khamhaeng Stele, found in 1833, is the key source, but scholars still debate how old it really is."
+      ],
+      "change": "A fully Tai script: simpler letters, tone marks, and text that runs in a single line."
+    },
+    "ayutthaya": {
+      "name": "Ayutthaya",
+      "year": "1351",
+      "period": "1351–1767",
+      "region": "Ayutthaya Kingdom",
+      "summary": "In a large royal court on the Chao Phraya plain the script settles into the shapes we read today, with vowels moving above, below and before the consonant.",
+      "facts": [
+        "By the late Ayutthaya period all four tone marks ◌่ ◌้ ◌๊ ◌๋ are in use.",
+        "Chindamani, attributed to Phra Horathibodi in the reign of King Narai (1656–1688), is generally regarded as the oldest Thai textbook.",
+        "Visitors from France under King Narai, such as Simon de la Loubère (1691), described the alphabet for European readers.",
+        "The fall of Ayutthaya to Burma in 1767 destroyed many manuscripts."
+      ],
+      "change": "Letter forms and spelling conventions settle, and vowels and tone marks reach their modern positions."
+    },
+    "rattanakosin": {
+      "name": "Rattanakosin and print",
+      "year": "1830s",
+      "period": "1782–1932",
+      "region": "Bangkok",
+      "summary": "Bangkok’s new dynasty brings printing presses and typewriters. Handwritten manuscripts give way to type, and spelling is standardized.",
+      "facts": [
+        "Missionaries such as Dan Beach Bradley, in Bangkok from 1835, brought printing presses and published the Bangkok Recorder (1844).",
+        "In 1892 Edwin McFarland built the first Thai typewriter, which had to fit consonants, vowels and tone marks onto one keyboard.",
+        "Schools opened under King Mongkut (Rama IV) and King Chulalongkorn (Rama V) spread one standard spelling."
+      ],
+      "change": "Print fixes letter shapes and spelling, and handwriting stops being the main way Thai is copied."
+    },
+    "modern": {
+      "name": "Modern Thai",
+      "year": "1942→",
+      "period": "1939 – today",
+      "region": "Thailand",
+      "summary": "A stable script with 44 consonant letters, four tone marks and dozens of vowel forms, now typed on every phone.",
+      "facts": [
+        "A 1942 reform under Phibun tried to trim many letters and vowel signs, but it was largely undone after 1944.",
+        "ฃ and ฅ remain in the alphabet but are no longer used.",
+        "Computers encode Thai in the Unicode block U+0E00–U+0E7F.",
+        "The same script also writes Southern Thai, Isan and Northern Thai, as well as Pali."
+      ],
+      "change": "Familiar and stable: the script you are now learning to build, syllable by syllable."
+    }
   },
-  "pallava": {
-    "name": "Pallava",
-    "period": "~4th–8th c.",
-    "region": "South India",
-    "summary": "A South Indian descendant of Brahmi, carried to Southeast Asia by traders and monks.",
-    "facts": [
-      "Many of Southeast Asia’s earliest inscriptions use it.",
-      "Common source of the Mon, Khmer, Cham and Javanese scripts."
-    ]
-  },
-  "old-mon": {
-    "name": "Old Mon",
-    "period": "~6th–7th c.",
-    "region": "Dvaravati (central Thailand)",
-    "summary": "Script of the Mon kingdom of Dvaravati; later the basis of Burmese and Tai Tham.",
-    "facts": [
-      "The Mon lived in the Chao Phraya basin before the Tai arrived.",
-      "Influenced some letter shapes of the Sukhothai script."
-    ]
-  },
-  "old-khmer": {
-    "name": "Old Khmer",
-    "period": "~7th c.",
-    "region": "Chenla / Angkor",
-    "summary": "The most direct source of Thai script: the Angkor empire once ruled the Sukhothai region.",
-    "facts": [
-      "Thai borrowed its consonant inventory and vowel placement from it.",
-      "Many Khmer words survive in Thai, e.g. เดิน (to walk)."
-    ]
-  },
-  "sukhothai": {
-    "name": "Sukhothai",
-    "period": "1283 (traditional date)",
-    "region": "Sukhothai Kingdom",
-    "summary": "Tradition credits King Ram Khamhaeng with creating Thai script in 1283, based on Old Khmer.",
-    "facts": [
-      "Key innovation: tone marks (่ ้), which Khmer script lacks.",
-      "Vowels were first written on the same line as consonants, later moved above and below.",
-      "The authenticity of the Ram Khamhaeng inscription is still debated by scholars."
-    ]
-  },
-  "tai-tham": {
-    "name": "Tai Tham (Lanna)",
-    "period": "~13th–14th c.",
-    "region": "Lanna (northern Thailand)",
-    "summary": "A separate branch from Mon, used mainly for Buddhist texts in the north.",
-    "facts": [
-      "“Tham” means Dhamma.",
-      "Still used in temples and by Lanna cultural revivalists."
-    ]
-  },
-  "fakkham": {
-    "name": "Fak Kham",
-    "period": "~14th–15th c.",
-    "region": "Lanna",
-    "summary": "A northern variant of Sukhothai script, used alongside Tai Tham.",
-    "facts": [
-      "The name means “tamarind pod”, after its curved strokes."
-    ]
-  },
-  "lao": {
-    "name": "Lao",
-    "period": "~16th c.",
-    "region": "Lan Xang",
-    "summary": "Thai’s closest sister script, branching from the same Sukhothai line.",
-    "facts": [
-      "Heavily simplified: dropped the extra consonants used for Pali-Sanskrit words.",
-      "Thai readers can often guess many Lao letters."
-    ]
-  },
-  "ayutthaya": {
-    "name": "Ayutthaya",
-    "period": "1351–1767",
-    "region": "Ayutthaya Kingdom",
-    "summary": "Thai script stabilizes; the tone marks ๊ and ๋ appear in this period.",
-    "facts": [
-      "The Chindamani primer (King Narai’s reign) is a famous early Thai grammar.",
-      "The three-class consonant system is codified."
-    ]
-  },
-  "modern": {
-    "name": "Modern Thai",
-    "period": "19th c. – today",
-    "region": "Thailand",
-    "summary": "Standardized with printing: 44 consonants, 4 tone marks, about 32 vowel forms.",
-    "facts": [
-      "ฃ and ฅ remain in the script but are no longer used.",
-      "A 1940s spelling simplification was later reversed."
-    ]
+  "branches": {
+    "devanagari": {
+      "name": "Devanagari",
+      "period": "~7th c. →",
+      "note": "Grew out of Gupta and Nagari forms. Writes Sanskrit, Hindi and Nepali, with a headline bar above the letters."
+    },
+    "tamil": {
+      "name": "Tamil",
+      "period": "3rd c. BCE →",
+      "note": "Tamil-Brahmi evolved into the round modern Tamil script, which keeps only the consonants that Tamil needs."
+    },
+    "old-mon": {
+      "name": "Old Mon",
+      "period": "6th–7th c.",
+      "note": "Script of Dvaravati in central Thailand. It later gave rise to Burmese and to Tai Tham, and may have touched a few Sukhothai letters."
+    },
+    "cham": {
+      "name": "Cham",
+      "period": "4th c. →",
+      "note": "One of the oldest Brahmic scripts in Southeast Asia, used by the Champa kingdoms of central Vietnam."
+    },
+    "javanese": {
+      "name": "Kawi and Javanese",
+      "period": "8th c. →",
+      "note": "Old Javanese Kawi script, ancestor of Javanese, Balinese and Sundanese writing."
+    },
+    "khmer": {
+      "name": "Khmer",
+      "period": "7th c. → today",
+      "note": "Modern Khmer keeps the stacked-consonant style that Thai gave up."
+    },
+    "khom-thai": {
+      "name": "Khom Thai",
+      "period": "Ayutthaya →",
+      "note": "The Khom letters as used in Thailand, mainly for Pali scriptures, amulets and yantra."
+    },
+    "tai-tham": {
+      "name": "Tai Tham (Lanna)",
+      "period": "~13th–15th c.",
+      "note": "Came from Old Mon and served Buddhist texts in the north. “Tham” means Dhamma."
+    },
+    "fakkham": {
+      "name": "Fak Kham",
+      "period": "~14th–15th c.",
+      "note": "A northern variant of Sukhothai script used in Lanna. The name means “tamarind pod”, after its curved strokes."
+    },
+    "tai-viet": {
+      "name": "Tai Dam (Black Tai)",
+      "period": "age debated",
+      "note": "Script of the Black Tai of northwest Vietnam. Some sources say it may be as old as, or older than, Sukhothai script."
+    },
+    "lao": {
+      "name": "Lao",
+      "period": "~16th c. →",
+      "note": "Thai’s closest sister, reached through Fak Kham and Tai Noi. It drops extra Pali-Sanskrit consonants so spelling follows speech."
+    }
   }
 }

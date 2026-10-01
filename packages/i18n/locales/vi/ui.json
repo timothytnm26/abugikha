@@ -64,7 +64,7 @@
     },
     "history": {
       "title": "Lịch sử chữ viết",
-      "blurb": "Từ chữ Brahmi đến chữ Thái hiện đại qua sơ đồ tương tác."
+      "blurb": "Đi từ chữ Brahmi đến chữ Thái hiện đại trên một dòng thời gian cuộn ngang, kèm các nhánh sang hệ chữ có họ."
     },
     "aksornthai": {
       "title": "Aksorn Thai",
@@ -81,24 +81,27 @@
     "body": "Lắng nghe các âm, tìm hiểu lịch sử chữ viết và xem phụ âm, nguyên âm, thanh điệu kết hợp trong từng âm tiết.",
     "cta": "Bắt đầu ghép chữ",
     "pathTitle": "Lộ trình",
-    "groupsLabel": "Ba nhóm phụ âm",
-    "groupName": "Nhóm {cls}",
-    "groupNotes": {
-      "mid": "9 chữ. Là nhóm duy nhất dùng được cả 4 dấu thanh.",
-      "high": "11 chữ. Không dấu, âm sống đọc thanh Vút.",
-      "low": "24 chữ. Dấu ่ và ้ cho thanh cao hơn một bậc so với hai nhóm kia."
-    },
     "eyebrow": "dễ thương như chính cái tên",
     "tagline": "(nâa-rák) nghĩa là dễ thương. Học chữ Thái cũng có thể như vậy.",
     "ctaSecondary": "Xem bảng chữ cái",
-    "scrollCue": "Cuộn xuống để xem một âm tiết được ghép nên",
+    "statConsonants": "phụ âm",
+    "statMarks": "dấu thanh",
+    "statTones": "thanh điệu",
+    "statYears": "năm lịch sử",
     "pathBlurb": "Bốn chặng nhỏ, đi theo thứ tự hay nhảy cóc đều được.",
     "footerTitle": "Sẵn sàng tự tay ghép chưa?",
-    "footerBody": "Chọn mảnh ghép, nghe thử và xem thanh điệu hiện ra bằng màu."
+    "footerBody": "Chọn mảnh ghép, nghe thử và xem thanh điệu hiện ra bằng màu.",
+    "footer": {
+      "tagline": "Học chữ Thái, từng âm tiết dễ thương một.",
+      "explore": "Khám phá",
+      "follow": "Theo dõi",
+      "copyright": "© {year} NarakThai. Làm với tâm huyết cho người học tiếng Thái.",
+      "top": "Lên đầu trang"
+    }
   },
   "story": {
     "title": "Một âm tiết được ghép nên như thế nào?",
-    "lead": "Xem từng mảnh ghép vào nhau để thành ค้าน (/kʰáːn/, “phản đối”).",
+    "lead": "Bốn mảnh nhỏ cộng lại thành ค้าน (/kʰáːn/, “phản đối”). Mỗi mảnh làm nhiệm vụ gì?",
     "partOf": "Mảnh {n} / {total}",
     "initial": {
       "tag": "Phụ âm đầu",
@@ -155,12 +158,18 @@
   },
   "history": {
     "title": "Chữ Thái đến từ đâu",
-    "intro": "Chữ Thái là một abugida: phụ âm là trung tâm, nguyên âm bám quanh nó. Cấu trúc ấy được thừa hưởng qua hơn 2000 năm. Bấm vào từng hệ chữ để xem dòng dõi của nó.",
-    "legendDescent": "phát triển từ",
-    "legendInfluence": "ảnh hưởng",
-    "legendKa": "Chữ trong vòng tròn: chữ “ka” của hệ chữ đó (nếu có trong Unicode)",
-    "lineage": "Dòng dõi",
-    "graphAria": "Sơ đồ phả hệ chữ viết"
+    "intro": "Chữ Thái là một abugida: phụ âm là trung tâm, nguyên âm bám quanh nó. Ý tưởng ấy được truyền lại hơn 2000 năm. Cuộn dọc theo dòng chính từ Brahmi đến chữ Thái hiện đại, và nhìn các nhánh xám để thấy những hệ chữ anh em đã tách ra trên đường đi.",
+    "cue": "Cuộn để đi xuyên thời gian",
+    "mainLine": "Dòng chính đến chữ Thái hiện đại",
+    "branchLine": "Nhánh: các hệ chữ có họ",
+    "kaNote": "Chữ lớn trên mỗi thẻ là chữ “ka” của hệ chữ đó, nếu Unicode có.",
+    "changeLabel": "Điều thay đổi",
+    "branchesLabel": "Các nhánh rẽ từ đây",
+    "jumpTo": "Nhảy tới {name}",
+    "timelineAria": "Dòng thời gian lịch sử chữ viết",
+    "endTitle": "Giờ bạn đã biết nó đến từ đâu",
+    "endBody": "Đến lúc dùng nó. Chọn một phụ âm, một nguyên âm và một dấu thanh rồi tự ghép một âm tiết.",
+    "endCta": "Bắt đầu ghép chữ"
   },
   "settings": {
     "title": "Tuỳ chỉnh",

@@ -1,102 +1,154 @@
 {
-  "brahmi": {
-    "name": "Brahmi",
-    "period": "~thế kỷ 3 TCN",
-    "region": "Ấn Độ",
-    "summary": "Tổ tiên của gần như mọi hệ chữ ở Nam Á và Đông Nam Á, được biết đến rõ nhất qua các bia ký của vua Ashoka.",
-    "facts": [
-      "Là một abugida: mỗi phụ âm mặc định mang sẵn nguyên âm /a/.",
-      "Nguyên âm khác được viết bằng dấu phụ gắn quanh phụ âm, đúng như chữ Thái ngày nay."
-    ]
+  "eras": {
+    "brahmi": {
+      "name": "Brahmi",
+      "year": "~250 TCN",
+      "period": "thế kỷ 3 TCN",
+      "region": "Ấn Độ, đế quốc Ashoka",
+      "summary": "Mọi chữ cái Thái đều có gốc từ hệ chữ cổ của Ấn Độ này, được biết rõ nhất qua các bia đá và trụ đá của hoàng đế Ashoka.",
+      "facts": [
+        "Là một abugida: mỗi phụ âm mang sẵn nguyên âm /a/, nguyên âm khác gắn quanh nó, đúng nguyên tắc chữ Thái vẫn dùng.",
+        "Các sắc lệnh của Ashoka, từ giữa thế kỷ 3 TCN, là một trong những ví dụ sớm nhất có niên đại chắc chắn.",
+        "Viết từ trái sang phải, khác với chữ Kharosthi cùng thời ở phía tây bắc."
+      ],
+      "change": "Trao cho chữ Thái ý tưởng cốt lõi: phụ âm làm gốc, nguyên âm là dấu gắn vào phụ âm."
+    },
+    "pallava": {
+      "name": "Pallava",
+      "year": "~thế kỷ 4",
+      "period": "thế kỷ 4–8",
+      "region": "Nam Ấn",
+      "summary": "Dạng chữ Brahmi tròn hơn ở miền nam, do triều Pallava dùng. Nó theo thương nhân, tăng sĩ và Bà-la-môn sang Đông Nam Á.",
+      "facts": [
+        "Bia ký tiếng Phạn và ngôn ngữ địa phương bằng chữ Pallava xuất hiện từ Nam Ấn đến Campuchia và Java.",
+        "Mỗi nơi mới lại tự biến đổi nó, nên chữ Môn, Khmer, Chăm, Java trông có họ nhưng khác nhau.",
+        "Nét chữ tròn và trang trí hơn dạng góc cạnh của Brahmi."
+      ],
+      "change": "Cung cấp dáng chữ phương nam mà mọi hệ chữ Đông Nam Á, kể cả chữ Thái, vẫn còn vang vọng."
+    },
+    "old-khmer": {
+      "name": "Khmer cổ",
+      "year": "611",
+      "period": "thế kỷ 7–13",
+      "region": "Chân Lạp và Angkor",
+      "summary": "Tổ tiên trực tiếp của chữ Thái. Đế quốc Angkor viết bằng nó, và tầm ảnh hưởng của đế quốc này gồm phần lớn Thái Lan ngày nay.",
+      "facts": [
+        "Bia Khmer cổ có niên đại bắt đầu từ năm 611 và gặp khắp Campuchia, nam Lào và Thái Lan.",
+        "Người Thái gọi nó là อักษรขอม (akson khom) và vẫn dùng dạng chữ Khom để viết kinh Pali và văn bản thiêng.",
+        "Tiếng Thái cũng vay mượn nhiều từ Khmer, vd. เดิน (đi bộ)."
+      ],
+      "change": "Cho dáng chữ và bộ phụ âm mà chữ Sukhothai sẽ đơn giản hoá."
+    },
+    "sukhothai": {
+      "name": "Chữ Sukhothai",
+      "year": "1283",
+      "period": "thế kỷ 13–14",
+      "region": "Vương quốc Sukhothai",
+      "summary": "Truyền thống cho rằng vua Ram Khamhaeng sáng chế bảng chữ Thái năm 1283, chỉnh chữ Khmer cổ cho hợp âm của tiếng Tai.",
+      "facts": [
+        "Phát minh lớn nhất là dấu thanh. Chữ Thái thường được coi là hệ chữ đầu tiên viết thanh điệu bằng dấu riêng.",
+        "Chữ xếp trên một dòng thẳng: không chồng phụ âm, và ban đầu nguyên âm cũng nằm cùng dòng.",
+        "Bia Ram Khamhaeng, tìm thấy năm 1833, là nguồn quan trọng nhất, nhưng các học giả vẫn tranh luận về tuổi thật của nó."
+      ],
+      "change": "Một hệ chữ hoàn toàn của người Tai: chữ đơn giản hơn, có dấu thanh, và văn bản chạy trên một dòng."
+    },
+    "ayutthaya": {
+      "name": "Ayutthaya",
+      "year": "1351",
+      "period": "1351–1767",
+      "region": "Vương quốc Ayutthaya",
+      "summary": "Trong triều đình lớn ở đồng bằng Chao Phraya, chữ dần ổn định về dáng chữ ta đọc ngày nay, nguyên âm dời lên trên, xuống dưới và ra trước phụ âm.",
+      "facts": [
+        "Đến cuối thời Ayutthaya cả bốn dấu thanh ◌่ ◌้ ◌๊ ◌๋ đều đã được dùng.",
+        "Chindamani, tương truyền của Phra Horathibodi dưới thời vua Narai (1656–1688), thường được coi là sách giáo khoa tiếng Thái xưa nhất.",
+        "Người Pháp đến triều vua Narai, như Simon de la Loubère (1691), đã mô tả bảng chữ cho độc giả châu Âu.",
+        "Năm 1767 Ayutthaya thất thủ trước Miến Điện, nhiều bản thảo bị huỷ."
+      ],
+      "change": "Dáng chữ và quy ước chính tả ổn định, nguyên âm và dấu thanh về đúng vị trí hiện đại."
+    },
+    "rattanakosin": {
+      "name": "Rattanakosin và in ấn",
+      "year": "thập niên 1830",
+      "period": "1782–1932",
+      "region": "Bangkok",
+      "summary": "Triều đại mới ở Bangkok đưa máy in và máy đánh chữ vào. Bản thảo chép tay nhường chỗ cho chữ in, chính tả được chuẩn hoá.",
+      "facts": [
+        "Các nhà truyền giáo như Dan Beach Bradley, ở Bangkok từ 1835, mang máy in đến và xuất bản tờ Bangkok Recorder (1844).",
+        "Năm 1892 Edwin McFarland làm chiếc máy đánh chữ Thái đầu tiên, phải dồn phụ âm, nguyên âm và dấu thanh vào một bàn phím.",
+        "Trường học mở dưới thời vua Mongkut (Rama IV) và vua Chulalongkorn (Rama V) lan truyền một chính tả chuẩn."
+      ],
+      "change": "In ấn cố định dáng chữ và chính tả, chép tay không còn là cách chính để nhân bản chữ Thái."
+    },
+    "modern": {
+      "name": "Chữ Thái hiện đại",
+      "year": "1942→",
+      "period": "1939 – nay",
+      "region": "Thái Lan",
+      "summary": "Hệ chữ ổn định với 44 phụ âm, bốn dấu thanh và hàng chục dạng nguyên âm, giờ được gõ trên mọi chiếc điện thoại.",
+      "facts": [
+        "Cải cách năm 1942 dưới thời Phibun định lược bớt nhiều chữ và dấu nguyên âm, nhưng phần lớn bị bỏ sau 1944.",
+        "ฃ và ฅ vẫn nằm trong bảng chữ nhưng không còn được dùng.",
+        "Máy tính mã hoá chữ Thái trong khối Unicode U+0E00–U+0E7F.",
+        "Cùng hệ chữ này còn viết tiếng Thái miền Nam, Isan, Thái miền Bắc và cả tiếng Pali."
+      ],
+      "change": "Quen thuộc và ổn định: chính là hệ chữ bạn đang học ghép từng âm tiết."
+    }
   },
-  "pallava": {
-    "name": "Pallava",
-    "period": "~thế kỷ 4–8",
-    "region": "Nam Ấn",
-    "summary": "Biến thể Nam Ấn của Brahmi, theo chân thương nhân và tăng sĩ sang Đông Nam Á.",
-    "facts": [
-      "Nhiều bia ký sớm nhất ở Đông Nam Á dùng chữ này.",
-      "Là nguồn gốc chung của chữ Môn, Khmer, Chăm, Java…"
-    ]
-  },
-  "old-mon": {
-    "name": "Môn cổ",
-    "period": "~thế kỷ 6–7",
-    "region": "Dvaravati (miền Trung Thái Lan)",
-    "summary": "Chữ của người Môn ở vương quốc Dvaravati, sau này là nền của chữ Miến và chữ Tai Tham.",
-    "facts": [
-      "Người Môn là cư dân lâu đời vùng lưu vực Chao Phraya trước người Thái.",
-      "Ảnh hưởng tới chữ Sukhothai qua một số hình chữ."
-    ]
-  },
-  "old-khmer": {
-    "name": "Khmer cổ",
-    "period": "~thế kỷ 7",
-    "region": "Chân Lạp / Angkor",
-    "summary": "Nguồn trực tiếp quan trọng nhất của chữ Thái: đế chế Angkor từng cai quản vùng Sukhothai.",
-    "facts": [
-      "Chữ Thái mượn hệ thống phụ âm và cách viết nguyên âm quanh phụ âm từ đây.",
-      "Nhiều từ Khmer còn trong tiếng Thái, vd. เดิน (đi bộ)."
-    ]
-  },
-  "sukhothai": {
-    "name": "Sukhothai",
-    "period": "1283 (theo truyền thống)",
-    "region": "Vương quốc Sukhothai",
-    "summary": "Theo truyền thống, vua Ram Khamhaeng tạo ra chữ Thái năm 1283 dựa trên chữ Khmer cổ.",
-    "facts": [
-      "Đổi mới lớn: thêm dấu thanh (่ ้) để ghi thanh điệu, điều chữ Khmer không có.",
-      "Ban đầu nguyên âm được viết cùng dòng với phụ âm; về sau mới chuyển lên trên, xuống dưới.",
-      "Tính xác thực của bia Ram Khamhaeng vẫn còn tranh luận trong giới học thuật."
-    ]
-  },
-  "tai-tham": {
-    "name": "Tai Tham (Lan Na)",
-    "period": "~thế kỷ 13–14",
-    "region": "Lan Na (Bắc Thái)",
-    "summary": "Nhánh riêng, phát triển từ chữ Môn, dùng chủ yếu để chép kinh Phật ở miền Bắc.",
-    "facts": [
-      "“Tham” nghĩa là Pháp (Dhamma).",
-      "Vẫn còn được dùng ở chùa và trong giới bảo tồn văn hoá Lan Na."
-    ]
-  },
-  "fakkham": {
-    "name": "Fak Kham",
-    "period": "~thế kỷ 14–15",
-    "region": "Lan Na",
-    "summary": "Biến thể của chữ Sukhothai dùng ở miền Bắc, song song với Tai Tham.",
-    "facts": [
-      "Tên nghĩa là “vỏ me”, gợi hình nét chữ cong."
-    ]
-  },
-  "lao": {
-    "name": "Chữ Lào",
-    "period": "~thế kỷ 16",
-    "region": "Lan Xang",
-    "summary": "Chị em gần nhất của chữ Thái, cùng tách ra từ dòng chữ Sukhothai.",
-    "facts": [
-      "Được giản lược mạnh: bỏ các phụ âm dư thừa dành cho từ gốc Pali-Sanskrit.",
-      "Người đọc chữ Thái thường đoán được nhiều chữ Lào."
-    ]
-  },
-  "ayutthaya": {
-    "name": "Ayutthaya",
-    "period": "1351–1767",
-    "region": "Vương quốc Ayutthaya",
-    "summary": "Chữ Thái ổn định dần; hai dấu thanh ๊ và ๋ xuất hiện trong thời kỳ này.",
-    "facts": [
-      "Sách dạy chữ Chindamani (thời vua Narai) là tài liệu ngữ pháp Thái cổ nổi tiếng.",
-      "Hệ thống 3 nhóm phụ âm được hệ thống hoá."
-    ]
-  },
-  "modern": {
-    "name": "Thái hiện đại",
-    "period": "thế kỷ 19 – nay",
-    "region": "Thái Lan",
-    "summary": "Chuẩn hoá cùng nghề in; 44 phụ âm, 4 dấu thanh, khoảng 32 dạng nguyên âm.",
-    "facts": [
-      "ฃ và ฅ vẫn nằm trong bảng chữ nhưng đã không còn dùng.",
-      "Thập niên 1940 từng có cải cách giản lược chữ, sau đó bị bãi bỏ."
-    ]
+  "branches": {
+    "devanagari": {
+      "name": "Devanagari",
+      "period": "~thế kỷ 7 →",
+      "note": "Phát triển từ dạng chữ Gupta và Nagari. Viết tiếng Phạn, Hindi, Nepal, có thanh ngang phía trên chữ."
+    },
+    "tamil": {
+      "name": "Tamil",
+      "period": "thế kỷ 3 TCN →",
+      "note": "Tamil-Brahmi tiến hoá thành chữ Tamil tròn hiện nay, chỉ giữ những phụ âm tiếng Tamil cần."
+    },
+    "old-mon": {
+      "name": "Môn cổ",
+      "period": "thế kỷ 6–7",
+      "note": "Chữ của Dvaravati ở miền Trung Thái Lan. Sau này sinh ra chữ Miến và Tai Tham, và có thể chạm tới vài chữ Sukhothai."
+    },
+    "cham": {
+      "name": "Chăm",
+      "period": "thế kỷ 4 →",
+      "note": "Một trong những hệ chữ Brahmi cổ nhất Đông Nam Á, do các vương quốc Champa ở miền Trung Việt Nam dùng."
+    },
+    "javanese": {
+      "name": "Kawi và Java",
+      "period": "thế kỷ 8 →",
+      "note": "Chữ Kawi của tiếng Java cổ, tổ tiên của chữ Java, Bali và Sunda."
+    },
+    "khmer": {
+      "name": "Khmer",
+      "period": "thế kỷ 7 → nay",
+      "note": "Chữ Khmer hiện đại vẫn giữ lối chồng phụ âm mà chữ Thái đã bỏ."
+    },
+    "khom-thai": {
+      "name": "Khom Thái",
+      "period": "thời Ayutthaya →",
+      "note": "Chữ Khom dùng ở Thái Lan, chủ yếu cho kinh Pali, bùa hộ mệnh và yantra."
+    },
+    "tai-tham": {
+      "name": "Tai Tham (Lanna)",
+      "period": "~thế kỷ 13–15",
+      "note": "Bắt nguồn từ chữ Môn cổ, dùng cho văn bản Phật giáo ở miền Bắc. “Tham” nghĩa là Dhamma."
+    },
+    "fakkham": {
+      "name": "Fak Kham",
+      "period": "~thế kỷ 14–15",
+      "note": "Biến thể phía bắc của chữ Sukhothai, dùng ở Lanna. Tên nghĩa là “quả me”, do nét chữ cong."
+    },
+    "tai-viet": {
+      "name": "Thái Đen (Tai Dam)",
+      "period": "tuổi còn tranh luận",
+      "note": "Chữ của người Thái Đen ở Tây Bắc Việt Nam. Một số nguồn cho rằng nó có thể cổ bằng hoặc hơn chữ Sukhothai."
+    },
+    "lao": {
+      "name": "Lào",
+      "period": "~thế kỷ 16 →",
+      "note": "Chị em gần nhất của chữ Thái, qua Fak Kham và Thái Noi. Bỏ bớt phụ âm Pali-Phạn để chính tả theo cách nói."
+    }
   }
 }

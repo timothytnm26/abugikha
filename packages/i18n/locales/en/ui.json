@@ -64,7 +64,7 @@
     },
     "history": {
       "title": "Script history",
-      "blurb": "From Brahmi to modern Thai in an interactive family tree."
+      "blurb": "Travel from Brahmi to modern Thai on a scrolling timeline, with side branches to related scripts."
     },
     "aksornthai": {
       "title": "Aksorn Thai",
@@ -81,24 +81,27 @@
     "body": "Hear the sounds, trace the script's history, and see how consonants, vowels, and tones shape each syllable.",
     "cta": "Start building",
     "pathTitle": "Learning path",
-    "groupsLabel": "The three consonant classes",
-    "groupName": "{cls} class",
-    "groupNotes": {
-      "mid": "9 letters. The only class that can take all 4 tone marks.",
-      "high": "11 letters. Unmarked live syllables take the rising tone.",
-      "low": "24 letters. ่ and ้ give a tone one step higher than for the other classes."
-    },
     "eyebrow": "as cute as its name",
     "tagline": "(nâa-rák) means cute. Learning Thai script can be, too.",
     "ctaSecondary": "Browse the alphabet",
-    "scrollCue": "Scroll to watch a syllable get built",
+    "statConsonants": "consonants",
+    "statMarks": "tone marks",
+    "statTones": "tones",
+    "statYears": "years of history",
     "pathBlurb": "Four small stops. Go in order or hop around.",
     "footerTitle": "Ready to build one yourself?",
-    "footerBody": "Pick the pieces, listen, and watch the tone appear in color."
+    "footerBody": "Pick the pieces, listen, and watch the tone appear in color.",
+    "footer": {
+      "tagline": "Learn Thai script, one cute syllable at a time.",
+      "explore": "Explore",
+      "follow": "Follow",
+      "copyright": "© {year} NarakThai. Made with care for Thai learners.",
+      "top": "Back to top"
+    }
   },
   "story": {
     "title": "How is a syllable built?",
-    "lead": "Watch the pieces slide together to make ค้าน (/kʰáːn/, “to oppose”).",
+    "lead": "Four small pieces add up to ค้าน (/kʰáːn/, “to oppose”). Here is what each one does.",
     "partOf": "Piece {n} of {total}",
     "initial": {
       "tag": "Initial consonant",
@@ -155,12 +158,18 @@
   },
   "history": {
     "title": "Where Thai script comes from",
-    "intro": "Thai is an abugida: consonants are the core and vowels attach around them. That structure has been inherited for over 2,000 years. Tap any script to trace its lineage.",
-    "legendDescent": "developed from",
-    "legendInfluence": "influence",
-    "legendKa": "Glyph in the circle: that script’s “ka” (where Unicode has it)",
-    "lineage": "Lineage",
-    "graphAria": "Family tree of scripts"
+    "intro": "Thai is an abugida: consonants are the core and vowels attach around them. That idea has been passed down for over 2,000 years. Scroll along the main line from Brahmi to modern Thai, and glance at the grey branches to see the cousins that split off on the way.",
+    "cue": "Scroll to travel through time",
+    "mainLine": "Main line to modern Thai",
+    "branchLine": "Branches: related scripts",
+    "kaNote": "The big letter on each card is that script’s “ka”, where Unicode has one.",
+    "changeLabel": "What changed",
+    "branchesLabel": "Branches from here",
+    "jumpTo": "Jump to {name}",
+    "timelineAria": "Timeline of the script’s history",
+    "endTitle": "Now you know where it comes from",
+    "endBody": "Time to use it. Pick a consonant, a vowel and a tone mark, and build a syllable yourself.",
+    "endCta": "Start building"
   },
   "settings": {
     "title": "Customize",
