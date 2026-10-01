@@ -1,5 +1,5 @@
 "use client";
-import type { CSSProperties, ReactNode } from "react";
+import { useId, type CSSProperties, type ReactNode } from "react";
 import type { SyllableAnalysis } from "@/entities/syllable";
 import type { PartKind } from "@/features/build-syllable";
 import { useT } from "@/shared/i18n";
@@ -79,7 +79,7 @@ interface CellProps {
   text: string;
   color?: string;
   label?: string;
-  popover?: ReactNode;
+  popover?: (id: string) => ReactNode;
   align?: "start" | "center" | "end";
   onSelect: () => void;
   onClear?: () => void;
@@ -102,6 +102,7 @@ export const FLY_FROM: Record<Cell, [number, number]> = {
 function NotebookCell({ cell, part, slot, text, color, label, popover, onSelect, onClear, clearLabel, ariaLabel, multi }: CellProps) {
   const main = cell === "before" || cell === "cons" || cell === "after" || cell === "final";
   const empty = !text;
+  const popId = useId();
   return (
     <div
       className={cn(
@@ -120,6 +121,7 @@ function NotebookCell({ cell, part, slot, text, color, label, popover, onSelect,
         data-cell={cell}
         onClick={onSelect}
         aria-label={ariaLabel}
+        aria-describedby={popover ? popId : undefined}
         className={cn(
           "relative grid place-items-center rounded-[0.14em] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
           main ? "min-w-[0.95em] px-[0.06em]" : "min-h-[0.46em] min-w-[0.7em]",
@@ -155,7 +157,7 @@ function NotebookCell({ cell, part, slot, text, color, label, popover, onSelect,
           ×
         </button>
       )}
-      {popover}
+      {popover?.(popId)}
     </div>
   );
 }
@@ -170,7 +172,7 @@ export interface NotebookProps {
   onSelect: (kind: PartKind) => void;
   onClear: (kind: "final" | "mark") => void;
   clearLabel: (kind: "final" | "mark") => string;
-  popovers: Record<PartKind, (align: "start" | "center" | "end") => ReactNode>;
+  popovers: Record<PartKind, (align: "start" | "center" | "end", id: string) => ReactNode>;
   labels: Record<PartKind, string>;
 }
 
@@ -201,7 +203,7 @@ export function Notebook({
     slot: `vowel-${cell}`,
     onSelect: () => onSelect("vowel"),
     ariaLabel: `${labels.vowel}: ${L[cell as keyof NotebookLayout] || "—"}`,
-    popover: popovers.vowel(align),
+    popover: (id: string) => popovers.vowel(align, id),
   });
 
   return (
@@ -247,7 +249,7 @@ export function Notebook({
           onSelect={() => onSelect("mark")}
           onClear={() => onClear("mark")}
           clearLabel={clearLabel("mark")}
-          popover={popovers.mark("center")}
+          popover={(id) => popovers.mark("center", id)}
         />
         <NotebookCell cell="above" text={L.above} multi={multiInitial} {...vowelProps("above", "center")} />
         <NotebookCell cell="before" text={L.before} label={t.notebook.cells.before} {...vowelProps("before", "start")} />
@@ -260,7 +262,7 @@ export function Notebook({
           label={t.notebook.cells.cons}
           ariaLabel={`${labels.initial}: ${L.cons}`}
           onSelect={() => onSelect("initial")}
-          popover={popovers.initial("start")}
+          popover={(id) => popovers.initial("start", id)}
         />
         <NotebookCell cell="after" text={L.after} label={t.notebook.cells.after} {...vowelProps("after", "center")} />
         <NotebookCell
@@ -273,7 +275,7 @@ export function Notebook({
           onSelect={() => onSelect("final")}
           onClear={() => onClear("final")}
           clearLabel={clearLabel("final")}
-          popover={popovers.final("end")}
+          popover={(id) => popovers.final("end", id)}
         />
         <NotebookCell cell="below" text={L.below} multi={multiInitial} {...vowelProps("below", "center")} />
         <div className="grid place-items-center" style={{ gridArea: "liveness" }}>

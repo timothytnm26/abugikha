@@ -19,17 +19,17 @@ export function Tooltip({ content, children, className }: TooltipProps) {
       onMouseLeave={() => setOpen(false)}
       onFocus={() => setOpen(true)}
       onBlur={() => setOpen(false)}
+      onKeyDown={(e) => e.key === "Escape" && open && (e.stopPropagation(), setOpen(false))}
       aria-describedby={open ? id : undefined}
     >
       {children}
       {open && (
-        <span
-          role="tooltip"
-          id={id}
-          className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-3 w-max max-w-72 -translate-x-1/2 rounded-xl bg-ink px-4 py-3 text-left text-sm leading-snug text-paper shadow-[0_12px_30px_-12px_rgb(30_40_51/0.6)]"
-        >
-          {content}
-          <span className="absolute left-1/2 top-full -translate-x-1/2 border-8 border-transparent border-t-ink" />
+        // Lớp đệm pb-3 nối trigger với thẻ để rê chuột sang thẻ mà không mất hover (WCAG 1.4.13)
+        <span role="tooltip" id={id} className="absolute bottom-full left-1/2 z-50 -translate-x-1/2 pb-3">
+          <span className="relative block w-max max-w-72 rounded-xl bg-ink px-4 py-3 text-left text-sm leading-snug text-paper shadow-[0_12px_30px_-12px_color-mix(in_oklab,var(--color-ink)_60%,transparent)]">
+            {content}
+            <span className="absolute left-1/2 top-full -translate-x-1/2 border-8 border-transparent border-t-ink" />
+          </span>
         </span>
       )}
     </span>

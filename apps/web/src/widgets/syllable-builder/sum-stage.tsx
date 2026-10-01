@@ -3,6 +3,7 @@ import Link from "next/link";
 import {
   forwardRef,
   useEffect,
+  useId,
   useImperativeHandle,
   useMemo,
   useRef,
@@ -49,6 +50,7 @@ type Align = "start" | "center" | "end";
 
 /** Popover hiện khi hover/focus: âm tiết tại bước đó + giải thích. */
 function StepPopover({
+  id,
   title,
   glyph,
   ipa,
@@ -57,6 +59,7 @@ function StepPopover({
   extra,
   align,
 }: {
+  id: string;
   title: string;
   glyph: string;
   ipa?: string;
@@ -67,10 +70,12 @@ function StepPopover({
 }) {
   return (
     <div
+      id={id}
       role="tooltip"
       className={cn(
-        // display:none khi ẩn để không làm trang tràn ngang trên mobile
-        "pointer-events-none absolute top-full z-30 mt-3 hidden w-72 max-w-[calc(100vw-2rem)] rounded-xl border border-ink/10 bg-paper p-4 text-left shadow-2xl [animation:pop-in_.15s_ease-out]",
+        // display:none khi ẩn để không làm trang tràn ngang trên mobile. Lớp đệm pt-3 nối trigger với thẻ để rê chuột
+        // sang thẻ mà không mất hover (WCAG 1.4.13: rê được, không biến mất khi chuột đi chuyển)
+        "absolute top-full z-30 hidden w-72 max-w-[calc(100vw-2rem)] pt-3 text-left",
         "group-hover/step:block group-focus-within/step:block",
         align === "start"
           ? "left-0"
@@ -79,6 +84,7 @@ function StepPopover({
             : "left-1/2 -translate-x-1/2",
       )}
     >
+      <div className="rounded-xl border border-ink/10 bg-paper p-4 shadow-2xl [animation:pop-in_.15s_ease-out]">
       <p className="text-[11px] font-medium uppercase tracking-wide text-ink-soft">
         {title}
       </p>
@@ -105,6 +111,7 @@ function StepPopover({
           </div>
         ))}
         {extra}
+      </div>
       </div>
     </div>
   );
@@ -203,6 +210,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
   const href = useLocalePath();
   const { setTab, setPart, pulse, lastKind } = useBuilderStore();
   const inner = useRef<HTMLDivElement>(null);
+  const resultPopId = useId();
   const tone = TONE_META[a.tone];
   const clsColor = CLASS_META[a.cls].color;
   const markChar = a.mark ? TONE_MARK_BY_ID.get(a.mark)!.char : null;
@@ -238,6 +246,26 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
   const section = useRef<HTMLElement>(null);
   useImperativeHandle(ref, () => section.current as HTMLDivElement);
   const [offscreen, setOffscreen] = useState(false);
+  // Esc ẩn các thẻ giải thích đang mở (WCAG 1.4.13); lần rê chuột hoặc đổi focus kế tiếp cho chúng hiện lại
+  useEffect(() => {
+    const el = section.current;
+    if (!el) return;
+    const hide = (e: KeyboardEvent) => {
+      if (e.key === "Escape") el.dataset.esc = "";
+    };
+    const show = () => delete el.dataset.esc;
+    document.addEventListener("keydown", hide);
+    el.addEventListener("pointermove", show);
+    el.addEventListener("focusin", show);
+    return () => {
+      document.removeEventListener("keydown", hide);
+      el.removeEventListener("pointermove", show);
+      el.removeEventListener("focusin", show);
+    };
+  }, []);
+  // Máy cảm ứng không có hover: mục "Vì sao ra thanh này?" mở sẵn
+  const [whyOpen, setWhyOpen] = useState(false);
+  useEffect(() => setWhyOpen(matchMedia("(hover: none)").matches), []);
   useEffect(() => {
     const el = section.current;
     if (!el) return;
@@ -304,12 +332,13 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
     { scope: inner, dependencies: [pulse] },
   );
 
-  const popovers: Record<PartKind, (align: Align) => ReactNode> = {
-    initial: (align) => (
-      <StepPopover align={align} title={t.builder.parts.initial} glyph={initial.chars} ipa={initial.ipa} steps={stepsOf("class")} />
+  const popovers: Record<PartKind, (align: Align, id: string) => ReactNode> = {
+    initial: (align, id) => (
+      <StepPopover id={id} align={align} title={t.builder.parts.initial} glyph={initial.chars} ipa={initial.ipa} steps={stepsOf("class")} />
     ),
-    vowel: (align) => (
+    vowel: (align, id) => (
       <StepPopover
+        id={id}
         align={align}
         title={t.builder.parts.vowel}
         glyph={stages.withVowel.spelling}
@@ -318,8 +347,9 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
         steps={vowelSteps}
       />
     ),
-    final: (align) => (
+    final: (align, id) => (
       <StepPopover
+        id={id}
         align={align}
         title={hasFinal ? t.builder.parts.final : t.builder.noFinalStep}
         glyph={stages.withFinal.spelling}
@@ -328,8 +358,9 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
         steps={stepsOf("final", "liveness")}
       />
     ),
-    mark: (align) => (
+    mark: (align, id) => (
       <StepPopover
+        id={id}
         align={align}
         title={markChar ? t.builder.parts.mark : t.builder.noMarkStep}
         glyph={a.spelling}
@@ -419,7 +450,8 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
               <button
                 type="button"
                 onClick={() => speakThai(a.spelling)}
-                aria-label={`${a.spelling}, ${t.builder.resultHint}`}
+                aria-label={`${a.spelling}, ${t.builder.resultHint}${a.warnings.length ? `. ${a.warnings.join(" ")}` : ""}`}
+                aria-describedby={resultPopId}
                 className="sum-result relative rounded-xl focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-ink"
               >
                 <SyllableCard analysis={a} size="lg" />
@@ -433,6 +465,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
                 )}
               </button>
               <StepPopover
+                id={resultPopId}
                 align="end"
                 title={t.builder.resultStep}
                 glyph={a.spelling}
@@ -475,6 +508,17 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
               />
             </div>
           </div>
+
+          {a.warnings.length > 0 && (
+            <ul className="mt-3 space-y-1.5">
+              {a.warnings.map((w) => (
+                <li key={w} className="flex gap-2 rounded-lg bg-paper px-3 py-2 text-sm text-high">
+                  <span aria-hidden className="font-bold">!</span>
+                  <span>{w}</span>
+                </li>
+              ))}
+            </ul>
+          )}
 
           {notes.length > 0 && (
             <ul className="mt-3 space-y-1.5">
@@ -525,8 +569,8 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
             )}
           </div>
 
-          {/* Máy cảm ứng không có hover: các bước suy ra thanh nằm sẵn trong mục mở được này */}
-          <details className="group mt-2 rounded-xl bg-paper/60 px-3 py-2">
+          {/* Các bước suy ra thanh luôn nằm sẵn trong mục mở được này (mở sẵn trên máy cảm ứng) */}
+          <details className="group mt-2 rounded-xl bg-paper/60 px-3 py-2" open={whyOpen} onToggle={(e) => setWhyOpen(e.currentTarget.open)}>
             <summary className="flex min-h-9 cursor-pointer list-none items-center justify-between gap-2 text-sm font-medium focus-visible:outline-2 focus-visible:outline-ink">
               {t.builder.stepsToggle}
               <svg aria-hidden viewBox="0 0 20 20" className="size-4 fill-none stroke-current stroke-2 transition-transform group-open:rotate-180" strokeLinecap="round" strokeLinejoin="round">

@@ -153,6 +153,10 @@
   background: color-mix(in oklab, var(--accent) 20%, var(--color-paper));
   color: var(--accent);
 }
+/* Esc ẩn thẻ giải thích của bước đang mở (WCAG 1.4.13); sum-stage gỡ cờ này ở lần rê chuột hoặc đổi focus kế tiếp */
+[data-esc] [role="tooltip"] {
+  display: none !important;
+}
 /* ---------- Nguyên âm biến hình ---------- */
 /* Mảnh sắp bị loại: phóng to, đỏ, rung rồi gạch ngang */
 .morph-doomed {
