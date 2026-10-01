@@ -167,7 +167,7 @@ Flat paper with tactile detail. Resting surfaces use a hairline border (ink at 1
 
 ## Shapes
 
-Two silhouettes. Rounded things are friendly and small: 6px chips and 8px tiles inside the tools, 12px panels and chart cells, 16px cards, 24px sheets and settings panels, pills for badges, and a 2px barely-rounded edge for paper. Interactive controls get the signature notch: four stepped corners cut from a 10px step, drawn as a clip-path, replacing the usual rounded rectangle. Paper may carry a tape strip or a folded corner (a 1.6rem triangle). Path cards tilt about 0.6 degrees on hover.
+Two silhouettes. Rounded things are friendly and small: 6px chips and 8px tiles inside the tools, 12px panels and chart cells, 16px cards, 24px sheets and settings panels, pills for badges, and a 2px barely-rounded edge for paper. Interactive controls get the signature notch: four stepped corners cut from a 10px step, drawn as a clip-path, replacing the usual rounded rectangle. Paper may carry a tape strip or a folded corner (a 1.6rem triangle). 
 
 ## Components
 
@@ -182,7 +182,7 @@ Two silhouettes. Rounded things are friendly and small: 6px chips and 8px tiles 
 - **Class legend:** A 10px colored dot plus a label in ink-soft, one per consonant class. It sits on /lab and /aksornthai, where the colors are used, not in the nav.
 
 ### Cards / Containers
-- **Path card:** 16px corners, padding 20px (24px top), flexes to equal height. Hover lifts 4px and tilts -0.6 degrees. Fill comes from the card's own class or tone color.
+- **Path rows:** The home learning path is a stepped list, not equal cards: a large Thai numeral in its meaning color, a title and blurb, and an arrow that nudges right on hover. Each row shifts right by 9% from lg up, and only the last (the builder) sits on a taped note sheet. Thin ink@15% rules separate the rows.
 - **Note paper:** Sheet fill, 1px ink@10% border, 2px corners. Ruling by `data-paper` (tiers, lines, grid, dots, plain).
 
 ### Inputs / Fields

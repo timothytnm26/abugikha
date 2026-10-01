@@ -1,17 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useBuilderStore } from "@/features/build-syllable";
-import type { ToneMarkId } from "@/entities/syllable";
+import { SYLLABLE_EXAMPLES, useBuilderStore } from "@/features/build-syllable";
 import { useT } from "@/shared/i18n";
 import { usePreferences } from "@/shared/lib/preferences";
-
-/** Ví dụ mẫu: cùng nguyên âm /aː/, ba nhóm phụ âm cho ba thanh khác nhau, rồi một dấu thanh. */
-const EXAMPLES: { word: string; initialId: string; vowelId: string; finalId: string | null; mark: ToneMarkId | null }[] = [
-  { word: "กา", initialId: "ก", vowelId: "aa", finalId: null, mark: null },
-  { word: "ขา", initialId: "ข", vowelId: "aa", finalId: null, mark: null },
-  { word: "คา", initialId: "ค", vowelId: "aa", finalId: null, mark: null },
-  { word: "ค่า", initialId: "ค", vowelId: "aa", finalId: null, mark: "ek" },
-];
 
 /** Khung hướng dẫn ngắn ở đầu trang /lab: bốn bước ghép và vài âm tiết mẫu bấm một lần là điền đủ. Đóng rồi thì nhớ lại. */
 export function BuilderCoach() {
@@ -65,7 +56,7 @@ export function BuilderCoach() {
       </div>
       <div className="mt-2 flex flex-wrap items-center gap-2">
         <span className="text-sm text-ink/80">{c.try}</span>
-        {EXAMPLES.map((e) => (
+        {SYLLABLE_EXAMPLES.map((e) => (
           <button
             key={e.word}
             type="button"

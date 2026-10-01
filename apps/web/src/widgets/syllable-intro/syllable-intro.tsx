@@ -23,25 +23,20 @@ function Piece({ n, tag, color, title, glyph, holder, ipa, small, operator, chil
 }) {
   const t = useT();
   return (
-    <li className="syl-piece relative">
-      <div data-tape className="note-paper flex h-full flex-col rounded-3xl border-2 p-5 pt-7" style={{ borderColor: color }}>
-        <span className="self-start rounded-full px-3 py-1 text-xs font-semibold" style={{ backgroundColor: tint(color, 16), color: onTint(color) }}>
-          {fmt(t.story.partOf, { n, total: 4 })} · {tag}
-        </span>
-        <div className="my-3 grid min-h-32 place-items-center text-center">
-          <div>
-            <span lang="th" className="note-glyph block font-thai text-[5.5rem] leading-[1.3]" style={{ color }}>
-              {holder && <span className="text-ink/20">{holder}</span>}
-              {glyph}
-            </span>
-            {ipa && <Phonetic ipa={ipa} className="justify-center text-lg" style={{ color }} />}
-            {small && <span className="mt-1 block text-xs text-ink-soft">{small}</span>}
-          </div>
-        </div>
-        <h3 className="text-lg font-semibold leading-snug">{title}</h3>
-        <div className="mt-1.5 text-sm leading-relaxed text-ink/80">{children}</div>
-      </div>
-      <span aria-hidden className="absolute -bottom-4 left-1/2 z-10 grid size-8 -translate-x-1/2 place-items-center rounded-full bg-ink text-lg font-semibold leading-none text-paper sm:hidden lg:-right-5 lg:bottom-auto lg:left-auto lg:top-1/2 lg:-translate-y-1/2 lg:translate-x-0 lg:grid">
+    <li className="syl-piece relative min-w-0">
+      <span aria-hidden className="block h-1.5 w-14 rounded-full" style={{ backgroundColor: color }} />
+      <p className="mt-3 text-sm font-semibold" style={{ color: onTint(color) }}>
+        {fmt(t.story.partOf, { n, total: 4 })} · {tag}
+      </p>
+      <span lang="th" className="note-glyph mt-2 block font-thai text-[clamp(4.5rem,8vw,6.5rem)] leading-[1.3]" style={{ color }}>
+        {holder && <span className="text-ink/20">{holder}</span>}
+        {glyph}
+      </span>
+      {ipa && <Phonetic ipa={ipa} className="text-lg" style={{ color: onTint(color) }} />}
+      {small && <span className="mt-1 block text-xs text-ink-soft">{small}</span>}
+      <h3 className="mt-4 text-lg font-semibold leading-snug">{title}</h3>
+      <div className="mt-1.5 max-w-[34ch] text-sm leading-relaxed text-ink/80">{children}</div>
+      <span aria-hidden className="syl-op absolute -right-7 top-24 hidden select-none text-4xl font-light leading-none text-ink/30 lg:block">
         {operator}
       </span>
     </li>
@@ -70,7 +65,8 @@ export function SyllableIntro() {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         gsap.from(".syl-head > *", { y: 24, opacity: 0, duration: 0.6, stagger: 0.1, ease: "power2.out", scrollTrigger: { trigger: ".syl-head", start: "top 85%", once: true } });
-        gsap.from(".syl-piece", { y: 48, opacity: 0, rotate: -2, duration: 0.7, stagger: 0.15, ease: "power3.out", scrollTrigger: { trigger: ".syl-grid", start: "top 80%", once: true } });
+        gsap.from(".syl-piece", { y: 40, opacity: 0, duration: 0.7, stagger: 0.14, ease: "power3.out", scrollTrigger: { trigger: ".syl-grid", start: "top 80%", once: true } });
+        gsap.from(".syl-op", { opacity: 0, scale: 0.5, duration: 0.4, stagger: 0.14, delay: 0.3, ease: "power3.out", scrollTrigger: { trigger: ".syl-grid", start: "top 80%", once: true } });
         gsap.from(".syl-result", { scale: 0.9, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: ".syl-result", start: "top 85%", once: true } });
       });
     },
@@ -80,12 +76,12 @@ export function SyllableIntro() {
   return (
     <section ref={root} id="syllable" aria-labelledby="story-title" className="screen scroll-mt-14">
       <div className="page-container py-14 md:py-16">
-        <div className="syl-head mx-auto max-w-2xl text-center">
-          <h2 id="story-title" className="text-3xl font-semibold leading-tight md:text-5xl">{t.story.title}</h2>
-          <p className="mt-4 text-base leading-relaxed text-ink/80 md:text-lg">{t.story.lead}</p>
+        <div className="syl-head max-w-3xl">
+          <h2 id="story-title" className="text-balance text-3xl font-semibold leading-tight tracking-tight md:text-5xl">{t.story.title}</h2>
+          <p className="mt-4 max-w-[56ch] text-base leading-relaxed text-ink/80 md:text-lg">{t.story.lead}</p>
         </div>
 
-        <ol className="syl-grid mt-10 grid gap-8 md:mt-14 sm:grid-cols-2 lg:grid-cols-5 lg:gap-8">
+        <ol className="syl-grid mt-10 grid gap-10 sm:grid-cols-2 md:mt-14 lg:grid-cols-[repeat(4,minmax(0,1fr))_minmax(0,1.3fr)] lg:gap-14">
           <Piece n={1} operator="+" tag={t.story.initial.tag} color={clsColor} title={t.story.initial.title} glyph={initial.chars} ipa={initial.ipa} small={fmt(t.builder.formula.cls, { cls: CLASS_META[a.cls].label[locale] })}>
             {t.story.initial.body}
           </Piece>
@@ -101,11 +97,11 @@ export function SyllableIntro() {
           </Piece>
 
           <li className="syl-result">
-            <div data-tape className="note-paper flex h-full flex-col rounded-3xl border-2 p-5 pt-7" style={{ borderColor: tone.color }}>
+            <div data-tape className="note-paper flex h-full flex-col rounded-3xl border-2 p-6 pt-8" style={{ borderColor: tone.color }}>
               <span className="self-start rounded-full px-3 py-1 text-xs font-semibold" style={{ backgroundColor: tint(tone.color, 16), color: onTint(tone.color) }}>{t.story.result.tag}</span>
               <div className="my-3 grid min-h-32 place-items-center text-center">
                 <div>
-                  <SyllableGlyph analysis={a} className="note-glyph block text-[5.5rem] leading-[1.35]" />
+                  <SyllableGlyph analysis={a} className="note-glyph block text-[clamp(5rem,9vw,7.5rem)] leading-[1.35]" />
                   <Phonetic ipa={a.ipa} className="justify-center text-lg" style={{ color: tone.color }} />
                 </div>
               </div>

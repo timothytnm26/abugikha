@@ -8,11 +8,11 @@ export function HeroSection() {
   const href = useLocalePath();
   return (
     <section className="screen relative flex-col justify-center">
-      <div className="page-container relative grid items-center gap-10 py-10 md:py-16 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
-        <div className="max-w-2xl space-y-5 md:space-y-6">
-          <h1 className="text-5xl font-semibold leading-[1.08] tracking-tight md:text-6xl xl:text-7xl">{t.home.headline}</h1>
-          <p className="max-w-xl text-base leading-relaxed text-ink/80 md:text-xl">{t.home.body}</p>
-          <p className="text-sm leading-relaxed text-ink-soft">
+      <div className="page-container relative grid items-center gap-12 py-10 md:py-16 lg:grid-cols-[1.15fr_1fr] lg:gap-10">
+        <div className="max-w-2xl space-y-6 md:space-y-7">
+          <h1 className="text-balance text-5xl font-semibold leading-[1.04] tracking-[-0.035em] md:text-7xl xl:text-[5.25rem]">{t.home.headline}</h1>
+          <p className="max-w-[46ch] text-base leading-relaxed text-ink/80 md:text-xl">{t.home.body}</p>
+          <p className="max-w-[46ch] text-sm leading-relaxed text-ink-soft">
             <span lang="th" className="font-thai">“น่ารัก”</span> {t.home.tagline}
           </p>
           <div className="flex flex-wrap gap-3 pt-1">
@@ -24,8 +24,9 @@ export function HeroSection() {
             </Link>
           </div>
         </div>
-        <div className="relative mx-auto w-full max-w-xl">
-          <div data-tape data-fold className="note-paper relative rounded-3xl px-4 pb-10 pt-12 md:px-10 md:pb-14 md:pt-16">
+        {/* Tờ giấy tràn ra mép phải và hạ thấp hơn cột chữ, để bố cục không đối xứng */}
+        <div className="relative mx-auto w-full max-w-xl lg:-mr-10 lg:max-w-none lg:translate-y-10 xl:-mr-20">
+          <div data-tape data-fold className="note-paper relative rounded-l-3xl rounded-r-3xl px-4 pb-10 pt-12 md:px-12 md:pb-16 md:pt-20 lg:rounded-r-none">
             <HeroMerge />
           </div>
         </div>

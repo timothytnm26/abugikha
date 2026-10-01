@@ -395,14 +395,6 @@
       "css": ".ds-note{position:relative;width:260px;padding:20px;background-color:#fbfbf4;background-image:linear-gradient(to bottom,transparent calc(2.25rem - 1.5px),#b9c9c9 calc(2.25rem - 1.5px));background-size:100% 2.25rem;border:1px solid rgba(30,40,51,.1);box-shadow:0 1px 0 rgba(30,40,51,.06),0 14px 30px -18px rgba(30,40,51,.35);font:600 2rem 'Noto Serif Thai',serif;color:#1e2833}.ds-note::before{content:'';position:absolute;top:-.6rem;left:50%;width:5.5rem;height:1.3rem;translate:-50% 0;rotate:-2deg;background:rgba(163,65,109,.32);box-shadow:0 1px 2px rgba(30,40,51,.15)}"
     },
     {
-      "name": "Path Card",
-      "kind": "card",
-      "refersTo": "note-paper",
-      "description": "Learning path card; tilts and lifts on hover.",
-      "html": "<div class=\"ds-path\" tabindex=\"0\"><b>อักษรไทย</b>Browse 44 consonants.</div>",
-      "css": ".ds-path{display:flex;flex-direction:column;gap:12px;width:240px;padding:24px 20px 20px;border-radius:16px;background:#d6ebe2;color:#1e2833;font:400 .875rem 'Be Vietnam Pro',system-ui,sans-serif;transition:translate .2s,rotate .2s}.ds-path:hover{translate:0 -4px;rotate:-.6deg}.ds-path b{font:600 1.5rem 'Noto Serif Thai',serif}"
-    },
-    {
       "name": "Syllable Slot",
       "kind": "custom",
       "refersTo": "note-paper",
