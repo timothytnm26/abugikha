@@ -251,6 +251,19 @@
     "morphHint": "Purple border: spelling changes with a final or a tone mark"
   },
   "builder": {
+    "coach": {
+      "title": "Build a syllable in 4 steps",
+      "step1": "Pick a consonant",
+      "step2": "Pick a vowel",
+      "step3": "Add a final consonant (optional)",
+      "step4": "Add a tone mark (optional)",
+      "try": "Try one:",
+      "tryHint": "Same vowel, different consonant class. Compare the tones.",
+      "dismiss": "Got it",
+      "show": "Show tips"
+    },
+    "showRare": "Show {n} rare letters",
+    "hideRare": "Hide rare letters",
     "title": "Build syllables",
     "intro": "Pick or drag the four pieces of a syllable. Border color is the consonant class, transcription color is the tone.",
     "parts": {

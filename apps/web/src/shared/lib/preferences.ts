@@ -17,12 +17,15 @@ interface Preferences {
   /** Màu người dùng đã đổi, riêng cho từng giao diện */
   palette: Partial<Record<ThemeId, Partial<Record<PaletteKey, string>>>>;
   paper: PaperStyle;
+  /** Đã đóng khung gợi ý cách ghép âm tiết ở trang /lab */
+  coachDismissed: boolean;
   setShowPhonetic: (v: boolean) => void;
   setAutoSpeak: (v: boolean) => void;
   setTheme: (id: ThemeId) => void;
   setColor: (theme: ThemeId, key: PaletteKey, value: string) => void;
   resetPalette: (theme: ThemeId) => void;
   setPaper: (p: PaperStyle) => void;
+  setCoachDismissed: (v: boolean) => void;
 }
 
 export const usePreferences = create<Preferences>()(
@@ -35,6 +38,7 @@ export const usePreferences = create<Preferences>()(
       lastDark: DEFAULT_THEME.dark,
       palette: {},
       paper: "tiers",
+      coachDismissed: false,
       setShowPhonetic: (showPhonetic) => set({ showPhonetic }),
       setAutoSpeak: (autoSpeak) => set({ autoSpeak }),
       setTheme: (id) =>
@@ -42,11 +46,12 @@ export const usePreferences = create<Preferences>()(
       setColor: (theme, key, value) => set((s) => ({ palette: { ...s.palette, [theme]: { ...s.palette[theme], [key]: value } } })),
       resetPalette: (theme) => set((s) => ({ palette: { ...s.palette, [theme]: {} } })),
       setPaper: (paper) => set({ paper }),
+      setCoachDismissed: (coachDismissed) => set({ coachDismissed }),
     }),
     {
       name: PREFS_STORAGE_KEY,
       storage: createJSONStorage(() => localStorage),
-      partialize: ({ showPhonetic, autoSpeak, themeId, lastLight, lastDark, palette, paper }) => ({ showPhonetic, autoSpeak, themeId, lastLight, lastDark, palette, paper }),
+      partialize: ({ showPhonetic, autoSpeak, themeId, lastLight, lastDark, palette, paper, coachDismissed }) => ({ showPhonetic, autoSpeak, themeId, lastLight, lastDark, palette, paper, coachDismissed }),
       // Nạp sau khi mount để HTML server và client khớp nhau
       merge: (persisted, current) => {
         const p = (persisted ?? {}) as Partial<Preferences>;

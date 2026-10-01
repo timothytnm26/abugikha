@@ -14,6 +14,8 @@ interface BuilderState {
   pulse: number;
   lastKind: PartKind | null;
   setPart: (kind: PartKind, id: string | null) => void;
+  /** Đặt cả âm tiết một lần (ví dụ mẫu), chỉ một lần hợp nhất */
+  setSyllable: (s: { initialId: string; vowelId: string; finalId: string | null; mark: ToneMarkId | null }) => void;
   setTab: (tab: PartKind) => void;
 }
 
@@ -34,5 +36,6 @@ export const useBuilderStore = create<BuilderState>((set) => ({
       if (kind === "mark") patch.mark = id as ToneMarkId | null;
       return patch;
     }),
+  setSyllable: (s) => set((st) => ({ ...s, pulse: st.pulse + 1, lastKind: "initial" })),
   setTab: (tab) => set({ tab }),
 }));

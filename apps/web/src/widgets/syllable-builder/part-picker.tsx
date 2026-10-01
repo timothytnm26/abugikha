@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useRef, type CSSProperties, type ReactNode, type RefObject } from "react";
+import { useMemo, useRef, useState, type CSSProperties, type ReactNode, type RefObject } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
   CLASS_META,
@@ -151,15 +151,20 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
   const showPhonetic = usePreferences((p) => p.showPhonetic);
   const initialChars = INITIAL_BY_ID.get(initialId)!.chars;
 
+  // Chữ ít dùng gập lại cho người mới đỡ rối; chữ đang chọn luôn hiện
+  const [showRare, setShowRare] = useState(false);
+  const rareCount = initials.filter((u) => !u.common && u.id !== initialId).length;
+  const shown = useMemo(() => initials.filter((u) => showRare || u.common || u.id === initialId), [initials, showRare, initialId]);
+
   const rows = useMemo(() => {
-    const of = (kinds: InitialKind[]) => initials.filter((u) => kinds.includes(u.kind));
+    const of = (kinds: InitialKind[]) => shown.filter((u) => kinds.includes(u.kind));
     return {
-      single: Object.fromEntries(CLASSES.map((c) => [c, initials.filter((u) => u.kind === "single" && u.cls === c)])) as Record<ConsonantClass, InitialUnit[]>,
+      single: Object.fromEntries(CLASSES.map((c) => [c, shown.filter((u) => u.kind === "single" && u.cls === c)])) as Record<ConsonantClass, InitialUnit[]>,
       cluster: of(["cluster"]),
       falseCluster: of(["false-cluster"]),
       leading: of(["leading"]),
     };
-  }, [initials]);
+  }, [shown]);
   const vowelRows = useMemo(
     () => VOWEL_GROUPS.map((g) => [g, vowels.filter((v) => vowelGroup(v) === g)] as [VowelGroup, Vowel[]]),
     [vowels],
@@ -171,7 +176,7 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
   useSlotDrag(ref, stageRef, onPick, [
     vowel.id,
     initialId,
-    initials.length,
+    shown.length,
     finals.length,
     analysis.cls,
     analysis.liveness,
@@ -286,6 +291,16 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
                 {rows.leading.map(initialTile)}
               </Row>
             </div>
+            {rareCount > 0 && (
+              <button
+                type="button"
+                aria-expanded={showRare}
+                onClick={() => setShowRare((v) => !v)}
+                className="min-h-11 rounded-full border border-ink/15 px-4 text-xs font-medium hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+              >
+                {showRare ? t.builder.hideRare : fmt(t.builder.showRare, { n: rareCount })}
+              </button>
+            )}
           </div>
         </Group>
 

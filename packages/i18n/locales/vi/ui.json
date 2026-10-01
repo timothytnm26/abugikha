@@ -251,6 +251,19 @@
     "morphHint": "Viền tím: đổi cách viết khi có âm cuối hoặc dấu thanh"
   },
   "builder": {
+    "coach": {
+      "title": "Ghép một âm tiết trong 4 bước",
+      "step1": "Chọn phụ âm đầu",
+      "step2": "Chọn nguyên âm",
+      "step3": "Thêm phụ âm cuối (không bắt buộc)",
+      "step4": "Thêm dấu thanh (không bắt buộc)",
+      "try": "Thử một ví dụ:",
+      "tryHint": "Cùng nguyên âm, khác nhóm phụ âm. So sánh các thanh.",
+      "dismiss": "Đã hiểu",
+      "show": "Xem gợi ý"
+    },
+    "showRare": "Hiện thêm {n} chữ ít dùng",
+    "hideRare": "Ẩn các chữ ít dùng",
     "title": "Ghép chữ",
     "intro": "Chọn hoặc kéo bốn mảnh ghép của một âm tiết. Màu viền là nhóm phụ âm, màu phiên âm là thanh điệu.",
     "parts": {

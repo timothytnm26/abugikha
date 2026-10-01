@@ -11,6 +11,7 @@ import { usePreferences } from "@/shared/lib/preferences";
 import { speakThai } from "@/shared/lib/speech";
 import { SumStage } from "./sum-stage";
 import { PartPicker } from "./part-picker";
+import { BuilderCoach } from "./builder-coach";
 
 /**
  * Desktop (xl): [ vở xem trước ][ bảng thanh ]   Tablet (md): [ vở xem trước (dính) ][ chọn (tab)  ]
@@ -56,6 +57,8 @@ export function SyllableBuilder() {
   );
 
   return (
+    <>
+    <BuilderCoach />
     <div className="grid grid-cols-[minmax(0,1fr)] gap-3 md:grid-cols-[minmax(0,23rem)_minmax(0,1fr)] md:gap-4 xl:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] xl:items-start">
       {/* Máy tính bảng: tờ xem trước dính ở bên trái để vừa chọn vừa thấy kết quả */}
       <div className="md:sticky md:top-[4.5rem] md:col-start-1 md:row-span-2 md:row-start-1 md:max-h-[calc(100dvh-5.5rem)] md:self-start md:overflow-y-auto md:pt-3 xl:static xl:row-span-1 xl:max-h-none xl:overflow-visible xl:pt-0">
@@ -70,5 +73,6 @@ export function SyllableBuilder() {
         <ToneRuleTable analysis={analysis} />
       </section>
     </div>
+    </>
   );
 }
