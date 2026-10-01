@@ -116,8 +116,10 @@
   }
 }
 
+/* Giảm chuyển động: mọi trạng thái vẫn đổi ngay, chỉ bỏ phần di chuyển. Các hiệu ứng cần thay thế riêng (ô đích, nguyên âm biến hình) có khối reduced-motion của chúng ở bên dưới */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { transition-duration: 0.01ms !important; }
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
 }
 
 /* ---------- Ô ghép khi đang kéo một mảnh ---------- */
@@ -163,7 +165,7 @@
   color: var(--color-removed) !important;
   scale: 1.18;
   text-shadow: 0 0 0.25em color-mix(in oklab, var(--color-removed) 45%, transparent);
-  transition: scale 0.3s cubic-bezier(0.2, 1.4, 0.4, 1), color 0.2s;
+  transition: scale 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s;
   animation: morph-wobble 0.5s 0.15s ease-in-out;
 }
 .morph-doomed::after {
@@ -319,9 +321,6 @@ html:not([data-paper="tiers"]) .paper-tier {
 
 @keyframes nudge-x {
   50% { translate: 6px 0; }
-}
-@media (prefers-reduced-motion: reduce) {
-  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
 }
 
 /* Nền liền mạch của cả trang chủ: chỉ hai quầng màu (ngọc lục bảo của nhóm phụ âm giữa và tím của "ไทย" ở logo), trải dọc theo từng màn hình để các phần nối nhau không có đường cắt */

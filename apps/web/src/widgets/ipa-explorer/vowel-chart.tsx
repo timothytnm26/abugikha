@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import { DIPHTHONGS, VOWEL_PHONES, type VowelPhone } from "@/entities/phoneme";
-import { gsap, useGSAP } from "@/shared/lib/gsap";
+import { gsap, useGSAP, prefersReducedMotion } from "@/shared/lib/gsap";
 import { fmt, useLocale, useT } from "@/shared/i18n";
 import { Phonetic, SpeakButton } from "@/shared/ui";
 import { cn } from "@/shared/lib";
@@ -26,7 +26,7 @@ export function VowelChart() {
   useGSAP(
     () => {
       const path = svg.current?.querySelector<SVGPathElement>(".diph-path");
-      if (!path) return;
+      if (!path || prefersReducedMotion()) return;
       const len = path.getTotalLength();
       gsap.fromTo(path, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, duration: 0.7, ease: "power2.inOut" });
     },

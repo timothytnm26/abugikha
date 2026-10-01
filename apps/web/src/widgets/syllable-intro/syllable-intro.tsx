@@ -71,7 +71,7 @@ export function SyllableIntro() {
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         gsap.from(".syl-head > *", { y: 24, opacity: 0, duration: 0.6, stagger: 0.1, ease: "power2.out", scrollTrigger: { trigger: ".syl-head", start: "top 85%", once: true } });
         gsap.from(".syl-piece", { y: 48, opacity: 0, rotate: -2, duration: 0.7, stagger: 0.15, ease: "power3.out", scrollTrigger: { trigger: ".syl-grid", start: "top 80%", once: true } });
-        gsap.from(".syl-result", { scale: 0.9, duration: 0.8, ease: "elastic.out(1, 0.5)", scrollTrigger: { trigger: ".syl-result", start: "top 85%", once: true } });
+        gsap.from(".syl-result", { scale: 0.9, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: ".syl-result", start: "top 85%", once: true } });
       });
     },
     { scope: root },

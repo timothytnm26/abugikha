@@ -37,7 +37,7 @@ export function useSlotDrag(
             minimumMovement: 6,
             autoScroll: 1,
             onPress() {
-              gsap.to(tile, { scale: 1.1, rotate: -4, duration: 0.15 });
+              if (!reduce) gsap.to(tile, { scale: 1.1, rotate: -4, duration: 0.15 });
             },
             onDragStart(this: Draggable) {
               // Không bôi đen chữ khi rê chuột qua trang

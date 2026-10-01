@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { SCRIPT_ERAS, branchesOf, type GlyphFont, type ScriptBranch, type ScriptEra } from "@/entities/script-history";
-import { gsap, useGSAP, type ScrollTrigger } from "@/shared/lib/gsap";
+import { gsap, useGSAP, prefersReducedMotion, type ScrollTrigger } from "@/shared/lib/gsap";
 import { cn } from "@/shared/lib";
 import { fmt, useLocale, useLocalePath, useT } from "@/shared/i18n";
 
@@ -240,7 +240,7 @@ export function ScriptTimeline() {
 
         gsap.utils.toArray<HTMLElement>(".tl-era", el).forEach((col) => {
           gsap.fromTo(col.querySelector(".tl-fill"), { scaleX: 0 }, { scaleX: 1, ease: "none", scrollTrigger: at(col, "left 62%", "right 62%") });
-          gsap.fromTo(col.querySelector(".tl-node-on"), { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2.5)", scrollTrigger: at(col, "left 66%") });
+          gsap.fromTo(col.querySelector(".tl-node-on"), { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out", scrollTrigger: at(col, "left 66%") });
           gsap.fromTo(col.querySelector(".tl-card"), { y: 50, opacity: 0, rotate: 1.5 }, { y: 0, opacity: 1, rotate: 0, ease: "none", scrollTrigger: at(col, "left 100%", "left 55%") });
           gsap.fromTo(col.querySelector(".tl-year"), { xPercent: 18 }, { xPercent: -18, ease: "none", scrollTrigger: at(col, "left 100%", "right 0%") });
           const branches = col.querySelectorAll(".tl-branch");
@@ -263,9 +263,9 @@ export function ScriptTimeline() {
     const st = trigger.current;
     if (pinned.current && st) {
       const p = Math.min(1, Math.max(0, col.offsetLeft / distance()));
-      window.scrollTo({ top: st.start + p * (st.end - st.start), behavior: "smooth" });
+      window.scrollTo({ top: st.start + p * (st.end - st.start), behavior: prefersReducedMotion() ? "auto" : "smooth" });
     } else {
-      stage.current!.scrollTo({ left: col.offsetLeft, behavior: "smooth" });
+      stage.current!.scrollTo({ left: col.offsetLeft, behavior: prefersReducedMotion() ? "auto" : "smooth" });
     }
   };
 

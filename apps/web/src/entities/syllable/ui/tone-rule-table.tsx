@@ -45,7 +45,7 @@ export function ToneRuleTable({ analysis }: { analysis: SyllableAnalysis }) {
   useGSAP(
     () => {
       if (prefersReducedMotion()) return;
-      gsap.fromTo("[data-current]", { scale: 0.8 }, { scale: 1, duration: 0.6, ease: "elastic.out(1, 0.5)" });
+      gsap.fromTo("[data-current]", { scale: 0.8 }, { scale: 1, duration: 0.5, ease: "power3.out" });
     },
     { scope: root, dependencies: [cur.cls, cur.col] },
   );

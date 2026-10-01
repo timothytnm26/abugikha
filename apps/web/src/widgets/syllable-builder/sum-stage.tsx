@@ -595,7 +595,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
             data-dropzone="dock"
             role="group"
             aria-label={t.builder.sumAria}
-            className="pointer-events-auto flex items-center gap-1.5 rounded-xl border-2 bg-paper px-2.5 py-2 shadow-[0_24px_60px_-18px_rgb(0_0_0/0.55)] [animation:dock-in_.3s_cubic-bezier(.2,1.4,.4,1)] sm:gap-2.5 sm:px-4 sm:py-2.5"
+            className="pointer-events-auto flex items-center gap-1.5 rounded-xl border-2 bg-paper px-2.5 py-2 shadow-[0_24px_60px_-18px_rgb(0_0_0/0.55)] [animation:dock-in_.3s_cubic-bezier(.16,1,.3,1)] sm:gap-2.5 sm:px-4 sm:py-2.5"
             style={{
               borderColor: `color-mix(in oklab, ${clsColor} 55%, transparent)`,
             }}
