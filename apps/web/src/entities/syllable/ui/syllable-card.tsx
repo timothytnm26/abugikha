@@ -10,8 +10,8 @@ export function SyllableGlyph({
   analysis: SyllableAnalysis;
   className?: string;
 }) {
-  const classColor = CLASS_META[analysis.cls].color;
-  const toneColor = TONE_META[analysis.tone].color;
+  const classColor = CLASS_META[analysis.cls].ink;
+  const toneColor = TONE_META[analysis.tone].ink;
   return (
     <span lang="th" className={cn("font-thai", className)}>
       {analysis.segments.map((segment, index) => {
@@ -21,8 +21,8 @@ export function SyllableGlyph({
             : segment.role === "mark"
               ? toneColor
               : segment.role === "vowel"
-                ? "var(--color-part-vowel)"
-                : "var(--color-part-final)";
+                ? "var(--color-part-vowel-ink)"
+                : "var(--color-part-final-ink)";
         return (
           <span key={index} style={{ color }}>
             {segment.text}

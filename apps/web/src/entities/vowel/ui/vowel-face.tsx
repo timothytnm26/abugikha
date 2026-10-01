@@ -30,7 +30,7 @@ export function VowelFace({
             : "size-11 px-1",
         selected
           ? "border-transparent bg-part-vowel text-on-accent"
-          : "border-dashed bg-transparent text-part-vowel",
+          : "border-dashed bg-transparent text-part-vowel-ink",
         !selected && vowel.length === "long" && "border-solid",
         className,
       )}

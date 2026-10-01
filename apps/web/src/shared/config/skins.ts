@@ -18,18 +18,18 @@ type Parts = Record<PaletteKey, string>;
 
 const make = (id: SkinId, surface: Record<SurfaceKey, string>, parts: Parts, disabled = false): SkinDef => ({ id, vars: { ...parts, ...surface }, ...(disabled && { disabled }) });
 
-/** Màu thành phần dành cho nền sáng. */
+/** Màu thành phần dành cho nền sáng: màu nền sáng của bảng áp phích, chữ trên đó là `on-accent` (đen). */
 const LIGHT_PARTS: Parts = {
-  mid: '#007a5b',
-  high: '#a23e2d',
-  low: '#215da5',
-  'part-vowel': '#7c4a98',
-  'part-final': '#507308',
-  'tone-mid': '#616c67',
-  'tone-low': '#474c95',
-  'tone-falling': '#a3416d',
-  'tone-high': '#965f00',
-  'tone-rising': '#007498',
+  mid: '#12bd0c',
+  high: '#ff5200',
+  low: '#1e9fe8',
+  'part-vowel': '#b07aff',
+  'part-final': '#cdfb1c',
+  'tone-mid': '#c9cdc9',
+  'tone-low': '#b07aff',
+  'tone-falling': '#f47b6b',
+  'tone-high': '#ffe100',
+  'tone-rising': '#1e9fe8',
 };
 
 /**
@@ -45,12 +45,12 @@ export const SKINS: SkinDef[] = [
       'paper-deep': '#e9e1d7',
       ink: '#1b1a17',
       'ink-soft': '#5e5750',
-      'on-accent': '#ffffff',
+      'on-accent': '#14130f',
       sheet: '#fbf8f3',
       'sheet-line': '#d3c8ba',
       margin: '#d98a86',
       removed: '#c2361c',
-      brand: '#0a0adc',
+      brand: '#c23d00',
     },
     LIGHT_PARTS,
   ),
@@ -61,7 +61,7 @@ export const SKINS: SkinDef[] = [
       'paper-deep': '#eadfc6',
       ink: '#1f2a4a',
       'ink-soft': '#566079',
-      'on-accent': '#fffdf4',
+      'on-accent': '#14130f',
       sheet: '#fffdf2',
       'sheet-line': '#b5c8e0',
       margin: '#e07b7b',

@@ -65,7 +65,7 @@ export function SyllableIntro() {
   }, [locale]);
   const tone = TONE_META[a.tone];
   const markChar = TONE_MARK_BY_ID.get("tho")!.char;
-  const clsColor = CLASS_META[a.cls].color;
+  const clsColor = CLASS_META[a.cls].ink;
 
   useGSAP(
     () => {
@@ -97,13 +97,13 @@ export function SyllableIntro() {
           <Piece n={1} first tag={t.story.initial.tag} color={clsColor} title={t.story.initial.title} glyph={initial.chars} ipa={initial.ipa} small={fmt(t.builder.formula.cls, { cls: CLASS_META[a.cls].label[locale] })}>
             {t.story.initial.body}
           </Piece>
-          <Piece n={2} tag={t.story.vowel.tag} color="var(--color-part-vowel)" title={t.story.vowel.title} holder={initial.chars} glyph={vowel.open.replace("C", "")} ipa={vowel.ipa} small={vowel.approx[locale]}>
+          <Piece n={2} tag={t.story.vowel.tag} color="var(--color-part-vowel-ink)" title={t.story.vowel.title} holder={initial.chars} glyph={vowel.open.replace("C", "")} ipa={vowel.ipa} small={vowel.approx[locale]}>
             {t.story.vowel.body}
           </Piece>
-          <Piece n={3} tag={t.story.final.tag} color="var(--color-part-final)" title={t.story.final.title} glyph={final.char} ipa="n" small={t.builder.formula.live}>
+          <Piece n={3} tag={t.story.final.tag} color="var(--color-part-final-ink)" title={t.story.final.title} glyph={final.char} ipa="n" small={t.builder.formula.live}>
             {t.story.final.body}
           </Piece>
-          <Piece n={4} tag={t.story.mark.tag} color={tone.color} title={t.story.mark.title} holder={initial.chars} glyph={markChar} small={`${CLASS_META[a.cls].label[locale]} + ◌${markChar} = ${tone.label[locale]}`}>
+          <Piece n={4} tag={t.story.mark.tag} color={tone.ink} title={t.story.mark.title} holder={initial.chars} glyph={markChar} small={`${CLASS_META[a.cls].label[locale]} + ◌${markChar} = ${tone.label[locale]}`}>
             <p>{t.story.mark.body}</p>
             <ToneContour tone={a.tone} className="mt-3 w-16" strokeWidth={4} />
           </Piece>
@@ -112,7 +112,7 @@ export function SyllableIntro() {
             <Operator>=</Operator>
             <p className="font-poster text-lg font-bold uppercase leading-none text-ink-soft">{t.story.result.tag}</p>
             <SyllableGlyph analysis={a} className="mt-3 block text-[clamp(5rem,8.5vw,7.5rem)] leading-[1.25]" />
-            <Phonetic ipa={a.ipa} className="text-xl" style={{ color: tone.color }} />
+            <Phonetic ipa={a.ipa} className="text-xl" style={{ color: tone.ink }} />
             <h3 className="mt-4 font-poster text-2xl font-bold uppercase leading-tight">{t.story.result.title}</h3>
             <p className="mt-2 text-sm leading-relaxed text-ink/85">{t.story.result.body}</p>
             <div className="mt-5 flex flex-wrap items-center gap-3">

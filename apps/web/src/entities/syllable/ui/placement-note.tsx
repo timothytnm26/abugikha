@@ -12,7 +12,7 @@ export function PlacementNote({ analysis }: { analysis: SyllableAnalysis }) {
   const initial = analysis.segments.find((s) => s.role === "initial")!.text;
   const sides = analysis.placements.map((p) => t.syllable.where[p]).join(" + ");
   const color = (role: string) =>
-    role === "initial" ? CLASS_META[analysis.cls].color : role === "mark" ? TONE_META[analysis.tone].color : undefined;
+    role === "initial" ? CLASS_META[analysis.cls].ink : role === "mark" ? TONE_META[analysis.tone].ink : undefined;
   return (
     <div className="space-y-3 text-sm leading-relaxed">
       <div className="flex flex-wrap items-end gap-1.5" aria-label={t.syllable.partsAria}>

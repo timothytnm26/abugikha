@@ -88,10 +88,10 @@ function Sample() {
     <div className="note-paper flex items-center justify-between gap-3 px-4 py-2">
       <span className="text-xs text-ink-soft">{t.settings.sample}</span>
       <span lang="th" className="note-glyph font-thai text-4xl leading-normal" aria-hidden>
-        <span className="text-low">ค</span>
-        <span className="text-tone-high">้</span>
-        <span className="text-part-vowel">า</span>
-        <span className="text-part-final">น</span>
+        <span className="text-low-ink">ค</span>
+        <span className="text-tone-high-ink">้</span>
+        <span className="text-part-vowel-ink">า</span>
+        <span className="text-part-final-ink">น</span>
       </span>
     </div>
   );
@@ -168,16 +168,16 @@ export function SettingsMenu() {
     <div className={"grid grid-cols-5 gap-2"}>
       {keys.map((k) => {
         const value = overrides[k] ?? active.vars[k];
-        // Màu người dùng chọn phải đọc được trên cả giấy lẫn tờ ghi chú, nếu không thì báo ngay
-        const low = Math.min(contrastRatio(value, active.vars.paper), contrastRatio(value, active.vars.sheet)) < AA_CONTRAST;
+        // Màu người dùng chọn là màu nền: chữ on-accent đặt lên phải đọc được, nếu không thì báo ngay (biến thể -ink làm chữ trên giấy tự pha với mực)
+        const low = contrastRatio(active.vars["on-accent"], value) < AA_CONTRAST;
         return (
         <label key={k} className="flex flex-col items-center gap-1 text-xs text-ink-soft">
-          <span lang="th" className="font-thai relative grid size-11 place-items-center overflow-hidden bg-sheet text-2xl leading-none ring-2 ring-ink/10 focus-within:ring-ink sm:size-10" style={{ color: `var(--color-${k})` }}>
+          <span lang="th" className="font-thai relative grid size-11 place-items-center overflow-hidden bg-sheet text-2xl leading-none ring-2 ring-ink/10 focus-within:ring-ink sm:size-10" style={{ color: `var(--color-${k}-ink)` }}>
             {GLYPH[k]}
             <input type="color" value={value} onChange={(e) => setColor(activeId, k, e.target.value)} className="absolute inset-0 size-full cursor-pointer opacity-0" aria-label={low ? `${label(k)}: ${t.settings.lowContrast}` : label(k)} />
           </span>
           {label(k)}
-          {low && <span className="font-medium text-high">{t.settings.lowContrast}</span>}
+          {low && <span className="font-medium text-high-ink">{t.settings.lowContrast}</span>}
         </label>
         );
       })}

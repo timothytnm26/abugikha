@@ -3,12 +3,18 @@ import Link from "next/link";
 import type { CSSProperties, ComponentProps, ReactNode } from "react";
 import { cn } from "../lib/cn";
 
-export type PosterBg = "blue" | "orange" | "black" | "cream";
+export type PosterBg = "orange" | "blue" | "sky" | "lime" | "coral" | "violet" | "green" | "yellow" | "black" | "cream";
 
 /** Mỗi nền đi kèm đúng màu chữ đã kiểm tra AA ở shared/config/poster.test.ts; đừng ghép cặp khác. */
 const TILE: Record<PosterBg, string> = {
-  blue: "bg-poster-blue text-white",
   orange: "bg-poster-orange text-poster-black",
+  blue: "bg-poster-blue text-white",
+  sky: "bg-poster-sky text-poster-black",
+  lime: "bg-poster-lime text-poster-black",
+  coral: "bg-poster-coral text-poster-black",
+  violet: "bg-poster-violet text-white",
+  green: "bg-poster-green text-poster-black",
+  yellow: "bg-poster-yellow text-poster-black",
   black: "bg-poster-black text-poster-cream",
   cream: "bg-poster-cream text-poster-black",
 };
@@ -34,7 +40,7 @@ export function PosterTile({ bg, pad = "p-5 md:p-8", className, children, style,
 export function PosterLink({ bg, pad = "p-5 md:p-8", className, children, ...rest }: BaseProps & Omit<ComponentProps<typeof Link>, keyof BaseProps>) {
   return (
     <Link
-      className={cn("group block focus-visible:outline-4 focus-visible:-outline-offset-8", bg === "black" || bg === "blue" ? "focus-visible:outline-white" : "focus-visible:outline-poster-black", pad, TILE[bg], className)}
+      className={cn("group block focus-visible:outline-4 focus-visible:-outline-offset-8", bg === "black" || bg === "blue" || bg === "violet" ? "focus-visible:outline-white" : "focus-visible:outline-poster-black", pad, TILE[bg], className)}
       {...rest}
     >
       {children}

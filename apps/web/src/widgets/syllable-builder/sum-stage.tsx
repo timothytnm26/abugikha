@@ -33,7 +33,7 @@ import { AutoSpeakSwitch } from "@/features/customize-appearance";
 import { MORPH_BY_VOWEL, MORPH_RULES } from "@abugikha/core/syllable";
 import { fmt, useLocale, useLocalePath, useT } from "@/shared/i18n";
 import { cn } from "@/shared/lib";
-import { paletteVar } from "@/shared/config/palette";
+import { paletteInkVar } from "@/shared/config/palette";
 import { gsap, useGSAP, prefersReducedMotion } from "@/shared/lib/gsap";
 import { speakThai } from "@/shared/lib/speech";
 import { Phonetic, SpeakButton } from "@/shared/ui";
@@ -104,7 +104,7 @@ function StepPopover({
           <div key={i}>
             <p
               className="text-sm font-semibold leading-snug"
-              style={s.accent ? { color: paletteVar(s.accent) } : undefined}
+              style={s.accent ? { color: paletteInkVar(s.accent) } : undefined}
             >
               {s.title}
             </p>
@@ -215,7 +215,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
   const inner = useRef<HTMLDivElement>(null);
   const resultPopId = useId();
   const tone = TONE_META[a.tone];
-  const clsColor = CLASS_META[a.cls].color;
+  const clsColor = CLASS_META[a.cls].ink;
   const markChar = a.mark ? TONE_MARK_BY_ID.get(a.mark)!.char : null;
   const hasFinal = Boolean(final) && !a.finalDropped;
 
@@ -346,7 +346,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
         title={t.builder.parts.vowel}
         glyph={stages.withVowel.spelling}
         ipa={stages.withVowel.ipa}
-        tone={TONE_META[stages.withVowel.tone].color}
+        tone={TONE_META[stages.withVowel.tone].ink}
         steps={vowelSteps}
       />
     ),
@@ -357,7 +357,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
         title={hasFinal ? t.builder.parts.final : t.builder.noFinalStep}
         glyph={stages.withFinal.spelling}
         ipa={stages.withFinal.ipa}
-        tone={TONE_META[stages.withFinal.tone].color}
+        tone={TONE_META[stages.withFinal.tone].ink}
         steps={stepsOf("final", "liveness")}
       />
     ),
@@ -368,7 +368,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
         title={markChar ? t.builder.parts.mark : t.builder.noMarkStep}
         glyph={a.spelling}
         ipa={a.ipa}
-        tone={tone.color}
+        tone={tone.ink}
         steps={stepsOf("mark", "result")}
       />
     ),
@@ -391,13 +391,13 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
     <>
       <DockSlot kind="initial" label={t.builder.parts.initial} glyph={initial.chars} color={clsColor} onSelect={() => setTab("initial")} />
       <Plus compact />
-      <DockSlot kind="vowel" label={t.builder.parts.vowel} glyph={vowelGlyph(vowel, a.form)} color="var(--color-part-vowel)" onSelect={() => setTab("vowel")} />
+      <DockSlot kind="vowel" label={t.builder.parts.vowel} glyph={vowelGlyph(vowel, a.form)} color="var(--color-part-vowel-ink)" onSelect={() => setTab("vowel")} />
       <Plus compact />
       <DockSlot
         kind="final"
         label={t.builder.parts.final}
         glyph={hasFinal ? final!.char : "—"}
-        color="var(--color-part-final)"
+        color="var(--color-part-final-ink)"
         empty={!hasFinal}
         onSelect={() => setTab("final")}
       />
@@ -406,7 +406,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
         kind="mark"
         label={t.builder.parts.mark}
         glyph={markChar ? `◌${markChar}` : "—"}
-        color={tone.color}
+        color={tone.ink}
         empty={!markChar}
         onSelect={() => setTab("mark")}
       />
@@ -438,7 +438,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
               <Notebook
                 analysis={a}
                 classColor={clsColor}
-                toneColor={tone.color}
+                toneColor={tone.ink}
                 liveLabel={a.liveness === "live" ? t.syllable.live : t.syllable.dead}
                 multiInitial={initial.chars.length > 1}
                 onSelect={setTab}
@@ -477,7 +477,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
                 title={t.builder.resultStep}
                 glyph={a.spelling}
                 ipa={a.ipa}
-                tone={tone.color}
+                tone={tone.ink}
                 steps={stepsOf("result")}
                 extra={
                   <>
@@ -506,7 +506,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
                       )}
                     </p>
                     {a.warnings.map((w) => (
-                      <p key={w} className="text-xs text-high">
+                      <p key={w} className="text-xs text-high-ink">
                         {w}
                       </p>
                     ))}
@@ -519,7 +519,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
           {a.warnings.length > 0 && (
             <ul className="mt-3 space-y-1.5">
               {a.warnings.map((w) => (
-                <li key={w} className="flex gap-2 bg-paper px-3 py-2 text-sm text-high">
+                <li key={w} className="flex gap-2 bg-paper px-3 py-2 text-sm text-high-ink">
                   <span aria-hidden className="font-bold">!</span>
                   <span>{w}</span>
                 </li>
@@ -549,7 +549,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
               <>
                 <WordLine word={words.exact} />
                 {words.exact.ipa.normalize("NFC") !== a.ipa && (
-                  <p className="px-1 text-xs text-high">
+                  <p className="px-1 text-xs text-high-ink">
                     {fmt(t.builder.irregular, { ipa: words.exact.ipa })}
                   </p>
                 )}

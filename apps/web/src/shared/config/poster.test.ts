@@ -12,6 +12,12 @@ const PAIRS: [text: string, bg: string][] = [
   ["white", "blue"],
   ["cream", "blue"],
   ["black", "orange"],
+  ["black", "sky"],
+  ["black", "lime"],
+  ["black", "coral"],
+  ["white", "violet"],
+  ["black", "green"],
+  ["black", "yellow"],
   ["orange", "black"],
   ["cream", "black"],
   ["black", "cream"],
@@ -19,8 +25,8 @@ const PAIRS: [text: string, bg: string][] = [
 ];
 
 describe("bảng màu áp phích", () => {
-  it("đủ năm màu", () => {
-    expect(Object.keys(poster).sort()).toEqual(["black", "blue", "cream", "orange", "taupe"]);
+  it("đủ mười một màu", () => {
+    expect(Object.keys(poster).sort()).toEqual(["black", "blue", "coral", "cream", "green", "lime", "orange", "sky", "taupe", "violet", "yellow"]);
   });
 
   it("xám kem đủ 3:1 cho chữ lớn trên nền kem", () => {

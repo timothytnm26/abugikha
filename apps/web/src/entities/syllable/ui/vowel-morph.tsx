@@ -26,7 +26,7 @@ const holder = (p: string) => p.replace("C", "◌").replace("F", "◌");
 
 /** Màu theo vai trò của mảnh; dấu thanh lấy màu của thanh */
 const roleColor = (role: SegmentRole, toneColor: string) =>
-  role === "vowel" ? "var(--color-part-vowel)" : role === "final" ? "var(--color-part-final)" : role === "mark" ? toneColor : "var(--color-ink)";
+  role === "vowel" ? "var(--color-part-vowel-ink)" : role === "final" ? "var(--color-part-final-ink)" : role === "mark" ? toneColor : "var(--color-ink)";
 const soft = (color: string, pct = 14) => `color-mix(in oklab, ${color} ${pct}%, transparent)`;
 
 const COMBINING_RE = /[\u0E31\u0E34-\u0E3A\u0E47-\u0E4E]/u;
@@ -111,10 +111,10 @@ function PatternText({ text, toneColor }: { text: string; toneColor?: string }) 
               w === "→" || w === "+"
                 ? "var(--color-ink-soft)"
                 : /^[ก-ฮ]$/u.test(w)
-                  ? "var(--color-part-final)"
+                  ? "var(--color-part-final-ink)"
                   : /^◌[่-๋]$/u.test(w)
                     ? (toneColor ?? "var(--color-ink)")
-                    : "var(--color-part-vowel)",
+                    : "var(--color-part-vowel-ink)",
           }}
         >
           {i > 0 && " "}
@@ -270,7 +270,7 @@ export function MorphPanel({ rules, initialId }: { rules: MorphRule[]; initialId
   }, [phase, m, removedKeys]);
 
   const shown = phase === "to" ? m.to : m.from;
-  const shownTone = TONE_META[shown.tone].color;
+  const shownTone = TONE_META[shown.tone].ink;
 
   const iconBtn =
     "grid size-11 shrink-0 place-items-center border border-ink/15 hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
@@ -282,7 +282,7 @@ export function MorphPanel({ rules, initialId }: { rules: MorphRule[]; initialId
         <h3 id="morph-title" className="min-w-0 flex-1 text-sm font-semibold">
           {t.morph.title}{" "}
           <span lang="th" className="whitespace-nowrap font-thai text-lg font-normal">
-            <PatternText text={patternLabel(m.rule)} toneColor={TONE_META[m.to.tone].color} />
+            <PatternText text={patternLabel(m.rule)} toneColor={TONE_META[m.to.tone].ink} />
           </span>
         </h3>
         <button type="button" onClick={() => speakThai(m.to.spelling)} aria-label={t.common.listen} title={t.common.listen} className={iconBtn}>
@@ -352,14 +352,14 @@ export function MorphPanel({ rules, initialId }: { rules: MorphRule[]; initialId
       </div>
         {/* Dạng mở → dạng mới trên một dòng, kèm mảnh bị bỏ / được thêm */}
         <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1.5">
-          <FormInline label={t.morph.from} spelling={m.from.spelling} tokens={m.fromTokens} ipa={m.from.ipa} toneColor={TONE_META[m.from.tone].color} active={phase !== "to"} />
+          <FormInline label={t.morph.from} spelling={m.from.spelling} tokens={m.fromTokens} ipa={m.from.ipa} toneColor={TONE_META[m.from.tone].ink} active={phase !== "to"} />
           <span aria-hidden className="text-ink-soft">→</span>
           <FormInline
             label={m.rule.mark ? t.morph.toMark : t.morph.to}
             spelling={m.to.spelling}
             tokens={m.toTokens}
             ipa={m.to.ipa}
-            toneColor={TONE_META[m.to.tone].color}
+            toneColor={TONE_META[m.to.tone].ink}
             active={phase === "to"}
           />
           <span className="ml-auto flex flex-wrap gap-1">
@@ -379,7 +379,7 @@ export function MorphPanel({ rules, initialId }: { rules: MorphRule[]; initialId
               <span
                 key={`a${i}`}
                 className={cn(chip, "delay-300", phase === "to" || (p.role === "final" && phase !== "from") ? "opacity-100" : "opacity-0")}
-                style={{ color: roleColor(p.role, TONE_META[m.to.tone].color), backgroundColor: soft(roleColor(p.role, TONE_META[m.to.tone].color)) }}
+                style={{ color: roleColor(p.role, TONE_META[m.to.tone].ink), backgroundColor: soft(roleColor(p.role, TONE_META[m.to.tone].ink)) }}
               >
                 + <span lang="th" className="font-thai text-base font-normal">{withHolder(p)}</span>
               </span>

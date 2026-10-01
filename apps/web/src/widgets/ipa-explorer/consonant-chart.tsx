@@ -73,7 +73,7 @@ export function ConsonantChart() {
         <p role="status" className="sr-only">{`/${sel.ipa}/ · ${sel.example}, ${sel.meaning[locale]}`}</p>
         <Phonetic ipa={sel.ipa} className="text-5xl" />
         <p className="mt-3 leading-relaxed">{sel.note[locale]}</p>
-        {trap && <p className="mt-3 bg-high/10 p-3 text-sm text-high">{trap}</p>}
+        {trap && <p className="mt-3 bg-high/10 p-3 text-sm text-high-ink">{trap}</p>}
         <div className="mt-5 flex flex-wrap items-center gap-3">
           <span lang="th" className="font-thai text-3xl">{sel.example}</span>
           <Phonetic ipa={sel.exampleIpa} className="text-ink-soft" />

@@ -42,7 +42,7 @@ export function ToneContours() {
             data-tone={tn}
             d={toPath(TONE_META[tn].chao)}
             fill="none"
-            stroke={TONE_META[tn].color}
+            stroke={TONE_META[tn].ink}
             strokeWidth={tn === active ? 8 : 3}
             strokeOpacity={tn === active ? 1 : 0.2}
             strokeLinecap="round"

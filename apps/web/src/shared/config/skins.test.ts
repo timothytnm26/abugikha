@@ -11,11 +11,12 @@ describe.each(SKINS)("skin $id", ({ vars }) => {
     }
   });
 
-  it("mọi màu ý nghĩa đọc được trên giấy và tờ ghi chú, và chữ trên nền màu đó đọc được", () => {
+  it("mọi màu ý nghĩa là nền sáng: chữ on-accent đọc được trên nó, và biến thể -ink (pha 35% với mực) đọc được trên giấy và tờ ghi chú", () => {
     for (const k of PALETTE_KEYS) {
-      expect(contrast(vars[k], vars.paper), `${k} / paper`).toBeGreaterThanOrEqual(AA);
-      expect(contrast(vars[k], vars.sheet), `${k} / sheet`).toBeGreaterThanOrEqual(AA);
       expect(contrast(vars["on-accent"], vars[k]), `on-accent / ${k}`).toBeGreaterThanOrEqual(AA);
+      const ink = mix(vars[k], vars.ink, 0.35);
+      expect(contrast(ink, vars.paper), `${k}-ink / paper`).toBeGreaterThanOrEqual(AA);
+      expect(contrast(ink, vars.sheet), `${k}-ink / sheet`).toBeGreaterThanOrEqual(AA);
     }
   });
 
@@ -28,7 +29,7 @@ describe.each(SKINS)("skin $id", ({ vars }) => {
 
   it("chữ onTint đủ tương phản trên nền tint 16% của chính màu", () => {
     for (const k of PALETTE_KEYS) {
-      const text = mix(vars[k], vars.ink, 0.65);
+      const text = mix(vars[k], vars.ink, 0.35);
       expect(contrast(text, mix(vars[k], vars.paper, 0.16)), `${k} trên tint`).toBeGreaterThanOrEqual(AA);
     }
   });

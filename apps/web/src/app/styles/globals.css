@@ -26,24 +26,36 @@
   --color-paper-deep: #e9e1d7;
   --color-ink: #1b1a17;
   --color-ink-soft: #5e5750;
-  --color-on-accent: #ffffff;
+  --color-on-accent: #14130f;
 
-  --color-mid: #007a5b;
-  --color-high: #a23e2d;
-  --color-low: #215da5;
+  --color-mid: #12bd0c;
+  --color-high: #ff5200;
+  --color-low: #1e9fe8;
 
-  --color-tone-mid: #616c67;
-  --color-tone-low: #474c95;
-  --color-tone-falling: #a3416d;
-  --color-tone-high: #965f00;
-  --color-tone-rising: #007498;
+  --color-tone-mid: #c9cdc9;
+  --color-tone-low: #b07aff;
+  --color-tone-falling: #f47b6b;
+  --color-tone-high: #ffe100;
+  --color-tone-rising: #1e9fe8;
 
   /* Màu vai trò của mảnh chữ (phần nguyên âm biến hình): nguyên âm, âm cuối, mảnh bị loại */
-  --color-part-vowel: #7c4a98;
-  --color-part-final: #507308;
+  --color-part-vowel: #b07aff;
+  --color-part-final: #cdfb1c;
   --color-removed: #c2361c;
-  /* Màu nhấn thương hiệu (chữ "ไทย" ở thanh nav, viền phát sáng, nút của skin) */
-  --color-brand: #0a0adc;
+  /* Màu nhấn thương hiệu (chữ "ไทย" ở thanh nav, nút của skin): cam đậm của màu chủ đạo, đủ AA trên giấy */
+  --color-brand: #c23d00;
+
+  /* Màu nền ở trên đều sáng (chữ đen đặt lên được); khi dùng làm chữ hoặc nét trên giấy thì lấy biến thể -ink: pha 35% màu với mực để đủ AA */
+  --color-mid-ink: color-mix(in oklab, var(--color-mid) 35%, var(--color-ink));
+  --color-high-ink: color-mix(in oklab, var(--color-high) 35%, var(--color-ink));
+  --color-low-ink: color-mix(in oklab, var(--color-low) 35%, var(--color-ink));
+  --color-tone-mid-ink: color-mix(in oklab, var(--color-tone-mid) 35%, var(--color-ink));
+  --color-tone-low-ink: color-mix(in oklab, var(--color-tone-low) 35%, var(--color-ink));
+  --color-tone-falling-ink: color-mix(in oklab, var(--color-tone-falling) 35%, var(--color-ink));
+  --color-tone-high-ink: color-mix(in oklab, var(--color-tone-high) 35%, var(--color-ink));
+  --color-tone-rising-ink: color-mix(in oklab, var(--color-tone-rising) 35%, var(--color-ink));
+  --color-part-vowel-ink: color-mix(in oklab, var(--color-part-vowel) 35%, var(--color-ink));
+  --color-part-final-ink: color-mix(in oklab, var(--color-part-final) 35%, var(--color-ink));
 
   /* Đường lề đỏ của giấy tập viết */
   --color-margin: #d98a86;
@@ -52,9 +64,15 @@
   --color-sheet: #fbf8f3;
   --color-sheet-line: #d3c8ba;
 
-  /* Bảng màu áp phích rút gọn: xanh điện, cam đỏ, đen, kem và xám kem. Cố định, không đổi theo skin. Cặp chữ-nền đạt AA đã có test ở shared/config/poster.test.ts */
-  --color-poster-blue: #0a0adc;
+  /* Bảng màu áp phích lấy từ ảnh tham chiếu, cam là màu chủ đạo; kèm đen, kem và xám kem. Cố định, không đổi theo skin. Cặp chữ-nền đạt AA đã có test ở shared/config/poster.test.ts */
   --color-poster-orange: #ff5200;
+  --color-poster-blue: #0a0adc;
+  --color-poster-sky: #1e9fe8;
+  --color-poster-lime: #cdfb1c;
+  --color-poster-coral: #f47b6b;
+  --color-poster-violet: #8c3df4;
+  --color-poster-green: #12bd0c;
+  --color-poster-yellow: #ffe100;
   --color-poster-black: #14130f;
   --color-poster-cream: #f4efe9;
   --color-poster-taupe: #8a7f73;

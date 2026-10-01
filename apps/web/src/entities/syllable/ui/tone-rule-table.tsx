@@ -105,7 +105,7 @@ export function ToneRuleTable({ analysis }: { analysis: SyllableAnalysis }) {
       </table>
       <ul className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs">
         {(Object.keys(TONE_META) as (keyof typeof TONE_META)[]).map((k) => (
-          <li key={k} className="flex items-center gap-1.5" style={{ color: TONE_META[k].color }}>
+          <li key={k} className="flex items-center gap-1.5" style={{ color: TONE_META[k].ink }}>
             <ToneContour tone={k} className="w-5" strokeWidth={5} />
             <span className="text-ink">{TONE_META[k].label[locale]}</span>
           </li>

@@ -36,23 +36,23 @@ export function HeroMerge() {
     <div ref={root} className="@container relative flex w-full flex-col items-center gap-4 text-center">
       <div lang="th" className="relative h-[1.3em] w-full font-thai text-[clamp(3rem,26cqw,10rem)] leading-none">
         <span className="hero-parts absolute inset-0 flex items-center justify-center gap-[0.15em]">
-          <span className="hero-c text-mid">ค</span>
+          <span className="hero-c text-mid-ink">ค</span>
           <span className="hero-plus text-[0.4em] text-ink-soft">+</span>
-          <span className="hero-v text-part-vowel">◌ะ</span>
+          <span className="hero-v text-part-vowel-ink">◌ะ</span>
           <span className="hero-plus text-[0.4em] text-ink-soft">+</span>
-          <span className="hero-mark text-tone-falling">◌่</span>
+          <span className="hero-mark text-tone-falling-ink">◌่</span>
         </span>
         <span className="hero-word note-glyph relative flex items-center justify-center opacity-0">
-          <span className="hero-ring pointer-events-none absolute left-1/2 top-1/2 size-[0.9em] -translate-x-1/2 -translate-y-1/2 rounded-full border-4 border-tone-falling" />
+          <span className="hero-ring pointer-events-none absolute left-1/2 top-1/2 size-[0.9em] -translate-x-1/2 -translate-y-1/2 rounded-full border-4 border-tone-falling-ink" />
           <span>
-            <span className="text-mid">ค</span>
-            <span className="text-tone-falling">่</span>
-            <span className="text-part-vowel">ะ</span>
+            <span className="text-mid-ink">ค</span>
+            <span className="text-tone-falling-ink">่</span>
+            <span className="text-part-vowel-ink">ะ</span>
           </span>
         </span>
       </div>
       <div className="hero-ipa flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
-        <Phonetic ipa="kʰâʔ" className="text-2xl text-tone-falling" />
+        <Phonetic ipa="kʰâʔ" className="text-2xl text-tone-falling-ink" />
         <span className="text-ink-soft">{t.home.heroMeaning}</span>
         <SpeakButton text="ค่ะ" />
       </div>

@@ -21,7 +21,7 @@ export function InitialFace({
   muted,
   className,
 }: Props) {
-  const color = CLASS_META[unit.cls].color;
+  const { color, ink } = CLASS_META[unit.cls];
   return (
     <span
       className={cn(
@@ -39,7 +39,7 @@ export function InitialFace({
       style={
         selected
           ? undefined
-          : { borderColor: tint(color, muted ? 35 : 55), color }
+          : { borderColor: tint(color, muted ? 35 : 55), color: ink }
       }
     >
       <span lang="th"

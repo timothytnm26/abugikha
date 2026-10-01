@@ -145,7 +145,7 @@ function IntroPanel() {
         </p>
       </div>
       {/* ตัว "ka" ของสามยุค: cùng một chữ, ba thời đại */}
-      <div aria-hidden className="tl-intro flex items-center gap-3 self-center text-mid md:gap-5">
+      <div aria-hidden className="tl-intro flex items-center gap-3 self-center text-mid-ink md:gap-5">
         <span className="text-6xl text-ink-soft md:text-8xl" style={glyphFont("brahmi")}>𑀓</span>
         <span className="text-2xl text-ink-soft">→</span>
         <span className="text-6xl text-ink-soft md:text-8xl" style={glyphFont("khmer")}>ក</span>
@@ -162,7 +162,7 @@ function EndPanel() {
   return (
     <section className="tl-col flex w-[88vw] max-w-[36rem] shrink-0 snap-start items-center justify-center py-10 tall:h-full tall:w-[min(52rem,calc(100vw-2rem))] tall:max-w-none tall:py-0">
       <div className="max-w-md text-center">
-        <span lang="th" aria-hidden className="font-thai text-8xl leading-none text-tone-falling">ก</span>
+        <span lang="th" aria-hidden className="font-thai text-8xl leading-none text-tone-falling-ink">ก</span>
         <h2 className="mt-4 text-3xl font-semibold leading-tight md:text-4xl">{t.history.endTitle}</h2>
         <p className="mt-3 text-ink/80">{t.history.endBody}</p>
         <Link href={href("/lab")} className="btn btn-primary mt-6">
