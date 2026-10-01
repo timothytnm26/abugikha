@@ -47,7 +47,7 @@ export function ConsonantChart() {
                       >
                         <span className="font-ipa text-2xl leading-none">{phone.ipa}</span>
                         <span className="mt-1 text-[11px] opacity-70">{ipaToRtgs(phone.ipa) || "–"}</span>
-                        {phone.trap?.[locale] && <span className="absolute right-1.5 top-1.5 size-2 rounded-full bg-high" aria-label={t.ipa.trapAria} />}
+                        {phone.trap?.[locale] && <span role="img" className="absolute right-1.5 top-1.5 size-2 rounded-full bg-high" aria-label={t.ipa.trapAria} />}
                       </button>
                     </td>
                   );
@@ -62,7 +62,8 @@ export function ConsonantChart() {
         </p>
       </div>
 
-      <aside aria-live="polite" className="rounded-3xl bg-paper-deep p-6">
+      <aside className="rounded-3xl bg-paper-deep p-6">
+        <p role="status" className="sr-only">{`/${sel.ipa}/ · ${sel.example}, ${sel.meaning[locale]}`}</p>
         <Phonetic ipa={sel.ipa} className="text-5xl" />
         <p className="mt-3 leading-relaxed">{sel.note[locale]}</p>
         {trap && <p className="mt-3 rounded-2xl bg-high/10 p-3 text-sm text-high">{trap}</p>}

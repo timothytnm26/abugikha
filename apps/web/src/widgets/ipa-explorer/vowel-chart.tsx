@@ -95,7 +95,8 @@ export function VowelChart() {
         </div>
       </div>
 
-      <aside aria-live="polite" className="rounded-3xl bg-paper-deep p-6">
+      <aside className="rounded-3xl bg-paper-deep p-6">
+        <p role="status" className="sr-only">{`/${sel.ipa}/ ≈ ${sel.approx[locale]}`}</p>
         <Phonetic ipa={sel.ipa} className="text-5xl" />
         <p className="mt-2">≈ {sel.approx[locale]}</p>
         {isDiph ? (

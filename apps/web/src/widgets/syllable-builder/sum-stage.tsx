@@ -418,6 +418,10 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
         className="rounded-xl bg-paper-deep px-3 pb-2 pt-4 md:px-4"
       >
         <div ref={inner}>
+          {/* Thông báo âm tiết vừa ghép và thanh của nó cho trình đọc màn hình */}
+          <p role="status" className="sr-only">
+            {`${a.spelling}, /${a.ipa}/, ${tone.label[locale]}`}
+          </p>
           <div className="flex flex-col items-stretch gap-3 xl:flex-row xl:items-center">
             <div className="min-w-0 flex-1">
               <div className="mb-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 px-1 text-[11px] text-ink-soft">

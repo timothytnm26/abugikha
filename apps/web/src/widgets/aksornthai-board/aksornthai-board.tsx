@@ -141,9 +141,12 @@ export function AksornThaiBoard() {
       {/* Khung preview dùng chung: trên cùng ở mobile, cột phải dính khi cuộn ở desktop */}
       <aside
         ref={preview}
-        aria-live="polite"
         className="order-first scroll-mt-20 rounded-xl bg-paper-deep p-4 md:p-5 lg:sticky lg:top-20 lg:order-last lg:max-h-[calc(100dvh-6rem)] lg:self-start lg:overflow-y-auto lg:overscroll-contain lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden"
       >
+        {/* Chỉ thông báo một dòng ngắn khi đổi lựa chọn, không đọc lại cả khung */}
+        <p role="status" className="sr-only">
+          {sel.kind === "consonant" ? `${consonantSpeech(sel.item)}, ${CLASS_META[sel.item.cls].label[locale]}` : char}
+        </p>
         {/* Chữ đặt trong vở 4 tầng để thấy nó nằm ở dòng nào khi viết */}
         <div role="img" aria-label={char}>
           <LetterNotebook text={char} />
