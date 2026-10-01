@@ -173,6 +173,7 @@
     "endCta": "Start building"
   },
   "settings": {
+    "lowContrast": "Low contrast",
     "title": "Customize",
     "phonetic": "Show IPA / RTGS on picker tiles",
     "phoneticHint": "Turn off once you know their sounds and names.",

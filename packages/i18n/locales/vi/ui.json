@@ -173,6 +173,7 @@
     "endCta": "Bắt đầu ghép chữ"
   },
   "settings": {
+    "lowContrast": "Độ tương phản thấp",
     "title": "Tuỳ chỉnh",
     "phonetic": "Hiện IPA / RTGS trên các ô chọn",
     "phoneticHint": "Tắt khi bạn đã thuộc cách đọc và tên của chúng.",

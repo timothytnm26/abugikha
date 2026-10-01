@@ -11,7 +11,7 @@ import { useEffectiveTheme } from "@/shared/lib/theme";
 import { useDismiss } from "@/shared/lib/use-dismiss";
 import { fmt, useLocale, useT, type L10n } from "@/shared/i18n";
 import { gsap, useGSAP, prefersReducedMotion } from "@/shared/lib/gsap";
-import { cn } from "@/shared/lib";
+import { AA_CONTRAST, cn, contrastRatio } from "@/shared/lib";
 
 /** Ký tự đại diện cho từng khoá màu: phụ âm mẫu của nhóm, nguyên âm, âm cuối, hoặc dấu thanh trên ◌ (thanh sắc-thường không có dấu). */
 const GLYPH: Record<PaletteKey, string> = {
@@ -163,15 +163,21 @@ export function SettingsMenu() {
   };
   const swatches = (keys: readonly PaletteKey[]) => (
     <div className={"grid grid-cols-5 gap-2"}>
-      {keys.map((k) => (
+      {keys.map((k) => {
+        const value = overrides[k] ?? active.vars[k];
+        // Màu người dùng chọn phải đọc được trên cả giấy lẫn tờ ghi chú, nếu không thì báo ngay
+        const low = Math.min(contrastRatio(value, active.vars.paper), contrastRatio(value, active.vars.sheet)) < AA_CONTRAST;
+        return (
         <label key={k} className="flex flex-col items-center gap-1 text-xs text-ink-soft">
           <span lang="th" className="font-thai relative grid size-11 place-items-center overflow-hidden rounded-xl bg-sheet text-2xl leading-none ring-2 ring-ink/10 focus-within:ring-ink sm:size-10" style={{ color: `var(--color-${k})` }}>
             {GLYPH[k]}
-            <input type="color" value={overrides[k] ?? active.vars[k]} onChange={(e) => setColor(activeId, k, e.target.value)} className="absolute inset-0 size-full cursor-pointer opacity-0" aria-label={label(k)} />
+            <input type="color" value={value} onChange={(e) => setColor(activeId, k, e.target.value)} className="absolute inset-0 size-full cursor-pointer opacity-0" aria-label={low ? `${label(k)}: ${t.settings.lowContrast}` : label(k)} />
           </span>
           {label(k)}
+          {low && <span className="font-medium text-high">{t.settings.lowContrast}</span>}
         </label>
-      ))}
+        );
+      })}
     </div>
   );
 
