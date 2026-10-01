@@ -9,6 +9,7 @@ export function Phonetic({ ipa, className, style }: { ipa: string; className?: s
       <span className="font-ipa">/{ipa}/</span>
       {rtgs && (
         <span className="text-[0.8em] tracking-wide opacity-80" title="RTGS">
+          <span className="sr-only">RTGS </span>
           {rtgs}
         </span>
       )}
