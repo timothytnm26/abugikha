@@ -317,9 +317,6 @@ html:not([data-paper="tiers"]) .paper-tier {
   text-shadow: 0 0 0.12em var(--color-sheet), 0 0 0.3em var(--color-sheet);
 }
 
-@keyframes float-soft {
-  50% { translate: 0 -10px; rotate: 3deg; }
-}
 @keyframes nudge-x {
   50% { translate: 6px 0; }
 }
@@ -327,21 +324,15 @@ html:not([data-paper="tiers"]) .paper-tier {
   * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
 }
 
-@keyframes drift-slow {
-  50% { translate: 0 -18px; rotate: 4deg; }
-}
-@keyframes bob-y {
-  50% { translate: 0 7px; }
-}
-/* Nền liền mạch của cả trang chủ: các quầng màu lấy từ ba nhóm phụ âm, trải dọc theo từng màn hình để các phần nối nhau không có đường cắt */
+/* Nền liền mạch của cả trang chủ: chỉ hai quầng màu (ngọc lục bảo của nhóm phụ âm giữa và tím của "ไทย" ở logo), trải dọc theo từng màn hình để các phần nối nhau không có đường cắt */
 .home-flow {
   background:
     radial-gradient(60rem 36rem at 12% 8svh, color-mix(in oklab, var(--color-mid) 22%, transparent), transparent 70%),
     radial-gradient(48rem 34rem at 92% 22svh, color-mix(in oklab, var(--color-tone-falling) 16%, transparent), transparent 70%),
-    radial-gradient(56rem 36rem at 60% 100svh, color-mix(in oklab, var(--color-low) 20%, transparent), transparent 70%),
-    radial-gradient(50rem 34rem at 8% 170svh, color-mix(in oklab, var(--color-part-vowel) 16%, transparent), transparent 70%),
-    radial-gradient(52rem 34rem at 94% 215svh, color-mix(in oklab, var(--color-high) 15%, transparent), transparent 70%),
-    radial-gradient(56rem 36rem at 40% 290svh, color-mix(in oklab, var(--color-mid) 20%, transparent), transparent 70%);
+    radial-gradient(56rem 36rem at 60% 100svh, color-mix(in oklab, var(--color-mid) 18%, transparent), transparent 70%),
+    radial-gradient(50rem 34rem at 8% 170svh, color-mix(in oklab, var(--color-tone-falling) 14%, transparent), transparent 70%),
+    radial-gradient(52rem 34rem at 94% 215svh, color-mix(in oklab, var(--color-mid) 16%, transparent), transparent 70%),
+    radial-gradient(56rem 36rem at 40% 290svh, color-mix(in oklab, var(--color-tone-falling) 14%, transparent), transparent 70%);
 }
 
 /* ---------- Thành phần dùng lại (trang chủ) ---------- */
@@ -408,9 +399,6 @@ html:not([data-paper="tiers"]) .paper-tier {
   .btn-icon {
     @apply min-w-11 px-0;
   }
-  .hero-eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full bg-paper-deep px-3.5 py-1.5 text-xs font-medium text-ink-soft shadow-sm sm:text-sm;
-  }
   .section-title {
     @apply text-2xl font-semibold md:text-3xl;
   }
@@ -425,26 +413,4 @@ html:not([data-paper="tiers"]) .paper-tier {
   min-height: calc(100svh - 3.5rem);
   flex-direction: column;
   justify-content: center;
-}
-
-/* Tên dài của Bangkok chạy qua lại: hai bản sao nối đuôi nhau, trượt đúng nửa độ rộng thì lặp lại liền mạch */
-.marquee-track {
-  display: flex;
-  width: max-content;
-}
-.marquee-left {
-  animation: marquee-left linear infinite;
-}
-.marquee-right {
-  animation: marquee-right linear infinite;
-}
-@keyframes marquee-left {
-  to { translate: -50% 0; }
-}
-@keyframes marquee-right {
-  from { translate: -50% 0; }
-  to { translate: 0 0; }
-}
-.marquee-fade {
-  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
 }

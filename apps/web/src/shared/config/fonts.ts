@@ -16,9 +16,3 @@ export const THAI_SPECIMEN_FONTS: { family: string; style: ThaiFontStyle }[] = [
 
 /** Chỉ nạp ở trang Aksorn Thai */
 export const THAI_SPECIMEN_CSS = `https://fonts.googleapis.com/css2?${THAI_SPECIMEN_FONTS.map((f) => `family=${f.family.replaceAll(" ", "+")}`).join("&")}&display=swap`;
-
-/** Tên đầy đủ của Bangkok (tên dài nhất thế giới theo chữ Thái) và các font để nó bay qua lại ở cuối trang chủ. */
-export const BANGKOK_FULL_NAME =
-  "กรุงเทพมหานคร อมรรัตนโกสินทร์ มหินทรายุธยา มหาดิลกภพ นพรัตน์ราชธานีบูรีรมย์ อุดมราชนิเวศน์มหาสถาน อมรพิมานอวตารสถิต สักกะทัตติยวิษณุกรรมประสิทธิ์";
-export const BANGKOK_MARQUEE_FONTS = ["Noto Sans Thai Looped", "Kanit", "Charm", "Playpen Sans Thai", "Mali", "Pridi"];
-export const BANGKOK_MARQUEE_CSS = `https://fonts.googleapis.com/css2?${BANGKOK_MARQUEE_FONTS.map((f) => `family=${f.replaceAll(" ", "+")}`).join("&")}&display=swap`;
