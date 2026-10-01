@@ -125,7 +125,7 @@ export function SettingsMenu() {
     if (!open) return;
     const el = panel.current;
     if (!el) return;
-    const items = () => [...el.querySelectorAll<HTMLElement>('button, input, [href], [tabindex]:not([tabindex="-1"])')].filter((n) => !n.hasAttribute("disabled"));
+    const items = () => [...el.querySelectorAll<HTMLElement>('button, input, summary, [href], [tabindex]:not([tabindex="-1"])')].filter((n) => !n.hasAttribute("disabled"));
     (items()[0] ?? el).focus();
     const trap = (e: KeyboardEvent) => {
       if (e.key !== "Tab") return;
@@ -226,11 +226,16 @@ export function SettingsMenu() {
           </div>
         </section>
 
-        <section className="space-y-3" aria-label={t.settings.partColors}>
-          <div>
-            <h3 className="text-sm font-semibold">{t.settings.partColors}</h3>
-            <p className="text-xs text-ink-soft">{t.settings.partColorsHint}</p>
-          </div>
+        <details className="group space-y-3">
+          <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
+            <span>
+              <h3 className="text-sm font-semibold">{t.settings.partColors}</h3>
+              <span className="block text-xs text-ink-soft">{t.settings.partColorsHint}</span>
+            </span>
+            <svg aria-hidden viewBox="0 0 20 20" className="size-4 shrink-0 fill-none stroke-current stroke-2 transition-transform group-open:rotate-180" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 8l5 5 5-5" />
+            </svg>
+          </summary>
           <Sample />
           <div className="space-y-1.5">
             <p className="text-xs font-medium text-ink-soft">{t.settings.initialColors}</p>
@@ -250,7 +255,7 @@ export function SettingsMenu() {
               {t.settings.reset}
             </button>
           </div>
-        </section>
+        </details>
 
         <div className="space-y-4 border-t border-ink/10 pt-4">
           <div>

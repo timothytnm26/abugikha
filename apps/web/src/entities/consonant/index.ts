@@ -3,3 +3,4 @@ export { CONSONANTS, CONSONANT_BY_ID, consonantSpeech, INITIAL_UNITS, INITIAL_BY
 export { CLASS_META } from "./model/class-meta";
 export { consonantQueries } from "./api/queries";
 export { InitialFace } from "./ui/initial-face";
+export { ClassLegend } from "./ui/class-legend";

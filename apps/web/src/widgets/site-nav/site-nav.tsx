@@ -3,31 +3,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { LEARNING_PATH, stripLocale } from "@/shared/config/routes";
-import { useLocale, useLocalePath, useT } from "@/shared/i18n";
-import { CLASS_META } from "@/entities/consonant";
+import { useLocalePath, useT } from "@/shared/i18n";
 import { LocaleSwitch } from "@/features/toggle-locale";
 import { ThemeSwitch } from "@/features/toggle-theme";
 import { SettingsMenu } from "@/features/customize-appearance";
 import { gsap, useGSAP, prefersReducedMotion } from "@/shared/lib/gsap";
 import { cn } from "@/shared/lib";
-
-function ClassLegend({ className }: { className?: string }) {
-  const { locale } = useLocale();
-  const t = useT();
-  return (
-    <ul
-      className={cn("flex items-center gap-3 text-xs text-ink-soft", className)}
-      aria-label={t.nav.classColors}
-    >
-      {(["mid", "high", "low"] as const).map((c) => (
-        <li key={c} className="flex items-center gap-1.5">
-          <span className={cn("size-2.5 rounded-full", CLASS_META[c].bg)} />{" "}
-          {CLASS_META[c].label[locale]}
-        </li>
-      ))}
-    </ul>
-  );
-}
 
 /** Thanh điều hướng trên cùng; màn hình hẹp gom các bước vào menu hamburger. */
 export function SiteNav() {
@@ -117,8 +98,7 @@ export function SiteNav() {
             );
           })}
         </ul>
-        <ClassLegend className="ml-auto mr-4 hidden xl:flex" />
-        <div className="ml-auto flex items-center gap-2 xl:ml-0">
+        <div className="ml-auto flex items-center gap-2">
           <LocaleSwitch />
           <ThemeSwitch />
           <SettingsMenu />
@@ -184,7 +164,6 @@ export function SiteNav() {
               );
             })}
           </ol>
-          <ClassLegend className="menu-item mt-4 px-3" />
         </div>
       )}
     </div>
