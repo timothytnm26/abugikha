@@ -5,7 +5,7 @@ import { resolveTone, type SyllableAnalysis, type ToneMarkId } from "@abugikha/c
 import { TONE_META } from "../model/tone";
 import { ToneContour } from "./tone-contour";
 import { useLocale, useT, type Locale } from "@/shared/i18n";
-import { cn, tint } from "@/shared/lib";
+import { cn, onTint, tint } from "@/shared/lib";
 import { gsap, useGSAP, prefersReducedMotion } from "@/shared/lib/gsap";
 import { speakThai } from "@/shared/lib/speech";
 
@@ -79,7 +79,7 @@ export function ToneRuleTable({ analysis }: { analysis: SyllableAnalysis }) {
                 const on = cur.cls === cls && cur.col === c;
                 const ex = EXAMPLES[cls][c];
                 const meta = TONE_META[r.tone];
-                if (r.irregular) return <td key={c} className="rounded-md border border-dashed border-ink/10 text-ink-soft/50" title={t.builder.rare}>·</td>;
+                if (r.irregular) return <td key={c} className="rounded-md border border-dashed border-ink/40 text-ink-soft" title={t.builder.rare}>·</td>;
                 return (
                   <td key={c} className="p-0">
                     <button
@@ -92,7 +92,7 @@ export function ToneRuleTable({ analysis }: { analysis: SyllableAnalysis }) {
                         "flex h-8 w-full items-center justify-center rounded-md font-medium focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ink",
                         on && "relative z-10 text-on-accent shadow-md ring-2 ring-ink ring-offset-1 ring-offset-paper",
                       )}
-                      style={{ backgroundColor: on ? meta.color : tint(meta.color, 13), color: on ? undefined : meta.color }}
+                      style={{ backgroundColor: on ? meta.color : tint(meta.color, 13), color: on ? undefined : onTint(meta.color) }}
                     >
                       <ToneContour tone={r.tone} className="w-6 shrink-0" strokeWidth={5} color={on ? "currentColor" : undefined} />
                     </button>
@@ -110,7 +110,7 @@ export function ToneRuleTable({ analysis }: { analysis: SyllableAnalysis }) {
             <span className="text-ink">{TONE_META[k].label[locale]}</span>
           </li>
         ))}
-        <li className="flex items-center gap-1.5 text-ink-soft"><span className="grid h-4 w-5 place-items-center rounded border border-dashed border-ink/20">·</span>{t.builder.rare}</li>
+        <li className="flex items-center gap-1.5 text-ink-soft"><span className="grid h-4 w-5 place-items-center rounded border border-dashed border-ink/40">·</span>{t.builder.rare}</li>
       </ul>
     </div>
   );

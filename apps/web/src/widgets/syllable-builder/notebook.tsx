@@ -124,7 +124,7 @@ function NotebookCell({ cell, part, slot, text, color, label, popover, onSelect,
           "relative grid place-items-center rounded-[0.14em] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
           main ? "min-w-[0.95em] px-[0.06em]" : "min-h-[0.46em] min-w-[0.7em]",
           cell === "cons" && "min-w-[1.15em]",
-          main && empty && "border-[1.5px] border-dashed border-ink/25",
+          main && empty && "border-[1.5px] border-dashed border-ink/55",
           !main && empty && "opacity-0 focus-visible:opacity-100",
         )}
         style={color && !empty ? ({ color } as CSSProperties) : undefined}

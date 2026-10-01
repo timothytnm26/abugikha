@@ -516,7 +516,7 @@ function ToneDetails({ mark, onTry }: { mark: ToneMark; onTry: () => void }) {
                 title={r.irregular}
                 className={cn(
                   "flex w-full flex-col rounded-xl bg-paper px-2.5 py-1.5 text-left hover:bg-paper/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
-                  r.irregular && "opacity-60",
+                  r.irregular && "border border-dashed border-ink/40",
                 )}
               >
                 <span className="text-xs font-medium" style={{ color: CLASS_META[c].color }}>

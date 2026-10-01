@@ -5,7 +5,7 @@ import { CLASS_META, CONSONANT_BY_ID, INITIAL_BY_ID } from "@/entities/consonant
 import { VOWEL_BY_ID } from "@/entities/vowel";
 import { SyllableGlyph, TONE_MARK_BY_ID, TONE_META, ToneContour, analyzeSyllable } from "@/entities/syllable";
 import { fmt, useLocale, useLocalePath, useT } from "@/shared/i18n";
-import { tint } from "@/shared/lib";
+import { onTint, tint } from "@/shared/lib";
 import { gsap, useGSAP } from "@/shared/lib/gsap";
 import { Phonetic, SpeakButton } from "@/shared/ui";
 
@@ -25,7 +25,7 @@ function Piece({ n, tag, color, title, glyph, holder, ipa, small, operator, chil
   return (
     <li className="syl-piece relative">
       <div data-tape className="note-paper flex h-full flex-col rounded-3xl border-2 p-5 pt-7" style={{ borderColor: color }}>
-        <span className="self-start rounded-full px-3 py-1 text-xs font-semibold" style={{ backgroundColor: tint(color, 16), color }}>
+        <span className="self-start rounded-full px-3 py-1 text-xs font-semibold" style={{ backgroundColor: tint(color, 16), color: onTint(color) }}>
           {fmt(t.story.partOf, { n, total: 4 })} · {tag}
         </span>
         <div className="my-3 grid min-h-32 place-items-center text-center">
@@ -102,7 +102,7 @@ export function SyllableIntro() {
 
           <li className="syl-result">
             <div data-tape className="note-paper flex h-full flex-col rounded-3xl border-2 p-5 pt-7" style={{ borderColor: tone.color }}>
-              <span className="self-start rounded-full px-3 py-1 text-xs font-semibold" style={{ backgroundColor: tint(tone.color, 16), color: tone.color }}>{t.story.result.tag}</span>
+              <span className="self-start rounded-full px-3 py-1 text-xs font-semibold" style={{ backgroundColor: tint(tone.color, 16), color: onTint(tone.color) }}>{t.story.result.tag}</span>
               <div className="my-3 grid min-h-32 place-items-center text-center">
                 <div>
                   <SyllableGlyph analysis={a} className="note-glyph block text-[5.5rem] leading-[1.35]" />

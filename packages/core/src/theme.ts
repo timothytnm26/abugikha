@@ -43,6 +43,6 @@ export const DEFAULT_PALETTE: Record<Theme, Record<PaletteKey, string>> = {
 
 /** Màu nền/chữ cơ bản (web: trùng với globals.css) */
 export const SURFACE_COLORS: Record<Theme, { paper: string; paperDeep: string; ink: string; inkSoft: string; onAccent: string }> = {
-  light: { paper: "#eef1ec", paperDeep: "#e1e8e1", ink: "#1e2833", inkSoft: "#5a6672", onAccent: "#ffffff" },
+  light: { paper: "#eef1ec", paperDeep: "#e1e8e1", ink: "#1e2833", inkSoft: "#58646f", onAccent: "#ffffff" },
   dark: { paper: "#121a1d", paperDeep: "#1b262a", ink: "#e3ebe6", inkSoft: "#9aaaa2", onAccent: "#0f1518" },
 };

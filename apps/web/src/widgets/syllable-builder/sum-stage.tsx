@@ -134,7 +134,7 @@ function DockSlot({
       aria-label={`${label}: ${empty ? "—" : glyph}`}
       className={cn(
         "relative grid h-11 min-w-11 place-items-center rounded-lg border-2 px-1.5 font-thai text-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
-        empty ? "border-dashed border-ink/25 text-ink-soft" : "border-transparent bg-paper",
+        empty ? "border-dashed border-ink/55 text-ink-soft" : "border-transparent bg-paper",
       )}
       style={!empty && color ? { borderColor: color, color } : undefined}
     >
