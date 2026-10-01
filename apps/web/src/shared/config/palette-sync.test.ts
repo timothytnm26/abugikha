@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { DEFAULT_PALETTE, SURFACE_COLORS } from "@abugikha/core";
 import { describe, expect, it } from "vitest";
-import { DEFAULT_THEME, THEME_BY_ID } from "./themes";
+import { DEFAULT_SKIN, SKIN_BY_ID } from "./skins";
 
 const css = readFileSync(fileURLToPath(new URL("../../app/styles/globals.css", import.meta.url)), "utf8");
 /** Lấy `--color-<tên>: #hex` trong một khối CSS bắt đầu bằng `marker` */
@@ -23,34 +23,27 @@ const varsIn = (marker: string) => {
   return Object.fromEntries([...block.matchAll(/--color-([\w-]+):\s*(#[0-9a-fA-F]{6})/g)].map((m) => [m[1], m[2].toLowerCase()]));
 };
 
-// themes.ts là nguồn chính; globals.css (mặc định trước khi script khởi động chạy) và packages/core lặp lại hai giao diện mặc định,
+// skins.ts là nguồn chính; globals.css (mặc định trước khi script khởi động chạy) và packages/core (bảng màu mobile) lặp lại skin mặc định,
 // nên test này báo ngay khi chúng lệch nhau.
-describe.each([
-  ["light", "@theme static {", DEFAULT_THEME.light],
-  ["dark", '[data-theme="dark"] {', DEFAULT_THEME.dark],
-  ["dark (prefers-color-scheme)", ':root:not([data-theme="light"]) {', DEFAULT_THEME.dark],
-] as const)("globals.css %s", (_name, marker, themeId) => {
-  it(`khớp giao diện ${themeId} trong themes.ts`, () => {
-    const css = varsIn(marker);
-    const theme = THEME_BY_ID.get(themeId)!;
-    for (const [key, value] of Object.entries(theme.vars)) {
-      if (key in css) expect(css[key], key).toBe(value.toLowerCase());
-    }
-    expect(Object.keys(css).length).toBeGreaterThan(10);
+describe("globals.css", () => {
+  it(`khớp skin ${DEFAULT_SKIN} trong skins.ts`, () => {
+    const vars = varsIn("@theme static {");
+    const skin = SKIN_BY_ID.get(DEFAULT_SKIN)!;
+    for (const [key, value] of Object.entries(skin.vars)) expect(vars[key], key).toBe(value.toLowerCase());
   });
 });
 
 describe("packages/core", () => {
-  it.each(["light", "dark"] as const)("bảng màu mặc định %s khớp themes.ts", (mode) => {
-    const theme = THEME_BY_ID.get(DEFAULT_THEME[mode])!;
-    for (const [key, value] of Object.entries(DEFAULT_PALETTE[mode])) expect(theme.vars[key as keyof typeof theme.vars], key).toBe(value);
-    const s = SURFACE_COLORS[mode];
+  it("bảng màu mặc định (mobile, nền sáng) khớp skin mặc định", () => {
+    const skin = SKIN_BY_ID.get(DEFAULT_SKIN)!;
+    for (const [key, value] of Object.entries(DEFAULT_PALETTE.light)) expect(skin.vars[key as keyof typeof skin.vars], key).toBe(value);
+    const s = SURFACE_COLORS.light;
     expect({ paper: s.paper, "paper-deep": s.paperDeep, ink: s.ink, "ink-soft": s.inkSoft, "on-accent": s.onAccent }).toEqual({
-      paper: theme.vars.paper,
-      "paper-deep": theme.vars["paper-deep"],
-      ink: theme.vars.ink,
-      "ink-soft": theme.vars["ink-soft"],
-      "on-accent": theme.vars["on-accent"],
+      paper: skin.vars.paper,
+      "paper-deep": skin.vars["paper-deep"],
+      ink: skin.vars.ink,
+      "ink-soft": skin.vars["ink-soft"],
+      "on-accent": skin.vars["on-accent"],
     });
   });
 });

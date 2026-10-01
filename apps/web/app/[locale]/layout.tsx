@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Providers, RootShell } from "@/app";
 import { FONTS } from "@/shared/config/fonts";
-import { THEME_BOOT_SCRIPT } from "@/shared/config/themes";
+import { SKIN_BOOT_SCRIPT } from "@/shared/config/skins";
 import { SITE_URL, pageMetadata } from "@/shared/config/metadata";
 import { localeStaticParams, resolveLocale, type LocaleParams } from "@/shared/config/locale-params";
 import "@/app/styles/globals.css";
@@ -18,9 +18,9 @@ export async function generateMetadata({ params }: LocaleParams): Promise<Metada
 export default async function LocaleLayout({ children, params }: LocaleParams & { children: ReactNode }) {
   const locale = await resolveLocale(params);
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} data-skin="flat" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }} />
+        <script dangerouslySetInnerHTML={{ __html: SKIN_BOOT_SCRIPT }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="stylesheet" href={FONTS} />

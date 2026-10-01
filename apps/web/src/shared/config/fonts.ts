@@ -1,5 +1,5 @@
 export const FONTS =
-  "https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Barlow+Condensed:wght@600;700;800&family=Charis+SIL:ital,wght@0,400;0,700;1,400&family=Noto+Serif+Thai:wght@400;500;600&display=swap";
+  "https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700;800&family=Patrick+Hand&family=Charis+SIL:ital,wght@0,400;0,700;1,400&family=Noto+Serif+Thai:wght@400;500;600&display=swap";
 
 /** Họ chữ cổ của các văn tự ở trang lịch sử; chỉ nạp ở trang đó thay vì chặn hiển thị mọi trang. */
 export const HISTORIC_FONTS_CSS =

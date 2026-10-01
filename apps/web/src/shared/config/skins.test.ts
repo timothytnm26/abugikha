@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { THEMES } from "./themes";
+import { SKINS } from "./skins";
 import { PALETTE_KEYS } from "./palette";
 import { AA_CONTRAST as AA, contrastRatio as contrast, mixHex as mix } from "../lib/color";
 
-describe.each(THEMES)("giao diện $id", ({ vars }) => {
+describe.each(SKINS)("skin $id", ({ vars }) => {
   it("chữ chính và chữ phụ đọc được trên giấy, giấy đậm và tờ ghi chú", () => {
     for (const bg of ["paper", "paper-deep", "sheet"] as const) {
       expect(contrast(vars.ink, vars[bg]), `ink / ${bg}`).toBeGreaterThanOrEqual(AA);
@@ -16,6 +16,13 @@ describe.each(THEMES)("giao diện $id", ({ vars }) => {
       expect(contrast(vars[k], vars.paper), `${k} / paper`).toBeGreaterThanOrEqual(AA);
       expect(contrast(vars[k], vars.sheet), `${k} / sheet`).toBeGreaterThanOrEqual(AA);
       expect(contrast(vars["on-accent"], vars[k]), `on-accent / ${k}`).toBeGreaterThanOrEqual(AA);
+    }
+  });
+
+  it("màu nhấn thương hiệu, màu loại bỏ đọc được trên giấy và tờ ghi chú", () => {
+    for (const k of ["brand", "removed"] as const) {
+      expect(contrast(vars[k], vars.paper), `${k} / paper`).toBeGreaterThanOrEqual(AA);
+      expect(contrast(vars[k], vars.sheet), `${k} / sheet`).toBeGreaterThanOrEqual(AA);
     }
   });
 

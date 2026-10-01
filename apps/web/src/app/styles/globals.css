@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 /* Màn hình đủ lớn để ghim và cuộn ngang toàn khung (xem widgets/script-timeline); nhỏ hơn thì vuốt ngang bình thường */
 @custom-variant tall (@media (min-width: 1024px) and (min-height: 720px));
 
@@ -22,7 +21,7 @@
   --font-cham: "Noto Sans Cham", sans-serif;
   --font-taiviet: "Noto Sans Tai Viet", sans-serif;
 
-  /* Mặc định sáng: nền men gốm celadon Sukhothai. Các giao diện khác nằm ở shared/config/themes.ts */
+  /* Mặc định = skin "flat". Màu của mọi skin nằm ở shared/config/skins.ts và được script đầu trang / PreferencesSync ghi đè lên <html>; kiểu dáng của skin nằm ở khối "Skin" bên dưới */
   --color-paper: #f4efe9;
   --color-paper-deep: #e9e1d7;
   --color-ink: #1b1a17;
@@ -43,6 +42,8 @@
   --color-part-vowel: #7c4a98;
   --color-part-final: #507308;
   --color-removed: #c2361c;
+  /* Màu nhấn thương hiệu (chữ "ไทย" ở thanh nav, viền phát sáng, nút của skin) */
+  --color-brand: #0a0adc;
 
   /* Đường lề đỏ của giấy tập viết */
   --color-margin: #d98a86;
@@ -51,7 +52,7 @@
   --color-sheet: #fbf8f3;
   --color-sheet-line: #d3c8ba;
 
-  /* Bảng màu áp phích rút gọn: xanh điện, cam đỏ, đen, kem và xám kem. Cố định, không đổi theo giao diện hay dark mode. Cặp chữ-nền đạt AA đã có test ở shared/config/poster.test.ts */
+  /* Bảng màu áp phích rút gọn: xanh điện, cam đỏ, đen, kem và xám kem. Cố định, không đổi theo skin. Cặp chữ-nền đạt AA đã có test ở shared/config/poster.test.ts */
   --color-poster-blue: #0a0adc;
   --color-poster-orange: #ff5200;
   --color-poster-black: #14130f;
@@ -59,64 +60,12 @@
   --color-poster-taupe: #8a7f73;
 }
 
-/* Tối: men celadon nung khử, xanh đen như gốm sứ Sawankhalok về đêm */
 @layer base {
-  [data-theme="dark"] {
-    --color-paper: #121a1d;
-    --color-paper-deep: #1b262a;
-    --color-ink: #e3ebe6;
-    --color-ink-soft: #9aaaa2;
-    --color-on-accent: #0f1518;
-
-    --color-mid: #56d0af;
-    --color-high: #fd9884;
-    --color-low: #7cb4fc;
-
-    --color-tone-mid: #b4c1be;
-    --color-tone-low: #9ba4ee;
-    --color-tone-falling: #fd9bc2;
-    --color-tone-high: #f8c065;
-    --color-tone-rising: #67d8fc;
-
-    --color-part-vowel: #d1a1ef;
-    --color-part-final: #a4c973;
-    --color-removed: #ff8466;
-    --color-margin: #8e4f4c;
-    --color-sheet: #1f2b2f;
-    --color-sheet-line: #3a4c52;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --color-paper: #121a1d;
-      --color-paper-deep: #1b262a;
-      --color-ink: #e3ebe6;
-      --color-ink-soft: #9aaaa2;
-      --color-on-accent: #0f1518;
-      --color-mid: #56d0af;
-      --color-high: #fd9884;
-      --color-low: #7cb4fc;
-      --color-tone-mid: #b4c1be;
-      --color-tone-low: #9ba4ee;
-      --color-tone-falling: #fd9bc2;
-      --color-tone-high: #f8c065;
-      --color-tone-rising: #67d8fc;
-      --color-part-vowel: #d1a1ef;
-      --color-part-final: #a4c973;
-      --color-removed: #ff8466;
-      --color-margin: #8e4f4c;
-      --color-sheet: #1f2b2f;
-      --color-sheet-line: #3a4c52;
-    }
-  }
-
   html {
-    color-scheme: light dark;
+    color-scheme: light;
     background: var(--color-paper);
     color: var(--color-ink);
   }
-  [data-theme="light"] { color-scheme: light; }
-  [data-theme="dark"] { color-scheme: dark; }
 
   body {
     font-family: var(--font-sans);
@@ -345,3 +294,149 @@ html:not([data-paper="tiers"]) .paper-tier {
   flex-direction: column;
   justify-content: center;
 }
+
+/* =====================================================================================================
+ * Skin: mỗi skin là một bộ "token kiểu dáng" + vài quy tắc riêng. Màu nằm ở shared/config/skins.ts.
+ *
+ * Các thành phần dùng chung viết sẵn bằng class phẳng (border-2 border-ink bg-sheet, .btn, .nav-btn, .note-paper…); các quy tắc dưới
+ * đây (không nằm trong @layer nên thắng utility của Tailwind) đọc token để đổi bo góc, độ dày viền, đổ bóng, kính mờ, phát sáng
+ * và font tiêu đề mà không phải sửa từng component. Bộ chọn dùng [data-skin] (không gắn với html) để ô xem thử trong Tuỳ chỉnh
+ * tự mang đúng kiểu của skin nó đại diện.
+ *
+ *   --skin-radius      góc của khung (tờ giấy, hộp, hộp thoại)
+ *   --skin-radius-sm   góc của nút, ô nhỏ
+ *   --skin-bw          độ dày viền
+ *   --skin-border      màu viền của khung/nút viền mực
+ *   --skin-shadow      bóng của khung;  --skin-shadow-btn bóng của nút;  --skin-shadow-pop bóng của lớp nổi (hộp thoại, dock)
+ *   --skin-surface     nền khung (kính mờ thì trong suốt một phần);  --skin-surface-strong nền của lớp nổi
+ *   --skin-blur        độ mờ nền sau khung
+ *   --skin-band-a/b    nền hai dải màu lớn của trang chủ (xanh, cam)
+ * ===================================================================================================== */
+:root,
+[data-skin="flat"] {
+  --skin-radius: 0;
+  --skin-radius-sm: 0;
+  --skin-bw: 2px;
+  --skin-border: var(--color-ink);
+  --skin-shadow: none;
+  --skin-shadow-btn: none;
+  --skin-shadow-pop: 0 24px 60px -18px color-mix(in oklab, var(--color-ink) 55%, transparent);
+  --skin-surface: var(--color-sheet);
+  --skin-surface-strong: var(--color-paper);
+  --skin-blur: 0px;
+  --skin-band-a: var(--color-poster-blue);
+  --skin-band-b: var(--color-poster-orange);
+}
+
+/* Vở kẻ ngang: nét viền run như vẽ tay, bóng lệch như giấy xếp chồng, tiêu đề chữ viết tay */
+[data-skin="notebook"] {
+  --font-poster: "Patrick Hand", "Be Vietnam Pro", "Noto Sans Thai", ui-sans-serif, sans-serif;
+  --skin-radius: 7px 13px 8px 12px / 12px 7px 13px 8px;
+  --skin-radius-sm: 4px 8px 5px 9px / 8px 4px 9px 5px;
+  --skin-bw: 2px;
+  --skin-border: color-mix(in oklab, var(--color-ink) 88%, transparent);
+  --skin-shadow: 3px 4px 0 -1px color-mix(in oklab, var(--color-ink) 16%, transparent);
+  --skin-shadow-btn: 2px 3px 0 color-mix(in oklab, var(--color-ink) 22%, transparent);
+  --skin-shadow-pop: 5px 7px 0 -1px color-mix(in oklab, var(--color-ink) 20%, transparent);
+  --skin-surface: var(--color-sheet);
+  --skin-surface-strong: var(--color-sheet);
+  --skin-band-a: #1f2a4a;
+  --skin-band-b: #f4cf6b;
+}
+
+/* ---------- Khung, nút, hộp thoại đọc token ---------- */
+[data-skin] :is(.border-2, .btn, .nav-btn):not(.rounded-full) {
+  border-radius: var(--skin-radius-sm);
+}
+[data-skin] :is(.btn, .nav-btn, .border-2, .note-paper) {
+  border-width: var(--skin-bw);
+}
+[data-skin] :is(.border-2.border-ink, .nav-btn, .btn-outline, .note-paper) {
+  border-color: var(--skin-border);
+}
+[data-skin] :is(.btn, .nav-btn, .skin-preview-btn) {
+  box-shadow: var(--skin-shadow-btn);
+  transition-property: color, background-color, border-color, box-shadow, translate;
+}
+/* Khung lớn: tờ giấy, hộp có nền tờ ghi chú, hộp thoại */
+[data-skin] :is(.note-paper, .bg-sheet.border-2, [role="dialog"], .skin-preview-card) {
+  border-radius: var(--skin-radius);
+  box-shadow: var(--skin-shadow);
+}
+[data-skin] :is(.note-paper, .bg-sheet, .skin-preview-card) {
+  background-color: var(--skin-surface);
+  -webkit-backdrop-filter: blur(var(--skin-blur)) saturate(1.5);
+  backdrop-filter: blur(var(--skin-blur)) saturate(1.5);
+}
+/* Lớp nổi: hộp thoại Tuỳ chỉnh, dock kết quả, hộp rê chuột */
+[data-skin] [role="dialog"],
+[data-skin] .shadow-2xl {
+  background-color: var(--skin-surface-strong);
+  box-shadow: var(--skin-shadow-pop);
+  -webkit-backdrop-filter: blur(var(--skin-blur)) saturate(1.5);
+  backdrop-filter: blur(var(--skin-blur)) saturate(1.5);
+}
+[data-skin] [role="tooltip"] > span {
+  border-radius: var(--skin-radius-sm);
+  box-shadow: var(--skin-shadow-pop);
+}
+/* Bóng có sẵn của dock/tooltip được thay bằng bóng của skin để có đúng chất liệu */
+[data-skin] .shadow-\[0_24px_60px_-18px_color-mix\(in_oklab\,var\(--color-ink\)_55\%\,transparent\)\] {
+  box-shadow: var(--skin-shadow-pop);
+}
+/* Thanh điều hướng */
+[data-skin] header.sticky {
+  border-bottom-width: var(--skin-bw);
+  border-color: var(--skin-border);
+  background-color: var(--skin-surface-strong);
+  box-shadow: var(--skin-shadow);
+  -webkit-backdrop-filter: blur(var(--skin-blur)) saturate(1.5);
+  backdrop-filter: blur(var(--skin-blur)) saturate(1.5);
+}
+/* Ô xem thử kiểu giấy trong Tuỳ chỉnh quá nhỏ cho góc lớn của khung */
+[data-skin] .note-paper[data-style] {
+  border-radius: var(--skin-radius-sm);
+  box-shadow: none;
+}
+[data-skin] header.sticky :is(a, button):not(.rounded-full) {
+  border-radius: var(--skin-radius-sm);
+}
+/* Hai dải màu lớn của trang chủ */
+[data-skin] section.bg-poster-blue { background: var(--skin-band-a); }
+[data-skin] section.bg-poster-orange { background: var(--skin-band-b); }
+
+/* ---------- Nền trang theo skin (lớp cố định phía sau nội dung) ---------- */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+html[data-skin="notebook"] body::before {
+  --m: clamp(10px, 4.5vw, 64px);
+  background:
+    linear-gradient(to right, transparent var(--m), color-mix(in oklab, var(--color-margin) 70%, transparent) var(--m), color-mix(in oklab, var(--color-margin) 70%, transparent) calc(var(--m) + 2px), transparent calc(var(--m) + 2px)),
+    repeating-linear-gradient(to bottom, transparent 0 31px, color-mix(in oklab, var(--color-sheet-line) 75%, transparent) 31px 32px);
+}
+/* ---------- Chữ ---------- */
+[data-skin="notebook"] .font-poster {
+  text-transform: none;
+  font-synthesis-weight: none;
+  letter-spacing: 0;
+}
+/* Nhấn nút kiểu từng skin */
+[data-skin="notebook"] :is(.btn, .nav-btn):active { translate: 2px 3px; box-shadow: none; }
+@media (prefers-reduced-motion: reduce) {
+  [data-skin] :is(.btn, .nav-btn):is(:hover, :active) { translate: none; }
+}
+
+/* ---------- Ô xem thử skin trong Tuỳ chỉnh ---------- */
+.skin-preview {
+  background: var(--color-paper);
+  border-radius: var(--skin-radius-sm);
+  position: relative;
+  isolation: isolate;
+}
+.skin-preview-card { border: var(--skin-bw) solid var(--skin-border); }
+.skin-preview-btn { border-radius: var(--skin-radius-sm); }

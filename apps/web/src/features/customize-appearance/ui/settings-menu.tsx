@@ -1,13 +1,12 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { createPortal } from "react-dom";
 import { useShallow } from "zustand/react/shallow";
 import { CLASS_META, type ConsonantClass } from "@abugikha/core/consonant";
 import { TONE_META, type Tone } from "@abugikha/core/syllable";
 import { CLASS_KEYS, PAPER_STYLES, PART_KEYS, TONE_KEYS, type PaletteKey } from "@/shared/config/palette";
-import { THEMES, THEME_BY_ID, DEFAULT_THEME, type ThemeDef, type ThemeMode } from "@/shared/config/themes";
+import { SKINS, SKIN_BY_ID, type SkinDef } from "@/shared/config/skins";
 import { usePreferences } from "@/shared/lib/preferences";
-import { useEffectiveTheme } from "@/shared/lib/theme";
 import { useDismiss } from "@/shared/lib/use-dismiss";
 import { fmt, useLocale, useT, type L10n } from "@/shared/i18n";
 import { gsap, useGSAP, prefersReducedMotion } from "@/shared/lib/gsap";
@@ -54,24 +53,30 @@ export function AutoSpeakSwitch(props: { className?: string; label: string }) {
   return <Switch on={on} set={set} {...props} />;
 }
 
-function ThemeCard({ theme, selected, onPick }: { theme: ThemeDef; selected: boolean; onPick: () => void }) {
+/** Thẻ chọn skin: ô xem thử tự mang data-skin và màu của skin đó nên viền, bo góc, bóng hiện đúng kiểu thật. */
+function SkinCard({ skin, selected, onPick }: { skin: SkinDef; selected: boolean; onPick: () => void }) {
   const t = useT();
-  const v = theme.vars;
+  const v = skin.vars;
+  const cssVars = Object.fromEntries(Object.entries(v).map(([k, val]) => [`--color-${k}`, val])) as CSSProperties;
   return (
     <button
       type="button"
       onClick={onPick}
+      disabled={skin.disabled}
       aria-pressed={selected}
-      className={cn("flex flex-col gap-2 border-2 p-2.5 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink", selected ? "border-ink" : "border-ink/10 hover:border-ink/30")}
+      className={cn("skin-card flex flex-col gap-2 border-2 p-2.5 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink", selected ? "border-ink" : "border-ink/10 hover:border-ink/30", skin.disabled && "cursor-not-allowed opacity-50 hover:border-ink/10")}
     >
-      <span className="flex h-11 items-center gap-1.5 px-2.5" style={{ backgroundColor: v.paper }}>
-        <span lang="th" className="font-thai text-lg leading-none" style={{ color: v.ink }}>ก</span>
-        {(["mid", "high", "low", "part-vowel", "part-final"] as const).map((k) => (
-          <span lang="th" key={k} className="font-thai text-base leading-none" style={{ color: v[k] }}>{GLYPH[k]}</span>
-        ))}
-        <span className="ml-auto h-6 w-5" style={{ backgroundColor: v.sheet, boxShadow: `inset 0 -3px 0 -1px ${v["sheet-line"]}` }} />
+      <span data-skin={skin.id} className="skin-preview flex h-16 items-center gap-2 overflow-hidden p-2" style={cssVars}>
+        <span className="skin-preview-card flex h-full flex-1 items-center justify-center gap-0.5 bg-sheet">
+          <span lang="th" className="font-thai text-xl leading-none text-ink">ก</span>
+          {(["mid", "high", "low"] as const).map((k) => (
+            <span lang="th" key={k} className="font-thai text-lg leading-none" style={{ color: v[k] }}>{GLYPH[k]}</span>
+          ))}
+        </span>
+        <span className="skin-preview-btn h-5 w-7 bg-brand" />
       </span>
-      <span className="text-xs font-medium">{t.settings.themes[theme.id]}</span>
+      <span className="text-xs font-semibold">{t.settings.skins[skin.id].name}{skin.disabled && <span className="ml-1.5 font-normal text-ink-soft">· {t.settings.skinInDev}</span>}</span>
+      <span className="text-[0.6875rem] leading-snug text-ink-soft">{t.settings.skins[skin.id].hint}</span>
     </button>
   );
 }
@@ -95,12 +100,10 @@ function Sample() {
 export function SettingsMenu() {
   const t = useT();
   const { locale } = useLocale();
-  const mode = useEffectiveTheme() ?? "light";
-  const { themeId, palette, paper, setTheme, setColor, resetPalette, setPaper } = usePreferences(
-    useShallow((p) => ({ themeId: p.themeId, palette: p.palette, paper: p.paper, setTheme: p.setTheme, setColor: p.setColor, resetPalette: p.resetPalette, setPaper: p.setPaper })),
+  const { activeId, palette, paper, setSkin, setColor, resetPalette, setPaper } = usePreferences(
+    useShallow((p) => ({ activeId: p.skinId, palette: p.palette, paper: p.paper, setSkin: p.setSkin, setColor: p.setColor, resetPalette: p.resetPalette, setPaper: p.setPaper })),
   );
-  const activeId = themeId ?? DEFAULT_THEME[mode];
-  const active = THEME_BY_ID.get(activeId)!;
+  const active = SKIN_BY_ID.get(activeId)!;
   const overrides = palette[activeId] ?? {};
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -181,17 +184,6 @@ export function SettingsMenu() {
     </div>
   );
 
-  const themeGroup = (m: ThemeMode, title: string) => (
-    <div className="space-y-1.5">
-      <p className="text-xs font-medium text-ink-soft">{title}</p>
-      <div className="grid grid-cols-2 gap-2">
-        {THEMES.filter((th) => th.mode === m).map((th) => (
-          <ThemeCard key={th.id} theme={th} selected={th.id === activeId} onPick={() => setTheme(th.id)} />
-        ))}
-      </div>
-    </div>
-  );
-
   const body = (
     <>
       <div className="fixed inset-0 z-[60] bg-ink/40 sm:hidden" aria-hidden />
@@ -211,13 +203,16 @@ export function SettingsMenu() {
           </button>
         </div>
 
-        <section className="space-y-3" aria-label={t.settings.themeTitle}>
+        <section className="space-y-3" aria-label={t.settings.skinTitle}>
           <div>
-            <h3 className="font-poster text-xl font-bold uppercase leading-none">{t.settings.themeTitle}</h3>
-            <p className="text-xs text-ink-soft">{t.settings.themeHint}</p>
+            <h3 className="font-poster text-xl font-bold uppercase leading-none">{t.settings.skinTitle}</h3>
+            <p className="text-xs text-ink-soft">{t.settings.skinHint}</p>
           </div>
-          {themeGroup("light", t.settings.lightGroup)}
-          {themeGroup("dark", t.settings.darkGroup)}
+          <div className="grid grid-cols-2 gap-2">
+            {SKINS.map((sk) => (
+              <SkinCard key={sk.id} skin={sk} selected={sk.id === activeId} onPick={() => setSkin(sk.id)} />
+            ))}
+          </div>
         </section>
 
         <section className="space-y-3" aria-label={t.settings.paperTitle}>
@@ -259,7 +254,7 @@ export function SettingsMenu() {
             {swatches(TONE_KEYS)}
           </div>
           <div className="flex items-center justify-between gap-3 border-t border-ink/10 pt-3 text-xs text-ink-soft">
-            <span>{fmt(t.settings.perTheme, { theme: t.settings.themes[active.id] })}</span>
+            <span>{fmt(t.settings.perSkin, { skin: t.settings.skins[active.id].name })}</span>
             <button type="button" onClick={() => resetPalette(activeId)} className="shrink-0 border border-ink/15 px-3 py-2 font-medium text-ink hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
               {t.settings.reset}
             </button>

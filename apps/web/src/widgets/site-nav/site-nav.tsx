@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from "react";
 import { LEARNING_PATH, stripLocale } from "@/shared/config/routes";
 import { useLocalePath, useT } from "@/shared/i18n";
 import { LocaleSwitch } from "@/features/toggle-locale";
-import { ThemeSwitch } from "@/features/toggle-theme";
 import { SettingsMenu } from "@/features/customize-appearance";
 import { gsap, useGSAP, prefersReducedMotion } from "@/shared/lib/gsap";
 import { cn } from "@/shared/lib";
@@ -73,7 +72,7 @@ export function SiteNav() {
           aria-label={t.nav.brandLabel}
         >
           <span lang="th" className="font-thai text-xl font-semibold sm:text-2xl">
-            น่ารัก<span className="text-poster-blue dark:text-poster-orange">ไทย</span>
+            น่ารัก<span className="text-brand">ไทย</span>
           </span>
           <span className="hidden font-poster text-base font-semibold uppercase tracking-wide text-ink-soft min-[420px]:inline">NarakThai</span>
         </Link>
@@ -100,7 +99,6 @@ export function SiteNav() {
         </ul>
         <div className="ml-auto flex items-center gap-2">
           <LocaleSwitch />
-          <ThemeSwitch />
           <SettingsMenu />
           <button
             ref={button}

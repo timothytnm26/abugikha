@@ -8,16 +8,16 @@ export const PART_KEYS = ["part-vowel", "part-final"] as const;
 export const PALETTE_KEYS = [...CLASS_KEYS, ...PART_KEYS, ...TONE_KEYS] as const;
 export type PaletteKey = CorePaletteKey | (typeof PART_KEYS)[number];
 
-/** Màu nền, chữ và giấy: do giao diện quyết định, người dùng không chỉnh từng màu. */
-export const SURFACE_KEYS = ["paper", "paper-deep", "ink", "ink-soft", "on-accent", "sheet", "sheet-line", "margin"] as const;
+/** Màu nền, chữ, giấy và màu nhấn thương hiệu: do skin quyết định, người dùng không chỉnh từng màu. */
+export const SURFACE_KEYS = ["paper", "paper-deep", "ink", "ink-soft", "on-accent", "sheet", "sheet-line", "margin", "removed", "brand"] as const;
 export type SurfaceKey = (typeof SURFACE_KEYS)[number];
-export type ThemeVarKey = PaletteKey | SurfaceKey;
+export type SkinVarKey = PaletteKey | SurfaceKey;
 
 /** "tiers" = vở 4 tầng (mặc định); các kiểu còn lại thay các tầng bằng nền giấy kẻ. */
 export const PAPER_STYLES = ["tiers", "lines", "grid", "dots", "plain"] as const;
 export type PaperStyle = (typeof PAPER_STYLES)[number];
 
-/** Màu CSS của một khoá palette; là CSS var nên tự đổi theo theme sáng/tối và màu người dùng chọn. */
+/** Màu CSS của một khoá palette; là CSS var nên tự đổi theo skin và màu người dùng chọn. */
 export const paletteVar = (key: PaletteKey) => `var(--color-${key})`;
 
 export const PREFS_STORAGE_KEY = "narakthai-prefs";
