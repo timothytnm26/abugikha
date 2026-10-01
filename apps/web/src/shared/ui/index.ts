@@ -1,3 +1,4 @@
+export { GlyphButton } from "./glyph-button";
 export { Tooltip } from "./tooltip";
 export { SpeakButton } from "./speak-button";
 export { VoiceNotice } from "./voice-notice";

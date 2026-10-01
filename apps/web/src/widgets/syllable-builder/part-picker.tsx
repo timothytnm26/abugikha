@@ -36,6 +36,7 @@ import {
 import { fmt, useLocale, useT } from "@/shared/i18n";
 import { usePreferences } from "@/shared/lib/preferences";
 import { cn, tint } from "@/shared/lib";
+import { GlyphButton } from "@/shared/ui";
 import { vowelCell } from "./notebook";
 
 const STOPS: FinalSound[] = ["k", "t", "p"];
@@ -48,10 +49,10 @@ const CLASS_COUNT = Object.fromEntries(CLASSES.map((c) => [c, CONSONANTS.filter(
 /** Chỗ giữ vị trí phụ âm trên ô chọn (có trong font chữ Thái, khác với khoảng trắng) */
 const HOLDER = "◌";
 
-/** Màu đánh dấu ô đích khi kéo (vowel/final không có ngữ nghĩa màu riêng) */
+/** Màu đánh dấu ô đích khi kéo (vowel/final không có ngữ nghĩa màu riêng); dùng làm màu chữ nên là biến thể ink */
 const ACCENT = {
-  vowel: "var(--color-part-vowel)",
-  final: "var(--color-part-final)",
+  vowel: "var(--color-part-vowel-ink)",
+  final: "var(--color-part-final-ink)",
 };
 
 const pill = (on: boolean) =>
@@ -61,13 +62,12 @@ const pill = (on: boolean) =>
       ? "border-ink bg-ink text-paper"
       : "border-current bg-transparent hover:bg-black/10",
   );
-const tileCls =
-  "pointer-fine:touch-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ink disabled:cursor-not-allowed disabled:opacity-25";
+const tileCls = "pointer-fine:touch-none";
 /** Ô ký tự viền (âm cuối, dấu thanh) tô theo màu của phần đó; `muted` = ít dùng: viền nhạt, chữ vẫn rõ */
 const boxCls = (selected: boolean) =>
   cn(tileCls, "place-items-center border-2 font-thai", selected ? "text-on-accent" : "bg-transparent");
-const boxStyle = (color: string, selected: boolean, muted?: boolean): CSSProperties =>
-  selected ? { borderColor: color, backgroundColor: color } : { borderColor: tint(color, muted ? 25 : 60), color };
+const boxStyle = (color: string, ink: string, selected: boolean, muted?: boolean): CSSProperties =>
+  selected ? { borderColor: color, backgroundColor: color } : { borderColor: tint(color, muted ? 25 : 60), color: ink };
 
 /** Trên màn hình rộng mọi nhóm đều hiện; màn hình hẹp chỉ hiện nhóm của tab đang chọn. */
 function Group({
@@ -179,16 +179,15 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
   useSlotDrag(ref, stageRef, onPick, [shown.length, finals.length, vowels.length]);
 
   const initialTile = (u: InitialUnit) => (
-    <button
+    <GlyphButton
       key={u.id}
-      type="button"
+      active={u.id === initialId}
       data-tile
       data-kind="initial"
       data-id={u.id}
       data-glyph={u.chars}
-      data-accent={CLASS_META[u.cls].color}
+      data-accent={CLASS_META[u.cls].ink}
       onClick={() => onPick("initial", u.id)}
-      aria-pressed={u.id === initialId}
       aria-label={`${u.chars}, /${u.ipa}/, ${CLASS_META[u.cls].label[locale]}${u.note ? `. ${u.note[locale]}` : ""}`}
       title={u.note?.[locale]}
       className={tileCls}
@@ -200,7 +199,7 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
         phonetic={showPhonetic}
         muted={!u.common && u.id !== initialId}
       />
-    </button>
+    </GlyphButton>
   );
 
   const finalRow = (snd: FinalSound) => (
@@ -212,9 +211,11 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
         {finals
           .filter((c: Consonant) => c.final === snd)
           .map((c) => (
-            <button
+            <GlyphButton
               key={c.id}
-              type="button"
+              active={c.id === finalId}
+              size="sm"
+              glyph={c.char}
               data-tile
               data-kind="final"
               data-id={c.id}
@@ -222,14 +223,11 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
               data-accent={ACCENT.final}
               disabled={finalDisabled(c.char)}
               onClick={() => onPick("final", c.id)}
-              aria-pressed={c.id === finalId}
               aria-label={`${c.char}: /${c.initial}/ → /${snd}/`}
               title={`${c.char}: /${c.initial}/ → /${snd}/`}
-              style={boxStyle(ACCENT.final, c.id === finalId, !c.common)}
-              className={cn(boxCls(c.id === finalId), "grid size-11 text-xl xl:size-10")}
-            >
-              {c.char}
-            </button>
+              style={boxStyle("var(--color-part-final)", ACCENT.final, c.id === finalId, !c.common)}
+              className={cn(boxCls(c.id === finalId), "grid text-xl")}
+            />
           ))}
       </div>
     </div>
@@ -268,7 +266,7 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
             {CLASSES.map((c) => (
               <Row
                 key={c}
-                color={CLASS_META[c].color}
+                color={CLASS_META[c].ink}
                 label={`${CLASS_SYMBOL[c]} ${CLASS_META[c].label[locale]}`}
                 hint={fmt(t.groups.classCount, { n: CLASS_COUNT[c] })}
               >
@@ -306,9 +304,9 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
               {vowelRows.map(([g, list]) => (
                 <Row key={g} label={t.groups.vowels[g]} hint={t.groups.vowelHints[g]}>
                   {list.map((v) => (
-                    <button
+                    <GlyphButton
                       key={v.id}
-                      type="button"
+                      active={v.id === vowelId}
                       data-tile
                       data-kind="vowel"
                       data-target-slot={`vowel-${vowelCell(v.open)}`}
@@ -317,7 +315,6 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
                       data-accent={ACCENT.vowel}
                       disabled={!vowelFitsInitial(v, initialChars)}
                       onClick={() => onPick("vowel", v.id)}
-                      aria-pressed={v.id === vowelId}
                       aria-label={`${v.open.replace("C", "")}, /${v.ipa}/, ${v.length === "long" ? t.ipa.long : t.ipa.short}. ${v.approx[locale]}`}
                       title={v.approx[locale]}
                       className={tileCls}
@@ -329,7 +326,7 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
                         phonetic={showPhonetic}
                         holder={HOLDER}
                       />
-                    </button>
+                    </GlyphButton>
                   ))}
                 </Row>
               ))}
@@ -338,15 +335,15 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
 
           <Group k="mark" tab={tab} title={t.builder.parts.mark}>
             <div className="flex flex-wrap gap-1">
-              <button
-                type="button"
+              <GlyphButton
+                active={!mark}
+                size="sm"
                 onClick={() => onPick("mark", null)}
-                aria-pressed={!mark}
                 style={!mark ? { borderColor: "var(--color-ink)", backgroundColor: "var(--color-ink)", color: "var(--color-paper)" } : { borderColor: tint("var(--color-ink)", 25) }}
-                className={cn(boxCls(false), "grid h-11 min-w-11 px-2 font-sans text-xs")}
+                className={cn(boxCls(false), "grid font-sans text-xs")}
               >
                 {t.builder.noMark}
-              </button>
+              </GlyphButton>
               {TONE_MARKS.map((m) => {
                 // Màu = thanh mà dấu này sẽ tạo ra với phụ âm đầu hiện tại
                 const tone = resolveTone({
@@ -356,21 +353,21 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
                   mark: m.id,
                 }).tone;
                 return (
-                  <button
+                  <GlyphButton
                     key={m.id}
-                    type="button"
+                    active={mark === m.id}
+                    size="sm"
                     data-tile
                     data-kind="mark"
                     data-id={m.id}
                     data-glyph={`◌${m.char}`}
-                    data-accent={TONE_META[tone].color}
+                    data-accent={TONE_META[tone].ink}
                     onClick={() => onPick("mark", m.id)}
-                    aria-pressed={mark === m.id}
                     aria-label={`${m.thai} (${m.latin}) → ${TONE_META[tone].label[locale]}`}
-                    style={boxStyle(TONE_META[tone].color, mark === m.id)}
+                    style={boxStyle(TONE_META[tone].color, TONE_META[tone].ink, mark === m.id)}
                     className={cn(
                       boxCls(mark === m.id),
-                      "h-11 min-w-11 gap-1.5 px-2",
+                      "gap-1.5",
                       showPhonetic ? "flex items-center" : "grid",
                     )}
                   >
@@ -386,7 +383,7 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
                         </span>
                       </span>
                     )}
-                  </button>
+                  </GlyphButton>
                 );
               })}
             </div>
@@ -409,7 +406,7 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
           }
         >
           {!vowel.closed && (
-            <p className="mb-1.5 text-xs text-high">{t.builder.vowelNoFinal}</p>
+            <p className="mb-1.5 text-xs text-high-ink">{t.builder.vowelNoFinal}</p>
           )}
           <div className="space-y-2">
             <Row label={t.groups.finals.live} hint={t.groups.finalHints.live}>
