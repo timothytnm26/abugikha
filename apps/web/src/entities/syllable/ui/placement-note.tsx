@@ -18,7 +18,7 @@ export function PlacementNote({ analysis }: { analysis: SyllableAnalysis }) {
       <div className="flex flex-wrap items-end gap-1.5" aria-label={t.syllable.partsAria}>
         {analysis.segments.map((s, i) => (
           <span key={i} className="flex flex-col items-center">
-            <span
+            <span lang="th"
               className="grid min-h-12 min-w-10 place-items-center rounded-xl border-2 bg-paper-deep px-2 font-thai text-2xl"
               style={{ borderColor: color(s.role) ?? "transparent", color: color(s.role) }}
             >

@@ -13,7 +13,7 @@ export function SyllableGlyph({
   const classColor = CLASS_META[analysis.cls].color;
   const toneColor = TONE_META[analysis.tone].color;
   return (
-    <span className={cn("font-thai", className)}>
+    <span lang="th" className={cn("font-thai", className)}>
       {analysis.segments.map((segment, index) => {
         const color =
           segment.role === "initial"

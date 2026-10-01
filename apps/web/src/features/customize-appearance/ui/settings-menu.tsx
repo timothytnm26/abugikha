@@ -64,9 +64,9 @@ function ThemeCard({ theme, selected, onPick }: { theme: ThemeDef; selected: boo
       className={cn("flex flex-col gap-2 rounded-2xl border-2 p-2.5 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink", selected ? "border-ink" : "border-ink/10 hover:border-ink/30")}
     >
       <span className="flex h-11 items-center gap-1.5 rounded-xl px-2.5" style={{ backgroundColor: v.paper }}>
-        <span className="font-thai text-lg leading-none" style={{ color: v.ink }}>ก</span>
+        <span lang="th" className="font-thai text-lg leading-none" style={{ color: v.ink }}>ก</span>
         {(["mid", "high", "low", "part-vowel", "part-final"] as const).map((k) => (
-          <span key={k} className="font-thai text-base leading-none" style={{ color: v[k] }}>{GLYPH[k]}</span>
+          <span lang="th" key={k} className="font-thai text-base leading-none" style={{ color: v[k] }}>{GLYPH[k]}</span>
         ))}
         <span className="ml-auto h-6 w-5 rounded-sm" style={{ backgroundColor: v.sheet, boxShadow: `inset 0 -3px 0 -1px ${v["sheet-line"]}` }} />
       </span>
@@ -81,7 +81,7 @@ function Sample() {
   return (
     <div className="note-paper flex items-center justify-between gap-3 rounded-2xl px-4 py-2" data-tape>
       <span className="text-xs text-ink-soft">{t.settings.sample}</span>
-      <span className="note-glyph font-thai text-4xl leading-normal" aria-hidden>
+      <span lang="th" className="note-glyph font-thai text-4xl leading-normal" aria-hidden>
         <span className="text-low">ค</span>
         <span className="text-tone-high">้</span>
         <span className="text-part-vowel">า</span>
@@ -137,7 +137,7 @@ export function SettingsMenu() {
     <div className={"grid grid-cols-5 gap-2"}>
       {keys.map((k) => (
         <label key={k} className="flex flex-col items-center gap-1 text-[11px] text-ink-soft">
-          <span className="font-thai relative grid size-11 place-items-center overflow-hidden rounded-xl bg-sheet text-2xl leading-none ring-2 ring-ink/10 focus-within:ring-ink sm:size-10" style={{ color: `var(--color-${k})` }}>
+          <span lang="th" className="font-thai relative grid size-11 place-items-center overflow-hidden rounded-xl bg-sheet text-2xl leading-none ring-2 ring-ink/10 focus-within:ring-ink sm:size-10" style={{ color: `var(--color-${k})` }}>
             {GLYPH[k]}
             <input type="color" value={overrides[k] ?? active.vars[k]} onChange={(e) => setColor(activeId, k, e.target.value)} className="absolute inset-0 size-full cursor-pointer opacity-0" aria-label={label(k)} />
           </span>

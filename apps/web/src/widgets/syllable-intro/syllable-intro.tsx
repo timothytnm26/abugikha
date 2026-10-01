@@ -30,7 +30,7 @@ function Piece({ n, tag, color, title, glyph, holder, ipa, small, operator, chil
         </span>
         <div className="my-3 grid min-h-32 place-items-center text-center">
           <div>
-            <span className="note-glyph block font-thai text-[5.5rem] leading-[1.3]" style={{ color }}>
+            <span lang="th" className="note-glyph block font-thai text-[5.5rem] leading-[1.3]" style={{ color }}>
               {holder && <span className="text-ink/20">{holder}</span>}
               {glyph}
             </span>

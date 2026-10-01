@@ -55,6 +55,7 @@
     "toLight": "Switch to light theme",
     "switchLocale": "Chuyển sang tiếng Việt",
     "localeShort": "VI",
+    "skipToContent": "Skip to content",
     "brandLabel": "NarakThai, go to home"
   },
   "routes": {
@@ -167,6 +168,7 @@
     "branchesLabel": "Branches from here",
     "jumpTo": "Jump to {name}",
     "timelineAria": "Timeline of the script’s history",
+    "timelineNavAria": "Script eras",
     "endTitle": "Now you know where it comes from",
     "endBody": "Time to use it. Pick a consonant, a vowel and a tone mark, and build a syllable yourself.",
     "endCta": "Start building"

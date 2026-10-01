@@ -63,7 +63,7 @@ export function ToneContours() {
               className={cn("flex w-full items-center gap-4 rounded-2xl px-4 py-3 text-left focus-visible:outline-2 focus-visible:outline-ink", on ? "text-on-accent" : "bg-paper-deep hover:bg-ink/10")}
               style={on ? { backgroundColor: meta.color } : undefined}
             >
-              <span className="font-thai text-3xl">{ex.word}</span>
+              <span lang="th" className="font-thai text-3xl">{ex.word}</span>
               <span className="flex-1">
                 <Phonetic ipa={ex.ipa} className="block" />
                 <span className={cn("block text-xs", on ? "opacity-85" : "text-ink-soft")}>

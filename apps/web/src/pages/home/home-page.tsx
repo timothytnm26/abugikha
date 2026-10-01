@@ -1,4 +1,3 @@
-import { SiteFooter } from '@/widgets/site-footer';
 import { SyllableIntro } from '@/widgets/syllable-intro';
 import { FooterCtaSection, HeroSection, LearningPathSection } from './sections';
 import { FloatingGlyphs } from './sections/floating-glyphs';
@@ -13,7 +12,6 @@ export function HomePage() {
         <LearningPathSection />
         <FooterCtaSection />
       </div>
-      <SiteFooter />
     </div>
   );
 }

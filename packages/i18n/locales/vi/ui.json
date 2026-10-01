@@ -55,6 +55,7 @@
     "toLight": "Chuyển sang giao diện sáng",
     "switchLocale": "Switch to English",
     "localeShort": "EN",
+    "skipToContent": "Bỏ qua, tới nội dung",
     "brandLabel": "NarakThai, về trang chủ"
   },
   "routes": {
@@ -167,6 +168,7 @@
     "branchesLabel": "Các nhánh rẽ từ đây",
     "jumpTo": "Nhảy tới {name}",
     "timelineAria": "Dòng thời gian lịch sử chữ viết",
+    "timelineNavAria": "Các thời kỳ chữ viết",
     "endTitle": "Giờ bạn đã biết nó đến từ đâu",
     "endBody": "Đến lúc dùng nó. Chọn một phụ âm, một nguyên âm và một dấu thanh rồi tự ghép một âm tiết.",
     "endCta": "Bắt đầu ghép chữ"

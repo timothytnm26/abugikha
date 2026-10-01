@@ -91,7 +91,7 @@ export function SiteNav() {
           className="group mr-2 flex shrink-0 items-baseline gap-2 whitespace-nowrap leading-none md:mr-4"
           aria-label={t.nav.brandLabel}
         >
-          <span className="font-thai text-xl font-semibold sm:text-2xl">
+          <span lang="th" className="font-thai text-xl font-semibold sm:text-2xl">
             น่ารัก<span className="text-tone-falling transition-colors group-hover:text-mid">ไทย</span>
           </span>
           <span className="hidden text-xs font-medium tracking-wide text-ink-soft min-[420px]:inline">NarakThai</span>

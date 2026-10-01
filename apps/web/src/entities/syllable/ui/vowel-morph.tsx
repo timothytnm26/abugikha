@@ -60,7 +60,7 @@ function Piece({
   const mark = tok.marks[0];
   const markColor = mark ? (markState === "doomed" ? "var(--color-removed)" : roleColor(mark.role, toneColor)) : base;
   return (
-    <span
+    <span lang="th"
       ref={pieceRef}
       className={cn(
         "relative block whitespace-pre font-thai",
@@ -281,7 +281,7 @@ export function MorphPanel({ rules, initialId }: { rules: MorphRule[]; initialId
       <div className="flex items-center gap-2">
         <h3 id="morph-title" className="min-w-0 flex-1 text-sm font-semibold">
           {t.morph.title}{" "}
-          <span className="whitespace-nowrap font-thai text-lg font-normal">
+          <span lang="th" className="whitespace-nowrap font-thai text-lg font-normal">
             <PatternText text={patternLabel(m.rule)} toneColor={TONE_META[m.to.tone].color} />
           </span>
         </h3>
@@ -372,7 +372,7 @@ export function MorphPanel({ rules, initialId }: { rules: MorphRule[]; initialId
                 className={cn(chip, phase === "doomed" || phase === "to" ? "opacity-100" : "opacity-0")}
                 style={{ color: "var(--color-removed)", backgroundColor: soft("var(--color-removed)") }}
               >
-                − <span className="font-thai text-base font-normal line-through decoration-2">{withHolder(p)}</span>
+                − <span lang="th" className="font-thai text-base font-normal line-through decoration-2">{withHolder(p)}</span>
               </span>
             ))}
             {m.added.map((p, i) => (
@@ -381,7 +381,7 @@ export function MorphPanel({ rules, initialId }: { rules: MorphRule[]; initialId
                 className={cn(chip, "delay-300", phase === "to" || (p.role === "final" && phase !== "from") ? "opacity-100" : "opacity-0")}
                 style={{ color: roleColor(p.role, TONE_META[m.to.tone].color), backgroundColor: soft(roleColor(p.role, TONE_META[m.to.tone].color)) }}
               >
-                + <span className="font-thai text-base font-normal">{withHolder(p)}</span>
+                + <span lang="th" className="font-thai text-base font-normal">{withHolder(p)}</span>
               </span>
             ))}
           </span>

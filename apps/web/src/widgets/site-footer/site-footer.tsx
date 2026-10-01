@@ -20,7 +20,7 @@ export function SiteFooter() {
       <div className="page-container grid gap-8 py-10 md:grid-cols-[1.4fr_1fr_1fr] md:py-12">
         <div>
           <Link href={href("/")} className="inline-flex items-baseline gap-2 leading-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink" aria-label={t.nav.brandLabel}>
-            <span className="font-thai text-3xl font-semibold">
+            <span lang="th" className="font-thai text-3xl font-semibold">
               น่ารัก<span className="text-tone-falling">ไทย</span>
             </span>
             <span className="text-xs font-medium tracking-wide text-ink-soft">NarakThai</span>

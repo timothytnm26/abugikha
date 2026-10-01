@@ -36,7 +36,7 @@ export function VowelFace({
       )}
       style={selected ? undefined : { borderColor: tint("var(--color-part-vowel)", 55) }}
     >
-      <span
+      <span lang="th"
         className={cn(
           "font-thai leading-none",
           size === "md" ? "text-3xl" : "text-2xl",

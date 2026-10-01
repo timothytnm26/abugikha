@@ -83,7 +83,7 @@ function StepPopover({
         {title}
       </p>
       <div className="mt-2 flex items-baseline gap-3">
-        <span className="font-thai text-4xl leading-tight">{glyph}</span>
+        <span lang="th" className="font-thai text-4xl leading-tight">{glyph}</span>
         {ipa && (
           <Phonetic
             ipa={ipa}
@@ -138,7 +138,7 @@ function DockSlot({
       )}
       style={!empty && color ? { borderColor: color, color } : undefined}
     >
-      {glyph}
+      <span lang="th">{glyph}</span>
     </button>
   );
 }
@@ -153,7 +153,7 @@ function WordLine({ word }: { word: Word }) {
   const { locale } = useLocale();
   return (
     <div className="flex items-center gap-2.5 px-1">
-      <span className="font-thai text-xl leading-snug">{word.thai}</span>
+      <span lang="th" className="font-thai text-xl leading-snug">{word.thai}</span>
       <Phonetic ipa={word.ipa} className="text-xs text-ink-soft" />
       <span className="min-w-0 flex-1 truncate text-sm">
         {word.meaning[locale]}
@@ -173,7 +173,7 @@ function CompoundChip({ word, highlight }: { word: Word; highlight: string }) {
         title={`/${word.ipa}/`}
         className="flex items-baseline gap-1.5 rounded-md bg-paper/70 px-2 py-0.5 text-xs hover:bg-paper focus-visible:outline-2 focus-visible:outline-ink"
       >
-        <span className="font-thai text-base">
+        <span lang="th" className="font-thai text-base">
           {word.parts!.map((p, i) => (
             <span
               key={i}
@@ -460,7 +460,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
                       )}
                       {" + "}
                       {a.mark ? (
-                        <span className="font-thai">◌{markChar}</span>
+                        <span lang="th" className="font-thai">◌{markChar}</span>
                       ) : (
                         t.builder.noMark
                       )}
@@ -506,7 +506,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
             ) : (
               !words.compounds.length && (
                 <p className="px-1 text-sm" title={t.builder.notWordBody}>
-                  <span className="font-thai text-lg">{a.spelling}</span>{" "}
+                  <span lang="th" className="font-thai text-lg">{a.spelling}</span>{" "}
                   <span className="font-medium">
                     · {t.builder.notWordTitle}
                   </span>
@@ -545,6 +545,7 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
         <div className="pointer-events-none fixed inset-x-0 top-[3.75rem] z-30 flex justify-center px-2 sm:px-4 md:top-[4.25rem]">
           <div
             data-dropzone="dock"
+            role="group"
             aria-label={t.builder.sumAria}
             className="pointer-events-auto flex items-center gap-1.5 rounded-xl border-2 bg-paper px-2.5 py-2 shadow-[0_24px_60px_-18px_rgb(0_0_0/0.55)] [animation:dock-in_.3s_cubic-bezier(.2,1.4,.4,1)] sm:gap-2.5 sm:px-4 sm:py-2.5"
             style={{

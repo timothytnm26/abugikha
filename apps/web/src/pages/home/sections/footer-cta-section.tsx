@@ -22,7 +22,7 @@ export function FooterCtaSection() {
       <link rel="stylesheet" href={BANGKOK_MARQUEE_CSS} precedence="default" />
       <div aria-hidden className="marquee-fade pointer-events-none absolute inset-0 flex select-none flex-col justify-center opacity-[0.16]">
         {MARQUEE_ROWS.map((r, i) => (
-          <div key={r.family} className={`overflow-hidden whitespace-nowrap leading-tight ${r.size} ${r.gap}`} style={{ fontFamily: `"${r.family}", var(--font-thai)` }}>
+          <div lang="th" key={r.family} className={`overflow-hidden whitespace-nowrap leading-tight ${r.size} ${r.gap}`} style={{ fontFamily: `"${r.family}", var(--font-thai)` }}>
             <div className={`marquee-track ${i % 2 ? 'marquee-right' : 'marquee-left'}`} style={{ animationDuration: `${60 + i * 9}s` }}>
               {[0, 1].map((k) => (
                 <span key={k} className="pr-16">

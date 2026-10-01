@@ -15,13 +15,13 @@ export function HeroSection() {
               <path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 5 6.4 5c2 0 3.600 1.100 5.600 3.200C14 6.100 15.600 5 17.600 5c3.400 0 5.500 3.400 4 6.800C19.500 16.400 12 21 12 21z" />
             </svg>
             <span>
-              <span className="font-thai">น่ารักไทย</span> · {t.home.eyebrow}
+              <span lang="th" className="font-thai">น่ารักไทย</span> · {t.home.eyebrow}
             </span>
           </p>
           <h1 className="text-5xl font-semibold leading-[1.08] tracking-tight md:text-6xl xl:text-7xl">{t.home.headline}</h1>
           <p className="max-w-xl text-base leading-relaxed text-ink/80 md:text-xl">{t.home.body}</p>
           <p className="text-sm leading-relaxed text-ink-soft">
-            <span className="font-thai">“น่ารัก”</span> {t.home.tagline}
+            <span lang="th" className="font-thai">“น่ารัก”</span> {t.home.tagline}
           </p>
           <div className="flex flex-wrap gap-3 pt-1">
             <Link href={href('/lab')} className="btn btn-primary btn-hero">

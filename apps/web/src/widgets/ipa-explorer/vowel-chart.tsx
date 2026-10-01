@@ -99,21 +99,21 @@ export function VowelChart() {
         <Phonetic ipa={sel.ipa} className="text-5xl" />
         <p className="mt-2">≈ {sel.approx[locale]}</p>
         {isDiph ? (
-          <p className="mt-4 font-thai text-4xl">{sel.thai}</p>
+          <p lang="th" className="mt-4 font-thai text-4xl">{sel.thai}</p>
         ) : (
           <div className="mt-4 flex gap-3">
             <div className="flex-1 rounded-2xl border-2 border-dashed border-ink/25 p-3 text-center">
-              <p className="font-thai text-3xl">{sel.short}</p>
+              <p lang="th" className="font-thai text-3xl">{sel.short}</p>
               <p className="text-xs text-ink-soft">{t.ipa.short}</p>
             </div>
             <div className="flex-1 rounded-2xl border-2 border-ink/25 p-3 text-center">
-              <p className="font-thai text-3xl">{sel.long}</p>
+              <p lang="th" className="font-thai text-3xl">{sel.long}</p>
               <p className="text-xs text-ink-soft">{t.ipa.long}</p>
             </div>
           </div>
         )}
         <div className="mt-5 flex flex-wrap items-center gap-3">
-          <span className="font-thai text-3xl">{sel.example}</span>
+          <span lang="th" className="font-thai text-3xl">{sel.example}</span>
           <Phonetic ipa={sel.exampleIpa} className="text-ink-soft" />
           <SpeakButton text={sel.example} />
         </div>

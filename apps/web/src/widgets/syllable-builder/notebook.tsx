@@ -65,7 +65,7 @@ function MarkGlyph({ chars, where }: { chars: string; where: "top" | "bottom" })
       viewBox={MARK_VIEWBOX[where]}
       className="block h-[0.46em] w-auto overflow-hidden"
     >
-      <text x="0.4" y="0" fontSize="1" textAnchor="middle" fill="currentColor" className="font-thai">
+      <text lang="th" x="0.4" y="0" fontSize="1" textAnchor="middle" fill="currentColor" className="font-thai">
         ◌{chars}
       </text>
     </svg>
@@ -131,7 +131,7 @@ function NotebookCell({ cell, part, slot, text, color, label, popover, onSelect,
       >
         {!empty &&
           (main ? (
-            <span data-piece className="font-thai leading-none">
+            <span lang="th" data-piece className="font-thai leading-none">
               {text}
             </span>
           ) : (

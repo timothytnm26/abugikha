@@ -22,7 +22,7 @@ export function LearningPathSection() {
         {LEARNING_PATH.map((p, i) => (
           <li key={p.href}>
             <Link href={href(p.href)} data-tape className="note-paper path-card">
-              <span className="note-glyph font-thai text-5xl leading-none" style={{ color: STEP_COLORS[i] }}>
+              <span lang="th" className="note-glyph font-thai text-5xl leading-none" style={{ color: STEP_COLORS[i] }}>
                 {STEP_NUMERALS[p.step - 1]}
               </span>
               <span className="text-lg font-semibold">{t.routes[p.key].title}</span>

@@ -100,7 +100,7 @@ function EraColumn({ era, index, last }: { era: ScriptEra; index: number; last: 
           <div className="min-w-0">
             <p className="text-xs font-medium text-ink-soft">{era.region[locale]} · {era.period[locale]}</p>
             <div className="mt-1 flex flex-wrap items-baseline gap-x-3">
-              <h3 id={`era-${era.id}`} className="text-2xl font-semibold leading-tight tall:text-3xl">{era.name[locale]}</h3>
+              <h2 id={`era-${era.id}`} className="text-2xl font-semibold leading-tight tall:text-3xl">{era.name[locale]}</h2>
               <span className={cn("rounded-full px-2.5 py-0.5 text-sm font-semibold text-on-accent", nodeColor)}>{era.year[locale]}</span>
             </div>
             <p className="mt-2 text-sm leading-relaxed text-ink/80">{era.summary[locale]}</p>
@@ -150,7 +150,7 @@ function IntroPanel() {
         <span className="text-2xl text-ink-soft">→</span>
         <span className="text-6xl text-ink-soft md:text-8xl" style={glyphFont("khmer")}>ក</span>
         <span className="text-2xl text-ink-soft">→</span>
-        <span className="font-thai text-7xl md:text-[9rem]">ก</span>
+        <span lang="th" className="font-thai text-7xl md:text-[9rem]">ก</span>
       </div>
     </section>
   );
@@ -162,7 +162,7 @@ function EndPanel() {
   return (
     <section className="tl-col flex w-[88vw] max-w-[36rem] shrink-0 snap-start items-center justify-center py-10 tall:h-full tall:w-[min(52rem,calc(100vw-2rem))] tall:max-w-none tall:py-0">
       <div className="max-w-md text-center">
-        <span aria-hidden className="font-thai text-8xl leading-none text-tone-falling">ก</span>
+        <span lang="th" aria-hidden className="font-thai text-8xl leading-none text-tone-falling">ก</span>
         <h2 className="mt-4 text-3xl font-semibold leading-tight md:text-4xl">{t.history.endTitle}</h2>
         <p className="mt-3 text-ink/80">{t.history.endBody}</p>
         <Link href={href("/lab")} className="btn btn-primary mt-6">
@@ -285,7 +285,7 @@ export function ScriptTimeline() {
         </div>
       </div>
 
-      <nav aria-label={t.history.timelineAria} className="shrink-0 border-t border-ink/15 bg-paper-deep/60 px-3 py-2">
+      <nav aria-label={t.history.timelineNavAria} className="shrink-0 border-t border-ink/15 bg-paper-deep/60 px-3 py-2">
         <ol className="mx-auto flex max-w-[1440px] gap-1 overflow-x-auto">
           {SCRIPT_ERAS.map((era, i) => (
             <li key={era.id} className="min-w-0 flex-1 basis-0">

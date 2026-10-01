@@ -67,7 +67,7 @@ export function ConsonantChart() {
         <p className="mt-3 leading-relaxed">{sel.note[locale]}</p>
         {trap && <p className="mt-3 rounded-2xl bg-high/10 p-3 text-sm text-high">{trap}</p>}
         <div className="mt-5 flex flex-wrap items-center gap-3">
-          <span className="font-thai text-3xl">{sel.example}</span>
+          <span lang="th" className="font-thai text-3xl">{sel.example}</span>
           <Phonetic ipa={sel.exampleIpa} className="text-ink-soft" />
           <SpeakButton text={sel.example} />
         </div>
@@ -76,7 +76,7 @@ export function ConsonantChart() {
         <p className="mt-6 text-sm font-medium">{t.ipa.lettersTitle}</p>
         <div className="mt-2 flex flex-wrap gap-2">
           {letters.map((l) => (
-            <span key={l.id} className={cn("grid size-11 place-items-center rounded-xl font-thai text-2xl text-on-accent", CLASS_META[l.cls].bg, l.obsolete && "opacity-40")} title={`${l.name} – ${CLASS_META[l.cls].label[locale]}`}>
+            <span lang="th" key={l.id} className={cn("grid size-11 place-items-center rounded-xl font-thai text-2xl text-on-accent", CLASS_META[l.cls].bg, l.obsolete && "opacity-40")} title={`${l.name} – ${CLASS_META[l.cls].label[locale]}`}>
               {l.char}
             </span>
           ))}

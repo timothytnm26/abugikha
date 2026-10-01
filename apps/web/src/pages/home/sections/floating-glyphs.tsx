@@ -19,7 +19,7 @@ const FLOATERS = [
 
 export function FloatingGlyphs() {
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 select-none font-thai opacity-[0.14]">
+    <div lang="th" aria-hidden className="pointer-events-none absolute inset-0 select-none font-thai opacity-[0.14]">
       {FLOATERS.map((f) => (
         <span key={f.ch} className={`absolute ${f.pos} ${f.size} [animation:drift-slow_7s_ease-in-out_infinite]`} style={{ top: f.top, animationDelay: f.d }}>
           {f.ch}

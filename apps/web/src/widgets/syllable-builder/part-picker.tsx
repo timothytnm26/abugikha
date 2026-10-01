@@ -90,12 +90,12 @@ function Group({
       className={cn(tab !== k && "hidden xl:block", className)}
     >
       <div className="mb-2 flex flex-wrap items-center gap-1.5">
-        <h3
+        <h2
           id={`grp-${k}`}
           className="mr-1 text-sm font-semibold max-xl:sr-only"
         >
           {title}
-        </h3>
+        </h2>
         {extra}
       </div>
       {children}
@@ -189,7 +189,7 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
       data-accent={CLASS_META[u.cls].color}
       onClick={() => onPick("initial", u.id)}
       aria-pressed={u.id === initialId}
-      aria-label={`${u.chars}, /${u.ipa}/, ${CLASS_META[u.cls].label[locale]}`}
+      aria-label={`${u.chars}, /${u.ipa}/, ${CLASS_META[u.cls].label[locale]}${u.note ? `. ${u.note[locale]}` : ""}`}
       title={u.note?.[locale]}
       className={tileCls}
     >
@@ -223,6 +223,7 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
               disabled={finalDisabled(c.char)}
               onClick={() => onPick("final", c.id)}
               aria-pressed={c.id === finalId}
+              aria-label={`${c.char}: /${c.initial}/ → /${snd}/`}
               title={`${c.char}: /${c.initial}/ → /${snd}/`}
               style={boxStyle(ACCENT.final, c.id === finalId, !c.common)}
               className={cn(boxCls(c.id === finalId), "grid size-10 text-xl xl:size-9")}
@@ -307,7 +308,7 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
                       disabled={!vowelFitsInitial(v, initialChars)}
                       onClick={() => onPick("vowel", v.id)}
                       aria-pressed={v.id === vowelId}
-                      aria-label={`${v.open.replace("C", "")}, /${v.ipa}/, ${v.length === "long" ? t.ipa.long : t.ipa.short}`}
+                      aria-label={`${v.open.replace("C", "")}, /${v.ipa}/, ${v.length === "long" ? t.ipa.long : t.ipa.short}. ${v.approx[locale]}`}
                       title={v.approx[locale]}
                       className={tileCls}
                     >
@@ -363,7 +364,7 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
                       showPhonetic ? "flex items-center" : "grid",
                     )}
                   >
-                    <span className="font-thai text-2xl leading-none">
+                    <span lang="th" className="font-thai text-2xl leading-none">
                       {HOLDER}
                       {m.char}
                     </span>

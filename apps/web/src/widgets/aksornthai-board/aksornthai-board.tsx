@@ -153,7 +153,7 @@ export function AksornThaiBoard() {
           {sel.kind === "consonant" ? (
             <>
               <div className="flex flex-wrap items-center gap-3">
-                <span className="font-thai text-3xl">
+                <span lang="th" className="font-thai text-3xl">
                   {consonantSpeech(sel.item)}
                 </span>
                 <span
@@ -170,7 +170,7 @@ export function AksornThaiBoard() {
               </div>
               <p className="text-sm text-ink-soft">
                 {sel.item.name} · {t.aksornthai.keyword}:{" "}
-                <span className="font-thai text-base text-ink">
+                <span lang="th" className="font-thai text-base text-ink">
                   {sel.item.word}
                 </span>{" "}
                 “{sel.item.meaning[locale]}”
@@ -219,7 +219,7 @@ export function AksornThaiBoard() {
           ) : sel.kind === "vowel" ? (
             <>
               <div className="flex flex-wrap items-baseline gap-3">
-                <span className="font-thai text-2xl">
+                <span lang="th" className="font-thai text-2xl">
                   {vowelGlyph(sel.item)}
                 </span>
                 <Phonetic ipa={sel.item.ipa} className="text-ink-soft" />
@@ -231,7 +231,7 @@ export function AksornThaiBoard() {
               {sel.item.closed && (
                 <p className="text-sm">
                   {t.aksornthai.closedForm}:{" "}
-                  <span className="font-thai text-xl">
+                  <span lang="th" className="font-thai text-xl">
                     {closedForms(sel.item).join(" · ")}
                   </span>
                 </p>
@@ -264,7 +264,7 @@ export function AksornThaiBoard() {
           ) : sel.kind === "digit" ? (
             <>
               <div className="flex items-baseline gap-3">
-                <span className="font-thai text-3xl">{sel.item.word}</span>
+                <span lang="th" className="font-thai text-3xl">{sel.item.word}</span>
                 <Phonetic ipa={sel.item.ipa} className="text-ink-soft" />
               </div>
               <p className="text-sm">
@@ -357,7 +357,7 @@ export function AksornThaiBoard() {
                         : undefined
                     }
                   >
-                    <span
+                    <span lang="th"
                       className={cn(
                         "font-thai text-4xl leading-none",
                         c.obsolete && "line-through decoration-2",
@@ -414,7 +414,7 @@ export function AksornThaiBoard() {
                           // Viền nét đứt = nguyên âm ngắn (cùng quy ước với trang IPA và Ghép chữ)
                           className={cn(WIDE_TILE, glyphTile({ active, morph: MORPH_VOWEL_IDS.has(vowel.id), short: vowel.length === "short" }))}
                         >
-                          <span className="block whitespace-nowrap font-thai text-2xl leading-tight">
+                          <span lang="th" className="block whitespace-nowrap font-thai text-2xl leading-tight">
                             {vowelGlyph(vowel)}
                           </span>
 
@@ -447,7 +447,7 @@ export function AksornThaiBoard() {
                     aria-label={`${d.char}, ${d.value}`}
                     className={cn(TILE, glyphTile({ active, morph: false }))}
                   >
-                    <span className="font-thai text-4xl leading-none">
+                    <span lang="th" className="font-thai text-4xl leading-none">
                       {d.char}
                     </span>
 
@@ -479,7 +479,7 @@ export function AksornThaiBoard() {
                     aria-label={`${m.thai}, ${m.latin}`}
                     className={cn(TILE, glyphTile({ active, morph: MARK_MORPHS.length > 0 }))}
                   >
-                    <span className="font-thai text-4xl leading-tight">◌{m.char}</span>
+                    <span lang="th" className="font-thai text-4xl leading-tight">◌{m.char}</span>
 
                   </button>
                 </li>
@@ -499,7 +499,7 @@ function ToneDetails({ mark, onTry }: { mark: ToneMark; onTry: () => void }) {
   return (
     <>
       <div className="flex flex-wrap items-baseline gap-3">
-        <span className="font-thai text-2xl">{mark.thai}</span>
+        <span lang="th" className="font-thai text-2xl">{mark.thai}</span>
         <span className="text-sm text-ink-soft">{mark.latin}</span>
       </div>
       <p className="text-sm text-ink-soft">{t.aksornthai.markNote}</p>
@@ -522,7 +522,7 @@ function ToneDetails({ mark, onTry }: { mark: ToneMark; onTry: () => void }) {
                 <span className="text-xs font-medium" style={{ color: CLASS_META[c].color }}>
                   {fmt(t.builder.formula.cls, { cls: CLASS_META[c].label[locale] })}
                 </span>
-                <span className="font-thai text-xl leading-snug">{example}</span>
+                <span lang="th" className="font-thai text-xl leading-snug">{example}</span>
                 <span className="text-xs font-semibold" style={{ color: TONE_META[r.tone].color }}>
                   → {fmt(t.builder.formula.tone, { tone: TONE_META[r.tone].label[locale] })}
                 </span>
