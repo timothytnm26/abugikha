@@ -1,52 +1,60 @@
 'use client';
-import Link from 'next/link';
+import { useRef } from 'react';
 import { LEARNING_PATH } from '@/shared/config/routes';
 import { useLocalePath, useT } from '@/shared/i18n';
 import { cn } from '@/shared/lib';
+import { useTileReveal } from '@/shared/lib/use-tile-reveal';
+import { Chevrons, PosterFrame, PosterLink, type PosterBg } from '@/shared/ui';
 
-const STEP_COLORS = ['var(--color-mid)', 'var(--color-tone-falling)', 'var(--color-part-vowel)', 'var(--color-low)'];
 const STEP_NUMERALS = ['๑', '๒', '๓', '๔'];
-/** Mỗi chặng lệch sang phải một bậc như đang bước lên, nên lộ trình là một con đường chứ không phải bốn thẻ bằng nhau */
-const STEP_OFFSET = ['lg:ml-0', 'lg:ml-[9%]', 'lg:ml-[18%]', 'lg:ml-[27%]'];
+
+/** Mỗi chặng một ô màu có kích thước riêng; chặng cuối (ghép chữ) là ô lớn nhất vì đó là nơi người học thực sự làm việc. */
+const STEPS: { bg: PosterBg; place: string; big?: boolean }[] = [
+  { bg: 'blue', place: 'lg:col-span-3 lg:row-span-2' },
+  { bg: 'orange', place: 'lg:col-span-3 lg:row-span-2' },
+  { bg: 'violet', place: 'lg:col-span-2 lg:row-span-2' },
+  { bg: 'lime', place: 'lg:col-span-4 lg:row-span-2', big: true },
+];
 
 export function LearningPathSection() {
   const t = useT();
   const href = useLocalePath();
+  const root = useRef<HTMLDivElement>(null);
+  useTileReveal(root);
   return (
     <section aria-labelledby="path-title" className="screen scroll-mt-14">
-      <div className="page-container w-full py-14 md:py-16">
-        <h2 id="path-title" className="text-3xl font-semibold leading-tight tracking-tight md:text-5xl">
+      <div className="page-container w-full py-10 md:py-14">
+        <h2 id="path-title" className="font-poster text-5xl font-extrabold uppercase leading-[0.98] md:text-7xl">
           {t.home.pathTitle}
         </h2>
-        <p className="mt-3 max-w-[52ch] text-ink-soft md:text-lg">{t.home.pathBlurb}</p>
-        <ol className="mt-8 md:mt-12">
-          {LEARNING_PATH.map((p, i) => {
-            const last = i === LEARNING_PATH.length - 1;
-            return (
-              <li key={p.href} className={cn('relative', STEP_OFFSET[i])}>
-                <Link
-                  href={href(p.href)}
-                  data-tape={last ? '' : undefined}
-                  className={cn(
-                    'group grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 py-5 pr-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink md:gap-8 lg:max-w-3xl',
-                    last ? 'note-paper my-4 rounded-3xl px-5 md:px-8 md:py-7' : 'border-b border-ink/15',
-                  )}
-                >
-                  <span lang="th" className="note-glyph w-[1.1em] text-center font-thai text-6xl leading-none md:text-7xl" style={{ color: STEP_COLORS[i] }}>
-                    {STEP_NUMERALS[p.step - 1]}
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block text-2xl font-semibold leading-snug md:text-3xl">{t.routes[p.key].title}</span>
-                    <span className="mt-1 block max-w-[48ch] text-ink-soft md:text-lg">{t.routes[p.key].blurb}</span>
-                  </span>
-                  <span aria-hidden className="text-3xl leading-none transition-transform duration-200 group-hover:translate-x-1.5">
-                    →
-                  </span>
-                </Link>
-              </li>
-            );
-          })}
-        </ol>
+        <p className="mt-4 max-w-[52ch] text-ink/85 md:text-lg">{t.home.pathBlurb}</p>
+        <PosterFrame ref={root} className="mt-8 md:mt-10">
+          <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 lg:grid-rows-[repeat(4,minmax(4.5rem,auto))]">
+            {LEARNING_PATH.map((p, i) => {
+              const s = STEPS[i];
+              return (
+                <li key={p.href} className={cn('grid', s.place, i === 3 && 'sm:col-span-2')}>
+                  <PosterLink bg={s.bg} href={href(p.href)} className="relative flex min-h-56 flex-col justify-between gap-8 overflow-hidden">
+                    <span
+                      lang="th"
+                      aria-hidden
+                      className={cn('poster-outline pointer-events-none absolute -right-2 -top-4 select-none font-thai font-medium leading-none', s.big ? 'text-[11rem] md:text-[15rem]' : 'text-[9rem] md:text-[11rem]')}
+                    >
+                      {STEP_NUMERALS[p.step - 1]}
+                    </span>
+                    <span className="relative">
+                      <span className="block font-poster text-3xl font-bold uppercase leading-none md:text-5xl">{t.routes[p.key].title}</span>
+                      <span className="mt-3 block max-w-[34ch] text-sm leading-snug md:text-base">{t.routes[p.key].blurb}</span>
+                    </span>
+                    <span aria-hidden className="relative self-start transition-transform duration-200 group-hover:translate-x-2">
+                      <Chevrons className="w-14" />
+                    </span>
+                  </PosterLink>
+                </li>
+              );
+            })}
+          </ol>
+        </PosterFrame>
       </div>
     </section>
   );

@@ -9,6 +9,8 @@
   /* Chữ Thái lẫn trong câu (gợi ý, tên dấu) dùng font Thái thay vì font dự phòng của hệ thống */
   --font-sans: "Be Vietnam Pro", "Noto Serif Thai", "Leelawadee UI", "Thonburi", ui-sans-serif, system-ui, sans-serif;
   --font-thai: "Noto Serif Thai", "Noto Sans Thai", "Leelawadee UI", "Thonburi", serif;
+  /* Chỉ trang chủ dùng: chữ condensed đậm cho áp phích (Barlow Condensed có đủ dấu tiếng Việt) */
+  --font-poster: "Barlow Condensed", "Be Vietnam Pro", "Noto Sans Thai", ui-sans-serif, sans-serif;
   --font-ipa: "Charis SIL", "Doulos SIL", "Gentium Plus", "Noto Serif", serif;
   --font-khmer: "Noto Sans Khmer", "Khmer OS", sans-serif;
   --font-lao: "Noto Sans Lao", "Phetsarath OT", sans-serif;
@@ -48,6 +50,17 @@
   /* Giấy ghi chú của khung xem trước: màu giấy và màu đường kẻ */
   --color-sheet: #fbfbf4;
   --color-sheet-line: #b9c9c9;
+
+  /* Bảng màu áp phích của trang chủ: cố định, không đổi theo giao diện hay dark mode. Cặp chữ-nền nào đạt AA đã có test ở shared/config/poster.test.ts */
+  --color-poster-blue: #2332e8;
+  --color-poster-lime: #d4f72a;
+  --color-poster-violet: #5a1fb0;
+  --color-poster-black: #0c0c18;
+  --color-poster-orange: #ff6a1f;
+  --color-poster-red: #e8382f;
+  --color-poster-cream: #fbe6cc;
+  --color-poster-green: #0e7a58;
+  --color-poster-pink: #f6a6c3;
 }
 
 /* Tối: men celadon nung khử, xanh đen như gốm sứ Sawankhalok về đêm */
@@ -323,15 +336,10 @@ html:not([data-paper="tiers"]) .paper-tier {
   50% { translate: 6px 0; }
 }
 
-/* Nền liền mạch của cả trang chủ: chỉ hai quầng màu (ngọc lục bảo của nhóm phụ âm giữa và tím của "ไทย" ở logo), trải dọc theo từng màn hình để các phần nối nhau không có đường cắt */
-.home-flow {
-  background:
-    radial-gradient(60rem 36rem at 12% 8svh, color-mix(in oklab, var(--color-mid) 22%, transparent), transparent 70%),
-    radial-gradient(48rem 34rem at 92% 22svh, color-mix(in oklab, var(--color-tone-falling) 16%, transparent), transparent 70%),
-    radial-gradient(56rem 36rem at 60% 100svh, color-mix(in oklab, var(--color-mid) 18%, transparent), transparent 70%),
-    radial-gradient(50rem 34rem at 8% 170svh, color-mix(in oklab, var(--color-tone-falling) 14%, transparent), transparent 70%),
-    radial-gradient(52rem 34rem at 94% 215svh, color-mix(in oklab, var(--color-mid) 16%, transparent), transparent 70%),
-    radial-gradient(56rem 36rem at 40% 290svh, color-mix(in oklab, var(--color-tone-falling) 14%, transparent), transparent 70%);
+/* Chữ rỗng viền kiểu áp phích (như dòng FLY. lặp lại): dùng màu chữ hiện tại làm nét viền */
+.poster-outline {
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 2px currentColor;
 }
 
 /* ---------- Thành phần dùng lại (trang chủ) ---------- */
@@ -397,6 +405,10 @@ html:not([data-paper="tiers"]) .paper-tier {
   }
   .btn-icon {
     @apply min-w-11 px-0;
+  }
+  /* Nút vuông góc cho các ô áp phích của trang chủ: bỏ khuyết góc, giữ nguyên mọi trạng thái còn lại */
+  .btn-flat {
+    --notch: inset(0);
   }
   .section-title {
     @apply text-2xl font-semibold md:text-3xl;

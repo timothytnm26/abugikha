@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-01T04:45:35.150322+00:00",
+  "generatedAt": "2026-10-01T06:04:00.151652+00:00",
   "title": "Design System: NarakThai",
   "extensions": {
     "colorMeta": {
@@ -314,6 +314,10 @@
       "historic": {
         "displayName": "Historic scripts",
         "purpose": "History timeline glyphs; loaded only on /history."
+      },
+      "poster": {
+        "displayName": "Poster",
+        "purpose": "Condensed uppercase headlines on the home page poster grids."
       }
     },
     "shadows": [
@@ -453,6 +457,8 @@
       "**Do** keep contrast comfortable: ink on paper, never pure black on white."
     ],
     "donts": [
+      "Don't use the poster palette, outlined type or flush tiles outside the home page until a tool page is deliberately migrated.",
+      "Don't put white text on red or red text on cream; they fail AA.",
       "Don't put an eyebrow or kicker pill above a heading.",
       "Don't loop ambient motion (floating glyphs, marquees) behind content.",
       "**Don't** use saturated color as decoration; it belongs to class, tone, vowel, final and removed parts.",
