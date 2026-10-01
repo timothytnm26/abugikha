@@ -269,13 +269,31 @@ export function ScriptTimeline() {
     }
   };
 
+  /**
+   * Khi đang ghim, track di chuyển bằng transform còn vùng cuộn bị overflow:hidden. Tab tới một nút nằm ngoài khung làm trình duyệt
+   * tự đặt scrollLeft, cộng dồn với transform nên chặng bị lệch. Ta trả scrollLeft về 0 rồi kéo thanh cuộn trang tới đúng chặng chứa nút đó.
+   */
+  const onStageFocus = (e: React.FocusEvent) => {
+    const st = trigger.current;
+    if (!pinned.current || !st) return;
+    const col = (e.target as HTMLElement).closest<HTMLElement>(".tl-col");
+    const reset = () => {
+      if (stage.current) stage.current.scrollLeft = 0;
+    };
+    reset();
+    requestAnimationFrame(reset);
+    if (!col) return;
+    const p = Math.min(1, Math.max(0, col.offsetLeft / distance()));
+    window.scrollTo({ top: st.start + p * (st.end - st.start), behavior: "auto" });
+  };
+
   return (
     <div ref={wrap} className="relative flex flex-col bg-paper tall:h-[calc(100svh-3.5rem)]" role="region" aria-label={t.history.timelineAria}>
       <div className="absolute inset-x-0 top-0 z-10 h-1.5 bg-ink/10" aria-hidden>
         <div ref={progress} className="h-full origin-left scale-x-0" style={{ background: "linear-gradient(90deg, var(--color-tone-high), var(--color-high), var(--color-tone-falling), var(--color-mid))" }} />
       </div>
 
-      <div ref={stage} className="min-h-0 flex-1 snap-x snap-proximity scroll-pl-4 overflow-x-auto overflow-y-hidden overscroll-x-contain">
+      <div ref={stage} onFocus={onStageFocus} className="min-h-0 flex-1 snap-x snap-proximity scroll-pl-4 overflow-x-auto overflow-y-hidden overscroll-x-contain">
         <div ref={track} className="relative flex h-full w-max gap-4 px-4 tall:gap-0 tall:px-0 will-change-transform">
           <IntroPanel />
           {SCRIPT_ERAS.map((era, i) => (
