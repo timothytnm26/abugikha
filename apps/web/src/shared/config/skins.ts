@@ -18,18 +18,18 @@ type Parts = Record<PaletteKey, string>;
 
 const make = (id: SkinId, surface: Record<SurfaceKey, string>, parts: Parts, disabled = false): SkinDef => ({ id, vars: { ...parts, ...surface }, ...(disabled && { disabled }) });
 
-/** Màu thành phần dành cho nền sáng: màu nền sáng của bảng áp phích, chữ trên đó là `on-accent` (đen). */
+/** Màu thành phần dành cho nền sáng: màu nền sáng của bảng áp phích, chữ trên đó là `on-accent` (mực đậm). */
 const LIGHT_PARTS: Parts = {
-  mid: '#12bd0c',
-  high: '#ff5200',
-  low: '#1e9fe8',
-  'part-vowel': '#b07aff',
-  'part-final': '#cdfb1c',
-  'tone-mid': '#c9cdc9',
-  'tone-low': '#b07aff',
-  'tone-falling': '#f47b6b',
-  'tone-high': '#ffe100',
-  'tone-rising': '#1e9fe8',
+  mid: '#7bc67e',
+  high: '#ffa552',
+  low: '#2ab7ca',
+  'part-vowel': '#8e7df0',
+  'part-final': '#fed766',
+  'tone-mid': '#8a94a6',
+  'tone-low': '#8e7df0',
+  'tone-falling': '#ff8fa3',
+  'tone-high': '#fed766',
+  'tone-rising': '#2ab7ca',
 };
 
 /**
@@ -41,16 +41,16 @@ export const SKINS: SkinDef[] = [
   make(
     'flat',
     {
-      paper: '#f4efe9',
-      'paper-deep': '#e9e1d7',
-      ink: '#1b1a17',
-      'ink-soft': '#5e5750',
-      'on-accent': '#14130f',
-      sheet: '#fbf8f3',
-      'sheet-line': '#d3c8ba',
-      margin: '#d98a86',
-      removed: '#c2361c',
-      brand: '#c23d00',
+      paper: '#f4f4f8',
+      'paper-deep': '#e6e6ea',
+      ink: '#24304a',
+      'ink-soft': '#5b6478',
+      'on-accent': '#141a2b',
+      sheet: '#ffffff',
+      'sheet-line': '#d4d5de',
+      margin: '#ff8fa3',
+      removed: '#d0312f',
+      brand: '#c84000',
     },
     LIGHT_PARTS,
   ),
@@ -76,7 +76,27 @@ export const SKINS: SkinDef[] = [
 export const SKIN_BY_ID = new Map(SKINS.map((s) => [s.id, s]));
 /** Chỉ các skin đã bật mới được áp dụng. */
 export const isSkinEnabled = (id: unknown): id is SkinId => SKIN_BY_ID.get(id as SkinId)?.disabled !== true && SKIN_BY_ID.has(id as SkinId);
-export const DEFAULT_SKIN: SkinId = 'flat';
+/** Sáng/tối là một lớp tách khỏi skin: chế độ tối chỉ thay màu bề mặt (giấy, mực, tờ ghi chú, màu nhấn), còn màu thành phần âm tiết giữ nguyên vì chúng là nền sáng và biến thể -ink tự pha với mực nên sáng lên theo. */
+export type ThemeMode = 'light' | 'dark';
+export const DARK_SURFACE: Partial<Record<SurfaceKey, string>> = {
+  paper: '#1c1a17',
+  'paper-deep': '#26231f',
+  ink: '#f1ece4',
+  'ink-soft': '#b3aa9e',
+  sheet: '#252320',
+  'sheet-line': '#4a443c',
+  margin: '#a8605c',
+  removed: '#ff8a70',
+  brand: '#2ab7ca',
+};
 
-/** Script chạy trong <head> trước khi vẽ trang: áp skin, màu và kiểu giấy đã lưu để không bị nháy. */
-export const SKIN_BOOT_SCRIPT = `try{var T=${JSON.stringify(Object.fromEntries(SKINS.filter((s) => !s.disabled).map((s) => [s.id, s.vars])))};var s=JSON.parse(localStorage.getItem(${JSON.stringify(PREFS_STORAGE_KEY)})||"{}").state||{};var d=document.documentElement;var v=T[s.skinId]||T.${DEFAULT_SKIN};d.dataset.paper=s.paper||"tiers";d.dataset.skin=T[s.skinId]?s.skinId:"${DEFAULT_SKIN}";var o=(s.palette&&s.palette[d.dataset.skin])||{};for(var k in v)d.style.setProperty("--color-"+k,o[k]||v[k])}catch(e){}`;
+/** Mặc định không chọn skin nào: giao diện lấy thẳng từ globals.css (trùng màu skin flat, có test giữ cho khớp), không gắn data-skin và không ghi màu lên <html>. */
+export const DEFAULT_SKIN: SkinId | null = null;
+/** Khoá lưu màu người dùng chỉnh khi chưa chọn skin nào. */
+export const BASE_SCOPE = 'base';
+export type PaletteScope = SkinId | typeof BASE_SCOPE;
+/** Màu hiển thị làm gốc trong Tuỳ chỉnh khi chưa chọn skin: chính là màu mặc định ở globals.css. */
+export const BASE_VARS = (SKINS.find((s) => s.id === 'flat') as SkinDef).vars;
+
+/** Script chạy trong <head> trước khi vẽ trang: áp skin, màu, sáng/tối và kiểu giấy đã lưu để không bị nháy. Chưa chọn skin thì chỉ áp màu người dùng đã chỉnh (khoá "base"). */
+export const SKIN_BOOT_SCRIPT = `try{var T=${JSON.stringify(Object.fromEntries(SKINS.filter((s) => !s.disabled).map((s) => [s.id, s.vars])))};var D=${JSON.stringify(DARK_SURFACE)};var s=JSON.parse(localStorage.getItem(${JSON.stringify(PREFS_STORAGE_KEY)})||"{}").state||{};var d=document.documentElement;d.dataset.paper=s.paper||"tiers";var m=s.theme==="dark"?"dark":"light";d.dataset.theme=m;d.style.colorScheme=m;var v=T[s.skinId];if(v)d.dataset.skin=s.skinId;var o=(s.palette&&s.palette[v?s.skinId:"${BASE_SCOPE}"])||{};for(var k in v||o)d.style.setProperty("--color-"+k,o[k]||v[k]);if(m==="dark")for(var k in D)d.style.setProperty("--color-"+k,D[k])}catch(e){}`;

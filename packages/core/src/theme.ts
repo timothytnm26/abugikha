@@ -20,14 +20,14 @@ export const toneKey = (tone: Tone): PaletteKey => `tone-${tone}`;
 /** Bảng màu mặc định (web: trùng với globals.css) */
 export const DEFAULT_PALETTE: Record<Theme, Record<PaletteKey, string>> = {
   light: {
-    mid: "#12bd0c",
-    high: "#ff5200",
-    low: "#1e9fe8",
-    "tone-mid": "#c9cdc9",
-    "tone-low": "#b07aff",
-    "tone-falling": "#f47b6b",
-    "tone-high": "#ffe100",
-    "tone-rising": "#1e9fe8",
+    mid: "#7bc67e",
+    high: "#ffa552",
+    low: "#2ab7ca",
+    "tone-mid": "#8a94a6",
+    "tone-low": "#8e7df0",
+    "tone-falling": "#ff8fa3",
+    "tone-high": "#fed766",
+    "tone-rising": "#2ab7ca",
   },
   dark: {
     mid: "#56d0af",
@@ -43,6 +43,6 @@ export const DEFAULT_PALETTE: Record<Theme, Record<PaletteKey, string>> = {
 
 /** Màu nền/chữ cơ bản (web: trùng với globals.css) */
 export const SURFACE_COLORS: Record<Theme, { paper: string; paperDeep: string; ink: string; inkSoft: string; onAccent: string }> = {
-  light: { paper: "#f4efe9", paperDeep: "#e9e1d7", ink: "#1b1a17", inkSoft: "#5e5750", onAccent: "#14130f" },
+  light: { paper: "#f4f4f8", paperDeep: "#e6e6ea", ink: "#24304a", inkSoft: "#5b6478", onAccent: "#141a2b" },
   dark: { paper: "#121a1d", paperDeep: "#1b262a", ink: "#e3ebe6", inkSoft: "#9aaaa2", onAccent: "#0f1518" },
 };

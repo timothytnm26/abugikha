@@ -5,7 +5,7 @@ import { useShallow } from "zustand/react/shallow";
 import { CLASS_META, type ConsonantClass } from "@abugikha/core/consonant";
 import { TONE_META, type Tone } from "@abugikha/core/syllable";
 import { CLASS_KEYS, PAPER_STYLES, PART_KEYS, TONE_KEYS, type PaletteKey } from "@/shared/config/palette";
-import { SKINS, SKIN_BY_ID, type SkinDef } from "@/shared/config/skins";
+import { BASE_SCOPE, BASE_VARS, SKINS, SKIN_BY_ID, type SkinDef } from "@/shared/config/skins";
 import { usePreferences } from "@/shared/lib/preferences";
 import { useDismiss } from "@/shared/lib/use-dismiss";
 import { fmt, useLocale, useT, type L10n } from "@/shared/i18n";
@@ -103,8 +103,9 @@ export function SettingsMenu() {
   const { activeId, palette, paper, setSkin, setColor, resetPalette, setPaper } = usePreferences(
     useShallow((p) => ({ activeId: p.skinId, palette: p.palette, paper: p.paper, setSkin: p.setSkin, setColor: p.setColor, resetPalette: p.resetPalette, setPaper: p.setPaper })),
   );
-  const active = SKIN_BY_ID.get(activeId)!;
-  const overrides = palette[activeId] ?? {};
+  const scope = activeId ?? BASE_SCOPE;
+  const baseVars = activeId ? SKIN_BY_ID.get(activeId)!.vars : BASE_VARS;
+  const overrides = palette[scope] ?? {};
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -167,14 +168,14 @@ export function SettingsMenu() {
   const swatches = (keys: readonly PaletteKey[]) => (
     <div className={"grid grid-cols-5 gap-2"}>
       {keys.map((k) => {
-        const value = overrides[k] ?? active.vars[k];
+        const value = overrides[k] ?? baseVars[k];
         // Màu người dùng chọn là màu nền: chữ on-accent đặt lên phải đọc được, nếu không thì báo ngay (biến thể -ink làm chữ trên giấy tự pha với mực)
-        const low = contrastRatio(active.vars["on-accent"], value) < AA_CONTRAST;
+        const low = contrastRatio(baseVars["on-accent"], value) < AA_CONTRAST;
         return (
         <label key={k} className="flex flex-col items-center gap-1 text-xs text-ink-soft">
           <span lang="th" className="font-thai relative grid size-11 place-items-center overflow-hidden bg-sheet text-2xl leading-none ring-2 ring-ink/10 focus-within:ring-ink sm:size-10" style={{ color: `var(--color-${k}-ink)` }}>
             {GLYPH[k]}
-            <input type="color" value={value} onChange={(e) => setColor(activeId, k, e.target.value)} className="absolute inset-0 size-full cursor-pointer opacity-0" aria-label={low ? `${label(k)}: ${t.settings.lowContrast}` : label(k)} />
+            <input type="color" value={value} onChange={(e) => setColor(scope, k, e.target.value)} className="absolute inset-0 size-full cursor-pointer opacity-0" aria-label={low ? `${label(k)}: ${t.settings.lowContrast}` : label(k)} />
           </span>
           {label(k)}
           {low && <span className="font-medium text-high-ink">{t.settings.lowContrast}</span>}
@@ -210,7 +211,7 @@ export function SettingsMenu() {
           </div>
           <div className="grid grid-cols-2 gap-2">
             {SKINS.map((sk) => (
-              <SkinCard key={sk.id} skin={sk} selected={sk.id === activeId} onPick={() => setSkin(sk.id)} />
+              <SkinCard key={sk.id} skin={sk} selected={sk.id === activeId} onPick={() => setSkin(sk.id === activeId ? null : sk.id)} />
             ))}
           </div>
         </section>
@@ -254,8 +255,8 @@ export function SettingsMenu() {
             {swatches(TONE_KEYS)}
           </div>
           <div className="flex items-center justify-between gap-3 border-t border-ink/10 pt-3 text-xs text-ink-soft">
-            <span>{fmt(t.settings.perSkin, { skin: t.settings.skins[active.id].name })}</span>
-            <button type="button" onClick={() => resetPalette(activeId)} className="shrink-0 border border-ink/15 px-3 py-2 font-medium text-ink hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
+            <span>{activeId ? fmt(t.settings.perSkin, { skin: t.settings.skins[activeId].name }) : t.settings.perBase}</span>
+            <button type="button" onClick={() => resetPalette(scope)} className="shrink-0 border border-ink/15 px-3 py-2 font-medium text-ink hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
               {t.settings.reset}
             </button>
           </div>

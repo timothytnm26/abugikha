@@ -22,28 +22,30 @@
   --font-taiviet: "Noto Sans Tai Viet", sans-serif;
 
   /* Mặc định = skin "flat". Màu của mọi skin nằm ở shared/config/skins.ts và được script đầu trang / PreferencesSync ghi đè lên <html>; kiểu dáng của skin nằm ở khối "Skin" bên dưới */
-  --color-paper: #f4efe9;
-  --color-paper-deep: #e9e1d7;
-  --color-ink: #1b1a17;
-  --color-ink-soft: #5e5750;
-  --color-on-accent: #14130f;
+  --color-paper: #f4f4f8;
+  --color-paper-deep: #e6e6ea;
+  --color-ink: #24304a;
+  --color-ink-soft: #5b6478;
+  --color-on-accent: #141a2b;
+  /* Xanh pastel: màu chủ đạo của chữ tít, thanh nav và nét viền lớn (không dùng cho chữ nhỏ vì chỉ ~1.5:1 trên giấy; chữ thân bài vẫn là --color-ink) */
+  --color-pastel: #8fd9e3;
 
-  --color-mid: #12bd0c;
-  --color-high: #ff5200;
-  --color-low: #1e9fe8;
+  --color-mid: #7bc67e;
+  --color-high: #ffa552;
+  --color-low: #2ab7ca;
 
-  --color-tone-mid: #c9cdc9;
-  --color-tone-low: #b07aff;
-  --color-tone-falling: #f47b6b;
-  --color-tone-high: #ffe100;
-  --color-tone-rising: #1e9fe8;
+  --color-tone-mid: #8a94a6;
+  --color-tone-low: #8e7df0;
+  --color-tone-falling: #ff8fa3;
+  --color-tone-high: #fed766;
+  --color-tone-rising: #2ab7ca;
 
   /* Màu vai trò của mảnh chữ (phần nguyên âm biến hình): nguyên âm, âm cuối, mảnh bị loại */
-  --color-part-vowel: #b07aff;
-  --color-part-final: #cdfb1c;
-  --color-removed: #c2361c;
-  /* Màu nhấn thương hiệu (chữ "ไทย" ở thanh nav, nút của skin): cam đậm của màu chủ đạo, đủ AA trên giấy */
-  --color-brand: #c23d00;
+  --color-part-vowel: #8e7df0;
+  --color-part-final: #fed766;
+  --color-removed: #d0312f;
+  /* Màu nhấn thương hiệu (chữ "ไทย" ở thanh nav, nút của skin): cam cháy, đủ AA trên giấy (cùng tông với cam áp phích) */
+  --color-brand: #c84000;
 
   /* Màu nền ở trên đều sáng (chữ đen đặt lên được); khi dùng làm chữ hoặc nét trên giấy thì lấy biến thể -ink: pha 35% màu với mực để đủ AA */
   --color-mid-ink: color-mix(in oklab, var(--color-mid) 35%, var(--color-ink));
@@ -58,24 +60,24 @@
   --color-part-final-ink: color-mix(in oklab, var(--color-part-final) 35%, var(--color-ink));
 
   /* Đường lề đỏ của giấy tập viết */
-  --color-margin: #d98a86;
+  --color-margin: #ff8fa3;
 
   /* Giấy ghi chú của khung xem trước: màu giấy và màu đường kẻ */
-  --color-sheet: #fbf8f3;
-  --color-sheet-line: #d3c8ba;
+  --color-sheet: #ffffff;
+  --color-sheet-line: #d4d5de;
 
-  /* Bảng màu áp phích lấy từ ảnh tham chiếu, cam là màu chủ đạo; kèm đen, kem và xám kem. Cố định, không đổi theo skin. Cặp chữ-nền đạt AA đã có test ở shared/config/poster.test.ts */
-  --color-poster-orange: #ff5200;
-  --color-poster-blue: #0a0adc;
-  --color-poster-sky: #1e9fe8;
-  --color-poster-lime: #cdfb1c;
-  --color-poster-coral: #f47b6b;
-  --color-poster-violet: #8c3df4;
-  --color-poster-green: #12bd0c;
-  --color-poster-yellow: #ffe100;
-  --color-poster-black: #14130f;
-  --color-poster-cream: #f4efe9;
-  --color-poster-taupe: #8a7f73;
+  /* Bảng màu áp phích: teal, vàng nắng, san hô là ba màu gốc; kèm cam quýt, lá non, oải hương, trời nhạt, mực xanh, kem và xám đá. Là màu mặc định (skin flat); skin nào muốn màu khác thì ghi đè --color-note-* trong khối [data-skin] của nó, không ghi đè thì giữ màu này. Cặp chữ-nền đạt AA đã có test ở shared/config/poster.test.ts */
+  --color-note-orange: #ff5200;
+  --color-note-blue: #17717f;
+  --color-note-sky: #8fd9e3;
+  --color-note-lime: #2ab7ca;
+  --color-note-coral: #fe4a49;
+  --color-note-violet: #8e7df0;
+  --color-note-green: #7bc67e;
+  --color-note-yellow: #fed766;
+  --color-note-black: #141a2b;
+  --color-note-cream: #f4f4f8;
+  --color-note-taupe: #6f7a8e;
 }
 
 @layer base {
@@ -94,8 +96,15 @@
 
 /* Giảm chuyển động: mọi trạng thái vẫn đổi ngay, chỉ bỏ phần di chuyển. Các hiệu ứng cần thay thế riêng (ô đích, nguyên âm biến hình) có khối reduced-motion của chúng ở bên dưới */
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
 
 /* ---------- Ô ghép khi đang kéo một mảnh ---------- */
@@ -103,16 +112,19 @@
   --accent: var(--color-ink);
   transition: scale 200ms, opacity 200ms, filter 200ms, box-shadow 200ms;
 }
+
 [data-dragging] [data-slot]:not([data-target]) {
   opacity: 0.3;
   filter: grayscale(0.7);
 }
+
 /* Ô đích: viền đứt nhấp nháy theo màu của mảnh */
 [data-slot][data-target] {
   outline: 3px dashed var(--accent);
   outline-offset: 4px;
   animation: slot-pulse 1s ease-in-out infinite;
 }
+
 /* Mảnh đã ở trên ô: phóng to, viền đặc dày, xem trước chữ sẽ vào */
 [data-slot][data-near] {
   scale: 1.15;
@@ -120,6 +132,7 @@
   animation: none;
   outline-width: 5px;
 }
+
 [data-slot][data-near]::after {
   content: attr(data-preview);
   position: absolute;
@@ -131,10 +144,12 @@
   background: color-mix(in oklab, var(--accent) 20%, var(--color-paper));
   color: var(--accent);
 }
+
 /* Esc ẩn thẻ giải thích của bước đang mở (WCAG 1.4.13); sum-stage gỡ cờ này ở lần rê chuột hoặc đổi focus kế tiếp */
 [data-esc] [role="tooltip"] {
   display: none !important;
 }
+
 /* ---------- Nguyên âm biến hình ---------- */
 /* Mảnh sắp bị loại: phóng to, đỏ, rung rồi gạch ngang */
 .morph-doomed {
@@ -144,6 +159,7 @@
   transition: scale 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s;
   animation: morph-wobble 0.5s 0.15s ease-in-out;
 }
+
 .morph-doomed::after {
   content: "";
   position: absolute;
@@ -156,46 +172,86 @@
   transform-origin: left;
   animation: morph-strike 0.35s 0.45s ease-out both;
 }
+
 /* Bóng của mảnh bị loại khi rơi ra ngoài */
 .morph-ghost {
   color: var(--color-removed);
   text-shadow: 0 0 0.25em color-mix(in oklab, var(--color-removed) 45%, transparent);
 }
+
 /* Vạch gạch trên một dấu bị loại (◌ั, ◌็…) */
 .morph-doomed-mark {
   transform-origin: left;
   animation: morph-strike 0.35s 0.45s ease-out both;
 }
+
 /* Mảnh mới đến: loé sáng theo màu của nó */
 .morph-born {
   animation: morph-born 1.3s 0.3s ease-out both;
 }
+
 @keyframes morph-wobble {
-  25% { rotate: -7deg; }
-  75% { rotate: 7deg; }
+  25% {
+    rotate: -7deg;
+  }
+
+  75% {
+    rotate: 7deg;
+  }
 }
+
 @keyframes morph-strike {
-  from { scale: 0 1; }
+  from {
+    scale: 0 1;
+  }
 }
+
 @keyframes morph-born {
-  0% { text-shadow: 0 0 0 transparent; }
-  30% { text-shadow: 0 0 0.22em currentColor; }
-  100% { text-shadow: 0 0 0 transparent; }
+  0% {
+    text-shadow: 0 0 0 transparent;
+  }
+
+  30% {
+    text-shadow: 0 0 0.22em currentColor;
+  }
+
+  100% {
+    text-shadow: 0 0 0 transparent;
+  }
 }
+
 @media (prefers-reduced-motion: reduce) {
-  .morph-doomed, .morph-doomed::after, .morph-born, .morph-doomed-mark { animation: none; transition: none; }
+  .morph-doomed, .morph-doomed::after, .morph-born, .morph-doomed-mark {
+    animation: none;
+    transition: none;
+  }
 }
+
 @keyframes pop-in {
-  from { margin-top: 1.1rem; opacity: 0; }
+  from {
+    margin-top: 1.1rem;
+    opacity: 0;
+  }
 }
+
 @keyframes dock-in {
-  from { translate: 0 -16px; scale: 0.94; opacity: 0; }
+  from {
+    translate: 0 -16px;
+    scale: 0.94;
+    opacity: 0;
+  }
 }
+
 @keyframes slot-pulse {
-  50% { outline-offset: 9px; }
+  50% {
+    outline-offset: 9px;
+  }
 }
+
 @media (prefers-reduced-motion: reduce) {
-  [data-slot][data-target] { animation: none; }
+  [data-slot][data-target] {
+    animation: none;
+  }
 }
 
 /* ---------- Giấy ghi chú (khung xem trước) ---------- */
@@ -205,12 +261,14 @@
   background-color: var(--color-sheet);
   border: 2px solid var(--color-ink);
 }
+
 /* Kiểu giấy do người dùng chọn (data-paper trên <html>); data-style trên chính tờ giấy dùng cho ô xem thử trong Tuỳ chỉnh */
 .note-paper[data-style="lines"],
 [data-paper="lines"] .note-paper:not([data-style]) {
   background-image: linear-gradient(to bottom, transparent calc(var(--u) - 1.5px), var(--color-sheet-line) calc(var(--u) - 1.5px));
   background-size: 100% var(--u);
 }
+
 .note-paper[data-style="grid"],
 [data-paper="grid"] .note-paper:not([data-style]) {
   background-image:
@@ -219,12 +277,14 @@
   background-size: var(--u) var(--u);
   background-position: center center;
 }
+
 .note-paper[data-style="dots"],
 [data-paper="dots"] .note-paper:not([data-style]) {
   background-image: radial-gradient(circle, var(--color-sheet-line) 1.6px, transparent 2px);
   background-size: var(--u) var(--u);
   background-position: center center;
 }
+
 /*
  * Giấy theo cỡ chữ: khi tờ giấy có data-scale (vở ghép âm tiết), ô kẻ tính bằng em nên lớn nhỏ theo cỡ chữ của khung.
  * 1 ô = 0.29em, nửa thân chữ Thái (thân chữ cao 0.58em: ก ข ค…) nên thân chữ = 2 ô, dấu thanh / nguyên âm trên/dưới ≈ 1 ô;
@@ -235,38 +295,47 @@
   --u: 0.29em;
   --base: 2.29em;
 }
+
 [data-paper="lines"] .note-paper[data-scale]:not([data-style]) {
   --u: 0.58em;
 }
+
 [data-paper="lines"] .note-paper[data-scale]:not([data-style]),
 [data-paper="grid"] .note-paper[data-scale]:not([data-style]),
 [data-paper="dots"] .note-paper[data-scale]:not([data-style]) {
   background-position: center var(--base);
 }
+
 /* Vở so sánh font vẽ giấy bằng SVG (cùng hệ toạ độ em với chữ) nên tắt nền CSS cố định */
 html[data-paper] .note-paper[data-svgpaper]:not([data-style]) {
   background-image: none;
 }
+
 html:not([data-paper="lines"]) .paper-lines,
 html:not([data-paper="grid"]) .paper-grid,
 html:not([data-paper="dots"]) .paper-dots {
   display: none;
 }
+
 /* Ô xem thử của "vở 4 tầng": vài vạch ngang, dải giữa đậm hơn */
 .note-paper[data-style="tiers"] {
   background-image: linear-gradient(to bottom, transparent 24%, var(--color-sheet-line) 24%, var(--color-sheet-line) calc(24% + 1px), color-mix(in oklab, var(--color-ink) 8%, transparent) calc(24% + 1px), color-mix(in oklab, var(--color-ink) 8%, transparent) 66%, var(--color-sheet-line) 66%, var(--color-sheet-line) calc(66% + 1px), transparent calc(66% + 1px));
 }
+
 /* Chỉ kiểu "vở 4 tầng" mới vẽ các tầng (đường kẻ, nhãn, dải nền); kiểu khác chỉ giữ nền giấy */
 html:not([data-paper="tiers"]) .paper-tier {
   display: none;
 }
+
 /* Quầng cùng màu giấy giúp chữ đọc rõ trên đường kẻ */
 .note-glyph {
   text-shadow: 0 0 0.12em var(--color-sheet), 0 0 0.3em var(--color-sheet);
 }
 
 @keyframes nudge-x {
-  50% { translate: 6px 0; }
+  50% {
+    translate: 6px 0;
+  }
 }
 
 /* Chữ rỗng viền kiểu áp phích (như dòng FLY. lặp lại): dùng màu chữ hiện tại làm nét viền */
@@ -280,26 +349,33 @@ html:not([data-paper="tiers"]) .paper-tier {
   .page-container {
     @apply mx-auto w-full max-w-[1440px] px-4 md:px-6;
   }
+
   /* Nút áp phích: ô phẳng vuông góc, viền 2px, chữ condensed viết hoa. Đổi màu khi hover chứ không nhấc lên hay đổ bóng. */
   .btn {
     @apply relative inline-flex min-h-12 items-center justify-center gap-2 border-2 px-7 py-3 font-poster text-xl font-bold uppercase leading-none tracking-wide transition-colors focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ink;
   }
+
   .btn-primary {
-    @apply border-poster-black bg-poster-orange text-poster-black hover:bg-poster-black hover:text-poster-cream;
+    @apply border-note-black bg-note-orange text-note-black hover:bg-note-black hover:text-note-cream;
   }
+
   .btn-outline {
     @apply border-ink bg-transparent text-ink hover:bg-ink hover:text-paper;
   }
+
   .btn-sm {
     @apply min-h-11 px-5 py-2.5 text-lg;
   }
+
   .btn-xs {
     @apply min-h-11 gap-1.5 px-4 py-1 text-base;
   }
+
   /* Nút trên thanh đầu trang: ô vuông viền mực, hover đặc mực */
   .nav-btn {
     @apply grid min-h-11 min-w-11 place-items-center border-2 border-ink text-ink hover:bg-ink hover:text-paper focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ink;
   }
+
   .btn-icon {
     @apply min-w-11 px-0;
   }
@@ -332,8 +408,8 @@ html:not([data-paper="tiers"]) .paper-tier {
  * ===================================================================================================== */
 :root,
 [data-skin="flat"] {
-  --skin-radius: 0;
-  --skin-radius-sm: 0;
+  --skin-radius: 6px;
+  --skin-radius-sm: 4px;
   --skin-bw: 2px;
   --skin-border: var(--color-ink);
   --skin-shadow: none;
@@ -342,8 +418,8 @@ html:not([data-paper="tiers"]) .paper-tier {
   --skin-surface: var(--color-sheet);
   --skin-surface-strong: var(--color-paper);
   --skin-blur: 0px;
-  --skin-band-a: var(--color-poster-blue);
-  --skin-band-b: var(--color-poster-orange);
+  --skin-band-a: var(--color-note-blue);
+  --skin-band-b: var(--color-note-orange);
 }
 
 /* Vở kẻ ngang: nét viền run như vẽ tay, bóng lệch như giấy xếp chồng, tiêu đề chữ viết tay */
@@ -360,32 +436,59 @@ html:not([data-paper="tiers"]) .paper-tier {
   --skin-surface-strong: var(--color-sheet);
   --skin-band-a: #1f2a4a;
   --skin-band-b: #f4cf6b;
+  /* Màu áp phích riêng của vở: màu bút dạ và mực xanh trên giấy ngà */
+  --color-note-orange: #f0b43c;
+  --color-note-blue: #1f2a4a;
+  --color-note-sky: #8fc1e8;
+  --color-note-lime: #c9dd7a;
+  --color-note-coral: #e8908a;
+  --color-note-violet: #b9a8f0;
+  --color-note-green: #7fbf7a;
+  --color-note-yellow: #f4e06b;
+  --color-note-black: #1f2a4a;
+  --color-note-cream: #fffdf2;
+  --color-note-taupe: #7a7468;
 }
 
 /* ---------- Khung, nút, hộp thoại đọc token ---------- */
+/* Mặc định (chưa chọn skin, không có data-skin) vẫn bo nhẹ theo token ở :root; skin có [data-skin] ở dưới đặc hiệu hơn nên vẫn thắng */
+:is(.border-2, .btn, .nav-btn, header.sticky a, header.sticky button, [role="tooltip"] > span):not(.rounded-full) {
+  border-radius: var(--skin-radius-sm);
+}
+
+:is(.note-paper, .bg-sheet.border-2, [role="dialog"], [class*="bg-note-"]):not(.rounded-full) {
+  border-radius: var(--skin-radius);
+}
+
 [data-skin] :is(.border-2, .btn, .nav-btn):not(.rounded-full) {
   border-radius: var(--skin-radius-sm);
 }
+
 [data-skin] :is(.btn, .nav-btn, .border-2, .note-paper) {
   border-width: var(--skin-bw);
 }
+
 [data-skin] :is(.border-2.border-ink, .nav-btn, .btn-outline, .note-paper) {
   border-color: var(--skin-border);
 }
+
 [data-skin] :is(.btn, .nav-btn, .skin-preview-btn) {
   box-shadow: var(--skin-shadow-btn);
   transition-property: color, background-color, border-color, box-shadow, translate;
 }
+
 /* Khung lớn: tờ giấy, hộp có nền tờ ghi chú, hộp thoại */
 [data-skin] :is(.note-paper, .bg-sheet.border-2, [role="dialog"], .skin-preview-card) {
   border-radius: var(--skin-radius);
   box-shadow: var(--skin-shadow);
 }
+
 [data-skin] :is(.note-paper, .bg-sheet, .skin-preview-card) {
   background-color: var(--skin-surface);
   -webkit-backdrop-filter: blur(var(--skin-blur)) saturate(1.5);
   backdrop-filter: blur(var(--skin-blur)) saturate(1.5);
 }
+
 /* Lớp nổi: hộp thoại Tuỳ chỉnh, dock kết quả, hộp rê chuột */
 [data-skin] [role="dialog"],
 [data-skin] .shadow-2xl {
@@ -394,14 +497,17 @@ html:not([data-paper="tiers"]) .paper-tier {
   -webkit-backdrop-filter: blur(var(--skin-blur)) saturate(1.5);
   backdrop-filter: blur(var(--skin-blur)) saturate(1.5);
 }
-[data-skin] [role="tooltip"] > span {
+
+[data-skin] [role="tooltip"]>span {
   border-radius: var(--skin-radius-sm);
   box-shadow: var(--skin-shadow-pop);
 }
+
 /* Bóng có sẵn của dock/tooltip được thay bằng bóng của skin để có đúng chất liệu */
 [data-skin] .shadow-\[0_24px_60px_-18px_color-mix\(in_oklab\,var\(--color-ink\)_55\%\,transparent\)\] {
   box-shadow: var(--skin-shadow-pop);
 }
+
 /* Thanh điều hướng */
 [data-skin] header.sticky {
   border-bottom-width: var(--skin-bw);
@@ -411,17 +517,25 @@ html:not([data-paper="tiers"]) .paper-tier {
   -webkit-backdrop-filter: blur(var(--skin-blur)) saturate(1.5);
   backdrop-filter: blur(var(--skin-blur)) saturate(1.5);
 }
+
 /* Ô xem thử kiểu giấy trong Tuỳ chỉnh quá nhỏ cho góc lớn của khung */
 [data-skin] .note-paper[data-style] {
   border-radius: var(--skin-radius-sm);
   box-shadow: none;
 }
+
 [data-skin] header.sticky :is(a, button):not(.rounded-full) {
   border-radius: var(--skin-radius-sm);
 }
+
 /* Hai dải màu lớn của trang chủ */
-[data-skin] section.bg-poster-blue { background: var(--skin-band-a); }
-[data-skin] section.bg-poster-orange { background: var(--skin-band-b); }
+[data-skin] section.bg-note-blue {
+  background: var(--skin-band-a);
+}
+
+[data-skin] section.bg-note-orange {
+  background: var(--skin-band-b);
+}
 
 /* ---------- Nền trang theo skin (lớp cố định phía sau nội dung) ---------- */
 body::before {
@@ -431,22 +545,31 @@ body::before {
   z-index: -1;
   pointer-events: none;
 }
+
 html[data-skin="notebook"] body::before {
   --m: clamp(10px, 4.5vw, 64px);
   background:
     linear-gradient(to right, transparent var(--m), color-mix(in oklab, var(--color-margin) 70%, transparent) var(--m), color-mix(in oklab, var(--color-margin) 70%, transparent) calc(var(--m) + 2px), transparent calc(var(--m) + 2px)),
     repeating-linear-gradient(to bottom, transparent 0 31px, color-mix(in oklab, var(--color-sheet-line) 75%, transparent) 31px 32px);
 }
+
 /* ---------- Chữ ---------- */
 [data-skin="notebook"] .font-poster {
   text-transform: none;
   font-synthesis-weight: none;
   letter-spacing: 0;
 }
+
 /* Nhấn nút kiểu từng skin */
-[data-skin="notebook"] :is(.btn, .nav-btn):active { translate: 2px 3px; box-shadow: none; }
+[data-skin="notebook"] :is(.btn, .nav-btn):active {
+  translate: 2px 3px;
+  box-shadow: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  [data-skin] :is(.btn, .nav-btn):is(:hover, :active) { translate: none; }
+  [data-skin] :is(.btn, .nav-btn):is(:hover, :active) {
+    translate: none;
+  }
 }
 
 /* ---------- Ô xem thử skin trong Tuỳ chỉnh ---------- */
@@ -456,5 +579,11 @@ html[data-skin="notebook"] body::before {
   position: relative;
   isolation: isolate;
 }
-.skin-preview-card { border: var(--skin-bw) solid var(--skin-border); }
-.skin-preview-btn { border-radius: var(--skin-radius-sm); }
+
+.skin-preview-card {
+  border: var(--skin-bw) solid var(--skin-border);
+}
+
+.skin-preview-btn {
+  border-radius: var(--skin-radius-sm);
+}

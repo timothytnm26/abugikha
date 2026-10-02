@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { SKINS } from "./skins";
+import { DARK_SURFACE, SKINS } from "./skins";
 import { PALETTE_KEYS } from "./palette";
 import { AA_CONTRAST as AA, contrastRatio as contrast, mixHex as mix } from "../lib/color";
 
@@ -31,6 +31,29 @@ describe.each(SKINS)("skin $id", ({ vars }) => {
     for (const k of PALETTE_KEYS) {
       const text = mix(vars[k], vars.ink, 0.35);
       expect(contrast(text, mix(vars[k], vars.paper, 0.16)), `${k} trên tint`).toBeGreaterThanOrEqual(AA);
+    }
+  });
+});
+
+describe.each(SKINS)("skin $id ở chế độ tối", ({ vars: light }) => {
+  const vars = { ...light, ...DARK_SURFACE };
+
+  it("chữ, màu nhấn và màu loại bỏ đọc được trên nền tối", () => {
+    for (const bg of ["paper", "paper-deep", "sheet"] as const) {
+      expect(contrast(vars.ink, vars[bg]), `ink / ${bg}`).toBeGreaterThanOrEqual(AA);
+      expect(contrast(vars["ink-soft"], vars[bg]), `ink-soft / ${bg}`).toBeGreaterThanOrEqual(AA);
+    }
+    for (const k of ["brand", "removed"] as const) {
+      expect(contrast(vars[k], vars.paper), `${k} / paper`).toBeGreaterThanOrEqual(AA);
+      expect(contrast(vars[k], vars.sheet), `${k} / sheet`).toBeGreaterThanOrEqual(AA);
+    }
+  });
+
+  it("biến thể -ink (pha 35% với mực sáng) đọc được trên nền tối", () => {
+    for (const k of PALETTE_KEYS) {
+      const ink = mix(vars[k], vars.ink, 0.35);
+      expect(contrast(ink, vars.paper), `${k}-ink / paper`).toBeGreaterThanOrEqual(AA);
+      expect(contrast(ink, vars.sheet), `${k}-ink / sheet`).toBeGreaterThanOrEqual(AA);
     }
   });
 });

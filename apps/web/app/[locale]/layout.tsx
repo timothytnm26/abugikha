@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: LocaleParams): Promise<Metada
 export default async function LocaleLayout({ children, params }: LocaleParams & { children: ReactNode }) {
   const locale = await resolveLocale(params);
   return (
-    <html lang={locale} data-skin="flat" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: SKIN_BOOT_SCRIPT }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
