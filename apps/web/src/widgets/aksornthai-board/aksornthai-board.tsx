@@ -4,16 +4,19 @@ import { CLASS_META, CONSONANTS, consonantSpeech } from "@/entities/consonant";
 import { VOWELS, vowelGlyph } from "@/entities/vowel";
 import { MorphPanel, TONE_MARK_BY_ID } from "@/entities/syllable";
 import { MORPH_RULES } from "@abugikha/core/syllable";
+import { vowelGroup } from "@abugikha/core/vowel";
 import { useLocale } from "@/shared/i18n";
 import { cn } from "@/shared/lib";
+import { LetterNotebook } from "@/shared/ui";
 import { prefersReducedMotion } from "@/shared/lib/gsap";
 import { speakThai } from "@/shared/lib/speech";
 import { ConsonantSection } from "./consonant-section";
 import { DigitSection } from "./digit-section";
-import { LetterNotebook } from "./letter-notebook";
+import { SelectionActions } from "./selection-actions";
 import { SelectionDetails } from "./selection-details";
 import { morphRulesOf, type Selected } from "./selection";
 import { ToneSection } from "./tone-section";
+import { vowelTileColor } from "./tiles";
 import { VowelSection } from "./vowel-section";
 
 export function AksornThaiBoard() {
@@ -71,9 +74,10 @@ export function AksornThaiBoard() {
   return (
     <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_24rem] xl:grid-cols-[minmax(0,1fr)_28rem]">
       {/* Khung preview dùng chung: trên cùng ở mobile, cột phải dính khi cuộn ở desktop */}
+      <div className="relative order-first lg:sticky lg:top-20 lg:order-last lg:self-start">
       <aside
         ref={preview}
-        className="order-first scroll-mt-20 border-2 border-ink bg-sheet p-4 md:p-5 lg:sticky lg:top-20 lg:order-last lg:max-h-[calc(100dvh-6rem)] lg:self-start lg:overflow-y-auto lg:overscroll-contain lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden"
+        className="scroll-mt-20 border-2 border-ink/30 bg-sheet p-4 md:p-5 lg:max-h-[calc(100dvh-6rem)] lg:overflow-y-auto lg:overscroll-contain lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden"
       >
         {/* Chỉ thông báo một dòng ngắn khi đổi lựa chọn, không đọc lại cả khung */}
         <p role="status" className="sr-only">
@@ -90,7 +94,7 @@ export function AksornThaiBoard() {
 
         {morphRules.length > 0 && (
           <div className="mt-5 border-t border-ink/10 pt-4">
-            <MorphPanel key={`${sel.kind}-${morphRules[0]!.vowelId}-${morphId ?? ""}`} rules={morphRules} initialId={morphId} />
+            <MorphPanel key={`${sel.kind}-${morphRules[0]!.vowelId}-${morphId ?? ""}`} rules={morphRules} initialId={morphId} vowelTone={sel.kind === "vowel" ? vowelTileColor(vowelGroup(sel.item)) : undefined} />
           </div>
         )}
         <div
@@ -101,9 +105,12 @@ export function AksornThaiBoard() {
           )}
         />
       </aside>
+      {/* Băng keo dán xéo ở lề phải, nằm ngoài vùng cuộn của aside nên lòi ra ngoài được */}
+      <SelectionActions sel={sel} className="absolute right-0 top-8 z-10 flex flex-col items-end gap-32" />
+      </div>
 
       {/* Cột chọn chữ; các phần ngăn bởi đường nét đứt */}
-      <div className="divide-y-4 divide-ink [&>*]:py-8 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0">
+      <div className="divide-y-4 divide-ink/30 [&>*]:py-8 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0">
         <ConsonantSection sel={sel} onChoose={choose} />
         <VowelSection sel={sel} onChoose={choose} />
         <DigitSection sel={sel} onChoose={choose} />

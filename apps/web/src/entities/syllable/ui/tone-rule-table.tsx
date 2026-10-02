@@ -54,7 +54,7 @@ export function ToneRuleTable({ analysis }: { analysis: SyllableAnalysis }) {
     <div ref={root}>
       <table className="w-full table-fixed border-separate border-spacing-1 text-center text-xs">
         <thead>
-          <tr>
+          <tr className="short:hidden">
             <th className="w-14" />
             <th colSpan={3} className="border-b border-ink/10 pb-1 font-normal text-ink-soft">{t.builder.noMarkGroup}</th>
             <th colSpan={4} className="border-b border-ink/10 pb-1 font-normal text-ink-soft">{t.builder.markGroup}</th>
@@ -89,7 +89,7 @@ export function ToneRuleTable({ analysis }: { analysis: SyllableAnalysis }) {
                       title={`${r.rule}${ex ? ` (${ex})` : ""}`}
                       aria-label={`${CLASS_META[cls].label[locale]}, ${label[c]}: ${meta.label[locale]}${ex ? `, ${ex}` : ""}${on ? `, ${t.builder.current}` : ""}`}
                       className={cn(
-                        "flex h-10 w-full items-center justify-center font-medium focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ink",
+                        "flex h-10 xl:h-8 short:h-7 w-full items-center justify-center font-medium focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ink",
                         on && "relative z-10 text-on-accent shadow-md ring-2 ring-ink ring-offset-1 ring-offset-paper",
                       )}
                       style={{ backgroundColor: on ? meta.color : tint(meta.color, 13), color: on ? undefined : onTint(meta.color) }}

@@ -1,10 +1,9 @@
 'use client';
-import Link from 'next/link';
 import { useRef } from 'react';
 import { HeroMerge } from '@/widgets/hero-merge';
 import { useLocalePath, useT } from '@/shared/i18n';
 import { gsap, useGSAP } from '@/shared/lib/gsap';
-import { Asterisk, SplitWords } from '@/shared/ui';
+import { Asterisk, SplitWords, Tape } from '@/shared/ui';
 
 /** Mở đầu: tít condensed khổng lồ trồi lên từng từ, tờ giấy ghép ค่ะ bên phải, hàng dưới có lời dẫn và hai nút. Tất cả trên nền giấy. */
 export function HeroSection() {
@@ -54,13 +53,14 @@ export function HeroSection() {
             {t.home.tagline}
           </p>
         </div>
-        <div className="flex flex-wrap gap-3">
-          <Link href={href('/lab')} className="btn btn-primary">
+        <div className="flex flex-wrap items-center gap-4 pr-2">
+          {/* Băng keo dán: màu cam và xanh trời của nền áp phích, mỗi lần tải một kiểu cắt, hoạ tiết và góc nghiêng */}
+          <Tape size="lg" href={href('/lab')} color="var(--color-note-orange)">
             {t.home.cta}
-          </Link>
-          <Link href={href('/aksornthai')} className="btn btn-outline">
+          </Tape>
+          <Tape size="lg" href={href('/aksornthai')} color="var(--color-note-sky)">
             {t.home.ctaSecondary}
-          </Link>
+          </Tape>
         </div>
       </div>
     </section>

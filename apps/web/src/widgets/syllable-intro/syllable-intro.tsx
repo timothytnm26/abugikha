@@ -1,12 +1,14 @@
 'use client';
-import Link from 'next/link';
 import { useMemo, useRef, type ReactNode } from 'react';
 import { CLASS_META, CONSONANT_BY_ID, INITIAL_BY_ID } from '@/entities/consonant';
 import { VOWEL_BY_ID } from '@/entities/vowel';
+import { vowelGroup } from '@abugikha/core/vowel';
 import { SyllableGlyph, TONE_MARK_BY_ID, TONE_META, ToneContour, analyzeSyllable } from '@/entities/syllable';
 import { fmt, useLocale, useLocalePath, useT } from '@/shared/i18n';
+import { cn } from '@/shared/lib';
+import { ROLE_TILE_COLOR, chipTile, toneTileColor, vowelTileColor, washBox, type TileColor } from '@/shared/lib';
 import { gsap, useGSAP } from '@/shared/lib/gsap';
-import { Asterisk, Phonetic, SpeakButton } from '@/shared/ui';
+import { Asterisk, Phonetic, SpeakButton, Tape } from '@/shared/ui';
 
 /** Dấu + hoặc = nằm trên đường kẻ bên trái của cột (chỉ màn hình lớn). */
 function Operator({ children }: { children: string }) {
@@ -21,7 +23,7 @@ function Operator({ children }: { children: string }) {
 function Piece({
   n,
   tag,
-  color,
+  tile,
   title,
   glyph,
   holder,
@@ -32,7 +34,8 @@ function Piece({
 }: {
   n: number;
   tag: string;
-  color: string;
+  /** Màu của mảnh: cùng bộ màu với ô chữ ở Bảng chữ và phần xem trước */
+  tile: TileColor;
   title: string;
   glyph: ReactNode;
   holder?: string;
@@ -43,16 +46,20 @@ function Piece({
   children: ReactNode;
 }) {
   const t = useT();
+  const box = washBox({ tile });
   return (
-    <li className="syl-piece relative min-w-0 lg:border-l-2 lg:border-ink/20 lg:pl-8 lg:first:border-l-0 lg:first:pl-0">
-      <p className="font-poster text-lg font-bold uppercase leading-none text-ink-soft">
-        {fmt(t.story.partOf, { n, total: 4 })} · {tag}
+    <li className="syl-piece relative min-w-0 lg:border-l-2 lg:border-ink/30 lg:pl-8 lg:first:border-l-0 lg:first:pl-0">
+      <p className="flex flex-wrap items-center gap-2 font-poster text-lg font-bold uppercase leading-none text-ink-soft">
+        <span {...chipTile({ tile })} className="rounded-lg px-2.5 py-1 font-poster text-sm font-bold uppercase leading-none">
+          {fmt(t.story.partOf, { n, total: 4 })}
+        </span>
+        {tag}
       </p>
-      <span lang="th" className="mt-3 block font-thai text-[clamp(4.5rem,7.5vw,6.5rem)] leading-[1.2]" style={{ color }}>
-        {holder && <span className="text-ink/15">{holder}</span>}
+      <span lang="th" {...box} className={cn('mt-3 inline-block px-5 font-thai text-[clamp(4.5rem,7.5vw,6.5rem)] leading-[1.2]', box.className)}>
+        {holder && <span className="opacity-30">{holder}</span>}
         {glyph}
       </span>
-      {ipa && <Phonetic ipa={ipa} className="text-lg" style={{ color }} />}
+      {ipa && <Phonetic ipa={ipa} className="block text-lg" style={{ color: tile.ink }} />}
       {small && <span className="mt-1 block text-xs text-ink-soft">{small}</span>}
       <h3 className="mt-4 font-poster text-2xl font-bold uppercase leading-tight">{title}</h3>
       <div className="mt-2 max-w-[34ch] text-sm leading-relaxed text-ink/85">{children}</div>
@@ -76,7 +83,8 @@ export function SyllableIntro() {
   }, [locale]);
   const tone = TONE_META[a.tone];
   const markChar = TONE_MARK_BY_ID.get('tho')!.char;
-  const clsColor = CLASS_META[a.cls].ink;
+  const toneTile = toneTileColor(a.tone);
+  const vowelTile = vowelTileColor(vowelGroup(vowel));
 
   useGSAP(
     () => {
@@ -107,32 +115,34 @@ export function SyllableIntro() {
         <p className="mt-3 max-w-[56ch] text-base leading-relaxed text-ink-soft">{t.story.lead}</p>
 
         <ol className="mt-8 grid gap-12 sm:grid-cols-2 lg:mt-10 lg:grid-cols-[repeat(4,minmax(0,1fr))_minmax(0,1.3fr)] lg:gap-0">
-          <Piece n={1} first tag={t.story.initial.tag} color={clsColor} title={t.story.initial.title} glyph={initial.chars} ipa={initial.ipa} small={fmt(t.builder.formula.cls, { cls: CLASS_META[a.cls].label[locale] })}>
+          <Piece n={1} first tag={t.story.initial.tag} tile={ROLE_TILE_COLOR.initial} title={t.story.initial.title} glyph={initial.chars} ipa={initial.ipa} small={fmt(t.builder.formula.cls, { cls: CLASS_META[a.cls].label[locale] })}>
             {t.story.initial.body}
           </Piece>
-          <Piece n={2} tag={t.story.vowel.tag} color="var(--color-part-vowel-ink)" title={t.story.vowel.title} holder={initial.chars} glyph={vowel.open.replace('C', '')} ipa={vowel.ipa} small={vowel.approx[locale]}>
+          <Piece n={2} tag={t.story.vowel.tag} tile={vowelTile} title={t.story.vowel.title} holder={initial.chars} glyph={vowel.open.replace('C', '')} ipa={vowel.ipa} small={vowel.approx[locale]}>
             {t.story.vowel.body}
           </Piece>
-          <Piece n={3} tag={t.story.final.tag} color="var(--color-part-final-ink)" title={t.story.final.title} glyph={final.char} ipa="n" small={t.builder.formula.live}>
+          <Piece n={3} tag={t.story.final.tag} tile={ROLE_TILE_COLOR.final} title={t.story.final.title} glyph={final.char} ipa="n" small={t.builder.formula.live}>
             {t.story.final.body}
           </Piece>
-          <Piece n={4} tag={t.story.mark.tag} color={tone.ink} title={t.story.mark.title} holder={initial.chars} glyph={markChar} small={`${CLASS_META[a.cls].label[locale]} + ◌${markChar} = ${tone.label[locale]}`}>
+          <Piece n={4} tag={t.story.mark.tag} tile={toneTile} title={t.story.mark.title} holder={initial.chars} glyph={markChar} small={`${CLASS_META[a.cls].label[locale]} + ◌${markChar} = ${tone.label[locale]}`}>
             <p>{t.story.mark.body}</p>
             <ToneContour tone={a.tone} className="mt-3 w-16" strokeWidth={4} />
           </Piece>
 
-          <li className="syl-piece relative min-w-0 sm:col-span-2 lg:col-span-1 lg:border-l-2 lg:border-ink lg:pl-8">
+          <li className="syl-piece relative min-w-0 sm:col-span-2 lg:col-span-1 lg:border-l-2 lg:border-ink/30 lg:pl-8">
             <Operator>=</Operator>
             <p className="font-poster text-lg font-bold uppercase leading-none text-ink-soft">{t.story.result.tag}</p>
-            <SyllableGlyph analysis={a} className="mt-3 block text-[clamp(5rem,8.5vw,7.5rem)] leading-[1.25]" />
-            <Phonetic ipa={a.ipa} className="text-xl" style={{ color: tone.ink }} />
+            <span {...washBox({ tile: toneTile })} className={cn('mt-3 inline-block px-5', washBox({ tile: toneTile }).className)}>
+              <SyllableGlyph analysis={a} className="block text-[clamp(5rem,8.5vw,7.5rem)] leading-[1.25]" />
+            </span>
+            <Phonetic ipa={a.ipa} className="block text-xl" style={{ color: toneTile.ink }} />
             <h3 className="mt-4 font-poster text-2xl font-bold uppercase leading-tight">{t.story.result.title}</h3>
             <p className="mt-2 text-sm leading-relaxed text-ink/85">{t.story.result.body}</p>
             <div className="mt-5 flex flex-wrap items-center gap-3">
-              <Link href={href('/lab')} className="btn btn-primary btn-sm">
+              <Tape href={href('/lab')} color={toneTile.color}>
                 {t.story.result.cta} →
-              </Link>
-              <SpeakButton text={a.spelling} />
+              </Tape>
+              <SpeakButton text={a.spelling} bare />
             </div>
           </li>
         </ol>

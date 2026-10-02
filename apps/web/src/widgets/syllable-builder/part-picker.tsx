@@ -39,7 +39,7 @@ const boxStyle = (color: string, ink: string, selected: boolean, muted?: boolean
 function Group({ k, tab, title, children, extra, className }: { k: PartKind; tab: PartKind; title: string; children: ReactNode; extra?: ReactNode; className?: string }) {
   return (
     <section aria-labelledby={`grp-${k}`} className={cn(tab !== k && 'hidden xl:block', className)}>
-      <div className="mb-3 flex flex-wrap items-center gap-2 xl:border-b-2 xl:border-ink xl:pb-2">
+      <div className="mb-3 flex flex-wrap items-center gap-2 xl:border-b-2 xl:border-ink xl:pb-2 short:mb-2 short:pb-1">
         <h2 id={`grp-${k}`} className="mr-1 font-poster text-2xl font-bold uppercase leading-none max-xl:sr-only">
           {title}
         </h2>
@@ -58,7 +58,7 @@ function Row({ label, hint, color, children }: { label: ReactNode; hint?: string
         {label}
         {hint && <small className="mt-0.5 block text-xs font-normal leading-tight text-ink-soft">{hint}</small>}
       </div>
-      <div className="flex min-w-0 flex-1 flex-wrap gap-1">{children}</div>
+      <div className="flex min-w-0 flex-1 flex-wrap gap-1 short:gap-0.5">{children}</div>
     </div>
   );
 }
@@ -100,6 +100,12 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
   const finalDisabled = (ch: string) => !vowel.closed || Boolean(vowel.excludeFinals?.includes(ch));
 
   useSlotDrag(ref, stageRef, onPick, [shown.length, finals.length, vowels.length]);
+
+  const rareToggle = rareCount > 0 && (
+    <button type="button" aria-expanded={showRare} onClick={() => setShowRare((v) => !v)} className="min-h-9 border border-ink/15 px-3 text-xs font-medium hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
+      {showRare ? t.builder.hideRare : fmt(t.builder.showRare, { n: rareCount })}
+    </button>
+  );
 
   const initialTile = (u: InitialUnit) => (
     <GlyphButton key={u.id} active={u.id === initialId} data-tile data-kind="initial" data-id={u.id} data-glyph={u.chars} data-accent={CLASS_META[u.cls].ink} onClick={() => onPick('initial', u.id)} aria-label={`${u.chars}, /${u.ipa}/, ${CLASS_META[u.cls].label[locale]}${u.note ? `. ${u.note[locale]}` : ''}`} title={u.note?.[locale]} className={tileCls}>
@@ -152,15 +158,15 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
         ))}
       </div>
 
-      <div className="xl:grid xl:grid-cols-[minmax(0,10fr)_minmax(0,8fr)_minmax(0,7fr)] xl:gap-5">
-        <Group k="initial" tab={tab} title={t.builder.parts.initial}>
-          <div className="space-y-2">
+      <div className="xl:grid xl:grid-cols-[minmax(0,11fr)_minmax(0,10fr)_minmax(0,9fr)] xl:gap-4">
+        <Group k="initial" tab={tab} title={t.builder.parts.initial} extra={rareToggle}>
+          <div className="space-y-2 short:space-y-1">
             {CLASSES.map((c) => (
               <Row key={c} color={CLASS_META[c].ink} label={`${CLASS_SYMBOL[c]} ${CLASS_META[c].label[locale]}`} hint={fmt(t.groups.classCount, { n: CLASS_COUNT[c] })}>
                 {rows.single[c].map(initialTile)}
               </Row>
             ))}
-            <div className="space-y-2 border-t border-dashed border-ink/15 pt-2">
+            <div className="space-y-2 border-t border-dashed border-ink/15 pt-2 short:space-y-1 short:pt-1">
               <Row label={t.groups.cluster} hint={t.groups.clusterHint}>
                 {rows.cluster.map(initialTile)}
               </Row>
@@ -171,18 +177,12 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
                 {rows.leading.map(initialTile)}
               </Row>
             </div>
-            {rareCount > 0 && (
-              <button type="button" aria-expanded={showRare} onClick={() => setShowRare((v) => !v)} className="min-h-11 border border-ink/15 px-4 text-xs font-medium hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
-                {showRare ? t.builder.hideRare : fmt(t.builder.showRare, { n: rareCount })}
-              </button>
-            )}
           </div>
         </Group>
 
-        {/* Nguyên âm, dấu thanh xếp ngay bên dưới */}
         <div className="contents xl:block xl:space-y-3">
           <Group k="vowel" tab={tab} title={t.builder.parts.vowel}>
-            <div className="space-y-2">
+            <div className="space-y-2 short:space-y-1">
               {vowelRows.map(([g, list]) => (
                 <Row key={g} label={t.groups.vowels[g]} hint={t.groups.vowelHints[g]}>
                   {list.map((v) => (
@@ -208,7 +208,6 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
               ))}
             </div>
           </Group>
-
           <Group k="mark" tab={tab} title={t.builder.parts.mark}>
             <div className="flex flex-wrap gap-1">
               <GlyphButton active={!mark} size="sm" onClick={() => onPick('mark', null)} style={!mark ? { borderColor: 'var(--color-ink)', backgroundColor: 'var(--color-ink)', color: 'var(--color-paper)' } : { borderColor: tint('var(--color-ink)', 25) }} className={cn(boxCls(false), 'grid font-sans text-xs')}>
@@ -254,6 +253,8 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
           </Group>
         </div>
 
+        {/* Nguyên âm, dấu thanh xếp ngay bên dưới */}
+        <div className="contents">
         <Group
           k="final"
           tab={tab}
@@ -265,17 +266,22 @@ export function PartPicker({ vowel, analysis, stageRef, onPick }: Props) {
           }
         >
           {!vowel.closed && <p className="mb-1.5 text-xs text-high-ink">{t.builder.vowelNoFinal}</p>}
-          <div className="space-y-2">
-            <Row label={t.groups.finals.live} hint={t.groups.finalHints.live}>
-              <div className="w-full space-y-1">{SONORANTS.map(finalRow)}</div>
-            </Row>
-            <div className="border-t border-dashed border-ink/15 pt-2">
-              <Row label={t.groups.finals.dead} hint={t.groups.finalHints.dead}>
-                <div className="w-full space-y-1">{STOPS.map(finalRow)}</div>
-              </Row>
+          <div className="space-y-2 xl:grid xl:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] xl:items-start xl:gap-x-3 xl:space-y-0">
+            <div>
+              <p className="mb-1 text-xs font-semibold">{t.groups.finals.live} <small className="font-normal text-ink-soft">{t.groups.finalHints.live}</small></p>
+              <div className="space-y-1">{SONORANTS.map(finalRow)}</div>
+            </div>
+            <div className="border-t border-dashed border-ink/15 pt-2 xl:border-0 xl:pt-0">
+              <p className="mb-1 text-xs font-semibold">{t.groups.finals.dead} <small className="font-normal text-ink-soft">{t.groups.finalHints.dead}</small></p>
+              <div className="space-y-1">{STOPS.map(finalRow)}</div>
             </div>
           </div>
         </Group>
+
+
+        </div>
+
+
       </div>
     </div>
   );

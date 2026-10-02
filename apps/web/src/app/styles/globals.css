@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Màn hình rộng nhưng thấp (laptop): các bộ chọn dày đặc nén lại để vừa khung nhìn */
+@custom-variant short (@media (min-width: 80rem) and (max-height: 60rem));
+
 /* Màn hình đủ lớn để ghim và cuộn ngang toàn khung (xem widgets/script-timeline); nhỏ hơn thì vuốt ngang bình thường */
 @custom-variant tall (@media (min-width: 1024px) and (min-height: 720px));
 
@@ -45,7 +48,7 @@
   --color-part-final: #fed766;
   --color-removed: #d0312f;
   /* Màu nhấn thương hiệu (chữ "ไทย" ở thanh nav, nút của skin): cam cháy, đủ AA trên giấy (cùng tông với cam áp phích) */
-  --color-brand: #c84000;
+  --color-brand: #ff5200;
 
   /* Màu nền ở trên đều sáng (chữ đen đặt lên được); khi dùng làm chữ hoặc nét trên giấy thì lấy biến thể -ink: pha 35% màu với mực để đủ AA */
   --color-mid-ink: color-mix(in oklab, var(--color-mid) 35%, var(--color-ink));
@@ -153,9 +156,9 @@
 /* ---------- Nguyên âm biến hình ---------- */
 /* Mảnh sắp bị loại: phóng to, đỏ, rung rồi gạch ngang */
 .morph-doomed {
-  color: var(--color-removed) !important;
+  color: var(--color-note-taupe) !important;
   scale: 1.18;
-  text-shadow: 0 0 0.25em color-mix(in oklab, var(--color-removed) 45%, transparent);
+  text-shadow: 0 0 0.25em color-mix(in oklab, var(--color-note-taupe) 45%, transparent);
   transition: scale 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s;
   animation: morph-wobble 0.5s 0.15s ease-in-out;
 }
@@ -168,15 +171,15 @@
   top: var(--strike-top, 55%);
   height: 0.06em;
   border-radius: 4px;
-  background: var(--color-removed);
+  background: var(--color-note-taupe);
   transform-origin: left;
   animation: morph-strike 0.35s 0.45s ease-out both;
 }
 
 /* Bóng của mảnh bị loại khi rơi ra ngoài */
 .morph-ghost {
-  color: var(--color-removed);
-  text-shadow: 0 0 0.25em color-mix(in oklab, var(--color-removed) 45%, transparent);
+  color: var(--color-note-taupe);
+  text-shadow: 0 0 0.25em color-mix(in oklab, var(--color-note-taupe) 45%, transparent);
 }
 
 /* Vạch gạch trên một dấu bị loại (◌ั, ◌็…) */

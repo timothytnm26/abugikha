@@ -5,7 +5,7 @@ import { useT } from "@/shared/i18n";
 import { GlyphButton } from "@/shared/ui";
 import { SectionHeading } from "./section-heading";
 import { MORPH_VOWEL_IDS, type Selected } from "./selection";
-import { glyphTile, pill } from "./tiles";
+import { pill, vowelTile, vowelTileColor } from "./tiles";
 
 export function VowelSection({ sel, onChoose }: { sel: Selected; onChoose: (s: Selected) => void }) {
   const t = useT();
@@ -31,6 +31,8 @@ export function VowelSection({ sel, onChoose }: { sel: Selected; onChoose: (s: S
             <ul className="flex flex-wrap gap-2">
               {VOWELS.filter((v) => vowelGroup(v) === g).map((vowel) => {
                 const active = sel.kind === "vowel" && sel.item.id === vowel.id;
+                const short = vowel.length === "short";
+                const tile = vowelTile({ active, short, morph: MORPH_VOWEL_IDS.has(vowel.id), tile: vowelTileColor(g) });
                 return (
                   <li key={vowel.id}>
                     <GlyphButton
@@ -41,7 +43,8 @@ export function VowelSection({ sel, onChoose }: { sel: Selected; onChoose: (s: S
                       onClick={() => onChoose({ kind: "vowel", item: vowel })}
                       aria-label={`${vowelGlyph(vowel)}, /${vowel.ipa}/, ${vowel.length === "long" ? t.ipa.long : t.ipa.short}`}
                       // Viền nét đứt = nguyên âm ngắn (cùng quy ước với trang IPA và Ghép chữ)
-                      className={glyphTile({ active, morph: MORPH_VOWEL_IDS.has(vowel.id), short: vowel.length === "short" })}
+                      className={tile.className}
+                      style={tile.style}
                     />
                   </li>
                 );

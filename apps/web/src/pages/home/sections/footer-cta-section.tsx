@@ -1,11 +1,10 @@
 'use client';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
 import { SYLLABLE_EXAMPLES, useBuilderStore } from '@/features/build-syllable';
 import { useLocalePath, useT } from '@/shared/i18n';
 import { gsap, useGSAP } from '@/shared/lib/gsap';
-import { SplitWords } from '@/shared/ui';
+import { SplitWords, Tape } from '@/shared/ui';
 
 /** Phần cuối cam đỏ: tít khổng lồ trồi lên khi cuộn tới, bốn âm tiết mẫu bấm một lần nạp sẵn vào trang ghép chữ. */
 export function FooterCtaSection() {
@@ -35,9 +34,10 @@ export function FooterCtaSection() {
         <div className="grid items-end gap-10 lg:grid-cols-12">
           <div className="cta-fade lg:col-span-5">
             <p className="max-w-[40ch] text-lg leading-snug md:text-xl">{t.home.footerBody}</p>
-            <Link href={href('/lab')} className="btn mt-6 border-note-black bg-note-black text-note-cream hover:bg-transparent hover:text-note-black">
+            {/* Nền cam nên băng dùng xanh trời cho nổi */}
+            <Tape size="lg" href={href('/lab')} color="var(--color-note-sky)" className="mt-8">
               {t.home.cta}
-            </Link>
+            </Tape>
           </div>
           <div className="cta-fade lg:col-span-7">
             <p className="font-poster text-xl font-bold uppercase">{t.builder.coach.try}</p>

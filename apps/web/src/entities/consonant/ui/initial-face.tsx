@@ -32,8 +32,8 @@ export function InitialFace({
         size === "md"
           ? "h-20 min-w-16 px-2"
           : phonetic
-            ? "h-11 min-w-11 px-1"
-            : "size-11 px-1",
+            ? "h-11 min-w-11 px-1 short:h-10 short:min-w-10"
+            : "size-11 px-1 short:size-10",
         className,
       )}
       style={

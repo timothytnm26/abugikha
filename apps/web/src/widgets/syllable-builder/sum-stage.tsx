@@ -4,12 +4,9 @@ import { useShallow } from "zustand/react/shallow";
 import {
   forwardRef,
   useEffect,
-  useId,
   useImperativeHandle,
-  useMemo,
   useRef,
   useState,
-  type ReactNode,
 } from "react";
 import {
   CLASS_META,
@@ -19,12 +16,9 @@ import {
 import { vowelGlyph, type Vowel } from "@/entities/vowel";
 import {
   RuleBreakdown,
-  SyllableCard,
   SyllableGlyph,
   TONE_MARK_BY_ID,
   TONE_META,
-  analyzeSyllable,
-  type RuleStep,
   type SyllableAnalysis,
 } from "@/entities/syllable";
 import type { Word, WordMatches } from "@/entities/lexicon";
@@ -32,12 +26,11 @@ import { useBuilderStore, type PartKind } from "@/features/build-syllable";
 import { AutoSpeakSwitch } from "@/features/customize-appearance";
 import { MORPH_BY_VOWEL, MORPH_RULES } from "@abugikha/core/syllable";
 import { fmt, useLocale, useLocalePath, useT } from "@/shared/i18n";
-import { cn } from "@/shared/lib";
-import { paletteInkVar } from "@/shared/config/palette";
+import { ROLE_TILE_COLOR, chipTile, cn, toneTileColor, vowelTileColor, type TileColor } from "@/shared/lib";
+import { vowelGroup } from "@abugikha/core/vowel";
 import { gsap, useGSAP, prefersReducedMotion } from "@/shared/lib/gsap";
 import { speakThai } from "@/shared/lib/speech";
-import { Phonetic, SpeakButton } from "@/shared/ui";
-import { FLY_FROM, Notebook, type Cell } from "./notebook";
+import { LetterNotebook, Phonetic, SpeakButton } from "@/shared/ui";
 
 interface Props {
   analysis: SyllableAnalysis;
@@ -45,77 +38,6 @@ interface Props {
   vowel: Vowel;
   final: Consonant | null;
   words: WordMatches;
-}
-
-type Align = "start" | "center" | "end";
-
-/** Popover hiện khi hover/focus: âm tiết tại bước đó + giải thích. */
-function StepPopover({
-  id,
-  title,
-  glyph,
-  ipa,
-  tone,
-  steps,
-  extra,
-  align,
-}: {
-  id: string;
-  title: string;
-  glyph: string;
-  ipa?: string;
-  tone?: string;
-  steps: RuleStep[];
-  extra?: ReactNode;
-  align: Align;
-}) {
-  return (
-    <div
-      id={id}
-      role="tooltip"
-      className={cn(
-        // display:none khi ẩn để không làm trang tràn ngang trên mobile. Lớp đệm pt-3 nối trigger với thẻ để rê chuột
-        // sang thẻ mà không mất hover (WCAG 1.4.13: rê được, không biến mất khi chuột đi chuyển)
-        "absolute top-full z-30 hidden w-72 max-w-[calc(100vw-2rem)] pt-3 text-left",
-        "group-hover/step:block group-focus-within/step:block",
-        align === "start"
-          ? "left-0"
-          : align === "end"
-            ? "right-0"
-            : "left-1/2 -translate-x-1/2",
-      )}
-    >
-      <div className="border border-ink/10 bg-paper p-4 shadow-2xl [animation:pop-in_.15s_ease-out]">
-      <p className="text-xs font-medium uppercase tracking-wide text-ink-soft">
-        {title}
-      </p>
-      <div className="mt-2 flex items-baseline gap-3">
-        <span lang="th" className="font-thai text-4xl leading-tight">{glyph}</span>
-        {ipa && (
-          <Phonetic
-            ipa={ipa}
-            className="text-sm"
-            style={tone ? { color: tone } : undefined}
-          />
-        )}
-      </div>
-      <div className="mt-3 space-y-2.5">
-        {steps.map((s, i) => (
-          <div key={i}>
-            <p
-              className="text-sm font-semibold leading-snug"
-              style={s.accent ? { color: paletteInkVar(s.accent) } : undefined}
-            >
-              {s.title}
-            </p>
-            <p className="text-xs leading-relaxed text-ink/75">{s.detail}</p>
-          </div>
-        ))}
-        {extra}
-      </div>
-      </div>
-    </div>
-  );
 }
 
 /** Ô nhỏ của thanh ghép nổi (vẫn là đích thả khi kéo) */
@@ -209,41 +131,21 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
   const t = useT();
   const { locale } = useLocale();
   const href = useLocalePath();
-  const { setTab, setPart, pulse, lastKind } = useBuilderStore(
-    useShallow((s) => ({ setTab: s.setTab, setPart: s.setPart, pulse: s.pulse, lastKind: s.lastKind })),
+  const { setTab, pulse } = useBuilderStore(
+    useShallow((s) => ({ setTab: s.setTab, pulse: s.pulse })),
   );
   const inner = useRef<HTMLDivElement>(null);
-  const resultPopId = useId();
   const tone = TONE_META[a.tone];
+  const toneTile = toneTileColor(a.tone);
   const clsColor = CLASS_META[a.cls].ink;
   const markChar = a.mark ? TONE_MARK_BY_ID.get(a.mark)!.char : null;
   const hasFinal = Boolean(final) && !a.finalDropped;
-
-  // Âm tiết "tại thời điểm" của từng bước
-  const stages = useMemo(() => {
-    const withVowel = analyzeSyllable({ initial, vowel }, locale);
-    const withFinal = analyzeSyllable(
-      { initial, vowel, final: hasFinal ? final : null },
-      locale,
-    );
-    return { withVowel, withFinal };
-  }, [initial, vowel, final, hasFinal, locale]);
-  const stepsOf = (...kinds: RuleStep["kind"][]) =>
-    a.steps.filter((s) => kinds.includes(s.kind));
-  const vowelSteps: RuleStep[] = [
-    ...stepsOf("vowel"),
-    {
-      kind: "vowel",
-      title: `/${vowel.ipa}/ · ${vowel.length === "long" ? t.syllable.long : t.syllable.short}`,
-      detail: `≈ ${vowel.approx[locale]}`,
-    },
-    {
-      kind: "vowel",
-      title: fmt(t.syllable.placement, { sides: a.placements.map((p) => t.syllable.where[p]).join(" + "), initial: initial.chars }),
-      detail: a.placements.includes("before")
-        ? fmt(t.syllable.placementBefore, { initial: initial.chars }).trim()
-        : "",
-    },
+  // Bốn nhãn mảnh, cùng bộ màu với phần giới thiệu và Bảng chữ
+  const partChips: { kind: PartKind; label: string; glyph: string; tile: TileColor; empty?: boolean }[] = [
+    { kind: "initial", label: t.builder.parts.initial, glyph: initial.chars, tile: ROLE_TILE_COLOR.initial },
+    { kind: "vowel", label: t.builder.parts.vowel, glyph: vowelGlyph(vowel, a.form), tile: vowelTileColor(vowelGroup(vowel)) },
+    { kind: "final", label: t.builder.parts.final, glyph: hasFinal ? final!.char : "—", tile: ROLE_TILE_COLOR.final, empty: !hasFinal },
+    { kind: "mark", label: t.builder.parts.mark, glyph: markChar ? `◌${markChar}` : "—", tile: toneTile, empty: !markChar },
   ];
 
   const section = useRef<HTMLElement>(null);
@@ -291,40 +193,18 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
     () => {
       if (!pulse || prefersReducedMotion()) return;
       const tl = gsap.timeline();
-      if (lastKind) {
-        const pieces = gsap.utils.toArray<HTMLElement>(`[data-part="${lastKind}"] [data-piece]`, inner.current);
-        const em = (el: HTMLElement) => parseFloat(getComputedStyle(el.closest("[data-cell]")!).fontSize) || 60;
-        const fly = (el: HTMLElement) => FLY_FROM[(el.closest("[data-cell]") as HTMLElement).dataset.cell as Cell];
-        tl.fromTo(
-          pieces,
-          {
-            x: (_: number, el: HTMLElement) => fly(el)[0] * em(el),
-            y: (_: number, el: HTMLElement) => fly(el)[1] * em(el),
-            scale: lastKind === "initial" ? 0.4 : 0.75,
-            opacity: 0,
-          },
-          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.55, ease: "back.out(1.6)", stagger: 0.05 },
-          0,
-        );
-      }
+      // Mảnh vừa chọn nảy lên, các mảnh khác chỉ nhấp nhẹ
       tl.fromTo(
-        ".sum-result",
-        { scale: 0.75, rotate: -5 },
-        { scale: 1, rotate: 0, duration: 0.8, ease: "elastic.out(1, 0.5)" },
-        0.1,
+        ".sum-chip",
+        { scale: 0.85 },
+        { scale: 1, duration: 0.6, ease: "back.out(2)", stagger: 0.04 },
+        0,
+      ).fromTo(
+        ".sum-details",
+        { opacity: 0.4 },
+        { opacity: 1, duration: 0.3 },
+        0,
       )
-        .fromTo(
-          ".sum-ring",
-          { scale: 0.5, opacity: 0.8 },
-          {
-            scale: 2,
-            opacity: 0,
-            duration: 0.7,
-            stagger: 0.1,
-            ease: "power2.out",
-          },
-          0.1,
-        )
         .fromTo(
           ".vocab",
           { opacity: 0, y: 6 },
@@ -334,45 +214,6 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
     },
     { scope: inner, dependencies: [pulse] },
   );
-
-  const popovers: Record<PartKind, (align: Align, id: string) => ReactNode> = {
-    initial: (align, id) => (
-      <StepPopover id={id} align={align} title={t.builder.parts.initial} glyph={initial.chars} ipa={initial.ipa} steps={stepsOf("class")} />
-    ),
-    vowel: (align, id) => (
-      <StepPopover
-        id={id}
-        align={align}
-        title={t.builder.parts.vowel}
-        glyph={stages.withVowel.spelling}
-        ipa={stages.withVowel.ipa}
-        tone={TONE_META[stages.withVowel.tone].ink}
-        steps={vowelSteps}
-      />
-    ),
-    final: (align, id) => (
-      <StepPopover
-        id={id}
-        align={align}
-        title={hasFinal ? t.builder.parts.final : t.builder.noFinalStep}
-        glyph={stages.withFinal.spelling}
-        ipa={stages.withFinal.ipa}
-        tone={TONE_META[stages.withFinal.tone].ink}
-        steps={stepsOf("final", "liveness")}
-      />
-    ),
-    mark: (align, id) => (
-      <StepPopover
-        id={id}
-        align={align}
-        title={markChar ? t.builder.parts.mark : t.builder.noMarkStep}
-        glyph={a.spelling}
-        ipa={a.ipa}
-        tone={tone.ink}
-        steps={stepsOf("mark", "result")}
-      />
-    ),
-  };
 
   // Liên kết sang minh hoạ "nguyên âm biến hình" ở trang Aksorn Thai
   const morphId =
@@ -418,102 +259,55 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
       <section
         ref={section}
         aria-label={t.builder.sumAria}
-        className="pb-2"
+        className="pb-2 xl:pb-0"
       >
-        <div ref={inner}>
+        {/* Cùng khung xem trước với trang Bảng chữ: vở 4 font, nhãn màu theo vai trò, loa không viền */}
+        <div ref={inner} className="border-2 border-ink/30 bg-sheet p-4 md:p-5 xl:p-3">
           {/* Thông báo âm tiết vừa ghép và thanh của nó cho trình đọc màn hình */}
           <p role="status" className="sr-only">
             {`${a.spelling}, /${a.ipa}/, ${tone.label[locale]}`}
           </p>
-          <div className="flex flex-col items-stretch gap-3 xl:flex-row xl:items-center">
-            <div className="min-w-0 flex-1">
-              <div className="mb-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 px-1 text-xs text-ink-soft">
-                <span className="font-semibold uppercase tracking-wider">{t.notebook.title}</span>
-                <span className="flex items-center gap-3">
-                  <span className="hidden pointer-fine:inline">{t.builder.hoverHint}</span>
-                  <span className="pointer-fine:hidden">{t.builder.tapHint}</span>
-                  <AutoSpeakSwitch label={t.builder.autoSpeak} className="text-ink" />
-                </span>
-              </div>
-              <Notebook
-                analysis={a}
-                classColor={clsColor}
-                toneColor={tone.ink}
-                liveLabel={a.liveness === "live" ? t.syllable.live : t.syllable.dead}
-                multiInitial={initial.chars.length > 1}
-                onSelect={setTab}
-                onClear={(k) => setPart(k, null)}
-                clearLabel={(k) => fmt(t.builder.clearPart, { part: t.builder.parts[k] })}
-                labels={t.builder.parts}
-                popovers={popovers}
-              />
-            </div>
-            <Plus c="=" />
-            <div className="group/step relative grid place-items-center self-center">
-              <span
-                className="sum-ring pointer-events-none absolute size-28 rounded-full border-2 opacity-0"
-                style={{ borderColor: tone.color }}
-              />
-              <button
-                type="button"
-                onClick={() => speakThai(a.spelling)}
-                aria-label={`${a.spelling}, ${t.builder.resultHint}${a.warnings.length ? `. ${a.warnings.join(" ")}` : ""}`}
-                aria-describedby={resultPopId}
-                className="sum-result relative focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-ink"
-              >
-                <SyllableCard analysis={a} size="lg" />
-                {a.warnings.length > 0 && (
-                  <span
-                    className="absolute -left-1.5 -top-1.5 grid size-5 place-items-center bg-high text-xs font-bold text-on-accent"
-                    aria-hidden
+          <div className="mb-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-xs text-ink-soft">
+            <span className="font-semibold uppercase tracking-wider">{t.notebook.title}</span>
+            <AutoSpeakSwitch label={t.builder.autoSpeak} className="text-ink" />
+          </div>
+          <div role="img" aria-label={a.spelling}>
+            <LetterNotebook text={a.spelling} hintClassName="xl:hidden" />
+          </div>
+
+          <div className="sum-details mt-5 space-y-3 border-t border-ink/10 pt-4 xl:mt-3 xl:space-y-2 xl:pt-3">
+            <ul className="flex flex-wrap items-center gap-2" aria-label={t.builder.sumAria}>
+              {partChips.map((c) => (
+                <li key={c.kind}>
+                  <button
+                    type="button"
+                    onClick={() => setTab(c.kind)}
+                    aria-label={c.label}
+                    title={c.label}
+                    className={cn(chipTile({ tile: c.tile }).className, "sum-chip inline-flex items-center gap-1.5 py-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink", c.empty && "opacity-50")}
+                    style={chipTile({ tile: c.tile }).style}
                   >
-                    !
-                  </span>
-                )}
-              </button>
-              <StepPopover
-                id={resultPopId}
-                align="end"
-                title={t.builder.resultStep}
-                glyph={a.spelling}
-                ipa={a.ipa}
-                tone={tone.ink}
-                steps={stepsOf("result")}
-                extra={
-                  <>
-                    <p className="text-xs text-ink-soft">
-                      <span style={{ color: clsColor }}>
-                        {fmt(t.builder.formula.cls, { cls: CLASS_META[a.cls].label[locale] })}
-                      </span>
-                      {" + "}
-                      {a.liveness === "live"
-                        ? t.builder.formula.live
-                        : t.builder.formula.dead}
-                      {!a.mark && a.liveness === "dead" && a.cls === "low" && (
-                        <>
-                          {" "}
-                          +{" "}
-                          {a.length === "long"
-                            ? t.builder.formula.long
-                            : t.builder.formula.short}
-                        </>
-                      )}
-                      {" + "}
-                      {a.mark ? (
-                        <span lang="th" className="font-thai">◌{markChar}</span>
-                      ) : (
-                        t.builder.noMark
-                      )}
-                    </p>
-                    {a.warnings.map((w) => (
-                      <p key={w} className="text-xs text-high-ink">
-                        {w}
-                      </p>
-                    ))}
-                  </>
-                }
-              />
+                    <span lang="th" className="font-thai text-lg leading-none">
+                      {c.glyph}
+                    </span>
+                    <span>{c.label}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <div className="flex flex-wrap items-center gap-3">
+              <Phonetic ipa={a.ipa} className="text-xl" style={{ color: tone.ink }} />
+              <span {...chipTile({ tile: toneTile })}>{tone.label[locale]}</span>
+              <SpeakButton text={a.spelling} bare />
             </div>
+            <p className="text-sm text-ink-soft">
+              <span style={{ color: clsColor }}>{fmt(t.builder.formula.cls, { cls: CLASS_META[a.cls].label[locale] })}</span>
+              {" + "}
+              {a.liveness === "live" ? t.builder.formula.live : t.builder.formula.dead}
+              {!a.mark && a.liveness === "dead" && a.cls === "low" && <> + {a.length === "long" ? t.builder.formula.long : t.builder.formula.short}</>}
+              {" + "}
+              {a.mark ? <span lang="th" className="font-thai">◌{markChar}</span> : t.builder.noMark}
+            </p>
           </div>
 
           {a.warnings.length > 0 && (
@@ -577,8 +371,8 @@ export const SumStage = forwardRef<HTMLDivElement, Props>(function SumStage(
           </div>
 
           {/* Các bước suy ra thanh luôn nằm sẵn trong mục mở được này (mở sẵn trên máy cảm ứng) */}
-          <details className="group mt-3 border-2 border-ink px-3 py-2" open={whyOpen} onToggle={(e) => setWhyOpen(e.currentTarget.open)}>
-            <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 text-sm font-medium focus-visible:outline-2 focus-visible:outline-ink">
+          <details className="group mt-3 border-2 border-ink px-3 py-2 xl:mt-2 xl:py-0" open={whyOpen} onToggle={(e) => setWhyOpen(e.currentTarget.open)}>
+            <summary className="flex min-h-11 cursor-pointer list-none xl:min-h-9 items-center justify-between gap-2 text-sm font-medium focus-visible:outline-2 focus-visible:outline-ink">
               {t.builder.stepsToggle}
               <svg aria-hidden viewBox="0 0 20 20" className="size-4 fill-none stroke-current stroke-2 transition-transform group-open:rotate-180" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 8l5 5 5-5" />

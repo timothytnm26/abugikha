@@ -1,8 +1,8 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import { cn } from '../lib/cn';
 
-/** Hai cỡ ô dùng chung: md cho bảng chữ (4.5rem), sm cho bộ chọn Ghép chữ (2.75rem). Chữ dài thì ô giãn ngang, chiều cao giữ nguyên. */
-const SIZE = { md: 'h-18 min-w-18 px-3', sm: 'h-11 min-w-11 px-2' } as const;
+/** Hai cỡ ô dùng chung: md cho bảng chữ (3.5rem), sm cho bộ chọn Ghép chữ (2.75rem). Chữ dài thì ô giãn ngang, chiều cao giữ nguyên. */
+const SIZE = { md: 'h-14 min-w-14 px-2.5', sm: 'h-11 min-w-11 px-2 short:h-10 short:min-w-10' } as const;
 
 interface GlyphButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'aria-pressed' | 'type'> {
   /** Cỡ ô; bỏ trống khi nội dung (InitialFace, VowelFace) tự quyết kích thước */

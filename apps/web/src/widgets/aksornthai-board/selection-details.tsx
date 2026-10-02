@@ -1,20 +1,19 @@
-import { useRouter } from "next/navigation";
-import { CLASS_META, CONSONANT_BY_ID, INITIAL_BY_ID, consonantSpeech, type ConsonantClass } from "@/entities/consonant";
-import { vowelFitsInitial, vowelGlyph } from "@/entities/vowel";
+import { CLASS_META, consonantSpeech, type ConsonantClass } from "@/entities/consonant";
+import { vowelGlyph } from "@/entities/vowel";
 import { TONE_META, resolveTone, type ToneMark } from "@/entities/syllable";
-import { useBuilderStore } from "@/features/build-syllable";
-import { fmt, useLocale, useLocalePath, useT } from "@/shared/i18n";
+import { fmt, useLocale, useT } from "@/shared/i18n";
 import { cn } from "@/shared/lib";
 import { speakThai } from "@/shared/lib/speech";
 import { Phonetic, SpeakButton } from "@/shared/ui";
 import type { Selected } from "./selection";
-import { closedForms } from "./tiles";
+import { DIGIT_TILE_COLOR, chipTile, classTileColor, closedForms, markTileColor, vowelTileColor } from "./tiles";
+import { vowelGroup } from "@abugikha/core/vowel";
 
 /** Phụ âm đại diện mỗi nhóm để minh hoạ dấu thanh: ก่า ข่า ค่า */
 const CLASS_EXAMPLE: Record<ConsonantClass, string> = { mid: "ก", high: "ข", low: "ค" };
 const CLASSES: ConsonantClass[] = ["mid", "high", "low"];
 
-/** Chi tiết chữ đang chọn trong khung preview, kèm nút "thử trong Ghép chữ" */
+/** Chi tiết chữ đang chọn trong khung preview (nút nghe / thử trong Ghép chữ nằm ở SelectionActions) */
 export function SelectionDetails({ sel }: { sel: Selected }) {
   switch (sel.kind) {
     case "consonant":
@@ -33,20 +32,18 @@ export function SelectionDetails({ sel }: { sel: Selected }) {
 function ConsonantDetails({ item }: { item: Extract<Selected, { kind: "consonant" }>["item"] }) {
   const t = useT();
   const { locale } = useLocale();
-  const router = useRouter();
-  const href = useLocalePath();
-  const setPart = useBuilderStore((s) => s.setPart);
   return (
     <>
       <div className="flex flex-wrap items-center gap-3">
         <span lang="th" className="font-thai text-3xl">
           {consonantSpeech(item)}
         </span>
-        <span className="px-2.5 py-0.5 text-xs font-medium text-on-accent" style={{ backgroundColor: CLASS_META[item.cls].color }}>
+        <SpeakButton text={consonantSpeech(item)} bare className="-ml-2" />
+        <span {...chipTile({ tile: classTileColor(item.cls) })}>
           {fmt(t.builder.formula.cls, { cls: CLASS_META[item.cls].label[locale] })}
         </span>
         {item.obsolete && (
-          <span className="border border-ink/20 px-2 py-0.5 text-xs text-ink-soft">{t.aksornthai.obsolete}</span>
+          <span className="bg-paper-deep px-2 py-0.5 text-xs text-ink-soft">{t.aksornthai.obsolete}</span>
         )}
       </div>
       <p className="text-sm text-ink-soft">
@@ -70,21 +67,6 @@ function ConsonantDetails({ item }: { item: Extract<Selected, { kind: "consonant
           </dd>
         </div>
       </dl>
-      <div className="flex flex-wrap gap-2">
-        <SpeakButton text={consonantSpeech(item)} label={t.aksornthai.listenName} />
-        {INITIAL_BY_ID.has(item.char) && (
-          <button
-            type="button"
-            onClick={() => {
-              setPart("initial", item.char);
-              router.push(href("/lab"));
-            }}
-            className="btn btn-outline btn-xs"
-          >
-            {t.aksornthai.tryIt} →
-          </button>
-        )}
-      </div>
     </>
   );
 }
@@ -92,55 +74,39 @@ function ConsonantDetails({ item }: { item: Extract<Selected, { kind: "consonant
 function InitialDetails({ item }: { item: Extract<Selected, { kind: "initial" }>["item"] }) {
   const t = useT();
   const { locale } = useLocale();
-  const router = useRouter();
-  const href = useLocalePath();
-  const setPart = useBuilderStore((s) => s.setPart);
   return (
     <>
       <div className="flex flex-wrap items-center gap-3">
         <span lang="th" className="font-thai text-3xl">
           {item.chars}
         </span>
-        <span className="px-2.5 py-0.5 text-xs font-medium text-on-accent" style={{ backgroundColor: CLASS_META[item.cls].color }}>
+        <span {...chipTile({ tile: classTileColor(item.cls) })}>
           {fmt(t.builder.formula.cls, { cls: CLASS_META[item.cls].label[locale] })}
         </span>
         <Phonetic ipa={item.ipa} className="text-ink-soft" />
+        <SpeakButton text={item.chars} bare className="-ml-2" />
       </div>
       {item.note && <p className="text-sm text-ink-soft">{item.note[locale]}</p>}
-      <div className="flex flex-wrap gap-2">
-        <SpeakButton text={item.chars} label={t.aksornthai.listenName} />
-        <button
-          type="button"
-          onClick={() => {
-            setPart("initial", item.id);
-            router.push(href("/lab"));
-          }}
-          className="btn btn-outline btn-xs"
-        >
-          {t.aksornthai.tryIt} →
-        </button>
-      </div>
     </>
   );
 }
 
 function VowelDetails({ item }: { item: Extract<Selected, { kind: "vowel" }>["item"] }) {
   const t = useT();
+  const tile = vowelTileColor(vowelGroup(item));
   const { locale } = useLocale();
-  const router = useRouter();
-  const href = useLocalePath();
-  const setPart = useBuilderStore((s) => s.setPart);
   return (
     <>
       <div className="flex flex-wrap items-baseline gap-3">
-        <span lang="th" className="font-thai text-2xl">
+        <span lang="th" className="font-thai text-2xl" style={{ color: tile.ink }}>
           {vowelGlyph(item)}
         </span>
+        <span {...chipTile({ tile })}>{item.length === "long" ? t.ipa.long : t.ipa.short}</span>
         <Phonetic ipa={item.ipa} className="text-ink-soft" />
+        {/* Đọc nguyên âm đi với อ làm phụ âm đầu (vd. เCอ → เออ) */}
+        <SpeakButton text={item.open.replace("C", "อ")} bare className="-ml-2 self-center" />
       </div>
-      <p className="text-sm text-ink-soft">
-        {item.approx[locale]} · {item.length === "long" ? t.ipa.long : t.ipa.short}
-      </p>
+      <p className="text-sm text-ink-soft">{item.approx[locale]}</p>
       {item.closed && (
         <p className="text-sm">
           {t.aksornthai.closedForm}:{" "}
@@ -149,23 +115,6 @@ function VowelDetails({ item }: { item: Extract<Selected, { kind: "vowel" }>["it
           </span>
         </p>
       )}
-      <button
-        type="button"
-        onClick={() => {
-          const state = useBuilderStore.getState();
-          const currentInitial = INITIAL_BY_ID.get(state.initialId)!;
-          const currentFinal = state.finalId ? CONSONANT_BY_ID.get(state.finalId) : null;
-          if (!vowelFitsInitial(item, currentInitial.chars)) setPart("initial", "ก");
-          if (currentFinal && (!item.closed || item.excludeFinals?.includes(currentFinal.char))) {
-            setPart("final", null);
-          }
-          setPart("vowel", item.id);
-          router.push(href("/lab"));
-        }}
-        className="w-fit btn btn-outline btn-xs"
-      >
-        {t.aksornthai.tryVowel} →
-      </button>
     </>
   );
 }
@@ -175,13 +124,13 @@ function DigitDetails({ item }: { item: Extract<Selected, { kind: "digit" }>["it
   return (
     <>
       <div className="flex items-baseline gap-3">
-        <span lang="th" className="font-thai text-3xl">{item.word}</span>
+        <span lang="th" className="font-thai text-3xl" style={{ color: DIGIT_TILE_COLOR.ink }}>{item.word}</span>
+        <span {...chipTile({ tile: DIGIT_TILE_COLOR })}>
+          {t.aksornthai.value}: {item.value}
+        </span>
         <Phonetic ipa={item.ipa} className="text-ink-soft" />
+        <SpeakButton text={item.word} bare className="-ml-2" />
       </div>
-      <p className="text-sm">
-        {t.aksornthai.value}: <span className="font-semibold">{item.value}</span>
-      </p>
-      <SpeakButton text={item.word} />
     </>
   );
 }
@@ -190,14 +139,11 @@ function DigitDetails({ item }: { item: Extract<Selected, { kind: "digit" }>["it
 function ToneDetails({ mark }: { mark: ToneMark }) {
   const t = useT();
   const { locale } = useLocale();
-  const router = useRouter();
-  const href = useLocalePath();
-  const setPart = useBuilderStore((s) => s.setPart);
   return (
     <>
       <div className="flex flex-wrap items-baseline gap-3">
-        <span lang="th" className="font-thai text-2xl">{mark.thai}</span>
-        <span className="text-sm text-ink-soft">{mark.latin}</span>
+        <span lang="th" className="font-thai text-2xl" style={{ color: markTileColor(mark.id).ink }}>{mark.thai}</span>
+        <span {...chipTile({ tile: markTileColor(mark.id) })}>{mark.latin}</span>
       </div>
       <p className="text-sm text-ink-soft">{t.aksornthai.markNote}</p>
       <p className="text-sm font-medium">{t.aksornthai.toneByClass}</p>
@@ -229,16 +175,6 @@ function ToneDetails({ mark }: { mark: ToneMark }) {
           );
         })}
       </ul>
-      <button
-        type="button"
-        onClick={() => {
-          setPart("mark", mark.id);
-          router.push(href("/lab"));
-        }}
-        className="w-fit btn btn-outline btn-xs"
-      >
-        {t.aksornthai.tryMark} →
-      </button>
     </>
   );
 }

@@ -1,5 +1,5 @@
 "use client";
-import { Fragment, useCallback, useId, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useId, useLayoutEffect, useRef, useState } from "react";
 import { THAI_SPECIMEN_CSS, THAI_SPECIMEN_FONTS, type ThaiFontStyle } from "@/shared/config/fonts";
 import { useT } from "@/shared/i18n";
 import { cn } from "@/shared/lib";
@@ -47,6 +47,17 @@ interface Frame {
   top: number;
 }
 
+/** Đường kẻ ô: ngang tại mọi bội của CELL tính từ đường cơ sở, dọc cách đều CELL tính từ giữa ô; đường đậm nằm ở bội của LINE_H (số chẵn ô) */
+function cellLines(size: number, top: number) {
+  const fine: string[] = [];
+  const coarse: string[] = [];
+  const add = (k: number, d: string) => (k % 2 === 0 ? coarse : fine).push(d);
+  for (let k = Math.ceil(top / CELL); k * CELL <= top + size; k++) add(k, `M0 ${k * CELL}H${size}`);
+  const half = Math.floor(size / 2 / CELL);
+  for (let k = -half; k <= half; k++) add(k, `M${size / 2 + k * CELL} ${top}V${top + size}`);
+  return { fine: fine.join(""), coarse: coarse.join("") };
+}
+
 function Specimen({ family, text, frame, onMeasure }: { family: string; text: string; frame: Frame; onMeasure: (family: string, width: number) => void }) {
   const ref = useRef<SVGTextElement | null>(null);
   const lone = LONE_TONE.test(text);
@@ -71,6 +82,7 @@ function Specimen({ family, text, frame, onMeasure }: { family: string; text: st
   // Mẫu kẻ vẽ trong hệ toạ độ em của chữ: đổi cỡ chữ (hay bề rộng ô) thì ô kẻ co giãn theo, đường ngang đầu tiên là đường cơ sở
   const pid = useId().replaceAll(":", "");
   const paperRect = { x: 0, y: top, width: size, height: size };
+  const cells = cellLines(size, top);
   // ◌ chỉ là chỗ giữ phụ âm nên tô nhạt; vẫn cùng một khối <text> để font ghép dấu đúng vị trí
   const parts = text.split(/(◌)/).filter(Boolean);
   const textProps = { x: size / 2, y: 0, fontSize: 1, textAnchor: "middle" as const, style: { fontFamily: `"${family}"` } };
@@ -90,7 +102,10 @@ function Specimen({ family, text, frame, onMeasure }: { family: string; text: st
       <rect {...paperRect} fill={`url(#${pid}-l)`} className="paper-lines" />
       <rect {...paperRect} fill={`url(#${pid}-g)`} className="paper-grid" />
       <rect {...paperRect} fill={`url(#${pid}-d)`} className="paper-dots" />
-      <rect x="0" y={TIERS[2].top} width={size} height={-TIERS[2].top} className="paper-tier fill-paper-deep/60" />
+      {/* Ô tập viết: lưới mịn mỗi ô nửa thân chữ, cứ hai ô một đường đậm hơn (bằng một thân chữ); đường ngang qua đường cơ sở. Vẽ bằng đường thẳng thay vì pattern vì pattern có nét non-scaling-stroke lúc hiện lúc không tuỳ cỡ ô */}
+      <path d={cells.fine} vectorEffect="non-scaling-stroke" strokeWidth="1" shapeRendering="crispEdges" className="fill-none stroke-low/25" />
+      <path d={cells.coarse} vectorEffect="non-scaling-stroke" strokeWidth="1" shapeRendering="crispEdges" className="fill-none stroke-low/50" />
+      <rect x="0" y={TIERS[2].top} width={size} height={-TIERS[2].top} shapeRendering="crispEdges" className="paper-tier fill-paper-deep/60" />
       {TIERS.slice(1).map((tier) => (
         <line
           key={tier.key}
@@ -99,9 +114,9 @@ function Specimen({ family, text, frame, onMeasure }: { family: string; text: st
           y1={tier.top}
           y2={tier.top}
           vectorEffect="non-scaling-stroke"
-          strokeWidth={tier.key === "above" ? 1 : 1.5}
-          strokeDasharray={tier.key === "above" ? "4 3" : undefined}
-          className="paper-tier stroke-ink/20"
+          strokeWidth="1"
+          shapeRendering="crispEdges"
+          className="paper-tier stroke-ink/15"
         />
       ))}
       {lone ? (
@@ -138,8 +153,8 @@ function Margin({ frame }: { frame: Frame }) {
         <div
           key={tier.key}
           className={cn(
-            "paper-tier absolute inset-x-0 overflow-hidden whitespace-nowrap border-ink/20 px-2 pt-0.5 text-xs font-semibold leading-tight text-ink-soft",
-            tier.key === "main" ? "border-y-[1.5px] bg-paper-deep/60" : i === 1 && "border-t border-dashed",
+            "paper-tier absolute inset-x-0 flex items-center justify-center overflow-hidden whitespace-nowrap border-ink/15 px-1 text-xs font-semibold leading-tight text-ink-soft",
+            tier.key === "main" ? "border-y bg-paper-deep/60" : i === 1 && "border-t",
           )}
           style={{ top: at(tier.top), height: `${((tier.bottom - tier.top) / frame.size) * 100}%` }}
         >
@@ -155,16 +170,17 @@ function Margin({ frame }: { frame: Frame }) {
 function Caption({ style }: { style: ThaiFontStyle }) {
   const t = useT();
   return (
-    <p className="h-full border-y border-ink/10 px-2 py-1 text-center leading-tight">
+    <p className="border-y border-ink/10 px-2 py-1 text-center leading-tight">
       <span className="block text-xs font-medium">{t.aksornthai.fontStyles[style]}</span>
     </p>
   );
 }
 
-const ROWS = [THAI_SPECIMEN_FONTS.slice(0, 2), THAI_SPECIMEN_FONTS.slice(2, 4)];
+/** Font chính (có chân) kèm lề tên tầng và chú thích; ba font còn lại xếp một hàng bên dưới để so sánh, không chú thích */
+const [MAIN_FONT, ...OTHER_FONTS] = THAI_SPECIMEN_FONTS;
 
-/** Vở 4 tầng dạng lưới 2 × 2: cùng một chữ ở 4 font, mỗi ô vuông cùng tỉ lệ để so sánh. */
-export function LetterNotebook({ text }: { text: string }) {
+/** Vở 4 tầng: font chính ở trên với tên tầng, một hàng 3 font khác bên dưới, mỗi ô vuông cùng tỉ lệ. */
+export function LetterNotebook({ text, hintClassName }: { text: string; hintClassName?: string }) {
   const t = useT();
   // Đổi tên state (trước là số đo mực) để Fast Refresh không giữ lại giá trị kiểu cũ
   const [textWidths, setTextWidths] = useState<Record<string, number>>({});
@@ -176,25 +192,23 @@ export function LetterNotebook({ text }: { text: string }) {
     <figure>
       {/* React 19 đưa stylesheet lên <head>; chỉ trang này cần các font so sánh */}
       <link rel="stylesheet" href={THAI_SPECIMEN_CSS} precedence="default" />
-      <div data-svgpaper className="grid grid-cols-[1rem_minmax(0,1fr)_minmax(0,1fr)] note-paper overflow-hidden sm:grid-cols-[4.25rem_minmax(0,1fr)_minmax(0,1fr)] lg:grid-cols-[3.75rem_minmax(0,1fr)_minmax(0,1fr)]">
-        {ROWS.map((row, r) => (
-          <Fragment key={r}>
-            <Margin frame={frame} />
-            {row.map((f, i) => (
-              <div key={f.family} className={cn(i > 0 && "border-l border-ink/10")}>
-                <Specimen family={f.family} text={text} frame={frame} onMeasure={onMeasure} />
-              </div>
-            ))}
-            <div aria-hidden className={cn("border-r-2 border-y border-r-margin border-y-ink/10", r === ROWS.length - 1 && "border-b-0")} />
-            {row.map((f, i) => (
-              <div key={f.family} className={cn(i > 0 && "border-l border-ink/10", r === ROWS.length - 1 && "[&>p]:border-b-0")}>
-                <Caption style={f.style} />
-              </div>
-            ))}
-          </Fragment>
-        ))}
+      <div data-svgpaper className="note-paper overflow-hidden">
+        <div className="grid grid-cols-[1rem_minmax(0,1fr)] sm:grid-cols-[4.25rem_minmax(0,1fr)] lg:grid-cols-[3.75rem_minmax(0,1fr)]">
+          <Margin frame={frame} />
+          <Specimen family={MAIN_FONT.family} text={text} frame={frame} onMeasure={onMeasure} />
+          <div aria-hidden className="border-y border-r-2 border-r-margin border-y-ink/10" />
+          <Caption style={MAIN_FONT.style} />
+        </div>
+        {/* Vạch ngăn bằng gap-px trên nền màu (không dùng border-l) để ba ô rộng bằng nhau từng pixel, nếu không ô vuông cao lệch nhau và các vạch kẻ không thẳng hàng */}
+        <div className="grid grid-cols-3 gap-px border-t border-ink/15 bg-ink/10">
+          {OTHER_FONTS.map((f) => (
+            <div key={f.family} title={`${f.family} · ${t.aksornthai.fontStyles[f.style]}`} className="bg-sheet">
+              <Specimen family={f.family} text={text} frame={frame} onMeasure={onMeasure} />
+            </div>
+          ))}
+        </div>
       </div>
-      <figcaption className="mt-2 text-xs leading-relaxed text-ink-soft">{t.aksornthai.practiceHint}</figcaption>
+      <figcaption className={cn("mt-2 text-xs leading-relaxed text-ink-soft", hintClassName)}>{t.aksornthai.practiceHint}</figcaption>
     </figure>
   );
 }

@@ -6,7 +6,7 @@
     "description": "Explore Thai sounds, script history, syllables, and tones with NarakThai, a cute way to learn.",
     "ipa": "IPA phonetics",
     "history": "Thai script history",
-    "aksornthai": "Aksorn Thai – Thai script",
+    "aksornthai": "Aksorn Thai",
     "lab": "Build syllables"
   },
   "app": {
@@ -211,7 +211,7 @@
     "sample": "Sample"
   },
   "aksornthai": {
-    "title": "Aksorn Thai – Thai script",
+    "title": "Aksorn Thai",
     "intro": "Explore the 44 consonants in traditional order and the vowel signs that combine with them. Select a letter to see its details.",
     "consonants": "Consonants",
     "vowels": "Vowels",

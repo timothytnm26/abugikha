@@ -15,9 +15,9 @@ import { PartPicker } from "./part-picker";
 import { BuilderCoach } from "./builder-coach";
 
 /**
- * Desktop (xl): [ vở xem trước ][ bảng thanh ]   Tablet (md): [ vở xem trước (dính) ][ chọn (tab)  ]
- *                [ chọn thành phần (rộng)  ]                  [                    ][ bảng thanh ]
- * Mobile: vở xem trước → chọn thành phần (tab) → bảng thanh
+ * Tablet trở lên (md, xl rộng hơn): [ khung xem trước (dính) ][ chọn thành phần (tab) ]
+ *                                   [                      ][ bảng thanh            ]
+ * Mobile: khung xem trước → chọn thành phần (tab) → bảng thanh
  */
 export function SyllableBuilder() {
   const t = useT();
@@ -62,18 +62,19 @@ export function SyllableBuilder() {
   return (
     <>
     <BuilderCoach />
-    <div className="grid grid-cols-[minmax(0,1fr)] gap-3 md:grid-cols-[minmax(0,23rem)_minmax(0,1fr)] md:gap-4 xl:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] xl:items-start">
+    {/* Màn hình rộng: cả bộ ghép nằm gọn trong một khung cao bằng màn hình, không phải cuộn trang */}
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-3 md:grid-cols-[minmax(0,23rem)_minmax(0,1fr)] md:gap-4 xl:h-[calc(100dvh-5rem)] xl:min-h-[40rem] xl:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] xl:grid-rows-[minmax(0,1fr)_auto] xl:gap-x-5 xl:gap-y-2">
       {/* Máy tính bảng: tờ xem trước dính ở bên trái để vừa chọn vừa thấy kết quả */}
-      <div className="md:sticky md:top-[4.5rem] md:col-start-1 md:row-span-2 md:row-start-1 md:max-h-[calc(100dvh-5.5rem)] md:self-start md:overflow-y-auto md:pt-3 xl:static xl:row-span-1 xl:max-h-none xl:overflow-visible xl:pt-0">
+      <div className="md:sticky md:top-[4.5rem] md:col-start-1 md:row-span-2 md:row-start-1 md:max-h-[calc(100dvh-5.5rem)] md:self-start md:overflow-y-auto md:pt-3 xl:static xl:max-h-none xl:min-h-0 xl:self-stretch xl:pt-0">
         <SumStage ref={stage} analysis={analysis} initial={initial} vowel={vowel} final={final} words={words} />
       </div>
 
-      <div className="md:col-start-2 md:row-start-1 xl:col-span-2 xl:col-start-1 xl:row-start-2">
+      <div className="md:col-start-2 md:row-start-1 xl:min-h-0 xl:overflow-y-auto xl:[scrollbar-width:none]">
         <PartPicker stageRef={stage} vowel={vowel} analysis={analysis} onPick={pick} />
       </div>
 
-      <section aria-labelledby="table-title" className="md:col-start-2 md:row-start-2 xl:col-start-2 xl:row-start-1">
-        <h2 id="table-title" className="mb-3 border-b-2 border-ink pb-2 font-poster text-2xl font-bold uppercase leading-none">
+      <section aria-labelledby="table-title" className="md:col-start-2 md:row-start-2">
+        <h2 id="table-title" className="mb-3 border-b-2 border-ink pb-2 font-poster text-2xl font-bold uppercase leading-none xl:mb-1 xl:pb-1 xl:text-lg short:sr-only">
           {t.builder.tableTitle}
         </h2>
         <ToneRuleTable analysis={analysis} />

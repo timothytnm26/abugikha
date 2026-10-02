@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { createContext, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import {
   TONE_MARK_BY_ID,
   buildMorph,
@@ -17,16 +17,26 @@ import { useLocale, useT } from "@/shared/i18n";
 import { cn } from "@/shared/lib";
 import { gsap, prefersReducedMotion } from "@/shared/lib/gsap";
 import { speakThai } from "@/shared/lib/speech";
-import { Phonetic } from "@/shared/ui";
+import { Phonetic, SpeakerIcon } from "@/shared/ui";
 
 /** from → (final: phụ âm cuối xuất hiện) → doomed: đánh dấu mảnh bị bỏ → to: dạng mới */
 type Phase = "from" | "final" | "doomed" | "to";
 
 const holder = (p: string) => p.replace("C", "◌").replace("F", "◌");
 
-/** Màu theo vai trò của mảnh; dấu thanh lấy màu của thanh */
-const roleColor = (role: SegmentRole, toneColor: string) =>
-  role === "vowel" ? "var(--color-part-vowel-ink)" : role === "final" ? "var(--color-part-final-ink)" : role === "mark" ? toneColor : "var(--color-ink)";
+/** Màu của nguyên âm: mặc định tím; bảng chữ truyền màu của nhóm nguyên âm (tím / chàm) để khớp với ô đang chọn */
+export type VowelTone = { color: string; ink: string };
+const DEFAULT_VOWEL_TONE: VowelTone = { color: "var(--color-part-vowel)", ink: "var(--color-part-vowel-ink)" };
+const VowelToneContext = createContext<VowelTone>(DEFAULT_VOWEL_TONE);
+
+/** Màu demo theo vai trò (sáng, tách bạch): phụ âm đầu cam, nguyên âm tím nhạt (hoặc màu nhóm), mảnh mới xanh lá, phụ âm cuối xanh dương; mảnh bị bỏ xám (note-taupe) */
+const INITIAL_COLOR = "var(--color-note-orange)";
+const FINAL_COLOR = "var(--color-low)";
+const FRESH_COLOR = "var(--color-mid)";
+
+/** Màu theo vai trò của mảnh; dấu thanh lấy màu của thanh, mảnh nguyên âm mới thêm (`fresh`) màu xanh lá */
+const roleColor = (role: SegmentRole, toneColor: string, vowelColor: string, fresh = false) =>
+  role === "vowel" ? (fresh ? FRESH_COLOR : vowelColor) : role === "final" ? FINAL_COLOR : role === "mark" ? toneColor : INITIAL_COLOR;
 const soft = (color: string, pct = 14) => `color-mix(in oklab, ${color} ${pct}%, transparent)`;
 
 const COMBINING_RE = /[\u0E31\u0E34-\u0E3A\u0E47-\u0E4E]/u;
@@ -46,6 +56,8 @@ function Piece({
   toneColor,
   state = "idle",
   markState = "idle",
+  fresh,
+  markFresh,
   pieceRef,
   className,
 }: {
@@ -53,12 +65,16 @@ function Piece({
   toneColor: string;
   state?: PieceState;
   markState?: PieceState;
+  /** Chỉ tô màu "mới" (không chạy hiệu ứng) cho mảnh / dấu vừa được thêm, dùng ở ô dạng mới */
+  fresh?: boolean;
+  markFresh?: boolean;
   pieceRef?: (el: HTMLSpanElement | null) => void;
   className?: string;
 }) {
-  const base = roleColor(tok.role, toneColor);
+  const vowelInk = useContext(VowelToneContext).color;
+  const base = roleColor(tok.role, toneColor, vowelInk, state === "born" || fresh);
   const mark = tok.marks[0];
-  const markColor = mark ? (markState === "doomed" ? "var(--color-removed)" : roleColor(mark.role, toneColor)) : base;
+  const markColor = mark ? (markState === "doomed" ? "var(--color-note-taupe)" : roleColor(mark.role, toneColor, vowelInk, markState === "born" || markFresh)) : base;
   return (
     <span lang="th"
       ref={pieceRef}
@@ -72,7 +88,7 @@ function Piece({
     >
       <span className={cn(mark && markState === "born" && "morph-born")}>{tok.text}</span>
       {mark && (
-        <span aria-hidden className="absolute left-0 top-0" style={{ color: state === "doomed" ? "var(--color-removed)" : base }}>
+        <span aria-hidden className="absolute left-0 top-0" style={{ color: state === "doomed" ? "var(--color-note-taupe)" : base }}>
           {tok.base}
         </span>
       )}
@@ -80,7 +96,7 @@ function Piece({
         // Vạch gạch ngang ngay tầng của dấu bị loại (trên ~22% chiều cao dòng, dưới ~77%)
         <span
           aria-hidden
-          className="morph-doomed-mark absolute left-[15%] right-[15%] h-[0.06em] bg-[var(--color-removed)]"
+          className="morph-doomed-mark absolute left-[15%] right-[15%] h-[0.06em] bg-[var(--color-note-taupe)]"
           style={{ top: BELOW_RE.test(mark.text) ? "77%" : "22%" } as CSSProperties}
         />
       )}
@@ -89,11 +105,11 @@ function Piece({
 }
 
 /** Chữ hoàn chỉnh tô màu theo từng mảnh (dùng cho ô dạng mở / dạng đóng) */
-function ColoredWord({ tokens, toneColor }: { tokens: MorphToken[]; toneColor: string }) {
+function ColoredWord({ tokens, toneColor, freshKeys, freshMarkKeys }: { tokens: MorphToken[]; toneColor: string; freshKeys?: Set<string>; freshMarkKeys?: Set<string> }) {
   return (
     <span className="inline-flex gap-[0.02em] leading-[1.6]">
       {tokens.map((tok) => (
-        <Piece key={tok.key} tok={tok} toneColor={toneColor} />
+        <Piece key={tok.key} tok={tok} toneColor={toneColor} fresh={freshKeys?.has(tok.key)} markFresh={freshMarkKeys?.has(tok.key)} />
       ))}
     </span>
   );
@@ -101,6 +117,7 @@ function ColoredWord({ tokens, toneColor }: { tokens: MorphToken[]; toneColor: s
 
 /** Nhãn quy tắc: nguyên âm màu nguyên âm, chữ cái (âm cuối) màu âm cuối, dấu thanh màu thanh */
 function PatternText({ text, toneColor }: { text: string; toneColor?: string }) {
+  const vowelInk = useContext(VowelToneContext).color;
   return (
     <>
       {text.split(" ").map((w, i) => (
@@ -111,10 +128,10 @@ function PatternText({ text, toneColor }: { text: string; toneColor?: string }) 
               w === "→" || w === "+"
                 ? "var(--color-ink-soft)"
                 : /^[ก-ฮ]$/u.test(w)
-                  ? "var(--color-part-final-ink)"
+                  ? FINAL_COLOR
                   : /^◌[่-๋]$/u.test(w)
                     ? (toneColor ?? "var(--color-ink)")
-                    : "var(--color-part-vowel-ink)",
+                    : vowelInk,
           }}
         >
           {i > 0 && " "}
@@ -141,14 +158,14 @@ function patternLabel(rule: MorphRule): string {
 const wordOf = (thai: string) => WORDS.find((w) => w.thai === thai);
 
 /** Một dạng chữ gọn trên một dòng: chữ tô màu theo vai trò, IPA, nghĩa (nếu là từ có trong từ điển) */
-function FormInline({ label, spelling, tokens, ipa, toneColor, active }: { label: string; spelling: string; tokens: MorphToken[]; ipa: string; toneColor: string; active: boolean }) {
+function FormInline({ label, spelling, tokens, ipa, toneColor, active, freshKeys, freshMarkKeys }: { label: string; spelling: string; tokens: MorphToken[]; ipa: string; toneColor: string; active: boolean; freshKeys?: Set<string>; freshMarkKeys?: Set<string> }) {
   const { locale } = useLocale();
   const t = useT();
   const word = wordOf(spelling);
   return (
     <span title={label} className={cn("inline-flex flex-wrap items-baseline gap-x-1.5 transition-opacity", !active && "opacity-50")}>
       <span className="text-xl" aria-label={`${label}: ${spelling}`}>
-        <ColoredWord tokens={tokens} toneColor={toneColor} />
+        <ColoredWord tokens={tokens} toneColor={toneColor} freshKeys={freshKeys} freshMarkKeys={freshMarkKeys} />
       </span>
       <Phonetic ipa={ipa} className="text-xs" style={{ color: toneColor }} />
       <span className="text-xs text-ink-soft">{word ? word.meaning[locale] : t.morph.sample}</span>
@@ -160,7 +177,7 @@ function FormInline({ label, spelling, tokens, ipa, toneColor, active }: { label
  * Minh hoạ nguyên âm biến hình cho một chữ: dạng mở → mảnh bị bỏ → dạng mới.
  * `rules` là các quy tắc của chữ đang chọn (vd. เ-อ có hai: thêm ◌ิ, hoặc gặp ย thì อ biến mất).
  */
-export function MorphPanel({ rules, initialId }: { rules: MorphRule[]; initialId?: string }) {
+export function MorphPanel({ rules, initialId, vowelTone = DEFAULT_VOWEL_TONE }: { rules: MorphRule[]; initialId?: string; vowelTone?: VowelTone }) {
   const t = useT();
   const { locale } = useLocale();
   const [idx, setIdx] = useState(() => Math.max(0, rules.findIndex((r) => r.id === initialId)));
@@ -272,11 +289,14 @@ export function MorphPanel({ rules, initialId }: { rules: MorphRule[]; initialId
   const shown = phase === "to" ? m.to : m.from;
   const shownTone = TONE_META[shown.tone].ink;
 
+  // Nút icon (nghe, phát lại): không viền, màu thương hiệu. Các nút còn lại cùng kiểu với ô trong bảng: bo góc, viền 2px màu ink, nền nhạt; đang chọn = nền đặc
   const iconBtn =
-    "grid size-11 shrink-0 place-items-center border border-ink/15 hover:bg-ink hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
-  const chip = "px-1.5 py-0.5 text-xs font-semibold transition-opacity";
+    "grid size-9 shrink-0 place-items-center text-brand hover:bg-brand/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
+  const chip = "rounded-lg border-2 px-1.5 py-0.5 text-xs font-semibold transition-opacity";
+  const toneBorder = (ink: string) => ({ borderColor: ink });
 
   return (
+    <VowelToneContext.Provider value={vowelTone}>
     <section ref={root} aria-labelledby="morph-title">
       <div className="flex items-center gap-2">
         <h3 id="morph-title" className="min-w-0 flex-1 text-sm font-semibold">
@@ -286,9 +306,7 @@ export function MorphPanel({ rules, initialId }: { rules: MorphRule[]; initialId
           </span>
         </h3>
         <button type="button" onClick={() => speakThai(m.to.spelling)} aria-label={t.common.listen} title={t.common.listen} className={iconBtn}>
-          <svg aria-hidden viewBox="0 0 20 20" className="size-4 fill-current">
-            <path d="M3 8v4h3l4 4V4L6 8H3zm10.5 2a3.5 3.5 0 0 0-2-3.2v6.4a3.5 3.5 0 0 0 2-3.2zM11.5 3v1.6a5.5 5.5 0 0 1 0 10.8V17a7 7 0 0 0 0-14z" />
-          </svg>
+          <SpeakerIcon />
         </button>
         <button type="button" onClick={() => select(idx)} aria-label={t.morph.replay} title={t.morph.replay} className={iconBtn}>
           <svg aria-hidden viewBox="0 0 20 20" className="size-4 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round">
@@ -304,10 +322,12 @@ export function MorphPanel({ rules, initialId }: { rules: MorphRule[]; initialId
               type="button"
               aria-pressed={i === idx}
               onClick={() => select(i)}
-              className={cn(
-                "border px-2.5 py-0.5 text-xs font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
-                i === idx ? "border-ink bg-ink text-paper" : "border-ink/15 hover:border-ink/40",
-              )}
+              className="rounded-lg border-2 px-2.5 py-0.5 text-xs font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+              style={{
+                borderColor: vowelTone.ink,
+                color: i === idx ? "var(--color-on-accent)" : vowelTone.ink,
+                backgroundColor: i === idx ? vowelTone.color : soft(vowelTone.color, 25),
+              }}
             >
               {r.summary[locale]}
             </button>
@@ -361,6 +381,8 @@ export function MorphPanel({ rules, initialId }: { rules: MorphRule[]; initialId
             ipa={m.to.ipa}
             toneColor={TONE_META[m.to.tone].ink}
             active={phase === "to"}
+            freshKeys={addedKeys}
+            freshMarkKeys={markDiff.added}
           />
           <span className="ml-auto flex flex-wrap gap-1">
             {m.removed.length === 0 && (phase === "doomed" || phase === "to") && (
@@ -370,7 +392,7 @@ export function MorphPanel({ rules, initialId }: { rules: MorphRule[]; initialId
               <span
                 key={`r${i}`}
                 className={cn(chip, phase === "doomed" || phase === "to" ? "opacity-100" : "opacity-0")}
-                style={{ color: "var(--color-removed)", backgroundColor: soft("var(--color-removed)") }}
+                style={{ ...toneBorder("var(--color-note-taupe)"), color: "var(--color-note-taupe)", backgroundColor: soft("var(--color-note-taupe)", 25) }}
               >
                 − <span lang="th" className="font-thai text-base font-normal line-through decoration-2">{withHolder(p)}</span>
               </span>
@@ -379,7 +401,7 @@ export function MorphPanel({ rules, initialId }: { rules: MorphRule[]; initialId
               <span
                 key={`a${i}`}
                 className={cn(chip, "delay-300", phase === "to" || (p.role === "final" && phase !== "from") ? "opacity-100" : "opacity-0")}
-                style={{ color: roleColor(p.role, TONE_META[m.to.tone].ink), backgroundColor: soft(roleColor(p.role, TONE_META[m.to.tone].ink)) }}
+                style={{ ...toneBorder(roleColor(p.role, TONE_META[m.to.tone].ink, vowelTone.color, true)), color: roleColor(p.role, TONE_META[m.to.tone].ink, vowelTone.color, true), backgroundColor: soft(roleColor(p.role, TONE_META[m.to.tone].ink, vowelTone.color, true), 25) }}
               >
                 + <span lang="th" className="font-thai text-base font-normal">{withHolder(p)}</span>
               </span>
@@ -388,5 +410,6 @@ export function MorphPanel({ rules, initialId }: { rules: MorphRule[]; initialId
         </div>
       </div>
     </section>
+    </VowelToneContext.Provider>
   );
 }

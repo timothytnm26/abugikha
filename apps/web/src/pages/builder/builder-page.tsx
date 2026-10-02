@@ -8,9 +8,9 @@ export function BuilderPage() {
   const t = useT();
   return (
     <>
-      <PageIntro title={t.routes.builder.title}>{t.routes.builder.blurb}</PageIntro>
-      <div className="page-container py-6 md:py-8">
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
+      <PageIntro compact title={t.routes.builder.title}>{t.routes.builder.blurb}</PageIntro>
+      <div className="page-container py-6 md:py-8 xl:py-2">
+        <div className="mb-4 xl:mb-2 flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
           <VoiceNotice />
           <ClassLegend className="ml-auto" />
         </div>
