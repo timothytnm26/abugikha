@@ -126,7 +126,7 @@ Fixed poster palette for structure, theme-driven paper and ink for the page, mea
 ### Named Rules
 **The One Color Rule.** A section carries at most one saturated structural color; two poster colors never touch.
 **The Two Jobs Rule.** Poster colors structure; meaning colors mark class, tone, vowel, final and removed parts. A band is never a meaning color.
-**The Theme Variable Rule.** Page colors come from `--color-*`; poster colors from `--color-poster-*`. Never hard-code a literal.
+**The Theme Variable Rule.** Page colors come from `--color-*`; poster colors from `--color-note-*`. Never hard-code a literal.
 
 ## Typography
 
@@ -199,7 +199,7 @@ The ruled sheet (4 tiers, lines, grid, dots or plain by user choice) is a plain 
 - **Do** use the condensed uppercase poster font for headings, labels and buttons, with room for Vietnamese diacritics.
 - **Do** set Thai glyphs largest in their group, with IPA and RTGS beneath.
 - **Do** make scroll effects tell the story (words, pieces, chapters) and honor prefers-reduced-motion.
-- **Do** read page colors from `--color-*` and poster colors from `--color-poster-*`.
+- **Do** read page colors from `--color-*` and poster colors from `--color-note-*`.
 
 ### Don't:
 - **Don't** stack saturated blocks against each other or fill bands with meaning colors.

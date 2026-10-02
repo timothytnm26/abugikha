@@ -27,7 +27,7 @@ export function FooterCtaSection() {
   );
 
   return (
-    <section ref={root} className="bg-poster-orange text-poster-black">
+    <section ref={root} className="bg-note-orange text-note-black">
       <div className="page-container flex min-h-[calc(100svh-3.5rem)] flex-col justify-between gap-12 py-16 md:py-24">
         <h2 className="max-w-6xl text-balance font-poster text-[clamp(3.5rem,10vw,10rem)] font-extrabold uppercase leading-[0.9]">
           <SplitWords text={t.home.footerTitle} />
@@ -35,7 +35,7 @@ export function FooterCtaSection() {
         <div className="grid items-end gap-10 lg:grid-cols-12">
           <div className="cta-fade lg:col-span-5">
             <p className="max-w-[40ch] text-lg leading-snug md:text-xl">{t.home.footerBody}</p>
-            <Link href={href('/lab')} className="btn mt-6 border-poster-black bg-poster-black text-poster-cream hover:bg-transparent hover:text-poster-black">
+            <Link href={href('/lab')} className="btn mt-6 border-note-black bg-note-black text-note-cream hover:bg-transparent hover:text-note-black">
               {t.home.cta}
             </Link>
           </div>
@@ -52,7 +52,7 @@ export function FooterCtaSection() {
                       setSyllable(e);
                       router.push(href('/lab'));
                     }}
-                    className="grid min-h-28 w-full place-items-center border-2 border-poster-black font-thai text-5xl leading-none text-inherit hover:bg-poster-black hover:text-poster-cream focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-poster-black md:min-h-36 md:text-7xl"
+                    className="grid min-h-28 w-full place-items-center border-2 border-note-black font-thai text-5xl leading-none text-inherit hover:bg-note-black hover:text-note-cream focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-note-black md:min-h-36 md:text-7xl"
                   >
                     {e.word}
                   </button>

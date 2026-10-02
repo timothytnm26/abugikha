@@ -39,23 +39,18 @@ export function LearningPathSection() {
         <div className="mt-10 grid gap-10 lg:grid-cols-12">
           <ol className="path-list lg:col-span-8">
             {LEARNING_PATH.map((p, i) => (
-              <li key={p.href} className="path-row border-t-2 border-ink last:border-b-2">
-                <Link
-                  href={href(p.href)}
-                  onMouseEnter={() => setActive(i)}
-                  onFocus={() => setActive(i)}
-                  className="group grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 py-6 focus-visible:outline-4 focus-visible:-outline-offset-4 focus-visible:outline-ink md:gap-8 md:py-10"
-                >
+              <li key={p.href} className="path-row border-t-2 border-pastel last:border-b-2">
+                <Link href={href(p.href)} onMouseEnter={() => setActive(i)} onFocus={() => setActive(i)} className="group grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 py-6 focus-visible:outline-4 focus-visible:-outline-offset-4 focus-visible:outline-ink md:gap-8 md:py-10">
                   <span lang="th" aria-hidden className="w-[1.2em] font-thai text-4xl leading-none text-ink-soft md:text-6xl">
                     {STEP_NUMERALS[p.step - 1]}
                   </span>
                   <span className="min-w-0">
-                    <span className={cn('block font-poster text-[clamp(2.75rem,7vw,6.5rem)] font-extrabold uppercase leading-[1] pb-[0.06em] transition-colors duration-300', active === i ? 'text-ink' : 'text-poster-taupe')}>
-                      {t.routes[p.key].title}
-                    </span>
+                    <span className={cn('block font-poster text-[clamp(2.75rem,7vw,6.5rem)] font-extrabold uppercase leading-[1] pb-[0.06em] transition-colors duration-300', active === i ? 'text-pastel' : 'text-note-taupe')}>{t.routes[p.key].title}</span>
                     <span className="mt-3 block max-w-[46ch] text-base leading-snug text-ink-soft md:text-lg">{t.routes[p.key].blurb}</span>
                   </span>
-                  <span aria-hidden className="font-poster text-5xl leading-none transition-transform duration-300 group-hover:translate-x-2">→</span>
+                  <span aria-hidden className="font-poster text-5xl leading-none transition-transform duration-300 group-hover:translate-x-2">
+                    →
+                  </span>
                 </Link>
               </li>
             ))}

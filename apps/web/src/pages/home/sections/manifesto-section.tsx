@@ -26,9 +26,9 @@ export function ManifestoSection() {
   );
 
   return (
-    <section ref={root} aria-label="NarakThai" className="bg-poster-blue text-white">
+    <section ref={root} aria-label="NarakThai" className="bg-note-sky text-note-black">
       <div className="page-container flex min-h-svh flex-col justify-center py-20">
-        <Asterisk className="size-8 text-white md:size-10" />
+        <Asterisk className="size-8 text-note-orange md:size-10" />
         <p className="mt-8 max-w-[24ch] font-poster text-[clamp(2.5rem,6.2vw,6rem)] font-bold uppercase leading-[0.98]">
           <ScrubWords text={t.home.body} />
         </p>
