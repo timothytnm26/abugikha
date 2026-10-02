@@ -18,7 +18,7 @@ export function RootShell({ children }: { children: ReactNode }) {
       >
         {t.nav.skipToContent}
       </a>
-      <header className="sticky top-0 z-40 border-b-2 border-ink bg-paper text-ink">
+      <header className="sticky top-0 z-40 border-b-2 border-pastel bg-paper text-ink">
         <SiteNav />
       </header>
       <main id="main" tabIndex={-1} className="w-full outline-none">{children}</main>
