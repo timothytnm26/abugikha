@@ -48,7 +48,7 @@
   --color-part-final: #fed766;
   --color-removed: #d0312f;
   /* Màu nhấn thương hiệu (chữ "ไทย" ở thanh nav, nút của skin): cam cháy, đủ AA trên giấy (cùng tông với cam áp phích) */
-  --color-brand: #ff5200;
+  --color-brand: #c84000;
 
   /* Màu nền ở trên đều sáng (chữ đen đặt lên được); khi dùng làm chữ hoặc nét trên giấy thì lấy biến thể -ink: pha 35% màu với mực để đủ AA */
   --color-mid-ink: color-mix(in oklab, var(--color-mid) 35%, var(--color-ink));

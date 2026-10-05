@@ -27,3 +27,6 @@ expo-env.d.ts
 
 .env*.local
 .DS_Store
+.claude/worktrees/
+# Binary tải về của skill impeccable (16 MB, không commit)
+**/impeccable/scripts/bin/
