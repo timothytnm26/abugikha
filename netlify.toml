@@ -1,0 +1,8 @@
+# Web là site tĩnh (next.config: output "export") → chỉ cần phục vụ apps/web/out, không cần runtime Next.js của Netlify
+[build]
+  command = "bun run build --filter=@abugikha/web"
+  publish = "apps/web/out"
+
+[build.environment]
+  # Plugin Next.js tự cài của Netlify đòi output .next (SSR), không dùng được với static export
+  NETLIFY_NEXT_PLUGIN_SKIP = "true"

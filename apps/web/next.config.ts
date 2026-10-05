@@ -7,7 +7,10 @@ const isUserPage = repository === `${owner}.github.io`;
 const basePath = onPages && repository && !isUserPage ? `/${repository}` : "";
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ??
-  (onPages && owner ? `https://${owner}.github.io${basePath}` : "http://localhost:3000");
+  (onPages && owner
+    ? `https://${owner}.github.io${basePath}`
+    : // Netlify gắn URL chính của site vào biến URL lúc build
+      (process.env.NETLIFY === "true" && process.env.URL) || "http://localhost:3000");
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
